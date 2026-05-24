@@ -1,0 +1,174 @@
+classDiagram
+    class User {
+        +string userId
+        +string name
+        +string email
+        +boolean onboardingCompleted
+        +signUp()
+        +signIn()
+        +signOut()
+    }
+
+    class Household {
+        +string householdId
+        +string name
+        +PlanType planType
+        +datetime createdAt
+        +createBaby()
+        +inviteMember()
+        +getFeatureFlags()
+    }
+
+    class Membership {
+        +string membershipId
+        +string userId
+        +string householdId
+        +Role role
+        +MembershipStatus status
+        +datetime joinedAt
+    }
+
+    class Baby {
+        +string babyId
+        +string householdId
+        +string name
+        +date birthDate
+        +string avatarUri
+    }
+
+    class FeatureFlags {
+        +string householdId
+        +boolean canUsePremium
+        +boolean canUseFamily
+        +boolean canAddCaregivers
+        +boolean canUseGrowthTimeline
+    }
+
+    class CareEvent {
+        <<abstract>>
+        +string eventId
+        +string babyId
+        +string householdId
+        +string createdByUserId
+        +EventType eventType
+        +datetime occurredAt
+        +string note
+    }
+
+    class BreastfeedEvent {
+        +Side side
+        +int durationMinutes
+    }
+
+    class BottleFeedEvent {
+        +number amountMl
+        +MilkType milkType
+    }
+
+    class DiaperEvent {
+        +DiaperType diaperType
+    }
+
+    class SleepEvent {
+        +datetime startTime
+        +datetime endTime
+    }
+
+    class MedicationEvent {
+        +string medicationName
+        +string dose
+        +string reminderTime
+    }
+
+    class Reminder {
+        +string reminderId
+        +string babyId
+        +string householdId
+        +string title
+        +datetime dueAt
+        +boolean isCompleted
+    }
+
+    class GrowthMoment {
+        +string momentId
+        +string babyId
+        +string localImageUri
+        +string caption
+        +MomentType momentType
+        +datetime occurredAt
+    }
+
+    class HandoffSummary {
+        <<DTO>>
+        +string lastFeed
+        +string lastDiaper
+        +string sleepStatus
+        +string nextMedicationDue
+        +string latestNote
+        +string lastActionBy
+    }
+
+    class AuthService {
+        +signUp()
+        +signIn()
+        +signOut()
+    }
+
+    class HouseholdService {
+        +createHousehold()
+        +createBaby()
+        +inviteMember()
+    }
+
+    class EventService {
+        +createEvent()
+        +listEvents()
+        +deleteEvent()
+    }
+
+    class ReminderService {
+        +createReminder()
+        +listReminders()
+    }
+
+    class GrowthTimelineService {
+        +saveMoment()
+        +listMoments()
+        +deleteMoment()
+    }
+
+    class HandoffService {
+        +getHandoffSummary()
+    }
+
+    class FeatureFlagService {
+        +getFeatureFlags()
+    }
+
+    User "1" --> "0..*" Membership
+    Household "1" --> "1..*" Membership
+    Household "1" --> "1..*" Baby
+    Household "1" --> "1" FeatureFlags
+    Baby "1" --> "0..*" CareEvent
+    Baby "1" --> "0..*" Reminder
+    Baby "1" --> "0..*" GrowthMoment
+
+    CareEvent <|-- BreastfeedEvent
+    CareEvent <|-- BottleFeedEvent
+    CareEvent <|-- DiaperEvent
+    CareEvent <|-- SleepEvent
+    CareEvent <|-- MedicationEvent
+
+    HandoffSummary ..> CareEvent : derived from
+    HandoffSummary ..> Reminder : derived from
+    HandoffSummary ..> User : last action by
+
+    AuthService ..> User
+    HouseholdService ..> Household
+    HouseholdService ..> Baby
+    HouseholdService ..> Membership
+    EventService ..> CareEvent
+    ReminderService ..> Reminder
+    GrowthTimelineService ..> GrowthMoment
+    HandoffService ..> HandoffSummary
+    FeatureFlagService ..> FeatureFlags

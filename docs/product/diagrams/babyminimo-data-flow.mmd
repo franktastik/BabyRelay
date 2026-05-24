@@ -1,0 +1,50 @@
+sequenceDiagram
+    actor User
+    participant App as Expo Mobile App
+    participant Auth as Firebase Auth
+    participant Functions as Callable Functions
+    participant Firestore as Cloud Firestore
+    participant SQLite as Local SQLite
+    participant Files as Local File Storage
+
+    User->>App: Open BabyMinimo
+    App->>Auth: Check auth state
+    Auth-->>App: Authenticated / unauthenticated
+
+    alt New user
+        User->>App: Sign up
+        App->>Auth: Create account
+        Auth-->>App: User created
+
+        User->>App: Add baby
+        App->>Functions: createHousehold()
+        Functions->>Firestore: Create household + membership
+        Firestore-->>Functions: Household saved
+        Functions-->>App: Household ID
+
+        App->>Functions: createBaby()
+        Functions->>Firestore: Create baby profile
+        Firestore-->>Functions: Baby saved
+        Functions-->>App: Baby ID
+    end
+
+    User->>App: Log care event
+    App->>Functions: createEvent()
+    Functions->>Firestore: Save event
+    Firestore-->>App: Realtime event update
+
+    App->>Functions: getHandoffSummary()
+    Functions->>Firestore: Read latest events + reminders
+    Functions-->>App: Handoff summary
+
+    User->>App: Add photo moment
+    App->>Files: Save compressed image locally
+    App->>SQLite: Save photo moment metadata
+    SQLite-->>App: Local moment available
+
+    App->>App: Merge Firestore events + local moments
+    App-->>User: Timeline updated
+
+    User->>App: Sign out
+    App->>Auth: signOut()
+    Auth-->>App: Session cleared

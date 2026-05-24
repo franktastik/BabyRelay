@@ -1,0 +1,19 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "careEvents",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "babyId",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "occurredAt",
+          "order": "DESCENDING"
+        }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}

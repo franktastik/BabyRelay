@@ -1,0 +1,73 @@
+flowchart TB
+    subgraph Mobile["Mobile Client"]
+        A[React Native / Expo App]
+        A1[Expo Router]
+        A2[Zustand State]
+        A3[Reusable UI Components]
+        A4[Local Growth Timeline]
+    end
+
+    subgraph Device["Device Storage"]
+        B1[Expo SQLite]
+        B2[Expo File System]
+        B3[Compressed Baby Photos]
+    end
+
+    subgraph Firebase["Firebase Project"]
+        C1[Firebase Auth]
+        C2[Cloud Firestore]
+        C3[Cloud Functions]
+        C4[Firebase Cloud Messaging Later]
+        C5[Security Rules]
+    end
+
+    subgraph Stores["App Stores"]
+        D1[Apple App Store]
+        D2[Google Play Store]
+        D3[In-App Purchases]
+    end
+
+    subgraph Web["Marketing Website"]
+        E1[Landing Page]
+        E2[Waitlist Form]
+        E3[App Store Screenshots]
+        E4[Landing Hero Visual]
+    end
+
+    A --> A1
+    A --> A2
+    A --> A3
+    A --> A4
+
+    A4 --> B1
+    A4 --> B2
+    B2 --> B3
+
+    A --> C1
+    A --> C2
+    A --> C3
+
+    C3 --> C2
+    C5 --> C2
+    C4 -. later .-> A
+
+    A --> D1
+    A --> D2
+    D1 --> D3
+    D2 --> D3
+
+    E1 --> E2
+    E1 --> E3
+    E1 --> E4
+
+    classDef mobile fill:#D8A089,stroke:#333,color:#111;
+    classDef device fill:#E5C36E,stroke:#333,color:#111;
+    classDef firebase fill:#8DA089,stroke:#333,color:#111;
+    classDef stores fill:#FAF9F6,stroke:#333,color:#111;
+    classDef web fill:#D9E7E3,stroke:#333,color:#111;
+
+    class A,A1,A2,A3,A4 mobile;
+    class B1,B2,B3 device;
+    class C1,C2,C3,C4,C5 firebase;
+    class D1,D2,D3 stores;
+    class E1,E2,E3,E4 web;

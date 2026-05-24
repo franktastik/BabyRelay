@@ -1,0 +1,111 @@
+{
+  "version": 1,
+  "diffRoot": "docs/product/visual-diffs",
+  "baselines": [
+    {
+      "name": "login",
+      "approved": "docs/product/superdesign-reference-assets/screenshots1/Screenshot 2026-05-22 at 23.15.29.png",
+      "actual": "e2e-artifacts/login.png",
+      "required": true,
+      "notes": "Approved by product owner as the login reference."
+    },
+    {
+      "name": "signup",
+      "approved": "docs/product/superdesign-reference-assets/screenshots1/Screenshot 2026-05-22 at 23.15.57.png",
+      "actual": "e2e-artifacts/signup.png",
+      "required": true
+    },
+    {
+      "name": "onboarding-welcome",
+      "approved": "docs/product/superdesign-reference-assets/screenshots1/Screenshot 2026-05-22 at 23.16.06.png",
+      "actual": "e2e-artifacts/onboarding-welcome.png",
+      "required": true
+    },
+    {
+      "name": "home",
+      "approved": "docs/product/superdesign-reference-assets/screenshots1/Screenshot 2026-05-22 at 23.18.11.png",
+      "actual": "e2e-artifacts/home.png",
+      "required": true
+    },
+    {
+      "name": "quick-log",
+      "approved": "docs/product/superdesign-reference-assets/screenshots1/Screenshot 2026-05-22 at 23.18.30.png",
+      "actual": "e2e-artifacts/quick-log.png",
+      "required": true
+    },
+    {
+      "name": "timeline",
+      "approved": "docs/product/superdesign-reference-assets/screenshots1/Screenshot 2026-05-22 at 23.18.44.png",
+      "actual": "e2e-artifacts/timeline.png",
+      "required": true
+    },
+    {
+      "name": "add-moment",
+      "approved": "docs/product/superdesign-reference-assets/screenshots1/Screenshot 2026-05-22 at 23.19.33.png",
+      "actual": "e2e-artifacts/add-moment.png",
+      "required": true
+    },
+    {
+      "name": "handoff",
+      "approved": "docs/product/superdesign-reference-assets/screenshots1/Screenshot 2026-05-22 at 23.17.53.png",
+      "actual": "e2e-artifacts/handoff.png",
+      "required": true
+    },
+    {
+      "name": "reminders",
+      "approved": "docs/product/superdesign-reference-assets/screenshots1/Screenshot 2026-05-22 at 23.17.00.png",
+      "actual": "e2e-artifacts/reminders.png",
+      "required": true
+    },
+    {
+      "name": "family",
+      "approved": "docs/product/superdesign-reference-assets/screenshots1/Screenshot 2026-05-22 at 23.17.20.png",
+      "actual": "e2e-artifacts/family.png",
+      "required": true
+    },
+    {
+      "name": "settings",
+      "approved": "docs/product/superdesign-reference-assets/screenshots1/Screenshot 2026-05-22 at 23.17.10.png",
+      "actual": "e2e-artifacts/settings.png",
+      "required": true
+    },
+    {
+      "name": "plans",
+      "approved": "docs/product/superdesign-reference-assets/screenshots1/Screenshot 2026-05-22 at 23.17.27.png",
+      "actual": "e2e-artifacts/plans.png",
+      "required": true
+    },
+    {
+      "name": "account",
+      "approved": "docs/product/superdesign-reference-assets/screenshots1/Screenshot 2026-05-22 at 23.21.36.png",
+      "actual": "e2e-artifacts/account.png",
+      "required": true
+    }
+  ],
+  "scrollCoverage": [
+    {
+      "screen": "home",
+      "requiredPositions": ["top", "middle", "bottom"],
+      "capturedPositions": ["top"],
+      "notes": "Add middle and bottom approved captures before final release visual acceptance."
+    },
+    {
+      "screen": "timeline",
+      "requiredPositions": ["top", "middle", "bottom"],
+      "capturedPositions": ["top"],
+      "notes": "Add middle and bottom approved captures before final release visual acceptance."
+    },
+    {
+      "screen": "family",
+      "requiredPositions": ["top", "middle", "bottom"],
+      "capturedPositions": ["top"],
+      "notes": "Add middle and bottom approved captures before final release visual acceptance."
+    },
+    {
+      "screen": "settings",
+      "requiredPositions": ["top", "middle", "bottom"],
+      "capturedPositions": ["top"],
+      "notes": "Add middle and bottom approved captures before final release visual acceptance."
+    }
+  ]
+}

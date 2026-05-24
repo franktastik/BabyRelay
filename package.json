@@ -1,0 +1,60 @@
+{
+  "name": "babyminimo",
+  "version": "0.1.0",
+  "private": true,
+  "main": "expo-router/entry",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
+    "web": "expo start --web",
+    "emulators": "firebase emulators:start --project babyminimo-demo --only auth,firestore",
+    "test": "bun test",
+    "test:unit": "bun test",
+    "test:typecheck": "bunx tsc --noEmit",
+    "test:doctor": "EXPO_DOCTOR_WARN_ON_NETWORK_ERRORS=1 EXPO_DOCTOR_SKIP_DEPENDENCY_VERSION_CHECK=1 EXPO_DOCTOR_ENABLE_DIRECTORY_CHECK=0 expo-doctor",
+    "test:e2e": "maestro --udid ${MAESTRO_DEVICE_ID:-B2C19543-60E2-489E-8E08-4E3F775AD6A0} test e2e/maestro",
+    "test:e2e:smoke": "maestro --udid ${MAESTRO_DEVICE_ID:-B2C19543-60E2-489E-8E08-4E3F775AD6A0} test e2e/maestro/smoke.yaml",
+    "test:e2e:visual": "maestro --udid ${MAESTRO_DEVICE_ID:-B2C19543-60E2-489E-8E08-4E3F775AD6A0} test e2e/maestro/visual-regression.yaml && bun run test:visual:compare",
+    "test:visual:compare": "bun scripts/compare-visual-baselines.ts --config e2e/visual-baselines.json",
+    "test:visual:compare:coverage": "bun scripts/compare-visual-baselines.ts --config e2e/visual-baselines.json --strict-scroll-coverage",
+    "test:firebase:load": "node scripts/firebase-emulator-load-test.mjs",
+    "cost:firebase": "node scripts/firebase-monthly-cost-model.mjs",
+    "test:all": "bun test && bunx tsc --noEmit && EXPO_DOCTOR_WARN_ON_NETWORK_ERRORS=1 EXPO_DOCTOR_SKIP_DEPENDENCY_VERSION_CHECK=1 EXPO_DOCTOR_ENABLE_DIRECTORY_CHECK=0 expo-doctor",
+    "lint": "expo lint"
+  },
+  "dependencies": {
+    "@expo-google-fonts/outfit": "^0.4.3",
+    "@expo-google-fonts/plus-jakarta-sans": "^0.4.2",
+    "expo": "^56.0.0",
+    "expo-build-properties": "~56.0.14",
+    "expo-constants": "~56.0.15",
+    "expo-font": "~56.0.5",
+    "expo-linking": "~56.0.11",
+    "expo-notifications": "~56.0.13",
+    "expo-router": "~56.2.6",
+    "expo-status-bar": "~56.0.4",
+    "firebase": "^12.13.0",
+    "lucide-react-native": "^1.16.0",
+    "react": "19.2.3",
+    "react-native": "0.85.3",
+    "react-native-safe-area-context": "~5.7.0",
+    "react-native-screens": "4.25.2",
+    "react-native-svg": "15.15.4",
+    "zustand": "^5.0.13"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.3.14",
+    "@types/node": "^25.9.1",
+    "@types/react": "~19.2.14",
+    "expo-doctor": "^1.19.7",
+    "typescript": "~6.0.3"
+  },
+  "expo": {
+    "doctor": {
+      "appConfigFieldsNotSyncedCheck": {
+        "enabled": false
+      }
+    }
+  }
+}

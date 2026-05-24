@@ -1,0 +1,76 @@
+flowchart TD
+    subgraph AuthFlow["Authentication"]
+        A[Splash]
+        B[Login]
+        C[Signup]
+        D[Forgot Password]
+    end
+
+    subgraph Onboarding["Onboarding"]
+        E[Welcome]
+        F[Problem Framing]
+        G[Benefits Preview]
+        H[Add Baby]
+        I[Choose Priorities]
+        J[Invite Caregiver]
+        K[First Handoff Preview]
+    end
+
+    subgraph MainApp["Main App Tabs"]
+        L[Home]
+        M[Timeline]
+        N[Handoff]
+        O[Settings]
+    end
+
+    subgraph Modals["Modals"]
+        P[Quick Log]
+        Q[Breastfeed Log]
+        R[Bottle Log]
+        S[Diaper Log]
+        T[Sleep Log]
+        U[Medication Log]
+        V[Add Moment]
+        W[Sign Out Confirm]
+    end
+
+    subgraph SettingsFlow["Settings Subflow"]
+        X[Caregivers]
+        Y[Reminders]
+        Z[Plans / Paywall]
+        AA[Account]
+    end
+
+    A --> B
+    B --> C
+    B --> D
+    B --> L
+    C --> E
+
+    E --> F
+    F --> G
+    G --> H
+    H --> I
+    I --> J
+    J --> K
+    K --> L
+
+    L --> P
+    P --> Q
+    P --> R
+    P --> S
+    P --> T
+    P --> U
+
+    L --> M
+    L --> N
+    L --> O
+
+    M --> V
+
+    O --> X
+    O --> Y
+    O --> Z
+    O --> AA
+    AA --> W
+    W --> B

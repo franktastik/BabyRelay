@@ -1,0 +1,10 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Emulator-only development rules. Replace before any production deploy.
+    match /{document=**} {
+      allow read, write: if true;
+    }
+  }
+}

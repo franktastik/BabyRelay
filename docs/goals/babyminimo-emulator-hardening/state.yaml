@@ -1,0 +1,1392 @@
+version: 2
+
+goal:
+  title: "BabyMinimo Emulator Hardening"
+  slug: "babyminimo-emulator-hardening"
+  kind: specific
+  tranche: "Firebase Emulator performance, cost discovery, lazy-loading audit, and heavy-data purge policy before production readiness."
+  status: active
+  intake:
+    original_request: "Before production-grade PBIs, implement everything we can with Firebase Emulator and run performance/load testing to estimate DB read/write I/O and cost, optimize lazy loading, and define purge after canceled subscription."
+    interpreted_outcome: "Use emulator-only work to measure and reduce database I/O, add local load tooling, and establish retention policy for future heavy data before production Firebase wiring."
+    input_shape: specific
+    audience: "BabyMinimo product owner and engineering team"
+    authority: requested
+    proof_type: test
+    completion_proof: "Local tests, typecheck, and Firebase Emulator load script pass with a receipt summarizing counts and optimization findings."
+
+rules:
+  pm_owns_state: true
+  one_active_task: true
+  max_write_workers: 1
+  no_production_firebase: true
+  no_destructive_backend_purge: true
+  local_verification_urls:
+    firebase_auth_ui: "http://127.0.0.1:4000/auth"
+    firebase_firestore_ui: "http://127.0.0.1:4000/firestore"
+    browser_simulator: "http://127.0.0.1:3200/?device=B2C19543-60E2-489E-8E08-4E3F775AD6A0"
+
+visual_board:
+  selected: local
+  local:
+    status: live
+    url: "http://127.0.0.1:41737/"
+
+active_task: null
+
+tasks:
+  - id: T001
+    type: scout
+    assignee: Codex
+    status: done
+    objective: "Audit current Firebase Emulator read/write paths and identify immediate cost risks."
+    receipt:
+      result: done
+      summary: "Current care event reads used a flat careEvents collection read with client filtering. Household/baby/user onboarding writes are simple. Firestore rules are emulator-open and must not be deployed to production."
+      evidence:
+        - "src/features/demo/events.ts"
+        - "src/features/demo/household.ts"
+        - "firestore.rules"
+  - id: T002
+    type: worker
+    assignee: Codex
+    status: done
+    objective: "Add emulator load/cost script, optimize care event query, add required index, and add purge policy tests."
+    receipt:
+      result: done
+      summary: "Added PBI-058 through PBI-060, optimized care event reads to baby-scoped ordered/limited queries, declared composite careEvents index, added firebase-emulator-load-test script, and added canceled-subscription heavy-data purge policy with tests."
+      changed_files:
+        - "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+        - "CHANGELOG.md"
+        - "firestore.indexes.json"
+        - "package.json"
+        - "scripts/firebase-emulator-load-test.mjs"
+        - "src/features/demo/events.ts"
+        - "src/features/subscriptions/index.ts"
+        - "src/features/subscriptions/purgePolicy.ts"
+        - "src/features/subscriptions/purgePolicy.test.ts"
+  - id: T003
+    type: judge
+    assignee: Codex
+    status: done
+    objective: "Run verification and record emulator I/O/cost receipt."
+    expected_output:
+      - "test results"
+      - "load test JSON summary"
+      - "cost caveats"
+      - "remaining optimization candidates"
+    receipt:
+      result: done
+      summary: "Verification passed and the first Firebase Emulator load/cost receipt was recorded."
+      verification:
+        - command: "bun run test:unit"
+          result: "passed"
+        - command: "bun run test:typecheck"
+          result: "passed"
+        - command: "bun run test:firebase:load"
+          result: "passed with local emulator access approval"
+      load_test:
+        scenario:
+          households: 10
+          eventsPerBaby: 40
+          readPasses: 5
+          latestLimit: 20
+          cleanup: true
+        counts:
+          reads: 1000
+          writes: 430
+          deletes: 430
+        timingsMs:
+          reads: 274
+          total: 1915
+        estimatedOperationCostUsd: 0.00146
+      cost_caveats:
+        - "This is operation-only emulator output, not a full production bill forecast."
+        - "Confirm current location-specific Firestore prices before production budgeting."
+        - "Production estimate must include free quota, storage, indexes, egress, backups, Functions, Auth, Cloud Messaging, and store billing infrastructure."
+      remaining_optimization_candidates:
+        - "Add latest-summary documents for Home/Handoff if realtime listener reads grow."
+        - "Avoid global listeners for Timeline, reminders, feature flags, and plan entitlements."
+        - "Run larger emulator profiles once production-like listeners and notification data exist."
+      docs:
+        - "docs/performance/firebase-emulator-cost-discovery.md"
+  - id: T004
+    type: worker
+    assignee: Codex
+    status: done
+    objective: "Implement PBI-059: lazy loading and app performance pass."
+    pbi: "PBI-059"
+    scope:
+      - "Audit route, component, and asset loading for auth, Home, Timeline, Handoff, Reminders, Family, Settings, Plans, Account, and modal flows."
+      - "Keep auth bootstrap and Home startup path lean."
+      - "Confirm large Superdesign/reference screenshots are not imported into runtime screens."
+      - "Delay non-critical listeners, production-only flows, and settings subflows until routes/screens need them."
+      - "Record simulator startup/navigation observations and remaining performance risks."
+    allowed_paths:
+      - "app/**"
+      - "src/**"
+      - "docs/performance/**"
+      - "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+      - "CHANGELOG.md"
+      - "package.json"
+      - "e2e/**"
+    forbidden:
+      - "Production Firebase deployment"
+      - "Production Firebase credentials or secrets"
+      - "Destructive backend purge jobs"
+      - "Design rewrites not required for performance"
+      - "Changing approved screenshots in docs/product/superdesign-reference-assets/screenshots1/"
+    verification:
+      - command: "bun run test:typecheck"
+        required: true
+      - command: "bun run test:unit"
+        required: true
+      - command: "npx expo-doctor"
+        required: true
+      - command: "Simulator smoke at http://127.0.0.1:3200/?device=B2C19543-60E2-489E-8E08-4E3F775AD6A0"
+        required: true
+    expected_receipt:
+      - "files inspected"
+      - "files changed"
+      - "performance risks found"
+      - "lazy-loading or listener changes made"
+      - "startup/navigation smoke result"
+      - "remaining risks or follow-up PBIs"
+    receipt:
+      result: done
+      summary: "Implemented PBI-059 by narrowing auth/startup imports, focusing active listeners to visible routes, deferring secondary Home growth preview loading, and recording performance notes."
+      files_inspected:
+        - "app/_layout.tsx"
+        - "app/index.tsx"
+        - "app/(auth)/login.tsx"
+        - "app/(auth)/signup.tsx"
+        - "app/(tabs)/home.tsx"
+        - "app/(tabs)/timeline.tsx"
+        - "app/(tabs)/handoff.tsx"
+        - "src/providers/AppProvider.tsx"
+        - "src/stores/authStore.ts"
+        - "src/stores/careEventStore.ts"
+        - "src/features/handoff/useHandoffSummary.ts"
+        - "docs/performance/firebase-emulator-cost-discovery.md"
+      files_changed:
+        - "app/index.tsx"
+        - "app/(auth)/login.tsx"
+        - "app/(auth)/signup.tsx"
+        - "app/(onboarding)/add-baby.tsx"
+        - "app/(onboarding)/preview.tsx"
+        - "app/(settings)/account.tsx"
+        - "app/(settings)/plans.tsx"
+        - "app/(settings)/reminders.tsx"
+        - "app/(tabs)/family.tsx"
+        - "app/(tabs)/home.tsx"
+        - "app/(tabs)/timeline.tsx"
+        - "app/modals/add-moment.tsx"
+        - "app/modals/log-bottle.tsx"
+        - "app/modals/log-breastfeed.tsx"
+        - "app/modals/log-diaper.tsx"
+        - "app/modals/log-medication.tsx"
+        - "app/modals/log-sleep.tsx"
+        - "app/modals/sign-out-confirm.tsx"
+        - "src/features/handoff/useHandoffSummary.ts"
+        - "src/providers/AppProvider.tsx"
+        - "src/stores/authStore.ts"
+        - "src/stores/careEventStore.ts"
+        - "docs/performance/firebase-emulator-cost-discovery.md"
+        - "CHANGELOG.md"
+      performance_risks_found:
+        - "Broad store/demo barrel imports could load unrelated stores and Firebase-backed adapters into auth and route startup paths."
+        - "Home and Timeline could both keep care-event listeners active after navigation if tab screens remained mounted."
+        - "Handoff performed a get-then-subscribe pattern that can duplicate reads once backed by production data."
+        - "Home loaded secondary Growth Timeline preview data during initial render instead of after the primary handoff snapshot path."
+      changes_made:
+        - "Replaced broad runtime imports from '@/src/stores' and '@/src/features/demo' with direct route-specific imports."
+        - "Changed Home and Timeline event subscriptions to `useFocusEffect` so listeners attach only while visible."
+        - "Changed Handoff summary to focused subscription-only loading, avoiding duplicate get/subscription work."
+        - "Deferred Home Growth Timeline preview adapter loading with `InteractionManager.runAfterInteractions` and dynamic import."
+        - "Confirmed runtime code does not import approved Superdesign screenshot reference folders."
+      verification:
+        - command: "bun run test:typecheck"
+          result: "passed"
+        - command: "bun run test:unit"
+          result: "passed"
+        - command: "npx expo-doctor"
+          result: "passed, 20/20 checks"
+        - command: "Simulator smoke at http://127.0.0.1:3200/?device=B2C19543-60E2-489E-8E08-4E3F775AD6A0"
+          result: "passed: app loaded login screen without red screen or warning banner; Start your Relay navigated to signup."
+      remaining_risks:
+        - "Run another profiler pass after notifications, widgets, feature flags, and production entitlements are implemented."
+        - "Consider compact latest-summary documents for Home/Handoff before production if listener read volume grows."
+  - id: T005
+    type: worker
+    assignee: Codex
+    status: done
+    objective: "Implement PBI-049: notification system."
+    pbi: "PBI-049"
+    scope:
+      - "Add local notification permission handling for not asked, granted, denied, and limited/provisional style states where available."
+      - "Schedule local notifications for newly created reminders in the dev build."
+      - "Cancel or reschedule notifications when reminders are toggled off/on."
+      - "Apply quiet-hours handling for non-critical reminder notifications."
+      - "Use calm, caregiver-safe notification copy without sensitive free-text notes."
+      - "Include deep-link metadata to route notifications to Reminders."
+      - "Document push infrastructure decision and production follow-up."
+    allowed_paths:
+      - "app/**"
+      - "src/**"
+      - "docs/performance/**"
+      - "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+      - "docs/goals/babyminimo-emulator-hardening/state.yaml"
+      - "CHANGELOG.md"
+      - "package.json"
+      - "bun.lock"
+      - "app.json"
+      - "ios/**"
+    forbidden:
+      - "Production Firebase deployment"
+      - "Production push credentials, APNs keys, FCM keys, or EAS credentials"
+      - "Production notification fan-out backend"
+      - "Changing approved screenshots in docs/product/superdesign-reference-assets/screenshots1/"
+    verification:
+      - command: "bun run test:typecheck"
+        required: true
+      - command: "bun run test:unit"
+        required: true
+      - command: "npx expo-doctor"
+        required: true
+      - command: "Simulator smoke at http://127.0.0.1:3200/?device=B2C19543-60E2-489E-8E08-4E3F775AD6A0"
+        required: true
+    expected_receipt:
+      - "files inspected"
+      - "files changed"
+      - "notification permission states handled"
+      - "scheduling/canceling behavior"
+      - "quiet-hours behavior"
+      - "verification results"
+      - "production push follow-up risks"
+    receipt:
+      result: done
+      summary: "Implemented the emulator-safe PBI-049 notification slice with Expo Notifications, local reminder scheduling, quiet-hours delay, cancellation/rescheduling, and reminder deep-link metadata."
+      files_inspected:
+        - "app/(settings)/reminders.tsx"
+        - "app.json"
+        - "package.json"
+        - "src/providers/AppProvider.tsx"
+        - "src/features/demo/reminders.ts"
+        - "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+      files_changed:
+        - "app.json"
+        - "app/(settings)/reminders.tsx"
+        - "package.json"
+        - "bun.lock"
+        - "ios/Podfile.lock"
+        - "ios/Pods/**"
+        - "src/features/demo/reminders.ts"
+        - "src/features/notifications/index.ts"
+        - "src/features/notifications/nativeNotifications.ts"
+        - "src/features/notifications/notificationPolicy.ts"
+        - "src/features/notifications/notificationPolicy.test.ts"
+        - "src/features/notifications/useNotificationRouting.ts"
+        - "src/providers/AppProvider.tsx"
+        - "docs/product/babyminimo-notification-system.md"
+        - "docs/goals/babyminimo-emulator-hardening/state.yaml"
+        - "CHANGELOG.md"
+      notification_permission_states_handled:
+        - "notAsked"
+        - "granted"
+        - "denied"
+        - "limited/provisional or ephemeral iOS states when reported by Expo Notifications"
+      scheduling_canceling_behavior:
+        - "New reminders request permission when needed and schedule a local notification if allowed."
+        - "Turning an active reminder off cancels its scheduled notification."
+        - "Turning an inactive reminder back on reschedules a notification."
+      quiet_hours_behavior:
+        - "Non-critical reminder notifications scheduled during 22:00-07:00 are delayed until 07:00."
+        - "Notification body uses the reminder title only and does not include sensitive free-text notes."
+      verification:
+        - command: "bun run test:typecheck"
+          result: "passed"
+        - command: "bun run test:unit"
+          result: "passed"
+        - command: "npx expo-doctor"
+          result: "passed, 20/20 checks"
+        - command: "pod install"
+          result: "passed, ExpoNotifications installed"
+        - command: "./node_modules/.bin/expo run:ios --no-build-cache --device \"iPhone 16 Pro\" --no-bundler"
+          result: "passed, rebuilt and installed dev client"
+        - command: "Simulator smoke at http://127.0.0.1:3200/?device=B2C19543-60E2-489E-8E08-4E3F775AD6A0"
+          result: "passed, rebuilt app loaded without red screen"
+      production_push_follow_up_risks:
+        - "Production push fan-out, APNs/FCM/EAS credentials, and backend scheduling are intentionally not implemented in the emulator slice."
+        - "Notification preferences still need production persistence per household/caregiver."
+        - "Manual QA on a clean simulator or physical iOS device is still needed for first-run permission prompt behavior."
+
+  # PBI roadmap cards. Completed PBIs are receipts; todo PBIs are queued with production/release work last.
+  - id: PBI-001
+    type: worker
+    assignee: Codex
+    status: done
+    pbi: "PBI-001"
+    sequence: 1
+    production_last_phase: false
+    objective: "Completed PBI: Initialize BabyMinimo mobile repo"
+    source: "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+    verification:
+      - "Use the PBI task mapping, acceptance criteria, and relevant local tests/simulator checks."
+    expected_receipt:
+      - "subtasks completed"
+      - "files changed"
+      - "verification run and result"
+      - "remaining risks or blockers"
+  - id: PBI-002
+    type: worker
+    assignee: Codex
+    status: done
+    pbi: "PBI-002"
+    sequence: 2
+    production_last_phase: false
+    objective: "Completed PBI: Add Firebase client setup"
+    source: "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+    verification:
+      - "Use the PBI task mapping, acceptance criteria, and relevant local tests/simulator checks."
+    expected_receipt:
+      - "subtasks completed"
+      - "files changed"
+      - "verification run and result"
+      - "remaining risks or blockers"
+  - id: PBI-003
+    type: worker
+    assignee: Codex
+    status: done
+    pbi: "PBI-003"
+    sequence: 3
+    production_last_phase: false
+    objective: "Completed PBI: Add local SQLite setup for Growth Timeline"
+    source: "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+    verification:
+      - "Use the PBI task mapping, acceptance criteria, and relevant local tests/simulator checks."
+    expected_receipt:
+      - "subtasks completed"
+      - "files changed"
+      - "verification run and result"
+      - "remaining risks or blockers"
+  - id: PBI-004
+    type: worker
+    assignee: Codex
+    status: done
+    pbi: "PBI-004"
+    sequence: 4
+    production_last_phase: false
+    objective: "Completed PBI: Create core shared UI primitives"
+    source: "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+    verification:
+      - "Use the PBI task mapping, acceptance criteria, and relevant local tests/simulator checks."
+    expected_receipt:
+      - "subtasks completed"
+      - "files changed"
+      - "verification run and result"
+      - "remaining risks or blockers"
+  - id: PBI-005
+    type: worker
+    assignee: Codex
+    status: done
+    pbi: "PBI-005"
+    sequence: 5
+    production_last_phase: false
+    objective: "Completed PBI: Build login screen"
+    source: "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+    verification:
+      - "Use the PBI task mapping, acceptance criteria, and relevant local tests/simulator checks."
+    expected_receipt:
+      - "subtasks completed"
+      - "files changed"
+      - "verification run and result"
+      - "remaining risks or blockers"
+  - id: PBI-006
+    type: worker
+    assignee: Codex
+    status: done
+    pbi: "PBI-006"
+    sequence: 6
+    production_last_phase: false
+    objective: "Completed PBI: Build signup screen"
+    source: "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+    verification:
+      - "Use the PBI task mapping, acceptance criteria, and relevant local tests/simulator checks."
+    expected_receipt:
+      - "subtasks completed"
+      - "files changed"
+      - "verification run and result"
+      - "remaining risks or blockers"
+  - id: PBI-007
+    type: worker
+    assignee: Codex
+    status: done
+    pbi: "PBI-007"
+    sequence: 7
+    production_last_phase: false
+    objective: "Completed PBI: Add auth bootstrap and session routing"
+    source: "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+    verification:
+      - "Use the PBI task mapping, acceptance criteria, and relevant local tests/simulator checks."
+    expected_receipt:
+      - "subtasks completed"
+      - "files changed"
+      - "verification run and result"
+      - "remaining risks or blockers"
+  - id: PBI-008
+    type: worker
+    assignee: Codex
+    status: done
+    pbi: "PBI-008"
+    sequence: 8
+    production_last_phase: false
+    objective: "Completed PBI: Build onboarding welcome screen"
+    source: "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+    verification:
+      - "Use the PBI task mapping, acceptance criteria, and relevant local tests/simulator checks."
+    expected_receipt:
+      - "subtasks completed"
+      - "files changed"
+      - "verification run and result"
+      - "remaining risks or blockers"
+  - id: PBI-009
+    type: worker
+    assignee: Codex
+    status: done
+    pbi: "PBI-009"
+    sequence: 9
+    production_last_phase: false
+    objective: "Completed PBI: Build onboarding problem and benefits screens"
+    source: "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+    verification:
+      - "Use the PBI task mapping, acceptance criteria, and relevant local tests/simulator checks."
+    expected_receipt:
+      - "subtasks completed"
+      - "files changed"
+      - "verification run and result"
+      - "remaining risks or blockers"
+  - id: PBI-010
+    type: worker
+    assignee: Codex
+    status: done
+    pbi: "PBI-010"
+    sequence: 10
+    production_last_phase: false
+    objective: "Completed PBI: Build add baby onboarding step"
+    source: "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+    verification:
+      - "Use the PBI task mapping, acceptance criteria, and relevant local tests/simulator checks."
+    expected_receipt:
+      - "subtasks completed"
+      - "files changed"
+      - "verification run and result"
+      - "remaining risks or blockers"
+  - id: PBI-011
+    type: worker
+    assignee: Codex
+    status: done
+    pbi: "PBI-011"
+    sequence: 11
+    production_last_phase: false
+    objective: "Completed PBI: Build priorities selection screen"
+    source: "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+    verification:
+      - "Use the PBI task mapping, acceptance criteria, and relevant local tests/simulator checks."
+    expected_receipt:
+      - "subtasks completed"
+      - "files changed"
+      - "verification run and result"
+      - "remaining risks or blockers"
+  - id: PBI-012
+    type: worker
+    assignee: Codex
+    status: done
+    pbi: "PBI-012"
+    sequence: 12
+    production_last_phase: false
+    objective: "Completed PBI: Build invite caregiver onboarding step"
+    source: "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+    verification:
+      - "Use the PBI task mapping, acceptance criteria, and relevant local tests/simulator checks."
+    expected_receipt:
+      - "subtasks completed"
+      - "files changed"
+      - "verification run and result"
+      - "remaining risks or blockers"
+  - id: PBI-013
+    type: worker
+    assignee: Codex
+    status: done
+    pbi: "PBI-013"
+    sequence: 13
+    production_last_phase: false
+    objective: "Completed PBI: Build onboarding preview screen"
+    source: "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+    verification:
+      - "Use the PBI task mapping, acceptance criteria, and relevant local tests/simulator checks."
+    expected_receipt:
+      - "subtasks completed"
+      - "files changed"
+      - "verification run and result"
+      - "remaining risks or blockers"
+  - id: PBI-062
+    type: worker
+    assignee: Codex
+    status: todo
+    pbi: "PBI-062"
+    sequence: 13.5
+    production_last_phase: false
+    objective: "Implement PBI: Questionnaire-style onboarding expansion"
+    source: "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+    verification:
+      - "Use the PBI task mapping, acceptance criteria, and relevant local tests/simulator checks."
+    expected_receipt:
+      - "subtasks completed"
+      - "files changed"
+      - "verification run and result"
+      - "remaining risks or blockers"
+  - id: PBI-014
+    type: worker
+    assignee: Codex
+    status: done
+    pbi: "PBI-014"
+    sequence: 14
+    production_last_phase: false
+    objective: "Completed PBI: Build Home screen"
+    source: "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+    verification:
+      - "Use the PBI task mapping, acceptance criteria, and relevant local tests/simulator checks."
+    expected_receipt:
+      - "subtasks completed"
+      - "files changed"
+      - "verification run and result"
+      - "remaining risks or blockers"
+  - id: PBI-015
+    type: worker
+    assignee: Codex
+    status: done
+    pbi: "PBI-015"
+    sequence: 15
+    production_last_phase: false
+    objective: "Completed PBI: Build tab navigation shell"
+    source: "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+    verification:
+      - "Use the PBI task mapping, acceptance criteria, and relevant local tests/simulator checks."
+    expected_receipt:
+      - "subtasks completed"
+      - "files changed"
+      - "verification run and result"
+      - "remaining risks or blockers"
+  - id: PBI-016
+    type: worker
+    assignee: Codex
+    status: done
+    pbi: "PBI-016"
+    sequence: 16
+    production_last_phase: false
+    objective: "Completed PBI: Build quick log chooser modal"
+    source: "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+    verification:
+      - "Use the PBI task mapping, acceptance criteria, and relevant local tests/simulator checks."
+    expected_receipt:
+      - "subtasks completed"
+      - "files changed"
+      - "verification run and result"
+      - "remaining risks or blockers"
+  - id: PBI-017
+    type: worker
+    assignee: Codex
+    status: done
+    pbi: "PBI-017"
+    sequence: 17
+    production_last_phase: false
+    objective: "Completed PBI: Build breastfeed log flow"
+    source: "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+    verification:
+      - "Use the PBI task mapping, acceptance criteria, and relevant local tests/simulator checks."
+    expected_receipt:
+      - "subtasks completed"
+      - "files changed"
+      - "verification run and result"
+      - "remaining risks or blockers"
+  - id: PBI-018
+    type: worker
+    assignee: Codex
+    status: done
+    pbi: "PBI-018"
+    sequence: 18
+    production_last_phase: false
+    objective: "Completed PBI: Build bottle log flow"
+    source: "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+    verification:
+      - "Use the PBI task mapping, acceptance criteria, and relevant local tests/simulator checks."
+    expected_receipt:
+      - "subtasks completed"
+      - "files changed"
+      - "verification run and result"
+      - "remaining risks or blockers"
+  - id: PBI-019
+    type: worker
+    assignee: Codex
+    status: done
+    pbi: "PBI-019"
+    sequence: 19
+    production_last_phase: false
+    objective: "Completed PBI: Build diaper log flow"
+    source: "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+    verification:
+      - "Use the PBI task mapping, acceptance criteria, and relevant local tests/simulator checks."
+    expected_receipt:
+      - "subtasks completed"
+      - "files changed"
+      - "verification run and result"
+      - "remaining risks or blockers"
+  - id: PBI-020
+    type: worker
+    assignee: Codex
+    status: done
+    pbi: "PBI-020"
+    sequence: 20
+    production_last_phase: false
+    objective: "Completed PBI: Build sleep log flow"
+    source: "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+    verification:
+      - "Use the PBI task mapping, acceptance criteria, and relevant local tests/simulator checks."
+    expected_receipt:
+      - "subtasks completed"
+      - "files changed"
+      - "verification run and result"
+      - "remaining risks or blockers"
+  - id: PBI-021
+    type: worker
+    assignee: Codex
+    status: done
+    pbi: "PBI-021"
+    sequence: 21
+    production_last_phase: false
+    objective: "Completed PBI: Build medication log flow"
+    source: "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+    verification:
+      - "Use the PBI task mapping, acceptance criteria, and relevant local tests/simulator checks."
+    expected_receipt:
+      - "subtasks completed"
+      - "files changed"
+      - "verification run and result"
+      - "remaining risks or blockers"
+  - id: PBI-022
+    type: worker
+    assignee: Codex
+    status: done
+    pbi: "PBI-022"
+    sequence: 22
+    production_last_phase: false
+    objective: "Completed PBI: Build Timeline screen shell"
+    source: "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+    verification:
+      - "Use the PBI task mapping, acceptance criteria, and relevant local tests/simulator checks."
+    expected_receipt:
+      - "subtasks completed"
+      - "files changed"
+      - "verification run and result"
+      - "remaining risks or blockers"
+  - id: PBI-023
+    type: worker
+    assignee: Codex
+    status: done
+    pbi: "PBI-023"
+    sequence: 23
+    production_last_phase: false
+    objective: "Completed PBI: Add timeline filters"
+    source: "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+    verification:
+      - "Use the PBI task mapping, acceptance criteria, and relevant local tests/simulator checks."
+    expected_receipt:
+      - "subtasks completed"
+      - "files changed"
+      - "verification run and result"
+      - "remaining risks or blockers"
+  - id: PBI-024
+    type: worker
+    assignee: Codex
+    status: done
+    pbi: "PBI-024"
+    sequence: 24
+    production_last_phase: false
+    objective: "Completed PBI: Build timeline adapter"
+    source: "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+    verification:
+      - "Use the PBI task mapping, acceptance criteria, and relevant local tests/simulator checks."
+    expected_receipt:
+      - "subtasks completed"
+      - "files changed"
+      - "verification run and result"
+      - "remaining risks or blockers"
+  - id: PBI-025
+    type: worker
+    assignee: Codex
+    status: done
+    pbi: "PBI-025"
+    sequence: 25
+    production_last_phase: false
+    objective: "Completed PBI: Build local file storage for Growth Timeline"
+    source: "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+    verification:
+      - "Use the PBI task mapping, acceptance criteria, and relevant local tests/simulator checks."
+    expected_receipt:
+      - "subtasks completed"
+      - "files changed"
+      - "verification run and result"
+      - "remaining risks or blockers"
+  - id: PBI-026
+    type: worker
+    assignee: Codex
+    status: done
+    pbi: "PBI-026"
+    sequence: 26
+    production_last_phase: false
+    objective: "Completed PBI: Build Growth Timeline metadata service"
+    source: "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+    verification:
+      - "Use the PBI task mapping, acceptance criteria, and relevant local tests/simulator checks."
+    expected_receipt:
+      - "subtasks completed"
+      - "files changed"
+      - "verification run and result"
+      - "remaining risks or blockers"
+  - id: PBI-027
+    type: worker
+    assignee: Codex
+    status: done
+    pbi: "PBI-027"
+    sequence: 27
+    production_last_phase: false
+    objective: "Completed PBI: Build Add Moment modal"
+    source: "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+    verification:
+      - "Use the PBI task mapping, acceptance criteria, and relevant local tests/simulator checks."
+    expected_receipt:
+      - "subtasks completed"
+      - "files changed"
+      - "verification run and result"
+      - "remaining risks or blockers"
+  - id: PBI-028
+    type: worker
+    assignee: Codex
+    status: done
+    pbi: "PBI-028"
+    sequence: 28
+    production_last_phase: false
+    objective: "Completed PBI: Add Growth Timeline to Timeline screen"
+    source: "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+    verification:
+      - "Use the PBI task mapping, acceptance criteria, and relevant local tests/simulator checks."
+    expected_receipt:
+      - "subtasks completed"
+      - "files changed"
+      - "verification run and result"
+      - "remaining risks or blockers"
+  - id: PBI-029
+    type: worker
+    assignee: Codex
+    status: done
+    pbi: "PBI-029"
+    sequence: 29
+    production_last_phase: false
+    objective: "Completed PBI: Build handoff summary backend endpoint"
+    source: "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+    verification:
+      - "Use the PBI task mapping, acceptance criteria, and relevant local tests/simulator checks."
+    expected_receipt:
+      - "subtasks completed"
+      - "files changed"
+      - "verification run and result"
+      - "remaining risks or blockers"
+  - id: PBI-030
+    type: worker
+    assignee: Codex
+    status: done
+    pbi: "PBI-030"
+    sequence: 30
+    production_last_phase: false
+    objective: "Completed PBI: Build Handoff screen"
+    source: "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+    verification:
+      - "Use the PBI task mapping, acceptance criteria, and relevant local tests/simulator checks."
+    expected_receipt:
+      - "subtasks completed"
+      - "files changed"
+      - "verification run and result"
+      - "remaining risks or blockers"
+  - id: PBI-031
+    type: worker
+    assignee: Codex
+    status: done
+    pbi: "PBI-031"
+    sequence: 31
+    production_last_phase: false
+    objective: "Completed PBI: Build reminders create flow"
+    source: "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+    verification:
+      - "Use the PBI task mapping, acceptance criteria, and relevant local tests/simulator checks."
+    expected_receipt:
+      - "subtasks completed"
+      - "files changed"
+      - "verification run and result"
+      - "remaining risks or blockers"
+  - id: PBI-032
+    type: worker
+    assignee: Codex
+    status: done
+    pbi: "PBI-032"
+    sequence: 32
+    production_last_phase: false
+    objective: "Completed PBI: Build reminders list screen"
+    source: "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+    verification:
+      - "Use the PBI task mapping, acceptance criteria, and relevant local tests/simulator checks."
+    expected_receipt:
+      - "subtasks completed"
+      - "files changed"
+      - "verification run and result"
+      - "remaining risks or blockers"
+  - id: PBI-033
+    type: worker
+    assignee: Codex
+    status: done
+    pbi: "PBI-033"
+    sequence: 33
+    production_last_phase: false
+    objective: "Completed PBI: Build caregivers management screen"
+    source: "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+    verification:
+      - "Use the PBI task mapping, acceptance criteria, and relevant local tests/simulator checks."
+    expected_receipt:
+      - "subtasks completed"
+      - "files changed"
+      - "verification run and result"
+      - "remaining risks or blockers"
+  - id: PBI-034
+    type: worker
+    assignee: Codex
+    status: done
+    pbi: "PBI-034"
+    sequence: 34
+    production_last_phase: false
+    objective: "Completed PBI: Build settings screen"
+    source: "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+    verification:
+      - "Use the PBI task mapping, acceptance criteria, and relevant local tests/simulator checks."
+    expected_receipt:
+      - "subtasks completed"
+      - "files changed"
+      - "verification run and result"
+      - "remaining risks or blockers"
+  - id: PBI-035
+    type: worker
+    assignee: Codex
+    status: done
+    pbi: "PBI-035"
+    sequence: 35
+    production_last_phase: false
+    objective: "Completed PBI: Build plans screen"
+    source: "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+    verification:
+      - "Use the PBI task mapping, acceptance criteria, and relevant local tests/simulator checks."
+    expected_receipt:
+      - "subtasks completed"
+      - "files changed"
+      - "verification run and result"
+      - "remaining risks or blockers"
+  - id: PBI-036
+    type: worker
+    assignee: Codex
+    status: done
+    pbi: "PBI-036"
+    sequence: 36
+    production_last_phase: false
+    objective: "Completed PBI: Add feature flags hook and store"
+    source: "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+    verification:
+      - "Use the PBI task mapping, acceptance criteria, and relevant local tests/simulator checks."
+    expected_receipt:
+      - "subtasks completed"
+      - "files changed"
+      - "verification run and result"
+      - "remaining risks or blockers"
+  - id: PBI-037
+    type: worker
+    assignee: Codex
+    status: done
+    pbi: "PBI-037"
+    sequence: 37
+    production_last_phase: false
+    objective: "Completed PBI: Build account screen"
+    source: "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+    verification:
+      - "Use the PBI task mapping, acceptance criteria, and relevant local tests/simulator checks."
+    expected_receipt:
+      - "subtasks completed"
+      - "files changed"
+      - "verification run and result"
+      - "remaining risks or blockers"
+  - id: PBI-038
+    type: worker
+    assignee: Codex
+    status: done
+    pbi: "PBI-038"
+    sequence: 38
+    production_last_phase: false
+    objective: "Completed PBI: Build sign out confirmation flow"
+    source: "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+    verification:
+      - "Use the PBI task mapping, acceptance criteria, and relevant local tests/simulator checks."
+    expected_receipt:
+      - "subtasks completed"
+      - "files changed"
+      - "verification run and result"
+      - "remaining risks or blockers"
+  - id: PBI-039
+    type: worker
+    assignee: Codex
+    status: done
+    pbi: "PBI-039"
+    sequence: 39
+    production_last_phase: false
+    objective: "Completed PBI: Add empty states"
+    source: "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+    verification:
+      - "Use the PBI task mapping, acceptance criteria, and relevant local tests/simulator checks."
+    expected_receipt:
+      - "subtasks completed"
+      - "files changed"
+      - "verification run and result"
+      - "remaining risks or blockers"
+  - id: PBI-040
+    type: worker
+    assignee: Codex
+    status: done
+    pbi: "PBI-040"
+    sequence: 40
+    production_last_phase: false
+    objective: "Completed PBI: Add loading states"
+    source: "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+    verification:
+      - "Use the PBI task mapping, acceptance criteria, and relevant local tests/simulator checks."
+    expected_receipt:
+      - "subtasks completed"
+      - "files changed"
+      - "verification run and result"
+      - "remaining risks or blockers"
+  - id: PBI-041
+    type: worker
+    assignee: Codex
+    status: done
+    pbi: "PBI-041"
+    sequence: 41
+    production_last_phase: false
+    objective: "Completed PBI: Add error handling states"
+    source: "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+    verification:
+      - "Use the PBI task mapping, acceptance criteria, and relevant local tests/simulator checks."
+    expected_receipt:
+      - "subtasks completed"
+      - "files changed"
+      - "verification run and result"
+      - "remaining risks or blockers"
+  - id: PBI-042
+    type: worker
+    assignee: Codex
+    status: done
+    pbi: "PBI-042"
+    sequence: 42
+    production_last_phase: false
+    objective: "Completed PBI: Add analytics instrumentation"
+    source: "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+    verification:
+      - "Use the PBI task mapping, acceptance criteria, and relevant local tests/simulator checks."
+    expected_receipt:
+      - "subtasks completed"
+      - "files changed"
+      - "verification run and result"
+      - "remaining risks or blockers"
+  - id: PBI-043
+    type: worker
+    assignee: Codex
+    status: done
+    pbi: "PBI-043"
+    sequence: 43
+    production_last_phase: false
+    objective: "Completed PBI: Create App Store screenshot set"
+    source: "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+    verification:
+      - "Use the PBI task mapping, acceptance criteria, and relevant local tests/simulator checks."
+    expected_receipt:
+      - "subtasks completed"
+      - "files changed"
+      - "verification run and result"
+      - "remaining risks or blockers"
+  - id: PBI-044
+    type: worker
+    assignee: Codex
+    status: done
+    pbi: "PBI-044"
+    sequence: 44
+    production_last_phase: false
+    objective: "Completed PBI: Create landing hero visual"
+    source: "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+    verification:
+      - "Use the PBI task mapping, acceptance criteria, and relevant local tests/simulator checks."
+    expected_receipt:
+      - "subtasks completed"
+      - "files changed"
+      - "verification run and result"
+      - "remaining risks or blockers"
+  - id: PBI-049
+    type: worker
+    assignee: Codex
+    status: done
+    pbi: "PBI-049"
+    sequence: 45
+    production_last_phase: false
+    objective: "Completed PBI: Implement local notification system"
+    source: "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+    verification:
+      - "Use the PBI task mapping, acceptance criteria, and relevant local tests/simulator checks."
+    expected_receipt:
+      - "subtasks completed"
+      - "files changed"
+      - "verification run and result"
+      - "remaining risks or blockers"
+  - id: PBI-058
+    type: worker
+    assignee: Codex
+    status: done
+    pbi: "PBI-058"
+    sequence: 46
+    production_last_phase: false
+    objective: "Completed PBI: Firebase Emulator load testing and cost model"
+    source: "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+    verification:
+      - "Use the PBI task mapping, acceptance criteria, and relevant local tests/simulator checks."
+    expected_receipt:
+      - "subtasks completed"
+      - "files changed"
+      - "verification run and result"
+      - "remaining risks or blockers"
+  - id: PBI-059
+    type: worker
+    assignee: Codex
+    status: done
+    pbi: "PBI-059"
+    sequence: 47
+    production_last_phase: false
+    objective: "Completed PBI: Lazy loading and app performance pass"
+    source: "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+    verification:
+      - "Use the PBI task mapping, acceptance criteria, and relevant local tests/simulator checks."
+    expected_receipt:
+      - "subtasks completed"
+      - "files changed"
+      - "verification run and result"
+      - "remaining risks or blockers"
+  - id: PBI-060
+    type: worker
+    assignee: Codex
+    status: done
+    pbi: "PBI-060"
+    sequence: 48
+    production_last_phase: false
+    objective: "Completed PBI: Canceled subscription heavy-data purge policy"
+    source: "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+    verification:
+      - "Use the PBI task mapping, acceptance criteria, and relevant local tests/simulator checks."
+    expected_receipt:
+      - "subtasks completed"
+      - "files changed"
+      - "verification run and result"
+      - "remaining risks or blockers"
+  - id: PBI-045
+    type: worker
+    assignee: Codex
+    status: todo
+    pbi: "PBI-045"
+    sequence: 49
+    production_last_phase: false
+    objective: "Implement PBI: Define widget data contract and refresh policy"
+    source: "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+    verification:
+      - "Use the PBI task mapping, acceptance criteria, and relevant local tests/simulator checks."
+    expected_receipt:
+      - "subtasks completed"
+      - "files changed"
+      - "verification run and result"
+      - "remaining risks or blockers"
+  - id: PBI-046
+    type: worker
+    assignee: Codex
+    status: todo
+    pbi: "PBI-046"
+    sequence: 50
+    production_last_phase: false
+    objective: "Implement PBI: Build iOS current-state Home Screen widget"
+    source: "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+    verification:
+      - "Use the PBI task mapping, acceptance criteria, and relevant local tests/simulator checks."
+    expected_receipt:
+      - "subtasks completed"
+      - "files changed"
+      - "verification run and result"
+      - "remaining risks or blockers"
+  - id: PBI-047
+    type: worker
+    assignee: Codex
+    status: todo
+    pbi: "PBI-047"
+    sequence: 51
+    production_last_phase: false
+    objective: "Implement PBI: Add widget settings and privacy controls"
+    source: "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+    verification:
+      - "Use the PBI task mapping, acceptance criteria, and relevant local tests/simulator checks."
+    expected_receipt:
+      - "subtasks completed"
+      - "files changed"
+      - "verification run and result"
+      - "remaining risks or blockers"
+  - id: PBI-048
+    type: worker
+    assignee: Codex
+    status: todo
+    pbi: "PBI-048"
+    sequence: 52
+    production_last_phase: false
+    objective: "Implement PBI: Plan Android widget parity"
+    source: "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+    verification:
+      - "Use the PBI task mapping, acceptance criteria, and relevant local tests/simulator checks."
+    expected_receipt:
+      - "subtasks completed"
+      - "files changed"
+      - "verification run and result"
+      - "remaining risks or blockers"
+  - id: PBI-051
+    type: worker
+    assignee: Codex
+    status: todo
+    pbi: "PBI-051"
+    sequence: 53
+    production_last_phase: false
+    objective: "Implement PBI: Full interaction hardening"
+    source: "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+    verification:
+      - "Use the PBI task mapping, acceptance criteria, and relevant local tests/simulator checks."
+    expected_receipt:
+      - "subtasks completed"
+      - "files changed"
+      - "verification run and result"
+      - "remaining risks or blockers"
+  - id: PBI-052
+    type: worker
+    assignee: Codex
+    status: todo
+    pbi: "PBI-052"
+    sequence: 54
+    production_last_phase: false
+    objective: "Implement PBI: E2E and visual release QA"
+    source: "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+    verification:
+      - "Use the PBI task mapping, acceptance criteria, and relevant local tests/simulator checks."
+    expected_receipt:
+      - "subtasks completed"
+      - "files changed"
+      - "verification run and result"
+      - "remaining risks or blockers"
+  - id: PBI-054
+    type: worker
+    assignee: Codex
+    status: todo
+    pbi: "PBI-054"
+    sequence: 55
+    production_last_phase: false
+    objective: "Implement PBI: Implement widget release slice"
+    source: "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+    verification:
+      - "Use the PBI task mapping, acceptance criteria, and relevant local tests/simulator checks."
+    expected_receipt:
+      - "subtasks completed"
+      - "files changed"
+      - "verification run and result"
+      - "remaining risks or blockers"
+  - id: PBI-057
+    type: worker
+    assignee: Codex
+    status: todo
+    pbi: "PBI-057"
+    sequence: 56
+    production_last_phase: true
+    objective: "Implement PBI: Data lifecycle and privacy hardening"
+    source: "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+    verification:
+      - "Use the PBI task mapping, acceptance criteria, and relevant local tests/simulator checks."
+    expected_receipt:
+      - "subtasks completed"
+      - "files changed"
+      - "verification run and result"
+      - "remaining risks or blockers"
+  - id: PBI-056
+    type: worker
+    assignee: Codex
+    status: todo
+    pbi: "PBI-056"
+    sequence: 57
+    production_last_phase: true
+    objective: "Implement PBI: Account deletion and data purge"
+    source: "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+    verification:
+      - "Use the PBI task mapping, acceptance criteria, and relevant local tests/simulator checks."
+    expected_receipt:
+      - "subtasks completed"
+      - "files changed"
+      - "verification run and result"
+      - "remaining risks or blockers"
+  - id: PBI-064
+    type: worker
+    assignee: Codex
+    status: todo
+    pbi: "PBI-064"
+    sequence: 57.5
+    production_last_phase: true
+    objective: "Implement PBI: Conversion paywall design and pricing experiment plan"
+    source: "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+    verification:
+      - "Document paywall visual spec, pricing matrix, trial/lifetime/gifting assumptions, StoreKit/sandbox/TestFlight validation cases, and App Store caveats before IAP implementation."
+    expected_receipt:
+      - "paywall visual spec"
+      - "pricing matrix"
+      - "trial and lifetime validation caveats"
+      - "StoreKit/sandbox/TestFlight test matrix"
+      - "remaining risks or blockers"
+  - id: PBI-055
+    type: worker
+    assignee: Codex
+    status: todo
+    pbi: "PBI-055"
+    sequence: 58
+    production_last_phase: true
+    objective: "Implement PBI: Native subscriptions and Apple IAP"
+    source: "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+    verification:
+      - "Use the PBI task mapping, acceptance criteria, and relevant local tests/simulator checks."
+    expected_receipt:
+      - "subtasks completed"
+      - "files changed"
+      - "verification run and result"
+      - "remaining risks or blockers"
+  - id: PBI-061
+    type: worker
+    assignee: Codex
+    status: todo
+    pbi: "PBI-061"
+    sequence: 59
+    production_last_phase: true
+    objective: "Implement PBI: Hybrid local and Firebase push notification provider"
+    source: "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+    verification:
+      - "Use the PBI task mapping, acceptance criteria, and relevant local tests/simulator checks."
+    expected_receipt:
+      - "subtasks completed"
+      - "files changed"
+      - "verification run and result"
+      - "remaining risks or blockers"
+  - id: PBI-050
+    type: worker
+    assignee: Codex
+    status: todo
+    pbi: "PBI-050"
+    sequence: 60
+    production_last_phase: true
+    objective: "Implement PBI: Production Firebase and security hardening"
+    source: "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+    verification:
+      - "Use the PBI task mapping, acceptance criteria, and relevant local tests/simulator checks."
+    expected_receipt:
+      - "subtasks completed"
+      - "files changed"
+      - "verification run and result"
+      - "remaining risks or blockers"
+  - id: PBI-066
+    type: worker
+    assignee: Codex
+    status: todo
+    pbi: "PBI-066"
+    sequence: 60.1
+    production_last_phase: true
+    objective: "Implement PBI: Firebase Remote Config and remote app controls"
+    source: "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+    verification:
+      - "Add typed Remote Config defaults, dev fallback, validation, fetch/activate behavior, experiment exposure mapping, pricing-source guardrails, and production rollout/rollback docs."
+      - "Use Remote Config only for non-critical copy, variant IDs, rollout flags, support URLs, maintenance banners, and nudge controls; do not use it for secrets, authz, entitlements, account deletion, or StoreKit prices."
+      - "Use the PBI task mapping, acceptance criteria, and relevant local tests/simulator checks."
+    expected_receipt:
+      - "remote config key registry"
+      - "typed defaults and validation behavior"
+      - "dev fallback behavior"
+      - "A/B experiment scope and exposure IDs"
+      - "pricing-source guardrails"
+      - "verification run and result"
+      - "remaining risks or blockers"
+  - id: PBI-065
+    type: worker
+    assignee: Codex
+    status: todo
+    pbi: "PBI-065"
+    sequence: 60.25
+    production_last_phase: true
+    objective: "Implement PBI: App, store metadata, and screenshot localization"
+    source: "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+    verification:
+      - "Add localization architecture, supported locale files, App Store metadata drafts, localized pricing/storefront metadata, PPP-style affordability and above-floor markers, screenshot manifest locale inputs, RTL checks, and tests for missing keys/fallbacks."
+      - "Use the PBI task mapping, acceptance criteria, and relevant local tests/simulator checks."
+    expected_receipt:
+      - "supported locale inventory"
+      - "translation key and metadata coverage"
+      - "localized pricing and storefront metadata coverage"
+      - "PPP affordability and above-floor pricing markers"
+      - "RTL/text-expansion QA evidence"
+      - "localized screenshot manifest readiness"
+      - "verification run and result"
+      - "remaining risks or blockers"
+  - id: PBI-063
+    type: worker
+    assignee: Codex
+    status: todo
+    pbi: "PBI-063"
+    sequence: 60.5
+    production_last_phase: true
+    objective: "Implement PBI: ASO App Store screenshot generation and gifting creative set"
+    source: "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+    verification:
+      - "Run ASO benefit discovery, grade simulator screenshots, generate final assets only from approved BabyMinimo visual states, and update the screenshot manifest."
+      - "Use the PBI task mapping, acceptance criteria, and relevant local tests/simulator checks."
+    expected_receipt:
+      - "confirmed benefit headlines"
+      - "source screenshots graded and paired"
+      - "final screenshot assets and manifest"
+      - "verification run and result"
+      - "remaining risks or blockers"
+  - id: PBI-053
+    type: worker
+    assignee: Codex
+    status: todo
+    pbi: "PBI-053"
+    sequence: 61
+    production_last_phase: true
+    objective: "Implement PBI: Release and App Store readiness"
+    source: "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+    verification:
+      - "Use the PBI task mapping, acceptance criteria, and relevant local tests/simulator checks."
+    expected_receipt:
+      - "subtasks completed"
+      - "files changed"
+      - "verification run and result"
+      - "remaining risks or blockers"

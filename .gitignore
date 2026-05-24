@@ -1,0 +1,15 @@
+node_modules/
+.expo/
+dist/
+web-build/
+e2e-artifacts/
+ios/Pods/
+ios/build/
+
+.DS_Store
+*.log
+
+*.local
+.env
+.env.*
+!.env.example

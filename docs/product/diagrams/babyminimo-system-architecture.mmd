@@ -1,0 +1,115 @@
+flowchart LR
+    subgraph Client["Client Layer — React Native / Expo App"]
+        A1[Splash / Auth]
+        A2[Onboarding]
+        A3[Home]
+        A4[Quick Log Modals]
+        A5[Timeline]
+        A6[Add Moment]
+        A7[Handoff]
+        A8[Reminders]
+        A9[Caregivers]
+        A10[Settings / Plans / Account]
+
+        C1[Theme Tokens]
+        C2[Reusable UI Components]
+        C3[Zustand Stores]
+        C4[React Hooks]
+    end
+
+    subgraph Local["Local Device Layer"]
+        L1[Expo File System]
+        L2[Expo SQLite]
+        L3[Image Picker]
+        L4[Image Manipulator]
+
+        L1 --> L2
+        L3 --> L4
+        L4 --> L1
+    end
+
+    subgraph Firebase["Firebase Backend Layer"]
+        F1[Firebase Auth]
+
+        subgraph Functions["Callable Cloud Functions"]
+            CF1[createHousehold]
+            CF2[createBaby]
+            CF3[createEvent]
+            CF4[createReminder]
+            CF5[inviteMember]
+            CF6[getHandoffSummary]
+            CF7[getFeatureFlags]
+        end
+
+        subgraph Firestore["Cloud Firestore"]
+            FS1[users]
+            FS2[households]
+            FS3[memberships]
+            FS4[babies]
+            FS5[events]
+            FS6[reminders]
+            FS7[featureFlags]
+            FS8[subscriptions]
+        end
+    end
+
+    subgraph Presentation["Derived / Presentation Layer"]
+        P1[Handoff Summary Read Model]
+        P2[Timeline Adapter]
+        P3[Plan / Feature Gating]
+        P4[Analytics Events]
+    end
+
+    A1 --> F1
+    A2 --> CF1
+    A2 --> CF2
+
+    A4 --> CF3
+    A8 --> CF4
+    A9 --> CF5
+    A7 --> CF6
+    A10 --> CF7
+
+    CF1 --> FS2
+    CF1 --> FS3
+    CF2 --> FS4
+    CF3 --> FS5
+    CF4 --> FS6
+    CF5 --> FS3
+    CF6 --> P1
+    CF7 --> P3
+
+    FS5 --> P2
+    FS6 --> P1
+    FS7 --> P3
+
+    A6 --> L3
+    A6 --> L4
+    A6 --> L1
+    A6 --> L2
+
+    L2 --> P2
+    FS5 --> P2
+
+    P2 --> A5
+    P1 --> A7
+    P3 --> A10
+
+    A3 --> P1
+    A5 --> P2
+    A10 --> P3
+
+    A3 -. analytics .-> P4
+    A4 -. analytics .-> P4
+    A6 -. analytics .-> P4
+    A7 -. analytics .-> P4
+
+    classDef client fill:#D8A089,stroke:#3b3b3b,color:#111;
+    classDef local fill:#D9E7E3,stroke:#3b3b3b,color:#111;
+    classDef firebase fill:#E5C36E,stroke:#3b3b3b,color:#111;
+    classDef derived fill:#BDA089,stroke:#3b3b3b,color:#111;
+
+    class A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,C1,C2,C3,C4 client;
+    class L1,L2,L3,L4 local;
+    class F1,CF1,CF2,CF3,CF4,CF5,CF6,CF7,FS1,FS2,FS3,FS4,FS5,FS6,FS7,FS8 firebase;
+    class P1,P2,P3,P4 derived;

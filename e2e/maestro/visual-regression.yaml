@@ -1,0 +1,43 @@
+appId: com.babyminimo.app
+name: BabyMinimo visual screen coverage
+---
+- launchApp
+- openLink: babyminimo:///(auth)/login
+- assertVisible: BabyMinimo
+- takeScreenshot: e2e-artifacts/login
+- openLink: babyminimo:///(auth)/signup
+- assertVisible: Create Your Household
+- takeScreenshot: e2e-artifacts/signup
+- openLink: babyminimo:///(onboarding)/welcome
+- assertVisible: "Know exactly what\nhappened last."
+- takeScreenshot: e2e-artifacts/onboarding-welcome
+- openLink: babyminimo:///(tabs)/home
+- assertVisible: Luna’s Relay
+- takeScreenshot: e2e-artifacts/home
+- openLink: babyminimo:///modals/quick-log
+- assertVisible: Quick log
+- takeScreenshot: e2e-artifacts/quick-log
+- openLink: babyminimo:///(tabs)/timeline
+- assertVisible: Timeline
+- takeScreenshot: e2e-artifacts/timeline
+- openLink: babyminimo:///modals/add-moment
+- assertVisible: Add a moment
+- takeScreenshot: e2e-artifacts/add-moment
+- openLink: babyminimo:///(tabs)/handoff
+- assertVisible: Liam James
+- takeScreenshot: e2e-artifacts/handoff
+- openLink: babyminimo:///(settings)/reminders
+- assertVisible: Reminders
+- takeScreenshot: e2e-artifacts/reminders
+- openLink: babyminimo:///(tabs)/family
+- assertVisible: Family & Household
+- takeScreenshot: e2e-artifacts/family
+- openLink: babyminimo:///(tabs)/settings
+- assertVisible: Settings
+- takeScreenshot: e2e-artifacts/settings
+- openLink: babyminimo:///(settings)/plans
+- assertVisible: Choose Your Plan
+- takeScreenshot: e2e-artifacts/plans
+- openLink: babyminimo:///(settings)/account
+- assertVisible: Profile & Account
+- takeScreenshot: e2e-artifacts/account

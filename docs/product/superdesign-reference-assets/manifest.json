@@ -1,0 +1,179 @@
+{
+  "projectId": "47fa1dd3-10eb-4443-83d1-37824d15cd2a",
+  "status": "approved_mockup_reference_set",
+  "approvedScreenshotFolder": "docs/product/superdesign-reference-assets/screenshots1/",
+  "generatedAt": "2026-05-22T20:30:10.017Z",
+  "count": 41,
+  "notes": [
+    "The old fetched screenshots/ folder was intentionally cleared because those PNGs did not match the approved BabyMinimo mockups.",
+    "Use screenshots1/ as the canonical visual reference set.",
+    "Some scrollable screens may not have complete top/middle/bottom captures yet; verify scroll states in the simulator during implementation review.",
+    "Use fetched Superdesign HTML only for structure/content when it conflicts with screenshots1 visual direction."
+  ],
+  "screenshots": [
+    {
+      "index": 1,
+      "file": "docs/product/superdesign-reference-assets/screenshots1/Screenshot 2026-05-22 at 23.15.29.png"
+    },
+    {
+      "index": 2,
+      "file": "docs/product/superdesign-reference-assets/screenshots1/Screenshot 2026-05-22 at 23.15.57.png"
+    },
+    {
+      "index": 3,
+      "file": "docs/product/superdesign-reference-assets/screenshots1/Screenshot 2026-05-22 at 23.16.06.png"
+    },
+    {
+      "index": 4,
+      "file": "docs/product/superdesign-reference-assets/screenshots1/Screenshot 2026-05-22 at 23.16.14.png"
+    },
+    {
+      "index": 5,
+      "file": "docs/product/superdesign-reference-assets/screenshots1/Screenshot 2026-05-22 at 23.16.20.png"
+    },
+    {
+      "index": 6,
+      "file": "docs/product/superdesign-reference-assets/screenshots1/Screenshot 2026-05-22 at 23.16.27.png"
+    },
+    {
+      "index": 7,
+      "file": "docs/product/superdesign-reference-assets/screenshots1/Screenshot 2026-05-22 at 23.16.40.png"
+    },
+    {
+      "index": 8,
+      "file": "docs/product/superdesign-reference-assets/screenshots1/Screenshot 2026-05-22 at 23.16.47.png"
+    },
+    {
+      "index": 9,
+      "file": "docs/product/superdesign-reference-assets/screenshots1/Screenshot 2026-05-22 at 23.17.00.png"
+    },
+    {
+      "index": 10,
+      "file": "docs/product/superdesign-reference-assets/screenshots1/Screenshot 2026-05-22 at 23.17.10.png"
+    },
+    {
+      "index": 11,
+      "file": "docs/product/superdesign-reference-assets/screenshots1/Screenshot 2026-05-22 at 23.17.20.png"
+    },
+    {
+      "index": 12,
+      "file": "docs/product/superdesign-reference-assets/screenshots1/Screenshot 2026-05-22 at 23.17.27.png"
+    },
+    {
+      "index": 13,
+      "file": "docs/product/superdesign-reference-assets/screenshots1/Screenshot 2026-05-22 at 23.17.38.png"
+    },
+    {
+      "index": 14,
+      "file": "docs/product/superdesign-reference-assets/screenshots1/Screenshot 2026-05-22 at 23.17.53.png"
+    },
+    {
+      "index": 15,
+      "file": "docs/product/superdesign-reference-assets/screenshots1/Screenshot 2026-05-22 at 23.18.11.png"
+    },
+    {
+      "index": 16,
+      "file": "docs/product/superdesign-reference-assets/screenshots1/Screenshot 2026-05-22 at 23.18.22.png"
+    },
+    {
+      "index": 17,
+      "file": "docs/product/superdesign-reference-assets/screenshots1/Screenshot 2026-05-22 at 23.18.30.png"
+    },
+    {
+      "index": 18,
+      "file": "docs/product/superdesign-reference-assets/screenshots1/Screenshot 2026-05-22 at 23.18.44.png"
+    },
+    {
+      "index": 19,
+      "file": "docs/product/superdesign-reference-assets/screenshots1/Screenshot 2026-05-22 at 23.19.04.png"
+    },
+    {
+      "index": 20,
+      "file": "docs/product/superdesign-reference-assets/screenshots1/Screenshot 2026-05-22 at 23.19.33.png"
+    },
+    {
+      "index": 21,
+      "file": "docs/product/superdesign-reference-assets/screenshots1/Screenshot 2026-05-22 at 23.21.07.png"
+    },
+    {
+      "index": 22,
+      "file": "docs/product/superdesign-reference-assets/screenshots1/Screenshot 2026-05-22 at 23.21.18.png"
+    },
+    {
+      "index": 23,
+      "file": "docs/product/superdesign-reference-assets/screenshots1/Screenshot 2026-05-22 at 23.21.36.png"
+    },
+    {
+      "index": 24,
+      "file": "docs/product/superdesign-reference-assets/screenshots1/Screenshot 2026-05-22 at 23.21.45.png"
+    },
+    {
+      "index": 25,
+      "file": "docs/product/superdesign-reference-assets/screenshots1/Screenshot 2026-05-22 at 23.22.07.png"
+    },
+    {
+      "index": 26,
+      "file": "docs/product/superdesign-reference-assets/screenshots1/Screenshot 2026-05-22 at 23.22.20.png"
+    },
+    {
+      "index": 27,
+      "file": "docs/product/superdesign-reference-assets/screenshots1/Screenshot 2026-05-22 at 23.22.38.png"
+    },
+    {
+      "index": 28,
+      "file": "docs/product/superdesign-reference-assets/screenshots1/Screenshot 2026-05-22 at 23.22.56.png"
+    },
+    {
+      "index": 29,
+      "file": "docs/product/superdesign-reference-assets/screenshots1/Screenshot 2026-05-22 at 23.23.16.png"
+    },
+    {
+      "index": 30,
+      "file": "docs/product/superdesign-reference-assets/screenshots1/Screenshot 2026-05-22 at 23.23.28.png"
+    },
+    {
+      "index": 31,
+      "file": "docs/product/superdesign-reference-assets/screenshots1/Screenshot 2026-05-22 at 23.23.45.png"
+    },
+    {
+      "index": 32,
+      "file": "docs/product/superdesign-reference-assets/screenshots1/Screenshot 2026-05-22 at 23.24.02.png"
+    },
+    {
+      "index": 33,
+      "file": "docs/product/superdesign-reference-assets/screenshots1/Screenshot 2026-05-22 at 23.24.26.png"
+    },
+    {
+      "index": 34,
+      "file": "docs/product/superdesign-reference-assets/screenshots1/Screenshot 2026-05-22 at 23.24.44.png"
+    },
+    {
+      "index": 35,
+      "file": "docs/product/superdesign-reference-assets/screenshots1/Screenshot 2026-05-22 at 23.25.00.png"
+    },
+    {
+      "index": 36,
+      "file": "docs/product/superdesign-reference-assets/screenshots1/Screenshot 2026-05-22 at 23.25.35.png"
+    },
+    {
+      "index": 37,
+      "file": "docs/product/superdesign-reference-assets/screenshots1/Screenshot 2026-05-22 at 23.25.52.png"
+    },
+    {
+      "index": 38,
+      "file": "docs/product/superdesign-reference-assets/screenshots1/Screenshot 2026-05-22 at 23.26.09.png"
+    },
+    {
+      "index": 39,
+      "file": "docs/product/superdesign-reference-assets/screenshots1/Screenshot 2026-05-22 at 23.26.23.png"
+    },
+    {
+      "index": 40,
+      "file": "docs/product/superdesign-reference-assets/screenshots1/Screenshot 2026-05-22 at 23.26.33.png"
+    },
+    {
+      "index": 41,
+      "file": "docs/product/superdesign-reference-assets/screenshots1/Screenshot 2026-05-23 at 00.47.09.png"
+    }
+  ]
+}

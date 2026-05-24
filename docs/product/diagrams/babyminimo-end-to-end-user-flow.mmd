@@ -1,0 +1,82 @@
+flowchart TD
+    A([Start]) --> B[Splash Screen]
+    B --> C{User authenticated?}
+
+    C -- No --> D[Login / Signup]
+    D --> E{Login successful?}
+    E -- No --> D
+    E -- Yes --> F{Onboarding completed?}
+
+    C -- Yes --> F
+
+    F -- No --> G[Welcome]
+    G --> H[Problem Framing]
+    H --> I[Benefits / Solution Preview]
+    I --> J[Add Baby]
+    J --> K[Choose Priorities]
+    K --> L[Invite Caregiver]
+    L --> M[First Handoff Preview]
+    M --> N[Home]
+
+    F -- Yes --> N[Home]
+
+    N --> O[Quick Log]
+    O --> O1[Breastfeed Log]
+    O --> O2[Bottle Log]
+    O --> O3[Diaper Log]
+    O --> O4[Sleep Log]
+    O --> O5[Medication Log]
+
+    O1 --> P[Save Care Event]
+    O2 --> P
+    O3 --> P
+    O4 --> P
+    O5 --> P
+
+    P --> Q[Update Timeline]
+    Q --> R[Update Handoff Summary]
+    R --> N
+
+    N --> S[Timeline]
+    S --> S1[All Events]
+    S --> S2[Care Events]
+    S --> S3[Growth Timeline]
+    S --> S4[Notes]
+
+    S3 --> T[Add Moment]
+    T --> T1[Pick Baby Photo]
+    T1 --> T2[Add Caption + Moment Type]
+    T2 --> T3[Save Locally]
+    T3 --> S3
+
+    N --> U[Handoff]
+    U --> U1[View Current Baby State]
+    U --> U2[View Due Soon]
+    U --> U3[View Latest Note]
+
+    N --> V[Reminders]
+    V --> V1[Create Reminder]
+    V --> V2[View Reminder List]
+
+    N --> W[Caregivers]
+    W --> W1[View Caregivers]
+    W --> W2[Invite Caregiver]
+    W2 --> W3{Invite accepted?}
+    W3 -- Pending --> W4[Invite Pending]
+    W3 -- Yes --> W5[Caregiver Active]
+
+    N --> X[Settings]
+    X --> X1[Plans / Paywall]
+    X1 --> X1A[Free]
+    X1 --> X1B[Premium]
+    X1 --> X1C[Family]
+
+    X --> X2[Account]
+    X2 --> X3[Sign Out]
+    X3 --> X4{Confirm sign out?}
+    X4 -- Cancel --> X2
+    X4 -- Yes --> Y[Return to Login]
+
+    N --> Z1[Empty States]
+    N --> Z2[Loading States]
+    N --> Z3[Error States]

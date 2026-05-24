@@ -1,0 +1,33 @@
+appId: com.babyminimo.app
+name: BabyMinimo critical path smoke
+---
+- launchApp
+- openLink: babyminimo:///(auth)/signup
+- assertVisible: Create Your Household
+- assertVisible: Full name
+- assertVisible: Start Your Relay
+- openLink: babyminimo:///(onboarding)/welcome
+- assertVisible: "Know exactly what\nhappened last."
+- tapOn: Continue onboarding
+- assertVisible: "Care is a relay,\nnot a marathon."
+- openLink: babyminimo:///(onboarding)/benefits
+- assertVisible: "Know what happened\nlast, instantly."
+- openLink: babyminimo:///(onboarding)/add-baby
+- assertVisible: Let's meet your baby
+- openLink: babyminimo:///(onboarding)/preview
+- assertVisible: Leo Miller
+- openLink: babyminimo:///(tabs)/home
+- assertVisible: Luna’s Relay
+- tapOn: Log
+- assertVisible: Quick log
+- openLink: babyminimo:///modals/log-diaper
+- assertVisible: Diaper
+- tapOn: Dirty
+- openLink: babyminimo:///(tabs)/timeline
+- assertVisible: Timeline
+- tapOn: Growth
+- assertVisible: The first big smile!
+- tapOn: Handoff
+- assertVisible: Liam James
+- tapOn: Family
+- assertVisible: Family & Household

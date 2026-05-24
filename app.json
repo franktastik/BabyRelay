@@ -1,0 +1,34 @@
+{
+  "expo": {
+    "name": "BabyMinimo",
+    "slug": "babyminimo",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "scheme": "babyminimo",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.babyminimo.app"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#FAF9F6"
+      },
+      "package": "com.babyminimo.app"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-font",
+      "expo-notifications",
+      "expo-status-bar",
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "deploymentTarget": "16.4"
+          }
+        }
+      ]
+    ]
+  }
+}
