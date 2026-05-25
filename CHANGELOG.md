@@ -124,6 +124,7 @@ All notable changes to this project are documented here.
 - Added the PBI-063 ASO screenshot source audit, grading existing BabyMinimo runtime screenshots and recording retake requirements before final App Store screenshot pairing.
 - Added the PBI-063 ASO screenshot pairing manifest draft, including launch pairings, retake shot list, and paywall/gifting generation blockers.
 - Added the PBI-063 draft ASO screenshot manifest with explicit generation blockers instead of producing unapproved final App Store assets.
+- Added a PBI-065 follow-up localization tranche based on the flashcard-generator pipeline: runtime i18n, batched Google Translate/AI draft imports, protected-token checks, interpolation checks, English-leak checks, native-review status, and RTL/text-expansion simulator QA before production Firebase/App Store work.
 
 ### Changed
 

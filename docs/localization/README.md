@@ -21,6 +21,27 @@ The current localization package is a planning and QA scaffold, not final native
 
 This avoids presenting unreviewed machine translation as production-ready copy.
 
+## Batch Translation Plan
+
+BabyMinimo should follow the localization approach proven in `/Users/frank/flashcard-generator`: use i18n for runtime strings, generate translations in batches, and treat Google Translate or AI output as draft content until validation and review pass.
+
+Batch order:
+
+1. App shell, auth/login, onboarding questionnaire, and settings language controls.
+2. Care logging, Home, Handoff, Timeline, and Growth Timeline.
+3. Reminders, Family, widgets, notifications, account deletion, empty/loading/error states.
+4. Paywall, pricing, trial, lifetime, gift, retention-offer, and metadata copy.
+5. Screenshot headlines and App Store creative overlays after runtime locale QA.
+
+Every batch must produce:
+
+- machine-translation source marker, such as Google Translate, AI draft, human translator, or owner edit
+- protected-token report for `BabyMinimo`, `Baby MiniMemo`, product IDs, URLs, legal names, interpolation placeholders, and platform terms
+- placeholder/interpolation parity report
+- namespace-level English-leak report
+- native-review status or explicit owner acceptance status
+- simulator visual evidence before a locale is considered runtime-ready
+
 ## Pricing Rule
 
 Runtime price strings must come from StoreKit localized product display values. These docs may contain planning prices and localized billing-period copy, but production UI must not use static converted currency strings.
