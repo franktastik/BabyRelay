@@ -3,22 +3,35 @@ name: BabyMinimo critical path smoke
 ---
 - launchApp
 - openLink: babyminimo:///(auth)/signup
+- tapOn:
+    text: Open
+    optional: true
 - assertVisible: Create Your Household
 - assertVisible: Full name
 - assertVisible: Start Your Relay
 - openLink: babyminimo:///(onboarding)/welcome
 - assertVisible: "Know exactly what\nhappened last."
 - tapOn: Continue onboarding
+- assertVisible: What do you need help with first?
+- tapOn: Stay in sync with my partner
+- openLink: babyminimo:///(onboarding)/pain-points
+- assertVisible: What feels hardest right now?
+- tapOn: Not sure what happened last
+- openLink: babyminimo:///(onboarding)/problem
 - assertVisible: "Care is a relay,\nnot a marathon."
 - openLink: babyminimo:///(onboarding)/benefits
 - assertVisible: "Know what happened\nlast, instantly."
+- openLink: babyminimo:///(onboarding)/priorities
+- assertVisible: What care should we track first?
+- openLink: babyminimo:///(onboarding)/notification-priming
+- assertVisible: Gentle reminders when it matters
 - openLink: babyminimo:///(onboarding)/add-baby
 - assertVisible: Let's meet your baby
 - openLink: babyminimo:///(onboarding)/preview
 - assertVisible: Leo Miller
 - openLink: babyminimo:///(tabs)/home
 - assertVisible: Luna’s Relay
-- tapOn: Log
+- openLink: babyminimo:///modals/quick-log
 - assertVisible: Quick log
 - openLink: babyminimo:///modals/log-diaper
 - assertVisible: Diaper
@@ -27,7 +40,21 @@ name: BabyMinimo critical path smoke
 - assertVisible: Timeline
 - tapOn: Growth
 - assertVisible: The first big smile!
-- tapOn: Handoff
+- openLink: babyminimo:///(tabs)/handoff
 - assertVisible: Liam James
-- tapOn: Family
+- openLink: babyminimo:///(tabs)/family
 - assertVisible: Family & Household
+- tapOn: Manage Caregivers
+- assertVisible: Expand the circle
+- openLink: babyminimo:///(tabs)/settings
+- assertVisible: Settings
+- openLink: babyminimo:///(settings)/plans
+- assertVisible: Choose Your Plan
+- openLink: babyminimo:///(settings)/widgets
+- assertVisible: Widgets
+- assertVisible: Show baby status widgets
+- openLink: babyminimo:///(settings)/reminders
+- assertVisible: Reminders
+- openLink: babyminimo:///(settings)/account
+- assertVisible: Profile & Account
+- assertVisible: Sign out

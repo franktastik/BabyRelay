@@ -14,7 +14,7 @@ export default function BenefitsScreen() {
           <View style={styles.progressTrack}>
             <View style={styles.progressFill} />
           </View>
-          <Text style={styles.step}>Step 3 of 7</Text>
+          <Text style={styles.step}>Step 5 of 9</Text>
         </View>
 
         <Pressable onPress={() => router.back()} style={styles.backButton} accessibilityLabel="Go back">
@@ -70,7 +70,7 @@ export default function BenefitsScreen() {
           </View>
         </Card>
 
-        <Button onPress={() => router.push('/(onboarding)/add-baby')} style={styles.button}>
+        <Button onPress={() => router.push('/(onboarding)/priorities')} style={styles.button}>
           Continue to Setup →
         </Button>
         <Text style={styles.helper}>You'll set up your baby profile next.</Text>
@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   progressFill: {
-    width: '42%',
+    width: '55%',
     height: 5,
     borderRadius: radius.full,
     backgroundColor: colors.sage,

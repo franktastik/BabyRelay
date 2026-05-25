@@ -1,0 +1,27 @@
+{
+  "locale": "fi",
+  "language": "Finnish",
+  "direction": "ltr",
+  "status": "draft_requires_native_review",
+  "reviewRequired": true,
+  "sourceLocale": "en",
+  "pricingCopy": {
+    "period": {
+      "weekly": "per week",
+      "monthly": "per month",
+      "annual": "per year",
+      "lifetime": "one time"
+    },
+    "trial": {
+      "threeDayFree": "3-day free trial",
+      "thenPricePerPeriod": "Then {price} {period}"
+    },
+    "savings": {
+      "template": "Save {percent}%",
+      "annualDefault": "Save 65%"
+    },
+    "restore": "Restore purchases",
+    "manage": "Manage subscription",
+    "cancellation": "Cancel anytime in App Store subscriptions."
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "locale": "el",
+  "language": "Greek",
+  "direction": "ltr",
+  "status": "draft_requires_native_review",
+  "reviewRequired": true,
+  "sourceLocale": "en",
+  "headlines": {
+    "home": "Know what happened last",
+    "handoff": "Handoff in seconds",
+    "timeline": "Every care moment in one place",
+    "growth": "Tiny memories, saved locally",
+    "reminders": "Gentle nudges for due-soon care",
+    "family": "Keep the care circle in sync",
+    "paywall": "Unlock calm baby care"
+  }
+}

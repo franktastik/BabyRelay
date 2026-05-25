@@ -1,39 +1,37 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { useRouter } from 'expo-router'
 import { Screen, Button } from '@/src/components/ui'
 import { OnboardingFrame } from '@/src/components/onboarding'
 import { colors, typography, spacing, radius, shadows } from '@/src/theme'
+import {
+  type OnboardingPriority,
+  useOnboardingQuestionnaireStore,
+} from '@/src/stores/onboardingQuestionnaireStore'
 
-const priorities = [
-  { id: 'coparent', label: 'Co-Parent', icon: '♡' },
-  { id: 'grandparent', label: 'Grandparent', icon: '♙' },
-  { id: 'nanny', label: 'Nanny', icon: '⌁' },
-  { id: 'family', label: 'Family', icon: '♧' },
-  { id: 'friend', label: 'Trusted Friend', icon: '◌' },
+const priorities: Array<{ id: OnboardingPriority; label: string; icon: string }> = [
+  { id: 'feeding', label: 'Feeding', icon: '⌁' },
+  { id: 'diapers', label: 'Diapers', icon: '◡' },
+  { id: 'sleep', label: 'Sleep', icon: '◔' },
+  { id: 'medication', label: 'Medication', icon: '◇' },
+  { id: 'reminders', label: 'Reminders', icon: '◷' },
+  { id: 'due-soon', label: 'Due soon', icon: '!' },
+  { id: 'photo-moments', label: 'Photo moments', icon: '▣' },
+  { id: 'caregiver-notes', label: 'Caregiver notes', icon: '☰' },
 ]
 
 export default function PrioritiesScreen() {
   const router = useRouter()
-  const [selected, setSelected] = useState<Set<string>>(new Set(['coparent', 'family']))
-
-  const toggle = (id: string) => {
-    const next = new Set(selected)
-    if (next.has(id)) {
-      next.delete(id)
-    } else {
-      next.add(id)
-    }
-    setSelected(next)
-  }
+  const selectedPriorities = useOnboardingQuestionnaireStore((s) => s.priorities)
+  const togglePriority = useOnboardingQuestionnaireStore((s) => s.togglePriority)
 
   return (
     <Screen>
       <OnboardingFrame
         center
-        title="Build your care circle"
-        subtitle="Invite family members, grandparents, nannies, or other trusted caregivers to share in baby's care."
-        step="Step 2 of 5"
+        title="What care should we track first?"
+        subtitle="We preselected a few from your answers. Adjust anything before the preview."
+        step="Step 6 of 9"
         progress={0.66}
         onBack={() => router.back()}
       >
@@ -57,11 +55,11 @@ export default function PrioritiesScreen() {
 
         <View style={styles.priorities}>
           {priorities.map((priority) => {
-            const isSelected = selected.has(priority.id)
+            const isSelected = selectedPriorities.includes(priority.id)
             return (
               <TouchableOpacity
                 key={priority.id}
-                onPress={() => toggle(priority.id)}
+                onPress={() => togglePriority(priority.id)}
                 style={[styles.priorityCard, isSelected && styles.prioritySelected]}
                 activeOpacity={0.7}
               >
@@ -89,7 +87,7 @@ export default function PrioritiesScreen() {
         </View>
 
         <View style={styles.actions}>
-          <Button onPress={() => router.push('/(onboarding)/invite-caregiver')} style={styles.button}>
+          <Button onPress={() => router.push('/(onboarding)/notification-priming')} style={styles.button}>
             Continue
           </Button>
         </View>

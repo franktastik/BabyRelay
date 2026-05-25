@@ -111,3 +111,7 @@ export async function cancelBabyMinimoReminderNotification(notificationId?: stri
 
   await Notifications.cancelScheduledNotificationAsync(notificationId)
 }
+
+export async function cancelAllBabyMinimoReminderNotifications() {
+  await Notifications.cancelAllScheduledNotificationsAsync()
+}

@@ -44,7 +44,7 @@ export default function WelcomeScreen() {
         </View>
 
         <Pressable
-          onPress={() => router.push('/(onboarding)/problem')}
+          onPress={() => router.push('/(onboarding)/goal-question')}
           style={styles.bottomCard}
           accessibilityRole="button"
           accessibilityLabel="Continue onboarding"

@@ -1,0 +1,126 @@
+# BabyMinimo Data Lifecycle And Privacy Plan
+
+This document supports PBI-057. It defines the local/emulator-safe lifecycle contract before any production Firebase, App Store, or destructive backend work starts.
+
+## Data Classes
+
+| Data class | Current storage | Release intent | Privacy rule |
+| --- | --- | --- | --- |
+| Auth session | Firebase Auth Emulator in local dev | Firebase Auth in production | Clear local session on sign out; require reauth before account deletion. |
+| User profile | Zustand/demo state, future Firestore `users` | Shared identity profile | Do not leave email/name in widget payloads, logs, or screenshots unless explicitly part of account UI evidence. |
+| Household membership | Firestore Emulator in local dev | Firestore membership documents | Never delete another caregiver's valid household data from the client. Backend policy owns last-admin and ownership transfer cases. |
+| Baby profile | Firestore Emulator in local dev | Firestore baby documents | Keep baby name in app and widget snapshot; avoid IDs in visible copy. |
+| Care events | Firestore Emulator plus local demo state | Firestore events | Event notes stay inside app screens; widget payloads must not include free-text notes. |
+| Reminders | Local/demo and emulator-backed flows | Firestore reminders plus local notifications | Notification copy stays caregiver-safe and avoids private free-text details. |
+| Growth Timeline photos | Local device only in v1 | Local file system only in v1 | Never upload photos in v1; local cleanup must remove metadata and local files when deletion/reset is requested. |
+| Growth Timeline metadata | Local SQLite/demo store in v1 | Local SQLite in v1 | Local-only; delete on device cleanup/account deletion. |
+| Widget snapshots | Expo Widgets/native local snapshot | Local app group/widget storage | Disable, sign out, and account deletion must blank or clear widget data. |
+| Analytics events | Local internal buffer in demo | Future analytics provider | No sensitive notes, image URIs, account secrets, or raw household/member IDs. Provide opt-out policy before production analytics. |
+| Billing/subscription state | Deferred | StoreKit plus backend-authoritative entitlements | Production-only; not controlled by Remote Config or client-only state. |
+
+## Sign-Out Contract
+
+Local/emulator behavior:
+- Sign out clears the auth store and returns to the auth flow.
+- Sign out blanks the widget snapshot before navigation completes.
+- Sign out does not delete shared household records, care events, reminders, or local Growth Timeline files.
+- Cached/demo data can remain available only as generic seeded demo data; it must not expose the signed-out user's private identifiers.
+
+Production requirements:
+- Invalidate or unregister push tokens when remote push is enabled.
+- Clear analytics identity or switch to anonymous state.
+- Clear any persisted account profile cache.
+- Preserve shared household data unless the user explicitly deletes their account or leaves a household.
+
+## Account Deletion Contract
+
+Account deletion is owned by PBI-056 and remains production-gated. PBI-057 defines the policy that PBI-056 must follow:
+
+- Require explicit confirmation and provider-specific reauthentication.
+- Backend cleanup must run before Firebase Auth user deletion when possible.
+- Backend cleanup must remove or anonymize user-scoped data and household membership.
+- Last-admin or last-owner household cases must be blocked or handled by a documented transfer/deletion policy.
+- Local cleanup must remove auth/session state, local Growth Timeline metadata/photos, widget snapshots, notification schedules, and analytics identity.
+- If backend cleanup fails, record a retry-safe deletion state instead of silently deleting Auth only.
+
+## Local Growth Timeline Cleanup
+
+Cleanup must:
+- Delete local Growth Timeline SQLite metadata for the selected user/baby scope.
+- Delete local image files created by the app for Growth Timeline.
+- Leave bundled demo/reference assets intact.
+- Never attempt to delete cloud storage for Growth Timeline v1 because v1 photos are local-only.
+
+## Widget Snapshot Cleanup
+
+Widget disable, sign out, and account deletion must:
+- Clear local snapshot storage when available.
+- Publish a blank disabled/signed-out safe state to the native widget where tooling is available.
+- Exclude Growth Timeline photos, notes, invite details, billing data, account data, and raw household IDs.
+
+## Household And Member Removal
+
+Local/emulator implementation can document and simulate member removal, but production removal requires backend authority:
+- Removing a member should not delete that member's account.
+- Removing oneself should leave household data available to remaining valid caregivers.
+- Removing the last admin/owner must be blocked or routed through a transfer/deletion flow.
+- Invite revocation and pending-invite cleanup must be backend-owned.
+
+## Export And Delete Request Plan
+
+Before release, BabyMinimo needs a privacy support path for:
+- Exporting account and household data where legally required.
+- Deleting account/user-scoped data.
+- Explaining that local-only Growth Timeline photos are controlled on the device unless the user exports or backs them up outside BabyMinimo.
+- Clarifying shared household records may remain visible to other caregivers according to household policy.
+
+## Offline, Cache, And Stale Data
+
+- Screens showing cached or widget data must label stale/expired states calmly.
+- Widgets expire after the current widget contract's max visible age and should prompt opening BabyMinimo.
+- Offline writes must be queued or failed visibly; destructive cleanup must not run from stale or unknown state without explicit backend confirmation.
+
+## Logs And Test Artifacts
+
+Do not store sensitive data in:
+- Console logs.
+- Maestro screenshots except approved account/demo UI states.
+- GoalBuddy receipts.
+- Load-test output.
+- Changelog entries.
+
+Allowed evidence should use seeded demo names/emails only and should avoid private notes, image URIs, invite tokens, auth tokens, billing identifiers, and raw household IDs.
+
+## Emulator-Safe Implementation Boundary
+
+Allowed before production setup:
+- Local cleanup helpers for auth store, widget snapshots, notification schedules, analytics buffer, and local Growth Timeline demo metadata.
+- Privacy copy and Settings/Account UI for local lifecycle explanations.
+- Unit tests for local cleanup and payload privacy.
+- Emulator-only tests that avoid destructive production calls.
+
+Production-gated:
+- Real account deletion callable.
+- Firestore security rules for deletion/ownership behavior.
+- Push token deletion against production FCM/APNs.
+- StoreKit entitlement cleanup.
+- Real cloud media/export/report purge jobs.
+
+## Security, Cost, And Rollout Risks
+
+Security risks:
+- Account deletion must not be client-authoritative. Production deletion needs backend authorization, ownership checks, and retry-safe state.
+- Household/member removal can cause data loss if last-admin and ownership transfer rules are not backend-enforced.
+- Widget snapshots are visible outside the unlocked app, so only the approved minimal snapshot fields may be exposed.
+- Analytics and logs must never include free-text notes, image URIs, auth tokens, invite tokens, billing IDs, or raw household identifiers.
+
+Cost risks:
+- Local Growth Timeline photos are cost-safe in v1 because they remain on device, but future cloud media/export/report features must use the PBI-060 heavy-data purge policy.
+- Remote push tokens, analytics events, and export archives can become retention/cost surfaces and need lifecycle cleanup before production launch.
+- Repeated cleanup retry jobs must be bounded and observable so failures do not create runaway Functions or Firestore writes.
+
+Production rollout gates:
+- PBI-056 must implement backend account deletion and local file cleanup before account deletion is exposed as a real action.
+- Production Firebase rules must prevent clients from deleting shared household, billing, entitlement, or membership authority data directly.
+- A manual privacy review must confirm widgets, notifications, screenshots, logs, and analytics contain only approved data classes.
+- TestFlight release candidates must verify sign-out/relaunch, notification cleanup, widget blanking, and stale/offline copy on clean devices.

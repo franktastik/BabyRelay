@@ -22,6 +22,27 @@
       "expo-notifications",
       "expo-status-bar",
       [
+        "expo-widgets",
+        {
+          "bundleIdentifier": "com.babyminimo.app.widgets",
+          "groupIdentifier": "group.com.babyminimo.app",
+          "enablePushNotifications": false,
+          "frequentUpdates": false,
+          "widgets": [
+            {
+              "name": "BabyMinimoCurrentStateWidget",
+              "displayName": "BabyMinimo Snapshot",
+              "description": "Shows your latest BabyMinimo care snapshot.",
+              "contentMarginsDisabled": false,
+              "supportedFamilies": [
+                "systemSmall",
+                "systemMedium"
+              ]
+            }
+          ]
+        }
+      ],
+      [
         "expo-build-properties",
         {
           "ios": {

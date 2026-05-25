@@ -1531,6 +1531,9 @@ Acceptance criteria:
 - Widget does not allow logging or account actions from the widget in v1.
 - Widget screenshot evidence exists for small, medium, empty, and stale states.
 
+Implementation note:
+- Current local evidence covers native iOS build, extension embedding, app launch, and app-side snapshot publishing. Full Home Screen widget placement screenshots for small, medium, empty, and stale states still need a simulator Home Screen widget-add flow or manual/widget-host tooling before PBI-046 can be treated as visually complete.
+
 Dependencies: PBI-045.
 
 Suggested phase: Phase 9.
@@ -1560,6 +1563,10 @@ Acceptance criteria:
 - Turning widgets off clears or blanks the widget snapshot.
 - Copy is calm and explicit about local device visibility.
 
+Implementation note:
+- Local implementation adds Settings > Widgets, a local widget visibility store, safe disabled widget copy, a clear snapshot action, and simulator evidence at `docs/qa/screenshots/pbi-047/widgets-enabled.png` and `docs/qa/screenshots/pbi-047/widgets-disabled.png`.
+- No dedicated approved widget-settings screenshot exists yet; the screen intentionally follows the approved Settings reference visual language and should be replaced or tightened if a specific widget-settings baseline is added later.
+
 Dependencies: PBI-034, PBI-045.
 
 Suggested phase: Phase 9.
@@ -1587,6 +1594,11 @@ Acceptance criteria:
 - Android widget technical plan exists.
 - Implementation dependencies and risks are documented.
 - iOS MVP remains unblocked.
+
+Implementation note:
+- Android widget parity is documented in `docs/product/babyminimo-android-widget-parity-plan.md`.
+- The recommended path is a custom Expo config plugin plus native Android `AppWidgetProvider`, using the shared BabyMinimo widget payload contract and the existing Settings > Widgets controls.
+- Android native implementation and Android widget placement screenshots are intentionally deferred until after iOS widget visual acceptance is complete.
 
 Dependencies: PBI-045, PBI-046.
 
@@ -1809,6 +1821,12 @@ Task mapping:
 - T4: Add or update focused tests, simulator smoke coverage, and visual evidence where applicable.
 - T5: Update CHANGELOG.md, docs, and GoalBuddy receipt with verification results and caveats.
 
+Implementation receipt:
+- Completed local interaction hardening for the demo/release-candidate UI: unsupported social login and StoreKit purchase actions are disabled/deferred, Settings non-action rows no longer look tappable, Home Growth Timeline routes to Timeline, Settings plan management routes to Plans, Family plan management scrolls to caregiver invite, Handoff reminder icon routes to Reminders, and Login remember-me toggles local state.
+- Removed the Home lazy-loading `InteractionManager` warning path so the simulator no longer shows the deprecation warning banner during smoke tests.
+- Verification passed: `bun run test:typecheck`, `bun run test:unit`, `npx expo-doctor`, and `maestro test e2e/maestro/smoke.yaml`.
+- Evidence is recorded under `docs/qa/screenshots/pbi-051/` and in `docs/product/babyminimo-interaction-hardening-inventory.md`.
+
 #### PBI-052: E2E and visual release QA
 
 Goal: Establish release-grade automated QA for app flows and exact visual matching.
@@ -1840,6 +1858,13 @@ Task mapping:
 - T3: Run the relevant local/emulator/simulator test suite.
 - T4: Record failures, coverage gaps, and manual QA requirements.
 - T5: Update docs, scripts, and GoalBuddy receipts with reproducible commands.
+
+Implementation receipt:
+- Expanded `e2e/maestro/smoke.yaml` to cover auth/onboarding reachability, core logging, Timeline growth filter, Handoff, Family manage-caregiver scroll, Settings, Plans, Widgets, Reminders, and Account.
+- Updated `e2e/maestro/visual-regression.yaml` to match the current `Baby MiniMemo` login copy and capture the release visual subset.
+- Added `docs/testing/babyminimo-release-qa-inventory.md` with functional coverage, visual coverage, scrollable baseline gaps, manual QA requirements, and release blockers.
+- Verification passed: `bun run test:typecheck`, `bun run test:unit`, `npx expo-doctor`, `maestro test e2e/maestro/smoke.yaml`, and `maestro test e2e/maestro/visual-regression.yaml`.
+- Strict visual pixel comparison is not release-green yet: `bun run test:visual:compare` fails because approved mockups are cropped around `344x730` while Maestro captures full simulator frames at `1206x2622`; Home, Timeline, Family, and Settings also need middle/bottom approved scroll baselines.
 
 #### PBI-065: App, store metadata, and screenshot localization
 
@@ -1930,6 +1955,11 @@ Task mapping:
 - T3: Add tests for missing keys, interpolation variables, fallback behavior, metadata length limits, localized pricing metadata, and screenshot manifest locale completeness.
 - T4: Run simulator smoke/visual checks for English plus RTL and text-expansion representative locales.
 - T5: Record native-speaker/manual QA gaps, update PBI docs, CHANGELOG.md, and GoalBuddy receipt.
+
+Implementation receipt:
+- T1 added `docs/product/babyminimo-localization-architecture.md` with the supported locale inventory, key naming conventions, fallback behavior, canonical English string inventory, pricing localization rules, metadata length checks, RTL QA requirements, and translation QA workflow.
+- T2 added `docs/localization/` draft assets for all 35 supported locales, including app strings, App Store metadata drafts, notification/paywall/pricing copy, screenshot headline inputs, and a StoreKit-centered storefront pricing matrix with review status markers. Non-English files are marked `draft_requires_native_review` until translation and native review are completed.
+- T3 added `scripts/localization/validate-localization-assets.mjs` and documented the validation command in `docs/localization/README.md`. The validator checks locale/file completeness, English key parity, interpolation placeholders, metadata length limits, StoreKit runtime-price-source rules, product IDs, margin markers, launch-decision fields, and screenshot headline completeness. The first validation pass caught and fixed the Google Play short description length from 81 to 79 characters.
 
 #### PBI-063: ASO App Store screenshot generation and gifting creative set
 
@@ -2048,6 +2078,13 @@ Task mapping:
 - T4: Capture simulator evidence and run typecheck plus relevant smoke tests.
 - T5: Update changelog and note any missing scroll-state baseline coverage.
 
+Implementation receipt:
+- PBI-054 tightened the read-only widget release slice by adding explicit widget state badges and safer copy for signed-out, setup, disabled, empty, stale, expired, and live states.
+- Home now publishes a safe blank disabled widget state when local widget visibility is off, and sign-out blanks the widget before returning to auth.
+- Verified with `bun run test:typecheck`, `bun run test:unit`, `npx expo-doctor`, and `maestro --udid B2C19543-60E2-489E-8E08-4E3F775AD6A0 test e2e/maestro/smoke.yaml`.
+- Simulator evidence for Settings > Widgets is saved at `docs/testing/screenshots/pbi-054/widgets-settings.png`.
+- No approved `screenshots1/` baseline exists yet for native Home Screen widget placement or the Widget Settings screen. The current implementation follows the approved Settings/Home visual language and the widget privacy contract; native small/medium Home Screen widget placement screenshots remain a release QA gap.
+
 #### PBI-064: Conversion paywall design and pricing experiment plan
 
 Goal: Define and implement a BabyMinimo paywall strategy that can be tested safely with Apple IAP.
@@ -2126,6 +2163,15 @@ Task mapping:
 - T3: Add StoreKit/sandbox/TestFlight validation cases for every plan, trial, restore, cancellation, retention offer, and gifting path.
 - T4: Prototype or implement the paywall UI with dynamic logo support, icon-led benefits, and accurate legal/billing copy.
 - T5: Record conversion experiment plan, verification results, App Store validation caveats, and release go/no-go criteria.
+
+Implementation receipt:
+- T1 added `docs/product/babyminimo-paywall-visual-spec.md` as the visual source for the BabyMinimo conversion paywall.
+- The spec keeps the reference screenshots as pattern inspiration only and defines a BabyMinimo-specific modal hierarchy, dynamic brand mark constraints, benefit icon rules, plan selector states, trial disclosure behavior, truthful savings-badge rules, footer/legal requirements, Remote Config boundaries, accessibility states, and App Store screenshot caveats.
+- T2 added `docs/product/babyminimo-pricing-experiment-plan.md` with product ID candidates, annual/monthly/weekly/lifetime/gift pricing assumptions, computed savings-badge rules, PPP-style storefront pricing buckets, above-floor contribution-margin markers, trial assumptions, gifting hypotheses, cancellation-retention offer planning, and Remote Config boundaries.
+- T3 added `docs/testing/babyminimo-storekit-paywall-validation-plan.md` with StoreKit, sandbox, and TestFlight validation cases for weekly, monthly, annual, trial eligibility, restore, cancellation, purchase failure, refund/revoke, lifetime, gift purchase/redemption, cancellation-retention offers, storefront localization, and release gates.
+- T4 replaced the old Plans cards with a non-production BabyMinimo paywall prototype: dynamic brand mark support, icon-led benefits, annual/monthly/weekly plan rows, annual selected by default, StoreKit-deferred CTA/restore/legal actions, and truthful demo pricing fine print. Simulator evidence is recorded at `docs/testing/screenshots/pbi-064/paywall-prototype.jpg`.
+- T5 added `docs/product/babyminimo-paywall-experiment-readout.md` with conversion hypotheses, verification results, App Store validation caveats, release go/no-go criteria, and the explicit stop point before production IAP/App Store Connect work.
+- Production StoreKit/App Store Connect products, entitlement sync, promotional offers, retention messaging, and real gift redemption remain gated to PBI-055 and later release tasks.
 
 #### PBI-055: Native subscriptions and Apple IAP
 
@@ -2238,6 +2284,13 @@ Task mapping:
 - T3: Handle empty, error, permission, and retry cases.
 - T4: Add unit/emulator tests and verify no production deploy is required.
 - T5: Document security, cost, and production rollout risks.
+
+Implementation receipt:
+- PBI-057 added `docs/product/babyminimo-data-lifecycle-privacy-plan.md` as the lifecycle policy for sign out, account deletion, local Growth Timeline cleanup, widget snapshots, analytics identity, household/member removal, export/delete requests, stale/offline data, and log/test-artifact hygiene.
+- Implemented a local lifecycle cleanup interface in `src/features/privacy/` with separate pure coordination logic and runtime adapters for widget snapshot blanking, local notification cancellation, analytics reset, auth-session reset, and account-deletion-only local care/Growth Timeline/widget settings cleanup.
+- Sign-out now runs the local lifecycle cleanup after Firebase Emulator sign-out and logs only retryable cleanup step names in dev if non-blocking cleanup fails.
+- Verified with `bun run test:unit` and `bun run test:typecheck`.
+- Production account deletion, Firestore security rules, real backend purge, production push token deletion, StoreKit entitlement cleanup, and cloud media/export/report purge jobs remain gated to production PBIs.
 
 ### Epic 16: Emulator Performance And Cost Discovery
 

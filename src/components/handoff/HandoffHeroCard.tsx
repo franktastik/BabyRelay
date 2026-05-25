@@ -1,5 +1,6 @@
 import React from 'react'
-import { View, Text, StyleSheet, Image } from 'react-native'
+import { View, Text, StyleSheet, Image, Pressable } from 'react-native'
+import { Bell } from 'lucide-react-native'
 import { colors, radius, spacing, typography, shadows } from '@/src/theme'
 import { relativeTime } from '@/src/relative-time'
 
@@ -9,6 +10,7 @@ interface HandoffHeroCardProps {
   lastDiaper: { label: string; time: Date; by: string } | null
   lastSleep: { label: string; time: Date; status: 'sleeping' | 'awake'; startedAt?: Date } | null
   lastActionBy: string | null
+  onReminderPress?: () => void
 }
 
 const babyAvatar = require('../../../app/baby-preview-avatar.png')
@@ -19,6 +21,7 @@ export function HandoffHeroCard({
   lastDiaper,
   lastSleep,
   lastActionBy,
+  onReminderPress,
 }: HandoffHeroCardProps) {
   const status = lastSleep?.status === 'sleeping' ? 'Currently Sleeping' : 'Awake'
 
@@ -38,9 +41,16 @@ export function HandoffHeroCard({
             </View>
           </View>
         </View>
-        <View style={styles.bellButton}>
-          <Text style={styles.bellText}>♧</Text>
-        </View>
+        <Pressable
+          onPress={onReminderPress}
+          disabled={!onReminderPress}
+          style={[styles.bellButton, !onReminderPress && styles.bellButtonDisabled]}
+          accessibilityRole={onReminderPress ? 'button' : undefined}
+          accessibilityLabel={onReminderPress ? 'Open reminders' : 'Reminders unavailable'}
+          accessibilityState={!onReminderPress ? { disabled: true } : undefined}
+        >
+          <Bell color={colors.sageText} size={18} strokeWidth={2.2} />
+        </Pressable>
       </View>
 
       <View style={styles.grid}>
@@ -192,10 +202,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     ...shadows.sm,
   },
-  bellText: {
-    color: colors.muted,
-    fontSize: 18,
-    fontFamily: 'PlusJakartaSans_700Bold',
+  bellButtonDisabled: {
+    opacity: 0.55,
   },
   grid: {
     flexDirection: 'row',

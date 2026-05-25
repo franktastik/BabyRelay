@@ -4,6 +4,7 @@ import type { DemoGrowthMoment } from '@/src/features/demo/growth'
 interface GrowthTimelineState {
   localMoments: DemoGrowthMoment[]
   addMoment: (moment: Omit<DemoGrowthMoment, 'id'>) => void
+  resetGrowthTimeline: () => void
 }
 
 export const useGrowthTimelineStore = create<GrowthTimelineState>((set) => ({
@@ -15,4 +16,5 @@ export const useGrowthTimelineStore = create<GrowthTimelineState>((set) => ({
         ...state.localMoments,
       ],
     })),
+  resetGrowthTimeline: () => set({ localMoments: [] }),
 }))

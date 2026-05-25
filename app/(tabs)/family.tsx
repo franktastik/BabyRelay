@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { Image, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native'
 import { UserPlus, UsersRound } from 'lucide-react-native'
 import { Screen } from '@/src/components/ui'
@@ -14,6 +14,7 @@ const avatarSources = {
 export default function FamilyScreen() {
   const [inviteEmail, setInviteEmail] = useState('')
   const [invited, setInvited] = useState(false)
+  const scrollRef = useRef<ScrollView>(null)
 
   const handleInvite = () => {
     if (!inviteEmail.trim()) return
@@ -22,7 +23,7 @@ export default function FamilyScreen() {
 
   return (
     <Screen style={styles.screen}>
-      <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
+      <ScrollView ref={scrollRef} contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
         <SettingsHeader title="Family & Household" subtitle="Coordinating care together" />
 
         <View style={styles.planCard}>
@@ -40,7 +41,14 @@ export default function FamilyScreen() {
                 <Text style={styles.moreAvatarText}>+2</Text>
               </View>
             </View>
-            <Text style={styles.manageButton}>Manage Caregivers</Text>
+            <Pressable
+              onPress={() => scrollRef.current?.scrollToEnd({ animated: true })}
+              style={styles.manageButton}
+              accessibilityRole="button"
+              accessibilityLabel="Manage caregivers"
+            >
+              <Text style={styles.manageButtonText}>Manage Caregivers</Text>
+            </Pressable>
           </View>
         </View>
 
@@ -170,13 +178,14 @@ const styles = StyleSheet.create({
     color: colors.white,
   },
   manageButton: {
-    ...typography.label,
-    color: colors.sageText,
     backgroundColor: colors.white,
     borderRadius: radius.full,
-    overflow: 'hidden',
     paddingHorizontal: spacing.md,
     paddingVertical: spacing.sm,
+  },
+  manageButtonText: {
+    ...typography.label,
+    color: colors.sageText,
   },
   sectionHeader: {
     flexDirection: 'row',

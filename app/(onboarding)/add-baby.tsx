@@ -39,7 +39,7 @@ export default function AddBabyScreen() {
       }
       setCurrentHouseholdId(household.id)
       setSelectedBabyId(baby.id)
-      router.push('/(onboarding)/priorities')
+      router.push('/(onboarding)/invite-caregiver')
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Failed to add baby')
     } finally {
@@ -56,8 +56,8 @@ export default function AddBabyScreen() {
         <OnboardingFrame
           title="Let's meet your baby"
           subtitle="Start your shared care timeline by creating a profile for your little one."
-          step="Step 1 of 3"
-          progress={0.33}
+          step="Step 8 of 9"
+          progress={0.88}
           onBack={() => router.back()}
         >
           <View style={styles.photoPlaceholder}>
@@ -89,7 +89,7 @@ export default function AddBabyScreen() {
             <Button onPress={handleContinue} loading={loading} style={styles.button}>
               Next →
             </Button>
-            <Button onPress={() => router.push('/(onboarding)/priorities')} variant="ghost">
+            <Button onPress={() => router.push('/(onboarding)/invite-caregiver')} variant="ghost">
               Skip for now
             </Button>
           </View>

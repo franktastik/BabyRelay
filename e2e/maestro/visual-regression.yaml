@@ -3,7 +3,7 @@ name: BabyMinimo visual screen coverage
 ---
 - launchApp
 - openLink: babyminimo:///(auth)/login
-- assertVisible: BabyMinimo
+- assertVisible: Baby MiniMemo
 - takeScreenshot: e2e-artifacts/login
 - openLink: babyminimo:///(auth)/signup
 - assertVisible: Create Your Household

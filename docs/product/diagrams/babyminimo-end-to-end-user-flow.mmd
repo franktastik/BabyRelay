@@ -10,13 +10,16 @@ flowchart TD
     C -- Yes --> F
 
     F -- No --> G[Welcome]
-    G --> H[Problem Framing]
-    H --> I[Benefits / Solution Preview]
-    I --> J[Add Baby]
-    J --> K[Choose Priorities]
-    K --> L[Invite Caregiver]
-    L --> M[First Handoff Preview]
-    M --> N[Home]
+    G --> H[Goal Question]
+    H --> I[Pain Points]
+    I --> J[Problem Framing]
+    J --> K[Benefits / Solution Preview]
+    K --> L[Choose Priorities]
+    L --> M[Notification Priming]
+    M --> M1[Add Baby]
+    M1 --> M2[Invite Caregiver]
+    M2 --> M3[First Handoff Preview]
+    M3 --> N[Home]
 
     F -- Yes --> N[Home]
 

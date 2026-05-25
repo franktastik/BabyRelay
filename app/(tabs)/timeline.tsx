@@ -36,8 +36,8 @@ export default function TimelineScreen() {
       <View style={styles.header}>
         <Text style={styles.title}>Timeline</Text>
         <View style={styles.headerActions}>
-          <IconButton icon="search" onPress={() => undefined} />
-          <IconButton icon="settings" onPress={() => undefined} />
+          <IconButton icon="search" label="Timeline search coming soon" />
+          <IconButton icon="settings" label="Timeline settings coming soon" />
         </View>
       </View>
 
@@ -51,12 +51,18 @@ export default function TimelineScreen() {
   )
 }
 
-function IconButton({ icon, onPress }: { icon: 'search' | 'settings'; onPress: () => void }) {
+function IconButton({ icon, label }: { icon: 'search' | 'settings'; label: string }) {
   const Icon = icon === 'search' ? Search : Settings2
 
   return (
-    <Pressable onPress={onPress} style={styles.iconButton} hitSlop={10}>
-      <Icon color={colors.stoneText} size={19} strokeWidth={2} />
+    <Pressable
+      disabled
+      accessibilityLabel={label}
+      accessibilityState={{ disabled: true }}
+      style={[styles.iconButton, styles.iconButtonDisabled]}
+      hitSlop={10}
+    >
+      <Icon color={colors.mutedLight} size={19} strokeWidth={2} />
     </Pressable>
   )
 }
@@ -91,5 +97,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     ...shadows.sm,
+  },
+  iconButtonDisabled: {
+    opacity: 0.55,
   },
 })

@@ -25,6 +25,7 @@ export default function LoginScreen() {
   const setOnboardingState = useAuthStore((s) => s.setOnboardingState)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [rememberMe, setRememberMe] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -92,14 +93,27 @@ export default function LoginScreen() {
           </View>
 
           <View style={styles.form}>
-            <Pressable style={styles.socialButton}>
+            <Pressable
+              disabled
+              accessibilityLabel="Apple sign-in coming soon"
+              accessibilityState={{ disabled: true }}
+              style={[styles.socialButton, styles.socialButtonDisabled]}
+            >
               <Text style={styles.appleIcon}></Text>
               <Text style={styles.socialText}>Continue with Apple</Text>
             </Pressable>
-            <Pressable style={[styles.socialButton, styles.socialButtonLight]}>
+            <Pressable
+              disabled
+              accessibilityLabel="Google sign-in coming soon"
+              accessibilityState={{ disabled: true }}
+              style={[styles.socialButton, styles.socialButtonLight, styles.socialButtonDisabled]}
+            >
               <Image source={require('../google-logo.png')} style={styles.googleLogo} />
               <Text style={[styles.socialText, styles.socialTextDark]}>Continue with Google</Text>
             </Pressable>
+            <Text style={styles.deferredProviderText}>
+              Apple and Google sign-in are deferred until native provider setup.
+            </Text>
 
             <View style={styles.dividerRow}>
               <View style={styles.divider} />
@@ -128,8 +142,15 @@ export default function LoginScreen() {
             />
 
             <View style={styles.formMeta}>
-              <Text style={styles.remember}>□ Remember me</Text>
-              <Text style={styles.forgot}>Forgot?</Text>
+              <Pressable
+                onPress={() => setRememberMe((value) => !value)}
+                accessibilityRole="checkbox"
+                accessibilityState={{ checked: rememberMe }}
+                style={styles.rememberToggle}
+              >
+                <Text style={styles.remember}>{rememberMe ? '☑' : '□'} Remember me</Text>
+              </Pressable>
+              <Text style={styles.forgot}>Reset deferred</Text>
             </View>
 
             {error && <Text style={styles.error}>{error}</Text>}
@@ -268,6 +289,15 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.border,
   },
+  socialButtonDisabled: {
+    opacity: 0.62,
+  },
+  deferredProviderText: {
+    ...typography.label,
+    color: colors.muted,
+    textAlign: 'center',
+    marginTop: -spacing.xs,
+  },
   socialText: {
     fontSize: 14,
     lineHeight: 18,
@@ -338,10 +368,13 @@ const styles = StyleSheet.create({
     ...typography.bodySmall,
     color: colors.muted,
   },
+  rememberToggle: {
+    paddingVertical: spacing.xs,
+    paddingRight: spacing.sm,
+  },
   forgot: {
     ...typography.bodySmall,
-    color: colors.sageText,
-    fontWeight: '700',
+    color: colors.muted,
   },
   button: {
     marginTop: 0,

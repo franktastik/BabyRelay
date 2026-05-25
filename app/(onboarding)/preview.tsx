@@ -6,10 +6,30 @@ import { OnboardingFrame } from '@/src/components/onboarding'
 import { colors, typography, spacing, radius, shadows } from '@/src/theme'
 import { useAuthStore } from '@/src/stores/authStore'
 import { trackEvent } from '@/src/features/analytics'
+import {
+  getOnboardingGoalLabel,
+  getOnboardingPreviewMode,
+  useOnboardingQuestionnaireStore,
+} from '@/src/stores/onboardingQuestionnaireStore'
 
 export default function PreviewScreen() {
   const router = useRouter()
   const setOnboardingCompleted = useAuthStore((s) => s.setOnboardingCompleted)
+  const primaryGoal = useOnboardingQuestionnaireStore((s) => s.primaryGoal)
+  const painPoints = useOnboardingQuestionnaireStore((s) => s.painPoints)
+  const priorities = useOnboardingQuestionnaireStore((s) => s.priorities)
+  const previewMode = getOnboardingPreviewMode(primaryGoal, painPoints)
+  const goalLabel = getOnboardingGoalLabel(primaryGoal)
+  const nextDueLabel = previewMode === 'reminder' ? 'Next reminder' : 'Next due'
+  const nextDueValue = previewMode === 'growth' ? 'Photo moment' : 'Vitamin D'
+  const latestNote =
+    previewMode === 'overnight'
+      ? 'Overnight handoff is ready before anyone wakes.'
+      : previewMode === 'growth'
+        ? 'Local photo moments stay on this device in v1.'
+        : previewMode === 'logging'
+          ? 'Feeds, diapers, and sleep are ready for your first log.'
+          : 'Your care circle will see what happened last.'
 
   const handleStart = () => {
     setOnboardingCompleted(true)
@@ -21,8 +41,8 @@ export default function PreviewScreen() {
     <Screen>
       <OnboardingFrame
         title="Know what happened last, instantly."
-        subtitle="BabyMinimo keeps your household in sync, so you never have to ask when they last ate?"
-        step="Step 5 of 5"
+        subtitle={`Your setup is shaped around ${goalLabel}, with a calm preview for your first day.`}
+        step="Preview"
         progress={1}
         onBack={() => router.back()}
       >
@@ -56,11 +76,21 @@ export default function PreviewScreen() {
             </View>
             <View style={[styles.metricTile, styles.nextDueTile]}>
               <Text style={[styles.metricIcon, styles.nextDueText]}>◴</Text>
-              <Text style={[styles.metricLabel, styles.nextDueText]}>Next due</Text>
-              <Text style={[styles.metricValue, styles.nextDueText]}>Vitamin D</Text>
-              <Text style={[styles.metricMeta, styles.nextDueMeta]}>4:00 PM</Text>
+              <Text style={[styles.metricLabel, styles.nextDueText]}>{nextDueLabel}</Text>
+              <Text style={[styles.metricValue, styles.nextDueText]}>{nextDueValue}</Text>
+              <Text style={[styles.metricMeta, styles.nextDueMeta]}>
+                {previewMode === 'reminder' ? 'in 15 minutes' : '4:00 PM'}
+              </Text>
             </View>
           </View>
+        </Card>
+
+        <Card style={styles.personalCard}>
+          <Text style={styles.personalTitle}>Personalized for {goalLabel}</Text>
+          <Text style={styles.personalText}>{latestNote}</Text>
+          <Text style={styles.personalMeta}>
+            Tracking first: {priorities.slice(0, 3).join(', ') || 'feeding, diapers, sleep'}
+          </Text>
         </Card>
 
         <View style={styles.actions}>
@@ -78,7 +108,7 @@ const styles = StyleSheet.create({
   previewCard: {
     padding: spacing.lg,
     borderRadius: radius.xxxl,
-    marginBottom: spacing.xl,
+    marginBottom: spacing.base,
     ...shadows.md,
   },
   babyHeader: {
@@ -151,6 +181,27 @@ const styles = StyleSheet.create({
   },
   nextDueMeta: {
     color: colors.white,
+  },
+  personalCard: {
+    padding: spacing.lg,
+    borderRadius: radius.xl,
+    backgroundColor: colors.softSage,
+    marginBottom: spacing.lg,
+  },
+  personalTitle: {
+    ...typography.action,
+    color: colors.ink,
+  },
+  personalText: {
+    ...typography.bodySmall,
+    color: colors.inkLight,
+    marginTop: spacing.xs,
+  },
+  personalMeta: {
+    ...typography.label,
+    color: colors.sageText,
+    marginTop: spacing.base,
+    textTransform: 'uppercase',
   },
   actions: {
     gap: spacing.sm,
