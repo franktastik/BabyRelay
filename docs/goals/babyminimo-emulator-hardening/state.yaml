@@ -37,7 +37,7 @@ visual_board:
     status: live
     url: "http://127.0.0.1:41737/"
 
-active_task: T307
+active_task: T327
 
 tasks:
   - id: T001
@@ -14166,7 +14166,7 @@ tasks:
   - id: T307
     type: scout
     assignee: Scout
-    status: active
+    status: queued
     pbi: "PBI-050"
     pbi_title: "Production Firebase and security hardening"
     phase: "Phase 10."
@@ -14996,11 +14996,11 @@ tasks:
   - id: T327
     type: scout
     assignee: Scout
-    status: queued
+    status: active
     pbi: "PBI-056"
     pbi_title: "Account deletion and data purge"
-    phase: "Phase 11."
-    production_last_phase: true
+    phase: "Phase 10, local/emulator privacy hardening before production Firebase and App Store readiness."
+    production_last_phase: false
     objective: "PBI-056 T1: Define deletion policy for user profile, household membership, babies, events, reminders, local photos, widgets, and analytics."
     inputs:
       - "PBI source: docs/product/babyminimo-pbi-codex-goalbuddy-pack.md#PBI-056"
@@ -15008,7 +15008,7 @@ tasks:
     constraints:
       - "Follow rules.md and AGENTS.md before starting implementation."
       - "Keep one active task at a time and update GoalBuddy receipts after verification."
-      - "Do not start production Firebase or App Store Connect setup unless this specific task requires it and the user has approved it."
+      - "Keep this policy local/emulator-scoped; production purge implementation remains T329."
     expected_output:
       - "Subtask completed or blocked with reason"
       - "Files changed or inspected"
@@ -15029,15 +15029,15 @@ tasks:
       - "Need files outside allowed_files."
       - "Acceptance criteria conflict with approved PBI scope."
       - "Verification fails twice."
-      - "Requires production Firebase deploy, App Store Connect write, signing, or production credentials not explicitly approved for this task."
+      - "Requires production Firebase deploy, App Store Connect write, signing, production credentials, or irreversible production data deletion."
   - id: T328
     type: worker
     assignee: Worker
     status: queued
     pbi: "PBI-056"
     pbi_title: "Account deletion and data purge"
-    phase: "Phase 11."
-    production_last_phase: true
+    phase: "Phase 10, local/emulator privacy hardening before production Firebase and App Store readiness."
+    production_last_phase: false
     objective: "PBI-056 T2: Build Account deletion UI with confirmation and reauth states."
     inputs:
       - "PBI source: docs/product/babyminimo-pbi-codex-goalbuddy-pack.md#PBI-056"
@@ -15045,7 +15045,7 @@ tasks:
     constraints:
       - "Follow rules.md and AGENTS.md before starting implementation."
       - "Keep one active task at a time and update GoalBuddy receipts after verification."
-      - "Do not start production Firebase or App Store Connect setup unless this specific task requires it and the user has approved it."
+      - "Build local/emulator UI states only; production Auth deletion and backend purge remain gated."
     expected_output:
       - "Subtask completed or blocked with reason"
       - "Files changed or inspected"
@@ -15066,7 +15066,7 @@ tasks:
       - "Need files outside allowed_files."
       - "Acceptance criteria conflict with approved PBI scope."
       - "Verification fails twice."
-      - "Requires production Firebase deploy, App Store Connect write, signing, or production credentials not explicitly approved for this task."
+      - "Requires production Firebase deploy, App Store Connect write, signing, production credentials, or irreversible production data deletion."
   - id: T329
     type: worker
     assignee: Worker
@@ -15110,8 +15110,8 @@ tasks:
     status: queued
     pbi: "PBI-056"
     pbi_title: "Account deletion and data purge"
-    phase: "Phase 11."
-    production_last_phase: true
+    phase: "Phase 10, local/emulator privacy hardening before production Firebase and App Store readiness."
+    production_last_phase: false
     objective: "PBI-056 T4: Implement local cleanup for Growth Timeline files, SQLite metadata, widget snapshots, and auth/session stores."
     inputs:
       - "PBI source: docs/product/babyminimo-pbi-codex-goalbuddy-pack.md#PBI-056"
@@ -15119,7 +15119,7 @@ tasks:
     constraints:
       - "Follow rules.md and AGENTS.md before starting implementation."
       - "Keep one active task at a time and update GoalBuddy receipts after verification."
-      - "Do not start production Firebase or App Store Connect setup unless this specific task requires it and the user has approved it."
+      - "Implement local cleanup only; production backend purge remains T329."
     expected_output:
       - "Subtask completed or blocked with reason"
       - "Files changed or inspected"
@@ -15140,23 +15140,23 @@ tasks:
       - "Need files outside allowed_files."
       - "Acceptance criteria conflict with approved PBI scope."
       - "Verification fails twice."
-      - "Requires production Firebase deploy, App Store Connect write, signing, or production credentials not explicitly approved for this task."
+      - "Requires production Firebase deploy, App Store Connect write, signing, production credentials, or irreversible production data deletion."
   - id: T331
     type: worker
     assignee: Worker
     status: queued
     pbi: "PBI-056"
     pbi_title: "Account deletion and data purge"
-    phase: "Phase 11."
-    production_last_phase: true
-    objective: "PBI-056 T5: Add unit, integration, emulator, and Maestro coverage plus privacy documentation."
+    phase: "Phase 10, local/emulator privacy hardening before production Firebase and App Store readiness."
+    production_last_phase: false
+    objective: "PBI-056 T5: Add local unit, emulator-safe integration, Maestro coverage, and privacy documentation."
     inputs:
       - "PBI source: docs/product/babyminimo-pbi-codex-goalbuddy-pack.md#PBI-056"
       - "Dependency: None"
     constraints:
       - "Follow rules.md and AGENTS.md before starting implementation."
       - "Keep one active task at a time and update GoalBuddy receipts after verification."
-      - "Do not start production Firebase or App Store Connect setup unless this specific task requires it and the user has approved it."
+      - "Keep coverage local/emulator-scoped; production data purge verification remains gated with T329/release work."
     expected_output:
       - "Subtask completed or blocked with reason"
       - "Files changed or inspected"
@@ -15177,7 +15177,7 @@ tasks:
       - "Need files outside allowed_files."
       - "Acceptance criteria conflict with approved PBI scope."
       - "Verification fails twice."
-      - "Requires production Firebase deploy, App Store Connect write, signing, or production credentials not explicitly approved for this task."
+      - "Requires production Firebase deploy, App Store Connect write, signing, production credentials, or irreversible production data deletion."
   - id: T332
     type: scout
     assignee: Scout

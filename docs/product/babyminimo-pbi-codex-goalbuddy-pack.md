@@ -2260,12 +2260,16 @@ Dependencies: PBI-037, PBI-038, PBI-050, PBI-055.
 
 Suggested phase: Phase 11.
 
+Sequencing note:
+- Local/emulator account deletion work is not production-gated and should run before production Firebase/App Store readiness: deletion policy, Account UI, local cleanup, local/emulator tests, Maestro coverage, and privacy docs.
+- Production-gated account deletion work remains last: backend purge callable/Function, Firestore rules deployment, production Firebase Auth deletion verification, irreversible production data deletion, and release compliance evidence.
+
 Task mapping:
-- T1: Define deletion policy for user profile, household membership, babies, events, reminders, local photos, widgets, and analytics.
-- T2: Build Account deletion UI with confirmation and reauth states.
-- T3: Implement backend purge callable/Function and Firestore rules coverage.
-- T4: Implement local cleanup for Growth Timeline files, SQLite metadata, widget snapshots, and auth/session stores.
-- T5: Add unit, integration, emulator, and Maestro coverage plus privacy documentation.
+- T1: Define deletion policy for user profile, household membership, babies, events, reminders, local photos, widgets, and analytics. Local/emulator-safe.
+- T2: Build Account deletion UI with confirmation and reauth states. Local/emulator-safe.
+- T3: Implement backend purge callable/Function and Firestore rules coverage. Production-gated.
+- T4: Implement local cleanup for Growth Timeline files, SQLite metadata, widget snapshots, and auth/session stores. Local/emulator-safe.
+- T5: Add local unit, emulator-safe integration, Maestro coverage, and privacy documentation. Production purge verification remains gated with T3/release work.
 
 #### PBI-057: Data lifecycle and privacy hardening
 
