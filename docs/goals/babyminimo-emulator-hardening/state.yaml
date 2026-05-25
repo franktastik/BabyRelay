@@ -37,7 +37,7 @@ visual_board:
     status: live
     url: "http://127.0.0.1:41737/"
 
-active_task: T307
+active_task: T327
 
 tasks:
   - id: T001
@@ -14166,7 +14166,7 @@ tasks:
   - id: T307
     type: scout
     assignee: Scout
-    status: active
+    status: queued
     pbi: "PBI-050"
     pbi_title: "Production Firebase and security hardening"
     phase: "Phase 10."
@@ -14996,11 +14996,11 @@ tasks:
   - id: T327
     type: scout
     assignee: Scout
-    status: queued
+    status: active
     pbi: "PBI-056"
     pbi_title: "Account deletion and data purge"
-    phase: "Phase 11."
-    production_last_phase: true
+    phase: "Phase 10, local/emulator privacy hardening before production Firebase and App Store readiness."
+    production_last_phase: false
     objective: "PBI-056 T1: Define deletion policy for user profile, household membership, babies, events, reminders, local photos, widgets, and analytics."
     inputs:
       - "PBI source: docs/product/babyminimo-pbi-codex-goalbuddy-pack.md#PBI-056"
@@ -15008,7 +15008,7 @@ tasks:
     constraints:
       - "Follow rules.md and AGENTS.md before starting implementation."
       - "Keep one active task at a time and update GoalBuddy receipts after verification."
-      - "Do not start production Firebase or App Store Connect setup unless this specific task requires it and the user has approved it."
+      - "Keep this policy local/emulator-scoped; production purge implementation remains T329."
     expected_output:
       - "Subtask completed or blocked with reason"
       - "Files changed or inspected"
@@ -15029,15 +15029,15 @@ tasks:
       - "Need files outside allowed_files."
       - "Acceptance criteria conflict with approved PBI scope."
       - "Verification fails twice."
-      - "Requires production Firebase deploy, App Store Connect write, signing, or production credentials not explicitly approved for this task."
+      - "Requires production Firebase deploy, App Store Connect write, signing, production credentials, or irreversible production data deletion."
   - id: T328
     type: worker
     assignee: Worker
     status: queued
     pbi: "PBI-056"
     pbi_title: "Account deletion and data purge"
-    phase: "Phase 11."
-    production_last_phase: true
+    phase: "Phase 10, local/emulator privacy hardening before production Firebase and App Store readiness."
+    production_last_phase: false
     objective: "PBI-056 T2: Build Account deletion UI with confirmation and reauth states."
     inputs:
       - "PBI source: docs/product/babyminimo-pbi-codex-goalbuddy-pack.md#PBI-056"
@@ -15045,7 +15045,7 @@ tasks:
     constraints:
       - "Follow rules.md and AGENTS.md before starting implementation."
       - "Keep one active task at a time and update GoalBuddy receipts after verification."
-      - "Do not start production Firebase or App Store Connect setup unless this specific task requires it and the user has approved it."
+      - "Build local/emulator UI states only; production Auth deletion and backend purge remain gated."
     expected_output:
       - "Subtask completed or blocked with reason"
       - "Files changed or inspected"
@@ -15066,7 +15066,7 @@ tasks:
       - "Need files outside allowed_files."
       - "Acceptance criteria conflict with approved PBI scope."
       - "Verification fails twice."
-      - "Requires production Firebase deploy, App Store Connect write, signing, or production credentials not explicitly approved for this task."
+      - "Requires production Firebase deploy, App Store Connect write, signing, production credentials, or irreversible production data deletion."
   - id: T329
     type: worker
     assignee: Worker
@@ -15110,8 +15110,8 @@ tasks:
     status: queued
     pbi: "PBI-056"
     pbi_title: "Account deletion and data purge"
-    phase: "Phase 11."
-    production_last_phase: true
+    phase: "Phase 10, local/emulator privacy hardening before production Firebase and App Store readiness."
+    production_last_phase: false
     objective: "PBI-056 T4: Implement local cleanup for Growth Timeline files, SQLite metadata, widget snapshots, and auth/session stores."
     inputs:
       - "PBI source: docs/product/babyminimo-pbi-codex-goalbuddy-pack.md#PBI-056"
@@ -15119,7 +15119,7 @@ tasks:
     constraints:
       - "Follow rules.md and AGENTS.md before starting implementation."
       - "Keep one active task at a time and update GoalBuddy receipts after verification."
-      - "Do not start production Firebase or App Store Connect setup unless this specific task requires it and the user has approved it."
+      - "Implement local cleanup only; production backend purge remains T329."
     expected_output:
       - "Subtask completed or blocked with reason"
       - "Files changed or inspected"
@@ -15140,23 +15140,23 @@ tasks:
       - "Need files outside allowed_files."
       - "Acceptance criteria conflict with approved PBI scope."
       - "Verification fails twice."
-      - "Requires production Firebase deploy, App Store Connect write, signing, or production credentials not explicitly approved for this task."
+      - "Requires production Firebase deploy, App Store Connect write, signing, production credentials, or irreversible production data deletion."
   - id: T331
     type: worker
     assignee: Worker
     status: queued
     pbi: "PBI-056"
     pbi_title: "Account deletion and data purge"
-    phase: "Phase 11."
-    production_last_phase: true
-    objective: "PBI-056 T5: Add unit, integration, emulator, and Maestro coverage plus privacy documentation."
+    phase: "Phase 10, local/emulator privacy hardening before production Firebase and App Store readiness."
+    production_last_phase: false
+    objective: "PBI-056 T5: Add local unit, emulator-safe integration, Maestro coverage, and privacy documentation."
     inputs:
       - "PBI source: docs/product/babyminimo-pbi-codex-goalbuddy-pack.md#PBI-056"
       - "Dependency: None"
     constraints:
       - "Follow rules.md and AGENTS.md before starting implementation."
       - "Keep one active task at a time and update GoalBuddy receipts after verification."
-      - "Do not start production Firebase or App Store Connect setup unless this specific task requires it and the user has approved it."
+      - "Keep coverage local/emulator-scoped; production data purge verification remains gated with T329/release work."
     expected_output:
       - "Subtask completed or blocked with reason"
       - "Files changed or inspected"
@@ -15177,8 +15177,384 @@ tasks:
       - "Need files outside allowed_files."
       - "Acceptance criteria conflict with approved PBI scope."
       - "Verification fails twice."
-      - "Requires production Firebase deploy, App Store Connect write, signing, or production credentials not explicitly approved for this task."
+      - "Requires production Firebase deploy, App Store Connect write, signing, production credentials, or irreversible production data deletion."
   - id: T332
+    type: scout
+    assignee: Scout
+    status: queued
+    pbi: "PBI-067"
+    pbi_title: "Multi-baby household support"
+    phase: "Phase 9, before production Firebase and App Store readiness."
+    production_last_phase: false
+    objective: "PBI-067 T1: Audit current babyId and selectedBabyId data paths and define the multi-baby UX policy."
+    inputs:
+      - "PBI source: docs/product/babyminimo-pbi-codex-goalbuddy-pack.md#PBI-067"
+      - "Reference: Household owns 1..* Baby; app uses selectedBabyId; twins/triplets must stay inside one household."
+    constraints:
+      - "Follow rules.md and AGENTS.md before starting implementation."
+      - "Keep one active task at a time and update GoalBuddy receipts after verification."
+      - "Keep this task local/emulator-scoped; do not require production Firebase or App Store Connect."
+      - "Do not create separate households for twins/triplets."
+    expected_output:
+      - "Multi-baby UX/data policy"
+      - "Files inspected"
+      - "Follow-up implementation boundaries"
+      - "GoalBuddy receipt and changelog/doc updates when applicable"
+    allowed_files:
+      - "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+      - "docs/goals/babyminimo-emulator-hardening/state.yaml"
+      - "CHANGELOG.md"
+      - "app/**"
+      - "src/**"
+      - "docs/product/**"
+    verify:
+      - "bun run test:typecheck"
+    stop_if:
+      - "Need files outside allowed_files."
+      - "Acceptance criteria conflict with approved PBI scope."
+      - "Verification fails twice."
+      - "Requires production Firebase deploy, App Store Connect write, signing, or production credentials."
+  - id: T343
+    type: worker
+    assignee: Worker
+    status: queued
+    pbi: "PBI-067"
+    pbi_title: "Multi-baby household support"
+    phase: "Phase 9, before production Firebase and App Store readiness."
+    production_last_phase: false
+    objective: "PBI-067 T2: Add baby switcher and add-another-baby flows using Firebase Emulator/local state."
+    inputs:
+      - "PBI source: docs/product/babyminimo-pbi-codex-goalbuddy-pack.md#PBI-067"
+      - "Dependency: T332"
+    constraints:
+      - "Follow rules.md and AGENTS.md before starting implementation."
+      - "Keep one active task at a time and update GoalBuddy receipts after verification."
+      - "Preserve approved Superdesign visual direction and screenshots1 references."
+      - "Do not introduce production Firebase requirements."
+    expected_output:
+      - "Baby switcher and add-another-baby local/emulator flow"
+      - "Files changed or inspected"
+      - "Verification commands and results"
+      - "GoalBuddy receipt and changelog/doc updates when applicable"
+    allowed_files:
+      - "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+      - "docs/goals/babyminimo-emulator-hardening/state.yaml"
+      - "CHANGELOG.md"
+      - "app/**"
+      - "src/**"
+      - "e2e/**"
+      - "docs/product/**"
+      - "docs/qa/**"
+    verify:
+      - "bun run test:typecheck"
+      - "bun run test:unit"
+    stop_if:
+      - "Need files outside allowed_files."
+      - "Acceptance criteria conflict with approved PBI scope."
+      - "Verification fails twice."
+      - "Requires production Firebase deploy, App Store Connect write, signing, or production credentials."
+  - id: T344
+    type: worker
+    assignee: Worker
+    status: queued
+    pbi: "PBI-067"
+    pbi_title: "Multi-baby household support"
+    phase: "Phase 9, before production Firebase and App Store readiness."
+    production_last_phase: false
+    objective: "PBI-067 T3: Scope Home, Timeline, Handoff, Quick Log, Reminders, Growth Timeline, Widgets, and cleanup to the selected baby."
+    inputs:
+      - "PBI source: docs/product/babyminimo-pbi-codex-goalbuddy-pack.md#PBI-067"
+      - "Dependency: T343"
+    constraints:
+      - "Follow rules.md and AGENTS.md before starting implementation."
+      - "Keep one active task at a time and update GoalBuddy receipts after verification."
+      - "Default to selected-baby scoped behavior; do not add all-babies aggregation unless explicitly scoped."
+      - "Keep Growth Timeline local-only in v1."
+    expected_output:
+      - "Selected-baby scoping implemented across core surfaces"
+      - "Files changed or inspected"
+      - "Verification commands and results"
+      - "GoalBuddy receipt and changelog/doc updates when applicable"
+    allowed_files:
+      - "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+      - "docs/goals/babyminimo-emulator-hardening/state.yaml"
+      - "CHANGELOG.md"
+      - "app/**"
+      - "src/**"
+      - "e2e/**"
+      - "docs/product/**"
+      - "docs/qa/**"
+    verify:
+      - "bun run test:typecheck"
+      - "bun run test:unit"
+    stop_if:
+      - "Need files outside allowed_files."
+      - "Acceptance criteria conflict with approved PBI scope."
+      - "Verification fails twice."
+      - "Requires production Firebase deploy, App Store Connect write, signing, or production credentials."
+  - id: T345
+    type: judge
+    assignee: Judge
+    status: queued
+    pbi: "PBI-067"
+    pbi_title: "Multi-baby household support"
+    phase: "Phase 9, before production Firebase and App Store readiness."
+    production_last_phase: false
+    objective: "PBI-067 T4: Add focused tests, simulator smoke evidence for twins/triplets, and visual QA against approved screenshots."
+    inputs:
+      - "PBI source: docs/product/babyminimo-pbi-codex-goalbuddy-pack.md#PBI-067"
+      - "Dependency: T344"
+    constraints:
+      - "Follow rules.md and AGENTS.md before starting implementation."
+      - "Keep one active task at a time and update GoalBuddy receipts after verification."
+      - "Use the browser simulator URL and Firebase Emulator for smoke evidence."
+    expected_output:
+      - "Test and visual QA receipt for multi-baby behavior"
+      - "Files changed or inspected"
+      - "Verification commands and results"
+      - "GoalBuddy receipt and changelog/doc updates when applicable"
+    allowed_files:
+      - "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+      - "docs/goals/babyminimo-emulator-hardening/state.yaml"
+      - "CHANGELOG.md"
+      - "app/**"
+      - "src/**"
+      - "e2e/**"
+      - "docs/product/**"
+      - "docs/qa/**"
+      - "docs/goals/**"
+    verify:
+      - "bun run test:typecheck"
+      - "bun run test:unit"
+    stop_if:
+      - "Need files outside allowed_files."
+      - "Acceptance criteria conflict with approved PBI scope."
+      - "Verification fails twice."
+      - "Requires production Firebase deploy, App Store Connect write, signing, or production credentials."
+  - id: T346
+    type: pm
+    assignee: PM
+    status: queued
+    pbi: "PBI-067"
+    pbi_title: "Multi-baby household support"
+    phase: "Phase 9, before production Firebase and App Store readiness."
+    production_last_phase: false
+    objective: "PBI-067 T5: Update PBI docs, screenshot planning, CHANGELOG.md, and GoalBuddy receipt."
+    inputs:
+      - "PBI source: docs/product/babyminimo-pbi-codex-goalbuddy-pack.md#PBI-067"
+      - "Dependency: T345"
+    constraints:
+      - "Follow rules.md and AGENTS.md before starting implementation."
+      - "Keep one active task at a time and update GoalBuddy receipts after verification."
+      - "Do not claim multi-baby App Store screenshots are final unless PBI-063 source gates are met."
+    expected_output:
+      - "Documentation and GoalBuddy closeout for PBI-067"
+      - "Files changed or inspected"
+      - "Verification commands and results"
+    allowed_files:
+      - "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+      - "docs/goals/babyminimo-emulator-hardening/state.yaml"
+      - "CHANGELOG.md"
+      - "docs/product/**"
+      - "docs/marketing/**"
+      - "docs/goals/**"
+    verify:
+      - "bun run test:typecheck"
+    stop_if:
+      - "Need files outside allowed_files."
+      - "Acceptance criteria conflict with approved PBI scope."
+      - "Verification fails twice."
+  - id: T347
+    type: scout
+    assignee: Scout
+    status: queued
+    pbi: "PBI-068"
+    pbi_title: "Baby Activity and Habit Tracker"
+    phase: "Phase 9.5, before production Firebase and App Store readiness."
+    production_last_phase: false
+    objective: "PBI-068 T1: Define BabyMinimo activity model, retention policy, privacy rules, and flashcard reference adaptation."
+    inputs:
+      - "PBI source: docs/product/babyminimo-pbi-codex-goalbuddy-pack.md#PBI-068"
+      - "Reference: /Users/frank/flashcard-generator/stores/activityStore.ts"
+      - "Reference: /Users/frank/flashcard-generator/lib/analytics/events.ts"
+      - "Reference: /Users/frank/flashcard-generator/docs/delivery/PBI-020/"
+    constraints:
+      - "Follow rules.md and AGENTS.md before starting implementation."
+      - "Keep one active task at a time and update GoalBuddy receipts after verification."
+      - "Keep activity language supportive; avoid punitive streak/guilt mechanics."
+      - "Keep this task local/emulator-scoped."
+    expected_output:
+      - "Baby activity model and implementation policy"
+      - "Files inspected"
+      - "Follow-up implementation boundaries"
+      - "GoalBuddy receipt and changelog/doc updates when applicable"
+    allowed_files:
+      - "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+      - "docs/goals/babyminimo-emulator-hardening/state.yaml"
+      - "CHANGELOG.md"
+      - "app/**"
+      - "src/**"
+      - "docs/product/**"
+      - "docs/marketing/**"
+    verify:
+      - "bun run test:typecheck"
+    stop_if:
+      - "Need files outside allowed_files."
+      - "Acceptance criteria conflict with approved PBI scope."
+      - "Verification fails twice."
+      - "Requires production Firebase deploy, App Store Connect write, signing, or production credentials."
+  - id: T348
+    type: worker
+    assignee: Worker
+    status: queued
+    pbi: "PBI-068"
+    pbi_title: "Baby Activity and Habit Tracker"
+    phase: "Phase 9.5, before production Firebase and App Store readiness."
+    production_last_phase: false
+    objective: "PBI-068 T2: Implement local activity store/recorder and hook it into care log, reminder, Growth Timeline, handoff, and baby-switch flows."
+    inputs:
+      - "PBI source: docs/product/babyminimo-pbi-codex-goalbuddy-pack.md#PBI-068"
+      - "Dependency: T347"
+      - "Dependency: PBI-067 selected-baby policy"
+    constraints:
+      - "Follow rules.md and AGENTS.md before starting implementation."
+      - "Keep one active task at a time and update GoalBuddy receipts after verification."
+      - "Avoid duplicate writes and expensive full-history reads."
+      - "Do not send analytics remotely without consent and provider scope."
+    expected_output:
+      - "Local BabyMinimo activity recorder/store"
+      - "Files changed or inspected"
+      - "Verification commands and results"
+      - "GoalBuddy receipt and changelog/doc updates when applicable"
+    allowed_files:
+      - "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+      - "docs/goals/babyminimo-emulator-hardening/state.yaml"
+      - "CHANGELOG.md"
+      - "app/**"
+      - "src/**"
+      - "e2e/**"
+      - "docs/product/**"
+    verify:
+      - "bun run test:typecheck"
+      - "bun run test:unit"
+    stop_if:
+      - "Need files outside allowed_files."
+      - "Acceptance criteria conflict with approved PBI scope."
+      - "Verification fails twice."
+      - "Requires production Firebase deploy, App Store Connect write, signing, or production credentials."
+  - id: T349
+    type: worker
+    assignee: Worker
+    status: queued
+    pbi: "PBI-068"
+    pbi_title: "Baby Activity and Habit Tracker"
+    phase: "Phase 9.5, before production Firebase and App Store readiness."
+    production_last_phase: false
+    objective: "PBI-068 T3: Build Activity/Rhythm UI inside the approved BabyMinimo hierarchy without adding a new primary tab."
+    inputs:
+      - "PBI source: docs/product/babyminimo-pbi-codex-goalbuddy-pack.md#PBI-068"
+      - "Dependency: T348"
+    constraints:
+      - "Follow rules.md and AGENTS.md before starting implementation."
+      - "Keep one active task at a time and update GoalBuddy receipts after verification."
+      - "Preserve approved screenshots1 direction and avoid a new primary Activity tab."
+      - "Make the screen screenshot-ready only after it reflects implemented data."
+    expected_output:
+      - "Activity/Rhythm UI in approved hierarchy"
+      - "Files changed or inspected"
+      - "Verification commands and results"
+      - "GoalBuddy receipt and changelog/doc updates when applicable"
+    allowed_files:
+      - "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+      - "docs/goals/babyminimo-emulator-hardening/state.yaml"
+      - "CHANGELOG.md"
+      - "app/**"
+      - "src/**"
+      - "e2e/**"
+      - "docs/product/**"
+      - "docs/qa/**"
+    verify:
+      - "bun run test:typecheck"
+      - "bun run test:unit"
+    stop_if:
+      - "Need files outside allowed_files."
+      - "Acceptance criteria conflict with approved PBI scope."
+      - "Verification fails twice."
+      - "Requires production Firebase deploy, App Store Connect write, signing, or production credentials."
+  - id: T350
+    type: judge
+    assignee: Judge
+    status: queued
+    pbi: "PBI-068"
+    pbi_title: "Baby Activity and Habit Tracker"
+    phase: "Phase 9.5, before production Firebase and App Store readiness."
+    production_last_phase: false
+    objective: "PBI-068 T4: Add unit tests, simulator smoke, and visual QA for single-baby plus twins/triplets scenarios."
+    inputs:
+      - "PBI source: docs/product/babyminimo-pbi-codex-goalbuddy-pack.md#PBI-068"
+      - "Dependency: T349"
+    constraints:
+      - "Follow rules.md and AGENTS.md before starting implementation."
+      - "Keep one active task at a time and update GoalBuddy receipts after verification."
+      - "Use Firebase Emulator/browser simulator evidence."
+    expected_output:
+      - "Activity/Rhythm test and visual QA receipt"
+      - "Files changed or inspected"
+      - "Verification commands and results"
+      - "GoalBuddy receipt and changelog/doc updates when applicable"
+    allowed_files:
+      - "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+      - "docs/goals/babyminimo-emulator-hardening/state.yaml"
+      - "CHANGELOG.md"
+      - "app/**"
+      - "src/**"
+      - "e2e/**"
+      - "docs/product/**"
+      - "docs/qa/**"
+      - "docs/goals/**"
+    verify:
+      - "bun run test:typecheck"
+      - "bun run test:unit"
+    stop_if:
+      - "Need files outside allowed_files."
+      - "Acceptance criteria conflict with approved PBI scope."
+      - "Verification fails twice."
+      - "Requires production Firebase deploy, App Store Connect write, signing, or production credentials."
+  - id: T351
+    type: pm
+    assignee: PM
+    status: queued
+    pbi: "PBI-068"
+    pbi_title: "Baby Activity and Habit Tracker"
+    phase: "Phase 9.5, before production Firebase and App Store readiness."
+    production_last_phase: false
+    objective: "PBI-068 T5: Update screenshot/ASO plan, localization strings, CHANGELOG.md, and GoalBuddy receipt."
+    inputs:
+      - "PBI source: docs/product/babyminimo-pbi-codex-goalbuddy-pack.md#PBI-068"
+      - "Dependency: T350"
+    constraints:
+      - "Follow rules.md and AGENTS.md before starting implementation."
+      - "Keep one active task at a time and update GoalBuddy receipts after verification."
+      - "Do not claim App Store screenshot assets are final unless PBI-063 gates are met."
+    expected_output:
+      - "Documentation and GoalBuddy closeout for PBI-068"
+      - "Files changed or inspected"
+      - "Verification commands and results"
+    allowed_files:
+      - "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+      - "docs/goals/babyminimo-emulator-hardening/state.yaml"
+      - "CHANGELOG.md"
+      - "docs/product/**"
+      - "docs/marketing/**"
+      - "docs/localization/**"
+      - "docs/goals/**"
+    verify:
+      - "bun run test:typecheck"
+    stop_if:
+      - "Need files outside allowed_files."
+      - "Acceptance criteria conflict with approved PBI scope."
+      - "Verification fails twice."
+  - id: T352
     type: scout
     assignee: Scout
     status: queued

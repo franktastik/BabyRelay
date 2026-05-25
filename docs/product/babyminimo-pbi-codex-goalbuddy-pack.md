@@ -19,8 +19,9 @@ Product hierarchy:
 2. Care logging
 3. Reminders
 4. Growth Timeline
-5. Widgets and glanceable surfaces
-6. Plans and household coordination
+5. Baby activity and care rhythm insights
+6. Widgets and glanceable surfaces
+7. Plans and household coordination
 
 Important scope rules:
 - Growth Timeline stays inside Timeline, not a separate tab.
@@ -28,6 +29,9 @@ Important scope rules:
 - Family plan is a household coordination plan, not just extra seats.
 - Home must stay focused on what happened last and quick actions.
 - Handoff must stay focused on current state, due soon, and latest note.
+- Twins, triplets, and other multi-baby households are supported as multiple baby profiles inside one household, not as duplicate households.
+- Screens operate on the currently selected baby by default; household-level views may summarize multiple babies only when explicitly scoped.
+- Baby activity and care rhythm insights stay inside Home, Timeline, Insights, or screenshot-ready secondary surfaces; they must not replace the handoff-first hierarchy or become a separate primary tab without a later approved PBI.
 - Widgets must extend the shared handoff promise with glanceable current state; they must not become a separate product pillar or replace opening the app for logging.
 - Codex must preserve the Superdesign mockup and logo direction.
 - Codex must not invent a different product hierarchy or brand system.
@@ -1477,6 +1481,88 @@ Task mapping:
 - T4: Add or update focused tests, simulator smoke coverage, and visual evidence where applicable.
 - T5: Update CHANGELOG.md, docs, and GoalBuddy receipt with verification results and caveats.
 
+### Epic 13A: Multi-Baby and Activity Insights
+
+#### PBI-067: Multi-baby household support
+
+Goal: Support twins, triplets, and other multi-baby households in one BabyMinimo household.
+
+User story: As a parent of twins or triplets, I want to track each baby separately inside one household so feeds, diapers, sleep, reminders, handoffs, widgets, and memories do not get mixed together.
+
+Architecture note:
+- The current BabyMinimo model is already partly multi-baby capable: `Household` owns `1..* Baby`, care events/reminders/growth moments carry `babyId`, and the app has a `selectedBabyId` concept.
+- This PBI closes the product and UX gap: visible baby selection, add-another-baby flows, per-baby scoping, and multi-baby screenshot readiness.
+
+Scope:
+- Add a baby switcher/context control for Home, Handoff, Timeline, Quick Log, Reminders, Growth Timeline, Widgets, and relevant Settings/Family surfaces.
+- Add an "Add another baby" flow after onboarding and in Family/Settings.
+- Let onboarding optionally add more than one baby without making the first-run flow feel heavy.
+- Persist the selected baby per household and restore it on app launch.
+- Ensure logs, reminders, growth moments, handoff summaries, widget snapshots, and local cleanup use the selected `babyId`.
+- Add twin/triplet-friendly empty states and copy.
+- Keep one household/care circle; do not create separate households for twins or triplets.
+
+Acceptance criteria:
+- A household can contain two or more baby profiles in Firebase Emulator/local demo state.
+- Users can switch the active baby from the main app shell without losing current household context.
+- Saving breastfeed, bottle, diaper, sleep, medication, reminder, and Growth Timeline moments attaches the selected `babyId`.
+- Timeline, Handoff, Home snapshot cards, Reminders, Growth Timeline, and Widgets update when the selected baby changes.
+- "All babies" aggregation is not shown unless explicitly designed; the default behavior is selected-baby scoped.
+- Sign out and account deletion cleanup cover all babies in the household context.
+- Simulator smoke covers at least a twins scenario with switching and separate logs.
+- App Store screenshot planning includes a multi-baby/care-circle concept only if the release UI is accurate.
+
+Dependencies: PBI-010, PBI-014, PBI-017 through PBI-028, PBI-030, PBI-031, PBI-045 through PBI-048, PBI-056.
+
+Suggested phase: Phase 9, before production Firebase and App Store readiness.
+
+Task mapping:
+- T1: Audit current `babyId` and `selectedBabyId` data paths and define the multi-baby UX policy.
+- T2: Add baby switcher and add-another-baby flows using Firebase Emulator/local state.
+- T3: Scope Home, Timeline, Handoff, Quick Log, Reminders, Growth Timeline, Widgets, and cleanup to the selected baby.
+- T4: Add focused tests, simulator smoke evidence for twins/triplets, and visual QA against approved screenshots.
+- T5: Update PBI docs, screenshot planning, CHANGELOG.md, and GoalBuddy receipt.
+
+#### PBI-068: Baby Activity and Habit Tracker
+
+Goal: Add a gentle baby activity tracker that summarizes care rhythms without turning BabyMinimo into a guilt-heavy productivity app.
+
+User story: As a parent or caregiver, I want to see my baby's care rhythm over time so I can understand feeds, diapers, sleep, medication, reminders, and moments without digging through every timeline item.
+
+Reference:
+- Use `/Users/frank/flashcard-generator/stores/activityStore.ts`, `/Users/frank/flashcard-generator/lib/analytics/events.ts`, and `/Users/frank/flashcard-generator/docs/delivery/PBI-020/` as the local activity-log pattern reference.
+- Adapt the pattern to BabyMinimo by recording per-baby care activity locally and/or emulator-backed where appropriate, while keeping analytics consent and privacy boundaries clear.
+
+Scope:
+- Add a typed BabyMinimo activity model for care events, reminders, Growth Timeline moments, handoff views, and selected-baby switches.
+- Add a small persisted local activity store capped to a reasonable recent-history limit.
+- Add daily/weekly care rhythm summaries per baby: feed count, diaper count, sleep sessions/duration, reminders completed, medication events, and growth moments.
+- Add a screenshot-ready Activity/Rhythm surface inside Timeline, Insights, Home preview, or Settings-linked secondary screen.
+- Keep language supportive: "care rhythm", "recent activity", "tiny routines", not punitive streaks.
+- Add hooks from existing save flows so activity is recorded without duplicate writes.
+- Prepare ASO screenshot copy for "See every baby care rhythm" or a similar approved benefit.
+
+Acceptance criteria:
+- Activity entries include `babyId`, type, timestamp, short display label, and optional route target.
+- Recent activity can be listed per selected baby and cleared during sign out/account deletion cleanup.
+- Weekly summaries can be computed locally from recent activity and/or care events without expensive full-history reads.
+- UI works for single-baby and multi-baby households.
+- Activity tracker does not expose private baby data in widgets or screenshots unless deliberately selected.
+- Unit tests cover activity store insertion, cap/retention behavior, per-baby filtering, and summary calculations.
+- Simulator smoke captures the Activity/Rhythm surface with realistic data.
+- PBI-063 screenshot planning includes this surface as an optional benefit screenshot.
+
+Dependencies: PBI-014, PBI-022, PBI-024, PBI-042, PBI-052, PBI-056, PBI-067.
+
+Suggested phase: Phase 9.5, before production Firebase and App Store readiness.
+
+Task mapping:
+- T1: Define BabyMinimo activity model, retention policy, privacy rules, and flashcard reference adaptation.
+- T2: Implement local activity store/recorder and hook it into care log, reminder, Growth Timeline, handoff, and baby-switch flows.
+- T3: Build Activity/Rhythm UI inside the approved BabyMinimo hierarchy without adding a new primary tab.
+- T4: Add unit tests, simulator smoke, and visual QA for single-baby plus twins/triplets scenarios.
+- T5: Update screenshot/ASO plan, localization strings, CHANGELOG.md, and GoalBuddy receipt.
+
 ### Epic 14: Widgets
 
 Widgets extend BabyMinimo's handoff promise outside the app. They should be glanceable, calm, and read-only in the first release unless interaction support is explicitly scoped later.
@@ -1990,6 +2076,7 @@ Scope:
 - Discover and confirm 5-7 App Store benefit headlines before generation.
 - Benefits must lead with action verbs and describe what parents/caregivers get, not internal features.
 - Capture or select clean simulator screenshots for Home, Handoff, Timeline/Growth Timeline, Reminders, Family coordination, Plans/Paywall, and one optional gifting/subscription-for-someone screen.
+- Consider one multi-baby or Baby Activity/Rhythm screenshot if PBI-067/PBI-068 are implemented before final screenshot generation and the source UI is accurate.
 - Grade source screenshots as Great, Usable, or Retake before pairing them to benefits.
 - Generate final framed App Store screenshot assets only from approved BabyMinimo UI states.
 - Add one extra screenshot if gifting or buying a subscription for another person needs its own clear benefit creative.
@@ -2001,6 +2088,7 @@ Acceptance criteria:
 - Confirmed benefit list exists before any generated screenshots are accepted.
 - Every final screenshot maps to a clear user benefit and a specific approved simulator source screenshot.
 - The screenshot set covers the core value chain: handoff, care logging, Timeline/Growth Timeline, reminders, household coordination, and plan/gifting value when in scope.
+- If included, multi-baby and activity/rhythm screenshots must be based on implemented UI with realistic twin/triplet or weekly activity data, not speculative mockups.
 - Optional gift/subscription screenshot is included only if the purchase and entitlement story is accurate for the release.
 - Final assets have no visible debug chrome, no emulator warning overlays, no broken status bar, and no mismatched visual language.
 - Scrollable screens use intentional top/middle/bottom captures where needed.
@@ -2013,6 +2101,7 @@ Dependencies:
 - PBI-052
 - PBI-065
 - PBI-055 when subscription or gifting screenshots show purchase behavior
+- PBI-067 and PBI-068 when multi-baby or activity/rhythm screenshots are included
 
 Suggested phase: Phase 11, immediately before Release and App Store readiness.
 
@@ -2260,12 +2349,16 @@ Dependencies: PBI-037, PBI-038, PBI-050, PBI-055.
 
 Suggested phase: Phase 11.
 
+Sequencing note:
+- Local/emulator account deletion work is not production-gated and should run before production Firebase/App Store readiness: deletion policy, Account UI, local cleanup, local/emulator tests, Maestro coverage, and privacy docs.
+- Production-gated account deletion work remains last: backend purge callable/Function, Firestore rules deployment, production Firebase Auth deletion verification, irreversible production data deletion, and release compliance evidence.
+
 Task mapping:
-- T1: Define deletion policy for user profile, household membership, babies, events, reminders, local photos, widgets, and analytics.
-- T2: Build Account deletion UI with confirmation and reauth states.
-- T3: Implement backend purge callable/Function and Firestore rules coverage.
-- T4: Implement local cleanup for Growth Timeline files, SQLite metadata, widget snapshots, and auth/session stores.
-- T5: Add unit, integration, emulator, and Maestro coverage plus privacy documentation.
+- T1: Define deletion policy for user profile, household membership, babies, events, reminders, local photos, widgets, and analytics. Local/emulator-safe.
+- T2: Build Account deletion UI with confirmation and reauth states. Local/emulator-safe.
+- T3: Implement backend purge callable/Function and Firestore rules coverage. Production-gated.
+- T4: Implement local cleanup for Growth Timeline files, SQLite metadata, widget snapshots, and auth/session stores. Local/emulator-safe.
+- T5: Add local unit, emulator-safe integration, Maestro coverage, and privacy documentation. Production purge verification remains gated with T3/release work.
 
 #### PBI-057: Data lifecycle and privacy hardening
 
