@@ -1,5 +1,6 @@
 import React from 'react'
 import { Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { useTranslation } from 'react-i18next'
 import { Screen, Button, Input } from '@/src/components/ui'
 import { colors, radius, shadows, spacing, typography } from '@/src/theme'
 
@@ -28,6 +29,8 @@ export function LogFormShell({
   activeType = 'feeding',
   saveLabel = 'Save',
 }: LogFormShellProps) {
+  const { t } = useTranslation()
+
   return (
     <Screen>
       <ScrollView
@@ -39,21 +42,21 @@ export function LogFormShell({
           <Pressable onPress={onCancel} style={styles.backButton} hitSlop={14}>
             <Text style={styles.backText}>‹</Text>
           </Pressable>
-          <Text style={styles.title}>Log Event</Text>
+          <Text style={styles.title}>{t('log.form.title')}</Text>
           <Image source={require('../../../app/baby-preview-avatar.png')} style={styles.avatar} />
         </View>
 
         <View style={styles.categoryRow}>
-          <CategoryPill icon="⌁" label="Feeding" active={activeType === 'feeding'} />
-          <CategoryPill icon="♧" label="Diaper" active={activeType === 'diaper'} />
-          <CategoryPill icon="☾" label="Sleep" active={activeType === 'sleep'} />
-          <CategoryPill icon="◇" label="Health" active={activeType === 'health'} />
+          <CategoryPill icon="⌁" label={t('log.category.feeding')} active={activeType === 'feeding'} />
+          <CategoryPill icon="♧" label={t('log.category.diaper')} active={activeType === 'diaper'} />
+          <CategoryPill icon="☾" label={t('log.category.sleep')} active={activeType === 'sleep'} />
+          <CategoryPill icon="◇" label={t('log.category.health')} active={activeType === 'health'} />
         </View>
 
         <View style={styles.timeCard}>
           <View style={styles.cardHeadingRow}>
-            <Text style={styles.timeLabel}>Event Time</Text>
-            <Text style={styles.nowText}>Just now</Text>
+            <Text style={styles.timeLabel}>{t('log.form.eventTime')}</Text>
+            <Text style={styles.nowText}>{t('common.justNow')}</Text>
           </View>
           <View style={styles.timeRow}>
             <View style={styles.timePill}>
@@ -62,7 +65,7 @@ export function LogFormShell({
             </View>
             <View style={styles.timePill}>
               <Text style={styles.timeIcon}>▣</Text>
-              <Text style={styles.timeValue}>Today</Text>
+              <Text style={styles.timeValue}>{t('common.today')}</Text>
             </View>
           </View>
         </View>
@@ -72,10 +75,10 @@ export function LogFormShell({
         {onNoteChange && (
           <View style={styles.noteSection}>
             <Input
-              label="Notes (optional)"
+              label={t('log.form.notesLabel')}
               value={note || ''}
               onChangeText={onNoteChange}
-              placeholder="Add a note..."
+              placeholder={t('log.form.notesPlaceholder')}
             />
           </View>
         )}
@@ -85,10 +88,10 @@ export function LogFormShell({
             variant="ghost"
             onPress={onCancel}
             style={styles.cancelButton}
-            accessibilityLabel="Cancel"
+            accessibilityLabel={t('common.cancel')}
             testID="log-cancel-button"
           >
-            <Text style={styles.cancelText}>Cancel</Text>
+            <Text style={styles.cancelText}>{t('common.cancel')}</Text>
           </Button>
           <Button
             variant="primary"

@@ -7,21 +7,21 @@
   "sourceLocale": "en",
   "pricingCopy": {
     "period": {
-      "weekly": "per week",
-      "monthly": "per month",
-      "annual": "per year",
-      "lifetime": "one time"
+      "weekly": "ανά εβδομάδα",
+      "monthly": "ανά μήνα",
+      "annual": "ανά έτος",
+      "lifetime": "μια φορά"
     },
     "trial": {
-      "threeDayFree": "3-day free trial",
-      "thenPricePerPeriod": "Then {price} {period}"
+      "threeDayFree": "Δωρεάν δοκιμή 3 ημερών",
+      "thenPricePerPeriod": "Στη συνέχεια {price} {period}"
     },
     "savings": {
-      "template": "Save {percent}%",
-      "annualDefault": "Save 65%"
+      "template": "Αποθήκευση {percent}%",
+      "annualDefault": "Εξοικονομήστε 65%"
     },
-    "restore": "Restore purchases",
-    "manage": "Manage subscription",
-    "cancellation": "Cancel anytime in App Store subscriptions."
+    "restore": "Επαναφορά αγορών",
+    "manage": "Διαχείριση συνδρομής",
+    "cancellation": "Ακύρωση ανά πάσα στιγμή στις συνδρομές App Store."
   }
 }

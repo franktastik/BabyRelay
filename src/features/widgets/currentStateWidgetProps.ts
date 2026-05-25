@@ -1,4 +1,5 @@
 import type { BabyMinimoWidgetPayload, WidgetPayloadState } from './widgetPayload'
+import { babyMinimoI18n } from '@/src/localization'
 
 export const BABY_MINIMO_CURRENT_STATE_WIDGET_NAME = 'BabyMinimoCurrentStateWidget'
 
@@ -29,31 +30,31 @@ const fallbackProps = (
   babyName: 'BabyMinimo',
   statusLabel:
     state === 'disabled'
-      ? 'Widgets are off'
+      ? babyMinimoI18n.t('widgets.currentState.widgetsOff')
       : state === 'signedOut'
-        ? 'Sign in needed'
+        ? babyMinimoI18n.t('widgets.currentState.signInNeeded')
         : state === 'noSelectedBaby'
-          ? 'Choose a baby'
-          : 'Open the app',
+          ? babyMinimoI18n.t('widgets.currentState.chooseBaby')
+          : babyMinimoI18n.t('widgets.currentState.openApp'),
   statusDetail: message,
   statusTone: 'muted',
-  lastFeedLabel: 'No feed yet',
-  lastDiaperLabel: 'No diaper yet',
-  lastSleepLabel: 'No sleep yet',
-  dueSoonTitle: 'Nothing due',
-  dueSoonDetail: 'You are caught up.',
-  lastUpdatedLabel: 'Not synced',
+  lastFeedLabel: babyMinimoI18n.t('widgets.currentState.noFeed'),
+  lastDiaperLabel: babyMinimoI18n.t('widgets.currentState.noDiaper'),
+  lastSleepLabel: babyMinimoI18n.t('widgets.currentState.noSleep'),
+  dueSoonTitle: babyMinimoI18n.t('widgets.currentState.nothingDue'),
+  dueSoonDetail: babyMinimoI18n.t('widgets.currentState.caughtUp'),
+  lastUpdatedLabel: babyMinimoI18n.t('widgets.currentState.notSynced'),
   message,
 })
 
 const shortTime = (iso: string | null) => {
   if (!iso) {
-    return 'recently'
+    return babyMinimoI18n.t('widgets.clear.recently')
   }
 
   const date = new Date(iso)
   if (Number.isNaN(date.getTime())) {
-    return 'recently'
+    return babyMinimoI18n.t('widgets.clear.recently')
   }
 
   return date.toLocaleTimeString('en-US', {
@@ -64,30 +65,32 @@ const shortTime = (iso: string | null) => {
 
 const statusLabel = (payload: BabyMinimoWidgetPayload) => {
   if (!payload.baby) {
-    return 'Open BabyMinimo'
+    return babyMinimoI18n.t('widgets.currentState.openBabyMinimo')
   }
 
   if (payload.state === 'expired') {
-    return 'Open BabyMinimo'
+    return babyMinimoI18n.t('widgets.currentState.openBabyMinimo')
   }
 
   if (payload.state === 'stale') {
-    return 'May be out of date'
+    return babyMinimoI18n.t('widgets.currentState.stale')
   }
 
   if (payload.state === 'empty') {
-    return 'No care events yet'
+    return babyMinimoI18n.t('widgets.currentState.empty')
   }
 
   if (payload.baby.currentStatus === 'sleeping') {
-    return 'Currently sleeping'
+    return babyMinimoI18n.t('widgets.currentState.sleeping')
   }
 
   if (payload.baby.currentStatus === 'awake') {
-    return 'Currently awake'
+    return babyMinimoI18n.t('widgets.currentState.awake')
   }
 
-  return payload.baby.dueSoon ? 'Due soon' : 'Latest snapshot'
+  return payload.baby.dueSoon
+    ? babyMinimoI18n.t('widgets.currentState.dueSoon')
+    : babyMinimoI18n.t('widgets.currentState.latestSnapshot')
 }
 
 const statusTone = (payload: BabyMinimoWidgetPayload): BabyMinimoCurrentStateWidgetTone => {
@@ -105,19 +108,19 @@ const statusTone = (payload: BabyMinimoWidgetPayload): BabyMinimoCurrentStateWid
 const stateBadgeLabel = (state: WidgetPayloadState) => {
   switch (state) {
     case 'ready':
-      return 'LIVE'
+      return babyMinimoI18n.t('widgets.badge.live')
     case 'stale':
-      return 'STALE'
+      return babyMinimoI18n.t('widgets.badge.stale')
     case 'expired':
-      return 'REFRESH'
+      return babyMinimoI18n.t('widgets.badge.refresh')
     case 'empty':
-      return 'EMPTY'
+      return babyMinimoI18n.t('widgets.badge.empty')
     case 'signedOut':
-      return 'SIGN IN'
+      return babyMinimoI18n.t('widgets.badge.signIn')
     case 'noSelectedBaby':
-      return 'SETUP'
+      return babyMinimoI18n.t('widgets.badge.setup')
     case 'disabled':
-      return 'OFF'
+      return babyMinimoI18n.t('widgets.badge.off')
   }
 }
 
@@ -137,14 +140,14 @@ export const mapWidgetPayloadToCurrentStateWidgetProps = (
     stateBadgeLabel: stateBadgeLabel(payload.state),
     babyName: payload.baby.babyName,
     statusLabel: statusLabel(payload),
-    statusDetail: payload.message ?? `Updated ${shortTime(payload.lastSyncedAt)}`,
+    statusDetail: payload.message ?? babyMinimoI18n.t('widgets.currentState.updated', { time: shortTime(payload.lastSyncedAt) }),
     statusTone: statusTone(payload),
-    lastFeedLabel: payload.baby.lastFeed?.label ?? 'No feed yet',
-    lastDiaperLabel: payload.baby.lastDiaper?.label ?? 'No diaper yet',
-    lastSleepLabel: payload.baby.lastSleep?.label ?? 'No sleep yet',
-    dueSoonTitle: payload.baby.dueSoon?.title ?? 'Nothing due',
-    dueSoonDetail: payload.baby.dueSoon?.dueLabel ?? 'You are caught up.',
-    lastUpdatedLabel: `Updated ${shortTime(payload.lastSyncedAt)}`,
+    lastFeedLabel: payload.baby.lastFeed?.label ?? babyMinimoI18n.t('widgets.currentState.noFeed'),
+    lastDiaperLabel: payload.baby.lastDiaper?.label ?? babyMinimoI18n.t('widgets.currentState.noDiaper'),
+    lastSleepLabel: payload.baby.lastSleep?.label ?? babyMinimoI18n.t('widgets.currentState.noSleep'),
+    dueSoonTitle: payload.baby.dueSoon?.title ?? babyMinimoI18n.t('widgets.currentState.nothingDue'),
+    dueSoonDetail: payload.baby.dueSoon?.dueLabel ?? babyMinimoI18n.t('widgets.currentState.caughtUp'),
+    lastUpdatedLabel: babyMinimoI18n.t('widgets.currentState.updated', { time: shortTime(payload.lastSyncedAt) }),
     message: payload.message ?? '',
   }
 }

@@ -7,21 +7,21 @@
   "sourceLocale": "en",
   "pricingCopy": {
     "period": {
-      "weekly": "per week",
-      "monthly": "per month",
-      "annual": "per year",
-      "lifetime": "one time"
+      "weekly": "週あたり",
+      "monthly": "月あたり",
+      "annual": "年間",
+      "lifetime": "一度"
     },
     "trial": {
-      "threeDayFree": "3-day free trial",
-      "thenPricePerPeriod": "Then {price} {period}"
+      "threeDayFree": "3日間の無料トライアル",
+      "thenPricePerPeriod": "次に、{price} {period}"
     },
     "savings": {
-      "template": "Save {percent}%",
-      "annualDefault": "Save 65%"
+      "template": "{percent}% を節約",
+      "annualDefault": "65% 節約"
     },
-    "restore": "Restore purchases",
-    "manage": "Manage subscription",
-    "cancellation": "Cancel anytime in App Store subscriptions."
+    "restore": "購入したものを復元する",
+    "manage": "サブスクリプションの管理",
+    "cancellation": "App Store サブスクリプションでいつでもキャンセルできます。"
   }
 }

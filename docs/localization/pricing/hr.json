@@ -7,21 +7,21 @@
   "sourceLocale": "en",
   "pricingCopy": {
     "period": {
-      "weekly": "per week",
-      "monthly": "per month",
-      "annual": "per year",
-      "lifetime": "one time"
+      "weekly": "tjedno",
+      "monthly": "mjesečno",
+      "annual": "godišnje",
+      "lifetime": "jedno vrijeme"
     },
     "trial": {
-      "threeDayFree": "3-day free trial",
-      "thenPricePerPeriod": "Then {price} {period}"
+      "threeDayFree": "3-dnevno besplatno probno razdoblje",
+      "thenPricePerPeriod": "Zatim {price} {period}"
     },
     "savings": {
-      "template": "Save {percent}%",
-      "annualDefault": "Save 65%"
+      "template": "Uštedite {percent}%",
+      "annualDefault": "Uštedite 65%"
     },
-    "restore": "Restore purchases",
-    "manage": "Manage subscription",
-    "cancellation": "Cancel anytime in App Store subscriptions."
+    "restore": "Vratite kupnje",
+    "manage": "Upravljanje pretplatom",
+    "cancellation": "Otkažite bilo kada u pretplatama na App Store."
   }
 }

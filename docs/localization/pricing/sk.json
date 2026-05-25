@@ -7,21 +7,21 @@
   "sourceLocale": "en",
   "pricingCopy": {
     "period": {
-      "weekly": "per week",
-      "monthly": "per month",
-      "annual": "per year",
-      "lifetime": "one time"
+      "weekly": "za týždeň",
+      "monthly": "za mesiac",
+      "annual": "za rok",
+      "lifetime": "raz"
     },
     "trial": {
-      "threeDayFree": "3-day free trial",
-      "thenPricePerPeriod": "Then {price} {period}"
+      "threeDayFree": "3-dňová bezplatná skúšobná verzia",
+      "thenPricePerPeriod": "Potom {price} {period}"
     },
     "savings": {
-      "template": "Save {percent}%",
-      "annualDefault": "Save 65%"
+      "template": "Ušetrite {percent} %",
+      "annualDefault": "Ušetrite 65 %"
     },
-    "restore": "Restore purchases",
-    "manage": "Manage subscription",
-    "cancellation": "Cancel anytime in App Store subscriptions."
+    "restore": "Obnoviť nákupy",
+    "manage": "Spravovať predplatné",
+    "cancellation": "Zrušiť kedykoľvek v odberoch App Store."
   }
 }

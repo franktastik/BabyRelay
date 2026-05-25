@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { View, Text, StyleSheet, Pressable } from 'react-native'
 import { useRouter } from 'expo-router'
+import { useTranslation } from 'react-i18next'
 import { LogFormShell } from '@/src/components/logging'
 import { useCareEventStore } from '@/src/stores/careEventStore'
 import { useAuthStore } from '@/src/stores/authStore'
@@ -10,6 +11,7 @@ type DiaperKind = 'wet' | 'dirty' | 'both'
 
 export default function LogDiaperModal() {
   const router = useRouter()
+  const { t } = useTranslation()
   const [kind, setKind] = useState<DiaperKind>('wet')
   const [note, setNote] = useState('')
   const [saving, setSaving] = useState(false)
@@ -25,7 +27,7 @@ export default function LogDiaperModal() {
         type: 'diaper',
         occurredAt: new Date(),
         metadata: { kind, note: note || undefined },
-        createdBy: user?.displayName || 'Caregiver',
+        createdBy: user?.displayName || t('log.createdBy.fallback'),
       })
       router.back()
     } finally {
@@ -37,15 +39,15 @@ export default function LogDiaperModal() {
     router.back()
   }
 
-  const kinds: { key: DiaperKind; label: string }[] = [
-    { key: 'wet', label: 'Wet' },
-    { key: 'dirty', label: 'Dirty' },
-    { key: 'both', label: 'Both' },
+  const kinds: { key: DiaperKind; labelKey: string }[] = [
+    { key: 'wet', labelKey: 'log.diaper.wet' },
+    { key: 'dirty', labelKey: 'log.diaper.dirty' },
+    { key: 'both', labelKey: 'log.diaper.both' },
   ]
 
   return (
     <LogFormShell
-      title="Diaper"
+      title={t('log.option.diaper')}
       note={note}
       onNoteChange={setNote}
       onSave={handleSave}
@@ -54,7 +56,7 @@ export default function LogDiaperModal() {
       activeType="diaper"
     >
       <View style={styles.section}>
-        <Text style={styles.sectionLabel}>Type</Text>
+        <Text style={styles.sectionLabel}>{t('log.type')}</Text>
         <View style={styles.kindRow}>
           {kinds.map((k) => (
             <Pressable
@@ -71,7 +73,7 @@ export default function LogDiaperModal() {
                   kind === k.key && styles.kindTextSelected,
                 ]}
               >
-                {k.label}
+                {t(k.labelKey)}
               </Text>
             </Pressable>
           ))}

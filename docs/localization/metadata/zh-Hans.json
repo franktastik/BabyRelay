@@ -6,11 +6,11 @@
   "reviewRequired": true,
   "sourceLocale": "en",
   "metadata": {
-    "appName": "BabyMinimo: Baby Tracker",
-    "subtitle": "Feeding, sleep & diaper log",
-    "keywords": "newborn,feeding,sleep,diaper,baby log,baby journal,milestone,tracker,caregiver,handoff,reminder",
-    "promotionalText": "Track feeding, sleep, diapers, memories, and handoffs in one calm baby log.",
-    "shortDescription": "Track feeds, sleep, diapers, milestones and caregiver handoffs in one baby log.",
-    "positioning": "The calm baby log for feeding, sleep, diapers, memories, and caregiver handoffs."
+    "appName": "BabyMinimo：婴儿追踪器",
+    "subtitle": "喂食、睡眠和尿布日志",
+    "keywords": "新生儿、喂养、睡眠、尿布、婴儿日志、婴儿日记、里程碑、跟踪器、护理人员、交接、提醒",
+    "promotionalText": "在一份平静的婴儿日志中跟踪喂养、睡眠、尿布、记忆和交接情况。",
+    "shortDescription": "在一份婴儿日志中跟踪喂养、睡眠、尿布、里程碑和护理人员交接情况。",
+    "positioning": "平静的婴儿日志，记录喂养、睡眠、尿布、记忆和护理人员交接。"
   }
 }

@@ -1,5 +1,6 @@
 import React from 'react'
 import { View, Text, StyleSheet } from 'react-native'
+import { useTranslation } from 'react-i18next'
 import { colors, radius, spacing, typography, shadows } from '@/src/theme'
 import { relativeTime } from '@/src/relative-time'
 
@@ -8,12 +9,14 @@ interface LatestNoteCardProps {
 }
 
 export function LatestNoteCard({ note }: LatestNoteCardProps) {
+  const { t } = useTranslation()
+
   if (!note) {
     return (
       <View style={styles.container}>
         <SectionTitle />
         <View style={styles.noteCard}>
-          <Text style={styles.empty}>No notes yet</Text>
+          <Text style={styles.empty}>{t('handoff.latestNote.empty')}</Text>
         </View>
       </View>
     )
@@ -38,7 +41,8 @@ export function LatestNoteCard({ note }: LatestNoteCardProps) {
 }
 
 function SectionTitle() {
-  return <Text style={styles.title}>Latest Note</Text>
+  const { t } = useTranslation()
+  return <Text style={styles.title}>{t('handoff.latestNote.title')}</Text>
 }
 
 const styles = StyleSheet.create({

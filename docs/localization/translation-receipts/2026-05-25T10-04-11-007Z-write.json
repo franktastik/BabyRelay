@@ -1,0 +1,53 @@
+{
+  "generatedAt": "2026-05-25T10:04:11.007Z",
+  "provider": "google-public-endpoint",
+  "mode": "write",
+  "locales": [
+    "de"
+  ],
+  "sections": [
+    "app-strings"
+  ],
+  "protectedTokens": [
+    "BabyMinimo",
+    "Baby MiniMemo",
+    "StoreKit",
+    "App Store",
+    "Firebase"
+  ],
+  "delayMs": 0,
+  "results": [
+    {
+      "locale": "de",
+      "section": "app-strings",
+      "leafCount": 44,
+      "sample": [
+        {
+          "key": "auth.login.productName",
+          "source": "Baby MiniMemo",
+          "translated": "Baby MiniMemo"
+        },
+        {
+          "key": "auth.login.tagline",
+          "source": "Tiny moments. Calm care.",
+          "translated": "Winzige Momente. Ruhige Pflege."
+        },
+        {
+          "key": "auth.login.hero",
+          "source": "Coordinating baby care, one memo at a time.",
+          "translated": "Koordinieren Sie die Babypflege, ein Memo nach dem anderen."
+        },
+        {
+          "key": "auth.login.appleButton",
+          "source": "Continue with Apple",
+          "translated": "Weiter mit Apple"
+        },
+        {
+          "key": "auth.login.googleButton",
+          "source": "Continue with Google",
+          "translated": "Weiter mit Google"
+        }
+      ]
+    }
+  ]
+}

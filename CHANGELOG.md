@@ -78,6 +78,7 @@ All notable changes to this project are documented here.
 - Added strict visual baseline testing with a Maestro screenshot map and zero-diff ImageMagick comparison against the approved `screenshots1/` mockups.
 - Added production-readiness PBIs for notifications, production Firebase/security, full interaction hardening, E2E/visual release QA, release/App Store readiness, widget implementation, native subscriptions/App Store IAP, account deletion, and data lifecycle/privacy hardening.
 - Added PBI-066 for Firebase Remote Config and remote app controls, including safe A/B experiment flags for pricing/paywall copy without making Remote Config the source of truth for StoreKit prices, security, secrets, or entitlements.
+- Added BabyMinimo runtime i18n foundation with guarded locale fallback, manual override hooks, and source-of-truth tests for English app strings.
 - Added PBI-062 questionnaire-style onboarding screens for goal selection, pain-point selection, local notification priming, and personalized setup preview.
 - Updated PBI-064 with competitor pricing research and the current BabyMinimo launch pricing hypothesis: Annual $39.99/year selected by default with a valid "Save 65%" badge, Monthly $9.99/month, Weekly $3.99/week as an experiment/fallback, and optional 3-day free trial with clear terms.
 - Clarified the lifetime pricing formula in PBI-064 as a 25- or 26-month value anchor: 2 years of monthly access plus 1 or 2 extra monthly periods before selecting the closest App Store price point.
@@ -117,6 +118,9 @@ All notable changes to this project are documented here.
 - Added the PBI-064 paywall experiment readout with conversion hypotheses, verification results, App Store validation caveats, release go/no-go criteria, and the stop point before production IAP/App Store Connect work.
 - Added the PBI-065 localization architecture with supported locale inventory, key naming conventions, fallback behavior, canonical English strings, pricing localization rules, metadata length checks, RTL QA requirements, and translation QA workflow.
 - Added PBI-065 draft localization assets for all supported locales, including app string inventories, App Store metadata drafts, paywall/pricing copy, screenshot headline inputs, and a StoreKit-centered storefront pricing matrix with AI linguistic QA status markers.
+- Added runtime localization coverage for Home, Timeline, Growth Timeline, Handoff, Quick Log, core log modals, Reminders, Family, Widgets, Account, notifications, and local lifecycle cleanup copy.
+- Updated the localization batch importer to fall back to English when machine translation drops protected tokens or interpolation placeholders.
+- Added a locale visual QA judge note documenting English simulator smoke evidence and the remaining German full-route, RTL, StoreKit-price, and localized screenshot blockers.
 - Added PBI-065 localization asset validation for locale coverage, key parity, interpolation placeholders, metadata limits, StoreKit pricing-source rules, margin markers, product IDs, and screenshot headline completeness.
 - Added the PBI-065 simulator visual QA judge receipt, confirming English runtime smoke while blocking RTL and text-expansion locale visual acceptance until runtime i18n and accepted translations are wired.
 - Added the PBI-065 localization QA gap register for AI linguistic QA, optional native-speaker review, RTL checks, text-expansion checks, StoreKit localized price verification, and localized screenshot baseline blockers.
@@ -125,11 +129,15 @@ All notable changes to this project are documented here.
 - Added the PBI-063 ASO screenshot pairing manifest draft, including launch pairings, retake shot list, and paywall/gifting generation blockers.
 - Added the PBI-063 draft ASO screenshot manifest with explicit generation blockers instead of producing unapproved final App Store assets.
 - Added a PBI-065 follow-up localization tranche based on the flashcard-generator pipeline: runtime i18n, batched Google Translate/AI draft imports, protected-token checks, interpolation checks, English-leak checks, AI linguistic QA or owner-acceptance status, and RTL/text-expansion simulator QA before production Firebase/App Store work.
+- Added the PBI-065 batch translation implementation plan for runtime i18n, Google Translate/AI draft batches, validation gates, AI linguistic QA receipts, and locale visual QA.
+- Added Google Translate-backed BabyMinimo draft localization files for all supported non-English locales across app strings, store metadata, pricing copy, and screenshot headlines, with validation receipts and protected-token checks.
 - Changed the PBI-065 localization release gate so native-speaker review is recommended for high-risk locales and revenue/legal copy but not a hard blocker when AI linguistic QA, automated validation, and simulator visual QA pass.
+- Added the first BabyMinimo runtime localization batch for login, onboarding questionnaire screens, and Settings language QA, with English active by default and German draft access gated for simulator/testing only.
 
 ### Changed
 
 - Tightened the login screen toward the approved Superdesign visual reference using the BabyMinimo logo asset, correct avatar composition, and wider sign-in card proportions.
+- Updated the login, onboarding goal/pain-point, and Settings screens to read copy from the BabyMinimo i18n runtime while preserving the approved visual layout.
 - Rebuilt signup and onboarding screens against the approved `screenshots1` references, including the embedded solution preview, add-baby photo target, care-circle selection, invite caregiver form, and preview handoff card.
 - Replaced text-symbol tab icons with shared navigation icon primitives and adjusted tab bar sizing toward the approved mockups.
 - Tightened later onboarding presentation screens for care priorities, caregiver invite, and household preview toward the approved Superdesign references.

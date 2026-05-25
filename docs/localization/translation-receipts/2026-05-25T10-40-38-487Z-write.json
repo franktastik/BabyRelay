@@ -1,0 +1,53 @@
+{
+  "generatedAt": "2026-05-25T10:40:38.487Z",
+  "provider": "google-public-endpoint",
+  "mode": "write",
+  "locales": [
+    "zh-Hant"
+  ],
+  "sections": [
+    "app-strings"
+  ],
+  "protectedTokens": [
+    "BabyMinimo",
+    "Baby MiniMemo",
+    "StoreKit",
+    "App Store",
+    "Firebase"
+  ],
+  "delayMs": 10,
+  "results": [
+    {
+      "locale": "zh-Hant",
+      "section": "app-strings",
+      "leafCount": 44,
+      "sample": [
+        {
+          "key": "auth.login.productName",
+          "source": "Baby MiniMemo",
+          "translated": "Baby MiniMemo"
+        },
+        {
+          "key": "auth.login.tagline",
+          "source": "Tiny moments. Calm care.",
+          "translated": "微小的時刻。平靜的關懷。"
+        },
+        {
+          "key": "auth.login.hero",
+          "source": "Coordinating baby care, one memo at a time.",
+          "translated": "協調嬰兒護理，一次一份備忘錄。"
+        },
+        {
+          "key": "auth.login.appleButton",
+          "source": "Continue with Apple",
+          "translated": "繼續使用蘋果"
+        },
+        {
+          "key": "auth.login.googleButton",
+          "source": "Continue with Google",
+          "translated": "繼續使用谷歌"
+        }
+      ]
+    }
+  ]
+}

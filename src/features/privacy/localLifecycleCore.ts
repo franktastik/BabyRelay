@@ -1,3 +1,5 @@
+import { babyMinimoI18n } from '@/src/localization'
+
 export type BabyMinimoLifecycleCleanupReason = 'signOut' | 'accountDeletion'
 
 export type BabyMinimoLifecycleCleanupStep =
@@ -85,12 +87,12 @@ export const getBabyMinimoLifecycleCleanupSafeMessage = (
   result: BabyMinimoLifecycleCleanupResult
 ) => {
   if (!hasBabyMinimoLifecycleCleanupFailures(result)) {
-    return 'Local cleanup completed.'
+    return babyMinimoI18n.t('lifecycle.cleanup.completed')
   }
 
   if (hasBabyMinimoLifecycleCleanupBlockingFailure(result)) {
-    return 'Local account cleanup could not finish. Please try again.'
+    return babyMinimoI18n.t('lifecycle.cleanup.blocked')
   }
 
-  return 'Some local cleanup will be retried the next time BabyMinimo opens.'
+  return babyMinimoI18n.t('lifecycle.cleanup.retry')
 }

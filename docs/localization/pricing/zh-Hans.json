@@ -7,21 +7,21 @@
   "sourceLocale": "en",
   "pricingCopy": {
     "period": {
-      "weekly": "per week",
-      "monthly": "per month",
-      "annual": "per year",
-      "lifetime": "one time"
+      "weekly": "每周",
+      "monthly": "每月",
+      "annual": "每年",
+      "lifetime": "一度"
     },
     "trial": {
-      "threeDayFree": "3-day free trial",
-      "thenPricePerPeriod": "Then {price} {period}"
+      "threeDayFree": "3 天免费试用",
+      "thenPricePerPeriod": "然后 {price} {period}"
     },
     "savings": {
-      "template": "Save {percent}%",
-      "annualDefault": "Save 65%"
+      "template": "节省 {percent}%",
+      "annualDefault": "节省 65%"
     },
-    "restore": "Restore purchases",
-    "manage": "Manage subscription",
-    "cancellation": "Cancel anytime in App Store subscriptions."
+    "restore": "恢复购买",
+    "manage": "管理订阅",
+    "cancellation": "随时取消 App Store 订阅。"
   }
 }

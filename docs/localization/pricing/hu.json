@@ -7,21 +7,21 @@
   "sourceLocale": "en",
   "pricingCopy": {
     "period": {
-      "weekly": "per week",
-      "monthly": "per month",
-      "annual": "per year",
-      "lifetime": "one time"
+      "weekly": "hetente",
+      "monthly": "havonta",
+      "annual": "évente",
+      "lifetime": "egyszer"
     },
     "trial": {
-      "threeDayFree": "3-day free trial",
-      "thenPricePerPeriod": "Then {price} {period}"
+      "threeDayFree": "3 napos ingyenes próbaverzió",
+      "thenPricePerPeriod": "Ezután {price} {period}"
     },
     "savings": {
-      "template": "Save {percent}%",
-      "annualDefault": "Save 65%"
+      "template": "{percent}% megtakarítás",
+      "annualDefault": "65% megtakarítás"
     },
-    "restore": "Restore purchases",
-    "manage": "Manage subscription",
-    "cancellation": "Cancel anytime in App Store subscriptions."
+    "restore": "Vásárlások visszaállítása",
+    "manage": "Előfizetés kezelése",
+    "cancellation": "Bármikor lemondhatja a App Store előfizetéseit."
   }
 }

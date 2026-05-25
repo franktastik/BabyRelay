@@ -7,21 +7,21 @@
   "sourceLocale": "en",
   "pricingCopy": {
     "period": {
-      "weekly": "per week",
-      "monthly": "per month",
-      "annual": "per year",
-      "lifetime": "one time"
+      "weekly": "לשבוע",
+      "monthly": "לְחוֹדֶשׁ",
+      "annual": "לְשָׁנָה",
+      "lifetime": "פעם אחת"
     },
     "trial": {
-      "threeDayFree": "3-day free trial",
-      "thenPricePerPeriod": "Then {price} {period}"
+      "threeDayFree": "ניסיון חינם ל-3 ימים",
+      "thenPricePerPeriod": "ואז {price} {period}"
     },
     "savings": {
-      "template": "Save {percent}%",
-      "annualDefault": "Save 65%"
+      "template": "חסוך {percent}%",
+      "annualDefault": "חיסכון של 65%"
     },
-    "restore": "Restore purchases",
-    "manage": "Manage subscription",
-    "cancellation": "Cancel anytime in App Store subscriptions."
+    "restore": "שחזור רכישות",
+    "manage": "ניהול מנוי",
+    "cancellation": "בטל בכל עת במנויי App Store."
   }
 }

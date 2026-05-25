@@ -1,5 +1,6 @@
 import React from 'react'
 import { View, Text, StyleSheet } from 'react-native'
+import { useTranslation } from 'react-i18next'
 import { colors, radius, spacing, typography, shadows } from '@/src/theme'
 
 interface DueSoonCardProps {
@@ -7,12 +8,14 @@ interface DueSoonCardProps {
 }
 
 export function DueSoonCard({ medication }: DueSoonCardProps) {
+  const { t } = useTranslation()
+
   if (!medication) {
     return (
       <View style={styles.container}>
         <SectionHeader overdueCount={0} />
         <View style={styles.row}>
-          <Text style={styles.empty}>Nothing due right now</Text>
+          <Text style={styles.empty}>{t('handoff.dueSoon.empty')}</Text>
         </View>
       </View>
     )
@@ -30,7 +33,7 @@ export function DueSoonCard({ medication }: DueSoonCardProps) {
         <View style={styles.rowContent}>
           <Text style={styles.medicationLabel}>{medication.label}</Text>
           <Text style={[styles.dueTime, isOverdue && styles.overdueText]}>
-            {formatDueText(medication.dueAt, isOverdue)}
+          {formatDueText(medication.dueAt, isOverdue, t)}
           </Text>
         </View>
         <Text style={styles.chevron}>›</Text>
@@ -40,19 +43,21 @@ export function DueSoonCard({ medication }: DueSoonCardProps) {
 }
 
 function SectionHeader({ overdueCount }: { overdueCount: number }) {
+  const { t } = useTranslation()
+
   return (
     <View style={styles.header}>
-      <Text style={styles.title}>Due Soon</Text>
+      <Text style={styles.title}>{t('handoff.dueSoon.title')}</Text>
       {overdueCount > 0 && (
-        <Text style={styles.overduePill}>{overdueCount} Overdue</Text>
+        <Text style={styles.overduePill}>{t('handoff.dueSoon.overdue', { count: overdueCount })}</Text>
       )}
     </View>
   )
 }
 
-function formatDueText(date: Date, isOverdue: boolean): string {
+function formatDueText(date: Date, isOverdue: boolean, t: (key: string, options?: Record<string, unknown>) => string): string {
   const time = date.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })
-  return isOverdue ? `Was due at ${time}` : `Due at ${time}`
+  return isOverdue ? t('handoff.dueSoon.wasDue', { time }) : t('handoff.dueSoon.dueAt', { time })
 }
 
 const styles = StyleSheet.create({

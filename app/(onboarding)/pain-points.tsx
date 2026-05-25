@@ -1,6 +1,7 @@
 import React from 'react'
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 import { useRouter } from 'expo-router'
+import { useTranslation } from 'react-i18next'
 import { Screen, Button } from '@/src/components/ui'
 import { OnboardingFrame } from '@/src/components/onboarding'
 import { colors, radius, shadows, spacing, typography } from '@/src/theme'
@@ -12,57 +13,58 @@ import {
 const painPoints: Array<{
   id: OnboardingPainPoint
   icon: string
-  label: string
-  detail: string
+  labelKey: string
+  detailKey: string
 }> = [
   {
     id: 'missed-handoffs',
     icon: '⇄',
-    label: 'Not sure what happened last',
-    detail: 'Feeds, diapers, sleep, and notes get fuzzy fast.',
+    labelKey: 'onboarding.painPoints.option.missedHandoffs.label',
+    detailKey: 'onboarding.painPoints.option.missedHandoffs.detail',
   },
   {
     id: 'partner-updates',
     icon: '✉',
-    label: 'Keeping my partner updated',
-    detail: 'Texts and memory are easy to miss.',
+    labelKey: 'onboarding.painPoints.option.partnerUpdates.label',
+    detailKey: 'onboarding.painPoints.option.partnerUpdates.detail',
   },
   {
     id: 'overnight-confusion',
     icon: '◔',
-    label: 'Overnight confusion',
-    detail: 'Who fed the baby at 3 AM?',
+    labelKey: 'onboarding.painPoints.option.overnightConfusion.label',
+    detailKey: 'onboarding.painPoints.option.overnightConfusion.detail',
   },
   {
     id: 'forgot-reminders',
     icon: '◷',
-    label: 'Forgetting the next care time',
-    detail: 'Feeding, medication, or tummy time.',
+    labelKey: 'onboarding.painPoints.option.forgotReminders.label',
+    detailKey: 'onboarding.painPoints.option.forgotReminders.detail',
   },
   {
     id: 'scattered-notes',
     icon: '☰',
-    label: 'Notes are scattered everywhere',
-    detail: 'Paper, texts, and tired memory do not sync.',
+    labelKey: 'onboarding.painPoints.option.scatteredNotes.label',
+    detailKey: 'onboarding.painPoints.option.scatteredNotes.detail',
   },
   {
     id: 'photo-moments-buried',
     icon: '◌',
-    label: 'Photo moments get buried',
-    detail: 'Tiny memories should be easy to find, locally.',
+    labelKey: 'onboarding.painPoints.option.photoMomentsBuried.label',
+    detailKey: 'onboarding.painPoints.option.photoMomentsBuried.detail',
   },
 ]
 
 export default function PainPointsScreen() {
   const router = useRouter()
+  const { t } = useTranslation()
   const selectedPainPoints = useOnboardingQuestionnaireStore((s) => s.painPoints)
   const togglePainPoint = useOnboardingQuestionnaireStore((s) => s.togglePainPoint)
 
   return (
     <Screen>
       <OnboardingFrame
-        title="What feels hardest right now?"
-        subtitle="Choose anything that sounds familiar. This helps us shape your first handoff preview."
+        title={t('onboarding.painPoints.title')}
+        subtitle={t('onboarding.painPoints.subtitle')}
         step="Step 3 of 9"
         progress={0.33}
         onBack={() => router.back()}
@@ -76,7 +78,7 @@ export default function PainPointsScreen() {
                 onPress={() => togglePainPoint(painPoint.id)}
                 style={[styles.optionCard, selected && styles.optionCardSelected]}
                 accessibilityRole="checkbox"
-                accessibilityLabel={painPoint.label}
+                accessibilityLabel={t(painPoint.labelKey)}
                 accessibilityState={{ checked: selected }}
               >
                 <View style={[styles.iconBubble, selected && styles.iconBubbleSelected]}>
@@ -85,8 +87,8 @@ export default function PainPointsScreen() {
                   </Text>
                 </View>
                 <View style={styles.optionCopy}>
-                  <Text style={styles.optionLabel}>{painPoint.label}</Text>
-                  <Text style={styles.optionDetail}>{painPoint.detail}</Text>
+                  <Text style={styles.optionLabel}>{t(painPoint.labelKey)}</Text>
+                  <Text style={styles.optionDetail}>{t(painPoint.detailKey)}</Text>
                 </View>
                 <View style={[styles.checkbox, selected && styles.checkboxSelected]}>
                   {selected && <Text style={styles.checkmark}>✓</Text>}
@@ -97,7 +99,7 @@ export default function PainPointsScreen() {
         </View>
 
         <Button onPress={() => router.push('/(onboarding)/problem')} style={styles.button}>
-          Continue →
+          {t('common.continue')} →
         </Button>
       </OnboardingFrame>
     </Screen>

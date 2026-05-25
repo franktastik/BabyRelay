@@ -20,6 +20,7 @@
     "test:visual:compare:coverage": "bun scripts/compare-visual-baselines.ts --config e2e/visual-baselines.json --strict-scroll-coverage",
     "test:firebase:load": "node scripts/firebase-emulator-load-test.mjs",
     "cost:firebase": "node scripts/firebase-monthly-cost-model.mjs",
+    "localization:translate:draft": "node scripts/localization/batch-translate-google.mjs",
     "test:all": "bun test && bunx tsc --noEmit && EXPO_DOCTOR_WARN_ON_NETWORK_ERRORS=1 EXPO_DOCTOR_SKIP_DEPENDENCY_VERSION_CHECK=1 EXPO_DOCTOR_ENABLE_DIRECTORY_CHECK=0 expo-doctor",
     "lint": "expo lint"
   },
@@ -36,8 +37,10 @@
     "expo-status-bar": "~56.0.4",
     "expo-widgets": "~56.0.14",
     "firebase": "^12.13.0",
+    "i18next": "^26.2.0",
     "lucide-react-native": "^1.16.0",
     "react": "19.2.3",
+    "react-i18next": "^17.0.8",
     "react-native": "0.85.3",
     "react-native-safe-area-context": "~5.7.0",
     "react-native-screens": "4.25.2",

@@ -6,12 +6,12 @@
   "reviewRequired": true,
   "sourceLocale": "en",
   "headlines": {
-    "home": "Know what happened last",
-    "handoff": "Handoff in seconds",
-    "timeline": "Every care moment in one place",
-    "growth": "Tiny memories, saved locally",
-    "reminders": "Gentle nudges for due-soon care",
-    "family": "Keep the care circle in sync",
-    "paywall": "Unlock calm baby care"
+    "home": "Tudd, mi történt legutóbb",
+    "handoff": "Átadás másodpercek alatt",
+    "timeline": "Minden gondoskodó pillanat egy helyen",
+    "growth": "Apró emlékek, helyben mentve",
+    "reminders": "Gyengéd bökések a hamarosan esedékes ellátáshoz",
+    "family": "Tartsa szinkronban a gondozási kört",
+    "paywall": "Nyissa meg a nyugodt babagondozást"
   }
 }

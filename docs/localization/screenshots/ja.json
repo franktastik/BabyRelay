@@ -6,12 +6,12 @@
   "reviewRequired": true,
   "sourceLocale": "en",
   "headlines": {
-    "home": "Know what happened last",
-    "handoff": "Handoff in seconds",
-    "timeline": "Every care moment in one place",
-    "growth": "Tiny memories, saved locally",
-    "reminders": "Gentle nudges for due-soon care",
-    "family": "Keep the care circle in sync",
-    "paywall": "Unlock calm baby care"
+    "home": "最後に何が起こったのかを知る",
+    "handoff": "数秒でハンドオフ",
+    "timeline": "あらゆるケアの瞬間を 1 か所で",
+    "growth": "ローカルに保存された小さな思い出",
+    "reminders": "まもなくケアが必要になるための優しいナッジ",
+    "family": "ケアサークルの同期を保つ",
+    "paywall": "穏やかな育児を実現しましょう"
   }
 }

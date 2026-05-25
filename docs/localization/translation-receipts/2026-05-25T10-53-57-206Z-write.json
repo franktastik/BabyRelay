@@ -1,0 +1,1142 @@
+{
+  "generatedAt": "2026-05-25T10:53:57.206Z",
+  "provider": "google-public-endpoint",
+  "mode": "write",
+  "locales": [
+    "ar",
+    "cs",
+    "da",
+    "et",
+    "lt",
+    "lv",
+    "de",
+    "el",
+    "es",
+    "fi",
+    "fil",
+    "fr",
+    "he",
+    "hr",
+    "hu",
+    "id",
+    "it",
+    "ja",
+    "ko",
+    "ms",
+    "nl",
+    "nb",
+    "pl",
+    "pt",
+    "ro",
+    "ru",
+    "sk",
+    "sv",
+    "th",
+    "tr",
+    "uk",
+    "vi",
+    "zh-Hans",
+    "zh-Hant"
+  ],
+  "sections": [
+    "metadata"
+  ],
+  "protectedTokens": [
+    "BabyMinimo",
+    "Baby MiniMemo",
+    "StoreKit",
+    "App Store",
+    "Firebase"
+  ],
+  "delayMs": 10,
+  "results": [
+    {
+      "locale": "ar",
+      "section": "metadata",
+      "leafCount": 6,
+      "sample": [
+        {
+          "key": "appName",
+          "source": "BabyMinimo: Baby Tracker",
+          "translated": "BabyMinimo: جهاز تعقب الأطفال"
+        },
+        {
+          "key": "subtitle",
+          "source": "Feeding, sleep & diaper log",
+          "translated": "سجل التغذية والنوم والحفاضات"
+        },
+        {
+          "key": "keywords",
+          "source": "newborn,feeding,sleep,diaper,baby log,baby journal,milestone,tracker,caregiver,handoff,reminder",
+          "translated": "مولود جديد، تغذية، نوم، حفاضات، سجل الطفل، مجلة الطفل، معلم، تعقب، مقدم الرعاية، التسليم، تذكير"
+        },
+        {
+          "key": "promotionalText",
+          "source": "Track feeding, sleep, diapers, memories, and handoffs in one calm baby log.",
+          "translated": "تتبع التغذية والنوم والحفاضات والذكريات وعمليات التسليم في سجل أطفال واحد هادئ."
+        },
+        {
+          "key": "shortDescription",
+          "source": "Track feeds, sleep, diapers, milestones and caregiver handoffs in one baby log.",
+          "translated": "تتبع الرضعات، والنوم، والحفاضات، والمراحل الرئيسية، وعمليات تسليم مقدمي الرعاية في سجل طفل واحد."
+        }
+      ]
+    },
+    {
+      "locale": "cs",
+      "section": "metadata",
+      "leafCount": 6,
+      "sample": [
+        {
+          "key": "appName",
+          "source": "BabyMinimo: Baby Tracker",
+          "translated": "BabyMinimo: Baby Tracker"
+        },
+        {
+          "key": "subtitle",
+          "source": "Feeding, sleep & diaper log",
+          "translated": "Záznam krmení, spánku a plen"
+        },
+        {
+          "key": "keywords",
+          "source": "newborn,feeding,sleep,diaper,baby log,baby journal,milestone,tracker,caregiver,handoff,reminder",
+          "translated": "novorozenec,krmení,spánek,plenka,deník,dětský deník,milník,sledovač,pečovatel,předání,připomenutí"
+        },
+        {
+          "key": "promotionalText",
+          "source": "Track feeding, sleep, diapers, memories, and handoffs in one calm baby log.",
+          "translated": "Sledujte krmení, spánek, plenky, vzpomínky a předávání v jednom klidném deníku dítěte."
+        },
+        {
+          "key": "shortDescription",
+          "source": "Track feeds, sleep, diapers, milestones and caregiver handoffs in one baby log.",
+          "translated": "Sledujte krmení, spánek, plenky, milníky a předání pečovatele v jednom deníku dítěte."
+        }
+      ]
+    },
+    {
+      "locale": "da",
+      "section": "metadata",
+      "leafCount": 6,
+      "sample": [
+        {
+          "key": "appName",
+          "source": "BabyMinimo: Baby Tracker",
+          "translated": "BabyMinimo: Baby Tracker"
+        },
+        {
+          "key": "subtitle",
+          "source": "Feeding, sleep & diaper log",
+          "translated": "Fodring, søvn & ble log"
+        },
+        {
+          "key": "keywords",
+          "source": "newborn,feeding,sleep,diaper,baby log,baby journal,milestone,tracker,caregiver,handoff,reminder",
+          "translated": "nyfødt, fodring, søvn, ble, babylog, babyjournal, milepæl, tracker, omsorgsperson, overdragelse, påmindelse"
+        },
+        {
+          "key": "promotionalText",
+          "source": "Track feeding, sleep, diapers, memories, and handoffs in one calm baby log.",
+          "translated": "Spor fodring, søvn, bleer, minder og afleveringer i én rolig babylog."
+        },
+        {
+          "key": "shortDescription",
+          "source": "Track feeds, sleep, diapers, milestones and caregiver handoffs in one baby log.",
+          "translated": "Spor fodring, søvn, bleer, milepæle og plejepersonale i én babylog."
+        }
+      ]
+    },
+    {
+      "locale": "et",
+      "section": "metadata",
+      "leafCount": 6,
+      "sample": [
+        {
+          "key": "appName",
+          "source": "BabyMinimo: Baby Tracker",
+          "translated": "BabyMinimo: beebijälgija"
+        },
+        {
+          "key": "subtitle",
+          "source": "Feeding, sleep & diaper log",
+          "translated": "Söötmis-, une- ja mähkmepäevik"
+        },
+        {
+          "key": "keywords",
+          "source": "newborn,feeding,sleep,diaper,baby log,baby journal,milestone,tracker,caregiver,handoff,reminder",
+          "translated": "vastsündinu,toitmine,uni,mähe,beebipäevik,beebipäevik,eesmärk,jälgija,hooldaja,üleandmine,meeldetuletus"
+        },
+        {
+          "key": "promotionalText",
+          "source": "Track feeding, sleep, diapers, memories, and handoffs in one calm baby log.",
+          "translated": "Jälgige toitmist, und, mähkmeid, mälestusi ja üleandmisi ühes rahulikus beebilogis."
+        },
+        {
+          "key": "shortDescription",
+          "source": "Track feeds, sleep, diapers, milestones and caregiver handoffs in one baby log.",
+          "translated": "Jälgige söötmist, und, mähkmeid, verstaposte ja hooldaja üleandmisi ühes beebilogis."
+        }
+      ]
+    },
+    {
+      "locale": "lt",
+      "section": "metadata",
+      "leafCount": 6,
+      "sample": [
+        {
+          "key": "appName",
+          "source": "BabyMinimo: Baby Tracker",
+          "translated": "BabyMinimo: Baby Tracker"
+        },
+        {
+          "key": "subtitle",
+          "source": "Feeding, sleep & diaper log",
+          "translated": "Maitinimo, miego ir vystyklų žurnalas"
+        },
+        {
+          "key": "keywords",
+          "source": "newborn,feeding,sleep,diaper,baby log,baby journal,milestone,tracker,caregiver,handoff,reminder",
+          "translated": "naujagimis,maitinimas,miegas,sauskelnės,kūdikio žurnalas,kūdikio dienoraštis,evardas,sekiklis,globėjas,perdavimas,priminimas"
+        },
+        {
+          "key": "promotionalText",
+          "source": "Track feeding, sleep, diapers, memories, and handoffs in one calm baby log.",
+          "translated": "Stebėkite maitinimą, miegą, vystyklus, prisiminimus ir perdavimą viename ramiame kūdikio žurnale."
+        },
+        {
+          "key": "shortDescription",
+          "source": "Track feeds, sleep, diapers, milestones and caregiver handoffs in one baby log.",
+          "translated": "Stebėkite maitinimą, miegą, vystyklus, gaires ir globėjo perdavimą viename kūdikio žurnale."
+        }
+      ]
+    },
+    {
+      "locale": "lv",
+      "section": "metadata",
+      "leafCount": 6,
+      "sample": [
+        {
+          "key": "appName",
+          "source": "BabyMinimo: Baby Tracker",
+          "translated": "BabyMinimo: Baby Tracker"
+        },
+        {
+          "key": "subtitle",
+          "source": "Feeding, sleep & diaper log",
+          "translated": "Barošanas, miega un autiņbiksīšu žurnāls"
+        },
+        {
+          "key": "keywords",
+          "source": "newborn,feeding,sleep,diaper,baby log,baby journal,milestone,tracker,caregiver,handoff,reminder",
+          "translated": "jaundzimušais, barošana, miegs, autiņbiksītes, mazuļa žurnāls, bērnu žurnāls, pagrieziena punkts, izsekotājs, aprūpētājs, nodošana, atgādinājums"
+        },
+        {
+          "key": "promotionalText",
+          "source": "Track feeding, sleep, diapers, memories, and handoffs in one calm baby log.",
+          "translated": "Izsekojiet barošanu, miegu, autiņus, atmiņas un nodošanu vienā mierīgā bērnu žurnālā."
+        },
+        {
+          "key": "shortDescription",
+          "source": "Track feeds, sleep, diapers, milestones and caregiver handoffs in one baby log.",
+          "translated": "Vienā bērnu žurnālā izsekojiet barošanu, miegu, autiņus, atskaites punktus un aprūpētāju nodošanu."
+        }
+      ]
+    },
+    {
+      "locale": "de",
+      "section": "metadata",
+      "leafCount": 6,
+      "sample": [
+        {
+          "key": "appName",
+          "source": "BabyMinimo: Baby Tracker",
+          "translated": "BabyMinimo: Baby-Tracker"
+        },
+        {
+          "key": "subtitle",
+          "source": "Feeding, sleep & diaper log",
+          "translated": "Fütterungs-, Schlaf- und Windelprotokoll"
+        },
+        {
+          "key": "keywords",
+          "source": "newborn,feeding,sleep,diaper,baby log,baby journal,milestone,tracker,caregiver,handoff,reminder",
+          "translated": "Neugeborenes,Fütterung,Schlaf,Windel,Babyprotokoll,Babytagebuch,Meilenstein,Tracker,Betreuer,Übergabe,Erinnerung"
+        },
+        {
+          "key": "promotionalText",
+          "source": "Track feeding, sleep, diapers, memories, and handoffs in one calm baby log.",
+          "translated": "Verfolgen Sie Fütterung, Schlaf, Windeln, Erinnerungen und Übergaben in einem ruhigen Babyprotokoll."
+        },
+        {
+          "key": "shortDescription",
+          "source": "Track feeds, sleep, diapers, milestones and caregiver handoffs in one baby log.",
+          "translated": "Verfolgen Sie Fütterungen, Schlaf, Windeln, Meilensteine ​​und Übergaben an die Pflegekraft in einem Babyprotokoll."
+        }
+      ]
+    },
+    {
+      "locale": "el",
+      "section": "metadata",
+      "leafCount": 6,
+      "sample": [
+        {
+          "key": "appName",
+          "source": "BabyMinimo: Baby Tracker",
+          "translated": "BabyMinimo: Baby Tracker"
+        },
+        {
+          "key": "subtitle",
+          "source": "Feeding, sleep & diaper log",
+          "translated": "Καταγραφή σίτισης, ύπνου και πάνας"
+        },
+        {
+          "key": "keywords",
+          "source": "newborn,feeding,sleep,diaper,baby log,baby journal,milestone,tracker,caregiver,handoff,reminder",
+          "translated": "νεογέννητο, τάισμα, ύπνος, πάνα, ημερολόγιο μωρού, ημερολόγιο μωρού, ορόσημο, ιχνηλάτης, φροντιστής, παράδοση, υπενθύμιση"
+        },
+        {
+          "key": "promotionalText",
+          "source": "Track feeding, sleep, diapers, memories, and handoffs in one calm baby log.",
+          "translated": "Παρακολουθήστε το τάισμα, τον ύπνο, τις πάνες, τις αναμνήσεις και τις παραδόσεις σε ένα ήρεμο μωρό."
+        },
+        {
+          "key": "shortDescription",
+          "source": "Track feeds, sleep, diapers, milestones and caregiver handoffs in one baby log.",
+          "translated": "Παρακολουθήστε τις τροφές, τον ύπνο, τις πάνες, τα ορόσημα και τις παραδόσεις φροντιστών σε ένα κούτσουρο μωρών."
+        }
+      ]
+    },
+    {
+      "locale": "es",
+      "section": "metadata",
+      "leafCount": 6,
+      "sample": [
+        {
+          "key": "appName",
+          "source": "BabyMinimo: Baby Tracker",
+          "translated": "BabyMinimo: Rastreador de bebés"
+        },
+        {
+          "key": "subtitle",
+          "source": "Feeding, sleep & diaper log",
+          "translated": "Registro de alimentación, sueño y pañales"
+        },
+        {
+          "key": "keywords",
+          "source": "newborn,feeding,sleep,diaper,baby log,baby journal,milestone,tracker,caregiver,handoff,reminder",
+          "translated": "recién nacido, alimentación, sueño, pañal, registro del bebé, diario del bebé, hito, rastreador, cuidador, traspaso, recordatorio"
+        },
+        {
+          "key": "promotionalText",
+          "source": "Track feeding, sleep, diapers, memories, and handoffs in one calm baby log.",
+          "translated": "Realice un seguimiento de la alimentación, el sueño, los pañales, los recuerdos y los traspasos en un tranquilo registro del bebé."
+        },
+        {
+          "key": "shortDescription",
+          "source": "Track feeds, sleep, diapers, milestones and caregiver handoffs in one baby log.",
+          "translated": "Realice un seguimiento de las tomas, el sueño, los pañales, los hitos y las transferencias de los cuidadores en un solo registro del bebé."
+        }
+      ]
+    },
+    {
+      "locale": "fi",
+      "section": "metadata",
+      "leafCount": 6,
+      "sample": [
+        {
+          "key": "appName",
+          "source": "BabyMinimo: Baby Tracker",
+          "translated": "BabyMinimo: Baby Tracker"
+        },
+        {
+          "key": "subtitle",
+          "source": "Feeding, sleep & diaper log",
+          "translated": "Ruokinta-, uni- ja vaippaloki"
+        },
+        {
+          "key": "keywords",
+          "source": "newborn,feeding,sleep,diaper,baby log,baby journal,milestone,tracker,caregiver,handoff,reminder",
+          "translated": "vastasyntynyt,ruokinta,uni,vaippa,vauvapäiväkirja,vauvapäiväkirja,virstanpylväs,tracker,hoitaja,handoff,muistutus"
+        },
+        {
+          "key": "promotionalText",
+          "source": "Track feeding, sleep, diapers, memories, and handoffs in one calm baby log.",
+          "translated": "Seuraa ruokintaa, unta, vaippoja, muistoja ja luovutuksia yhdessä rauhallisessa vauvapäiväkirjassa."
+        },
+        {
+          "key": "shortDescription",
+          "source": "Track feeds, sleep, diapers, milestones and caregiver handoffs in one baby log.",
+          "translated": "Seuraa syötteitä, unia, vaippoja, virstanpylväitä ja hoitajan luovutuksia yhdessä vauvalokin kanssa."
+        }
+      ]
+    },
+    {
+      "locale": "fil",
+      "section": "metadata",
+      "leafCount": 6,
+      "sample": [
+        {
+          "key": "appName",
+          "source": "BabyMinimo: Baby Tracker",
+          "translated": "BabyMinimo: Baby Tracker"
+        },
+        {
+          "key": "subtitle",
+          "source": "Feeding, sleep & diaper log",
+          "translated": "Pagpapakain, pagtulog at diaper log"
+        },
+        {
+          "key": "keywords",
+          "source": "newborn,feeding,sleep,diaper,baby log,baby journal,milestone,tracker,caregiver,handoff,reminder",
+          "translated": "bagong panganak, pagpapakain, tulog, lampin, log ng sanggol, journal ng sanggol, milestone, tagasubaybay, tagapag-alaga, handoff, paalala"
+        },
+        {
+          "key": "promotionalText",
+          "source": "Track feeding, sleep, diapers, memories, and handoffs in one calm baby log.",
+          "translated": "Subaybayan ang pagpapakain, pagtulog, diaper, alaala, at handoffs sa isang kalmadong log ng sanggol."
+        },
+        {
+          "key": "shortDescription",
+          "source": "Track feeds, sleep, diapers, milestones and caregiver handoffs in one baby log.",
+          "translated": "Subaybayan ang mga feed, pagtulog, diaper, milestone at handoff ng tagapag-alaga sa isang log ng sanggol."
+        }
+      ]
+    },
+    {
+      "locale": "fr",
+      "section": "metadata",
+      "leafCount": 6,
+      "sample": [
+        {
+          "key": "appName",
+          "source": "BabyMinimo: Baby Tracker",
+          "translated": "BabyMinimo : traqueur de bébé"
+        },
+        {
+          "key": "subtitle",
+          "source": "Feeding, sleep & diaper log",
+          "translated": "Journal d'alimentation, de sommeil et de couches"
+        },
+        {
+          "key": "keywords",
+          "source": "newborn,feeding,sleep,diaper,baby log,baby journal,milestone,tracker,caregiver,handoff,reminder",
+          "translated": "nouveau-né, alimentation, sommeil, couche, journal de bébé, journal de bébé, étape importante, suivi, soignant, transfert, rappel"
+        },
+        {
+          "key": "promotionalText",
+          "source": "Track feeding, sleep, diapers, memories, and handoffs in one calm baby log.",
+          "translated": "Suivez l'alimentation, le sommeil, les couches, les souvenirs et les transferts dans un journal de bébé calme."
+        },
+        {
+          "key": "shortDescription",
+          "source": "Track feeds, sleep, diapers, milestones and caregiver handoffs in one baby log.",
+          "translated": "Suivez les tétées, le sommeil, les couches, les étapes et les transferts des soignants dans un seul journal de bébé."
+        }
+      ]
+    },
+    {
+      "locale": "he",
+      "section": "metadata",
+      "leafCount": 6,
+      "sample": [
+        {
+          "key": "appName",
+          "source": "BabyMinimo: Baby Tracker",
+          "translated": "BabyMinimo: Baby Tracker"
+        },
+        {
+          "key": "subtitle",
+          "source": "Feeding, sleep & diaper log",
+          "translated": "יומן האכלה, שינה וחיתולים"
+        },
+        {
+          "key": "keywords",
+          "source": "newborn,feeding,sleep,diaper,baby log,baby journal,milestone,tracker,caregiver,handoff,reminder",
+          "translated": "יילוד, האכלה, שינה, חיתול, יומן תינוקות, יומן תינוקות, אבן דרך, עוקב, מטפלת, מסירה, תזכורת"
+        },
+        {
+          "key": "promotionalText",
+          "source": "Track feeding, sleep, diapers, memories, and handoffs in one calm baby log.",
+          "translated": "עקוב אחר האכלה, שינה, חיתולים, זיכרונות ומסרים ביומן תינוק רגוע אחד."
+        },
+        {
+          "key": "shortDescription",
+          "source": "Track feeds, sleep, diapers, milestones and caregiver handoffs in one baby log.",
+          "translated": "עקוב אחר הזנות, שינה, חיתולים, אבני דרך ומסירת מטפל ביומן תינוק אחד."
+        }
+      ]
+    },
+    {
+      "locale": "hr",
+      "section": "metadata",
+      "leafCount": 6,
+      "sample": [
+        {
+          "key": "appName",
+          "source": "BabyMinimo: Baby Tracker",
+          "translated": "BabyMinimo: Tragač za bebe"
+        },
+        {
+          "key": "subtitle",
+          "source": "Feeding, sleep & diaper log",
+          "translated": "Dnevnik hranjenja, spavanja i pelena"
+        },
+        {
+          "key": "keywords",
+          "source": "newborn,feeding,sleep,diaper,baby log,baby journal,milestone,tracker,caregiver,handoff,reminder",
+          "translated": "novorođenče, hranjenje, spavanje, pelene, dnevnik bebe, dnevnik bebe, prekretnica, pratilac, njegovatelj, predaja, podsjetnik"
+        },
+        {
+          "key": "promotionalText",
+          "source": "Track feeding, sleep, diapers, memories, and handoffs in one calm baby log.",
+          "translated": "Pratite hranjenje, spavanje, pelene, uspomene i predaje u jednom mirnom dnevniku bebe."
+        },
+        {
+          "key": "shortDescription",
+          "source": "Track feeds, sleep, diapers, milestones and caregiver handoffs in one baby log.",
+          "translated": "Pratite hranjenje, spavanje, pelene, prekretnice i primopredaje skrbnika u jednom bebi dnevniku."
+        }
+      ]
+    },
+    {
+      "locale": "hu",
+      "section": "metadata",
+      "leafCount": 6,
+      "sample": [
+        {
+          "key": "appName",
+          "source": "BabyMinimo: Baby Tracker",
+          "translated": "BabyMinimo: Babakövető"
+        },
+        {
+          "key": "subtitle",
+          "source": "Feeding, sleep & diaper log",
+          "translated": "Etetési, alvási és pelenkanapló"
+        },
+        {
+          "key": "keywords",
+          "source": "newborn,feeding,sleep,diaper,baby log,baby journal,milestone,tracker,caregiver,handoff,reminder",
+          "translated": "újszülött,etetés,alvás,pelenka,babanapló,babanapló,mérföldkő,követő,gondozó,átadás,emlékeztető"
+        },
+        {
+          "key": "promotionalText",
+          "source": "Track feeding, sleep, diapers, memories, and handoffs in one calm baby log.",
+          "translated": "Kövesse nyomon az etetést, az alvást, a pelenkákat, az emlékeket és az átadásokat egyetlen nyugodt babanaplóban."
+        },
+        {
+          "key": "shortDescription",
+          "source": "Track feeds, sleep, diapers, milestones and caregiver handoffs in one baby log.",
+          "translated": "Nyomon követheti az etetést, az alvást, a pelenkákat, a mérföldköveket és a gondozói átadásokat egyetlen babanaplóban."
+        }
+      ]
+    },
+    {
+      "locale": "id",
+      "section": "metadata",
+      "leafCount": 6,
+      "sample": [
+        {
+          "key": "appName",
+          "source": "BabyMinimo: Baby Tracker",
+          "translated": "BabyMinimo: Pelacak Bayi"
+        },
+        {
+          "key": "subtitle",
+          "source": "Feeding, sleep & diaper log",
+          "translated": "Catatan pemberian makan, tidur & popok"
+        },
+        {
+          "key": "keywords",
+          "source": "newborn,feeding,sleep,diaper,baby log,baby journal,milestone,tracker,caregiver,handoff,reminder",
+          "translated": "bayi baru lahir, menyusui, tidur, popok, log bayi, jurnal bayi, tonggak sejarah, pelacak, pengasuh, serah terima, pengingat"
+        },
+        {
+          "key": "promotionalText",
+          "source": "Track feeding, sleep, diapers, memories, and handoffs in one calm baby log.",
+          "translated": "Lacak pemberian makan, tidur, popok, kenangan, dan serah terima dalam satu catatan bayi yang tenang."
+        },
+        {
+          "key": "shortDescription",
+          "source": "Track feeds, sleep, diapers, milestones and caregiver handoffs in one baby log.",
+          "translated": "Lacak pemberian makan, tidur, popok, pencapaian, dan serah terima pengasuh dalam satu catatan bayi."
+        }
+      ]
+    },
+    {
+      "locale": "it",
+      "section": "metadata",
+      "leafCount": 6,
+      "sample": [
+        {
+          "key": "appName",
+          "source": "BabyMinimo: Baby Tracker",
+          "translated": "BabyMinimo: localizzatore di bambini"
+        },
+        {
+          "key": "subtitle",
+          "source": "Feeding, sleep & diaper log",
+          "translated": "Registro alimentazione, sonno e pannolini"
+        },
+        {
+          "key": "keywords",
+          "source": "newborn,feeding,sleep,diaper,baby log,baby journal,milestone,tracker,caregiver,handoff,reminder",
+          "translated": "neonato, alimentazione, sonno, pannolino, registro del bambino, diario del bambino, pietra miliare, tracker, badante, trasferimento, promemoria"
+        },
+        {
+          "key": "promotionalText",
+          "source": "Track feeding, sleep, diapers, memories, and handoffs in one calm baby log.",
+          "translated": "Tieni traccia dell'alimentazione, del sonno, dei pannolini, dei ricordi e dei passaggi in un unico registro dei bambini."
+        },
+        {
+          "key": "shortDescription",
+          "source": "Track feeds, sleep, diapers, milestones and caregiver handoffs in one baby log.",
+          "translated": "Tieni traccia di poppate, sonno, pannolini, traguardi importanti e passaggi del caregiver in un unico registro dei bambini."
+        }
+      ]
+    },
+    {
+      "locale": "ja",
+      "section": "metadata",
+      "leafCount": 6,
+      "sample": [
+        {
+          "key": "appName",
+          "source": "BabyMinimo: Baby Tracker",
+          "translated": "BabyMinimo: ベビートラッカー"
+        },
+        {
+          "key": "subtitle",
+          "source": "Feeding, sleep & diaper log",
+          "translated": "授乳、睡眠、おむつの記録"
+        },
+        {
+          "key": "keywords",
+          "source": "newborn,feeding,sleep,diaper,baby log,baby journal,milestone,tracker,caregiver,handoff,reminder",
+          "translated": "新生児、授乳、睡眠、おむつ、ベビーログ、ベビージャーナル、マイルストーン、トラッカー、介護者、引き継ぎ、リマインダー"
+        },
+        {
+          "key": "promotionalText",
+          "source": "Track feeding, sleep, diapers, memories, and handoffs in one calm baby log.",
+          "translated": "授乳、睡眠、おむつ、思い出、引き継ぎを 1 つの落ち着いたベビー ログで追跡します。"
+        },
+        {
+          "key": "shortDescription",
+          "source": "Track feeds, sleep, diapers, milestones and caregiver handoffs in one baby log.",
+          "translated": "授乳、睡眠、おむつ、マイルストーン、介護者の引き継ぎを 1 つのベビーログで追跡します。"
+        }
+      ]
+    },
+    {
+      "locale": "ko",
+      "section": "metadata",
+      "leafCount": 6,
+      "sample": [
+        {
+          "key": "appName",
+          "source": "BabyMinimo: Baby Tracker",
+          "translated": "BabyMinimo: 아기 추적기"
+        },
+        {
+          "key": "subtitle",
+          "source": "Feeding, sleep & diaper log",
+          "translated": "수유, 수면, 기저귀 기록"
+        },
+        {
+          "key": "keywords",
+          "source": "newborn,feeding,sleep,diaper,baby log,baby journal,milestone,tracker,caregiver,handoff,reminder",
+          "translated": "신생아,수유,수면,기저귀,아기 기록,아기 일지,마일스톤,트래커,간병인,핸드오프,알림"
+        },
+        {
+          "key": "promotionalText",
+          "source": "Track feeding, sleep, diapers, memories, and handoffs in one calm baby log.",
+          "translated": "차분한 아기 일지에서 수유, 수면, 기저귀, 추억, 전달 사항을 추적하세요."
+        },
+        {
+          "key": "shortDescription",
+          "source": "Track feeds, sleep, diapers, milestones and caregiver handoffs in one baby log.",
+          "translated": "하나의 아기 기록에서 수유, 수면, 기저귀, 주요 일정 및 간병인 전달을 추적합니다."
+        }
+      ]
+    },
+    {
+      "locale": "ms",
+      "section": "metadata",
+      "leafCount": 6,
+      "sample": [
+        {
+          "key": "appName",
+          "source": "BabyMinimo: Baby Tracker",
+          "translated": "BabyMinimo: Penjejak Bayi"
+        },
+        {
+          "key": "subtitle",
+          "source": "Feeding, sleep & diaper log",
+          "translated": "Memberi makan, tidur & log lampin"
+        },
+        {
+          "key": "keywords",
+          "source": "newborn,feeding,sleep,diaper,baby log,baby journal,milestone,tracker,caregiver,handoff,reminder",
+          "translated": "baru lahir, menyusu, tidur, lampin, log bayi, jurnal bayi, peristiwa penting, penjejak, penjaga, penyerahan, peringatan"
+        },
+        {
+          "key": "promotionalText",
+          "source": "Track feeding, sleep, diapers, memories, and handoffs in one calm baby log.",
+          "translated": "Jejaki penyusuan, tidur, lampin, kenangan dan pemberian dalam satu log bayi yang tenang."
+        },
+        {
+          "key": "shortDescription",
+          "source": "Track feeds, sleep, diapers, milestones and caregiver handoffs in one baby log.",
+          "translated": "Jejaki suapan, tidur, lampin, peristiwa penting dan pemberian penjaga dalam satu log bayi."
+        }
+      ]
+    },
+    {
+      "locale": "nl",
+      "section": "metadata",
+      "leafCount": 6,
+      "sample": [
+        {
+          "key": "appName",
+          "source": "BabyMinimo: Baby Tracker",
+          "translated": "BabyMinimo: Babytracker"
+        },
+        {
+          "key": "subtitle",
+          "source": "Feeding, sleep & diaper log",
+          "translated": "Voedings-, slaap- en luierlogboek"
+        },
+        {
+          "key": "keywords",
+          "source": "newborn,feeding,sleep,diaper,baby log,baby journal,milestone,tracker,caregiver,handoff,reminder",
+          "translated": "pasgeborene, voeden, slaap, luier, babylogboek, babydagboek, mijlpaal, tracker, verzorger, overdracht, herinnering"
+        },
+        {
+          "key": "promotionalText",
+          "source": "Track feeding, sleep, diapers, memories, and handoffs in one calm baby log.",
+          "translated": "Houd voeding, slaap, luiers, herinneringen en overdrachten bij in één rustig babylogboek."
+        },
+        {
+          "key": "shortDescription",
+          "source": "Track feeds, sleep, diapers, milestones and caregiver handoffs in one baby log.",
+          "translated": "Houd voedingen, slaap, luiers, mijlpalen en overdrachten van zorgverleners bij in één babylogboek."
+        }
+      ]
+    },
+    {
+      "locale": "nb",
+      "section": "metadata",
+      "leafCount": 6,
+      "sample": [
+        {
+          "key": "appName",
+          "source": "BabyMinimo: Baby Tracker",
+          "translated": "BabyMinimo: Baby Tracker"
+        },
+        {
+          "key": "subtitle",
+          "source": "Feeding, sleep & diaper log",
+          "translated": "Mating, søvn og bleielogg"
+        },
+        {
+          "key": "keywords",
+          "source": "newborn,feeding,sleep,diaper,baby log,baby journal,milestone,tracker,caregiver,handoff,reminder",
+          "translated": "nyfødt, mating, søvn, bleie, babylogg, babyjournal, milepæl, sporing, omsorgsperson, overlevering, påminnelse"
+        },
+        {
+          "key": "promotionalText",
+          "source": "Track feeding, sleep, diapers, memories, and handoffs in one calm baby log.",
+          "translated": "Spor mating, søvn, bleier, minner og overleveringer i én rolig babylogg."
+        },
+        {
+          "key": "shortDescription",
+          "source": "Track feeds, sleep, diapers, milestones and caregiver handoffs in one baby log.",
+          "translated": "Spor mater, søvn, bleier, milepæler og omsorgsoverleveringer i én babylogg."
+        }
+      ]
+    },
+    {
+      "locale": "pl",
+      "section": "metadata",
+      "leafCount": 6,
+      "sample": [
+        {
+          "key": "appName",
+          "source": "BabyMinimo: Baby Tracker",
+          "translated": "BabyMinimo: Lokalizator dziecka"
+        },
+        {
+          "key": "subtitle",
+          "source": "Feeding, sleep & diaper log",
+          "translated": "Dziennik karmienia, snu i pieluszek"
+        },
+        {
+          "key": "keywords",
+          "source": "newborn,feeding,sleep,diaper,baby log,baby journal,milestone,tracker,caregiver,handoff,reminder",
+          "translated": "noworodek, karmienie, sen, pielucha, dziennik dziecka, dziennik dziecka, kamień milowy, tracker, opiekun, przekazanie, przypomnienie"
+        },
+        {
+          "key": "promotionalText",
+          "source": "Track feeding, sleep, diapers, memories, and handoffs in one calm baby log.",
+          "translated": "Śledź karmienie, sen, pieluchy, wspomnienia i przekazania w jednym spokojnym dzienniku dziecka."
+        },
+        {
+          "key": "shortDescription",
+          "source": "Track feeds, sleep, diapers, milestones and caregiver handoffs in one baby log.",
+          "translated": "Śledź karmienie, sen, pieluchy, kamienie milowe i przekazanie opiekunów w jednym dzienniku dziecka."
+        }
+      ]
+    },
+    {
+      "locale": "pt",
+      "section": "metadata",
+      "leafCount": 6,
+      "sample": [
+        {
+          "key": "appName",
+          "source": "BabyMinimo: Baby Tracker",
+          "translated": "BabyMinimo: rastreador de bebê"
+        },
+        {
+          "key": "subtitle",
+          "source": "Feeding, sleep & diaper log",
+          "translated": "Registro de alimentação, sono e fraldas"
+        },
+        {
+          "key": "keywords",
+          "source": "newborn,feeding,sleep,diaper,baby log,baby journal,milestone,tracker,caregiver,handoff,reminder",
+          "translated": "recém-nascido,alimentação,sono,fralda,registro do bebê,diário do bebê,marco,rastreador,cuidador,transferência,lembrete"
+        },
+        {
+          "key": "promotionalText",
+          "source": "Track feeding, sleep, diapers, memories, and handoffs in one calm baby log.",
+          "translated": "Acompanhe a alimentação, o sono, as fraldas, as memórias e as transferências em um registro calmo do bebê."
+        },
+        {
+          "key": "shortDescription",
+          "source": "Track feeds, sleep, diapers, milestones and caregiver handoffs in one baby log.",
+          "translated": "Acompanhe a alimentação, o sono, as fraldas, os marcos e as transferências dos cuidadores em um único registro do bebê."
+        }
+      ]
+    },
+    {
+      "locale": "ro",
+      "section": "metadata",
+      "leafCount": 6,
+      "sample": [
+        {
+          "key": "appName",
+          "source": "BabyMinimo: Baby Tracker",
+          "translated": "BabyMinimo: Tracker pentru copii"
+        },
+        {
+          "key": "subtitle",
+          "source": "Feeding, sleep & diaper log",
+          "translated": "Jurnal de hrănire, somn și scutece"
+        },
+        {
+          "key": "keywords",
+          "source": "newborn,feeding,sleep,diaper,baby log,baby journal,milestone,tracker,caregiver,handoff,reminder",
+          "translated": "nou-născut, hrănire, somn, scutec, jurnal pentru bebeluși, jurnal pentru bebeluși, piatră de referință, urmăritor, îngrijitor, transfer, memento"
+        },
+        {
+          "key": "promotionalText",
+          "source": "Track feeding, sleep, diapers, memories, and handoffs in one calm baby log.",
+          "translated": "Urmăriți hrănirea, somnul, scutecele, amintirile și transferurile într-un singur jurnal calm pentru bebeluși."
+        },
+        {
+          "key": "shortDescription",
+          "source": "Track feeds, sleep, diapers, milestones and caregiver handoffs in one baby log.",
+          "translated": "Urmăriți hrăniile, somnul, scutecele, etapele de referință și transferurile îngrijitorilor într-un singur jurnal pentru bebeluși."
+        }
+      ]
+    },
+    {
+      "locale": "ru",
+      "section": "metadata",
+      "leafCount": 6,
+      "sample": [
+        {
+          "key": "appName",
+          "source": "BabyMinimo: Baby Tracker",
+          "translated": "BabyMinimo: Детский трекер"
+        },
+        {
+          "key": "subtitle",
+          "source": "Feeding, sleep & diaper log",
+          "translated": "Журнал кормления, сна и подгузников"
+        },
+        {
+          "key": "keywords",
+          "source": "newborn,feeding,sleep,diaper,baby log,baby journal,milestone,tracker,caregiver,handoff,reminder",
+          "translated": "новорожденный,кормление,сон,подгузник,детский журнал,детский журнал,веха,трекер,опекун,передача,напоминание"
+        },
+        {
+          "key": "promotionalText",
+          "source": "Track feeding, sleep, diapers, memories, and handoffs in one calm baby log.",
+          "translated": "Отслеживайте кормление, сон, подгузники, воспоминания и передачи дел в одном спокойном журнале ребенка."
+        },
+        {
+          "key": "shortDescription",
+          "source": "Track feeds, sleep, diapers, milestones and caregiver handoffs in one baby log.",
+          "translated": "Отслеживайте кормление, сон, подгузники, основные этапы и передачи опекунам в одном журнале ребенка."
+        }
+      ]
+    },
+    {
+      "locale": "sk",
+      "section": "metadata",
+      "leafCount": 6,
+      "sample": [
+        {
+          "key": "appName",
+          "source": "BabyMinimo: Baby Tracker",
+          "translated": "BabyMinimo: Baby Tracker"
+        },
+        {
+          "key": "subtitle",
+          "source": "Feeding, sleep & diaper log",
+          "translated": "Záznam kŕmenia, spánku a plienok"
+        },
+        {
+          "key": "keywords",
+          "source": "newborn,feeding,sleep,diaper,baby log,baby journal,milestone,tracker,caregiver,handoff,reminder",
+          "translated": "novorodenec,kŕmenie,spánok,plienka,detný denník,detský denník,míľnik,sledovač,opatrovateľ,odovzdanie,pripomienka"
+        },
+        {
+          "key": "promotionalText",
+          "source": "Track feeding, sleep, diapers, memories, and handoffs in one calm baby log.",
+          "translated": "Sledujte kŕmenie, spánok, plienky, spomienky a odovzdania v jednom pokojnom denníku dieťaťa."
+        },
+        {
+          "key": "shortDescription",
+          "source": "Track feeds, sleep, diapers, milestones and caregiver handoffs in one baby log.",
+          "translated": "Sledujte kŕmenie, spánok, plienky, míľniky a odovzdania opatrovateľa v jednom denníku dieťaťa."
+        }
+      ]
+    },
+    {
+      "locale": "sv",
+      "section": "metadata",
+      "leafCount": 6,
+      "sample": [
+        {
+          "key": "appName",
+          "source": "BabyMinimo: Baby Tracker",
+          "translated": "BabyMinimo: Baby Tracker"
+        },
+        {
+          "key": "subtitle",
+          "source": "Feeding, sleep & diaper log",
+          "translated": "Matning, sömn & blöjlogg"
+        },
+        {
+          "key": "keywords",
+          "source": "newborn,feeding,sleep,diaper,baby log,baby journal,milestone,tracker,caregiver,handoff,reminder",
+          "translated": "nyfödd, matning, sömn, blöja, bebislogg, bebisjournal, milstolpe, spårare, vårdgivare, handoff, påminnelse"
+        },
+        {
+          "key": "promotionalText",
+          "source": "Track feeding, sleep, diapers, memories, and handoffs in one calm baby log.",
+          "translated": "Spåra matning, sömn, blöjor, minnen och överlämningar i en lugn bebislogg."
+        },
+        {
+          "key": "shortDescription",
+          "source": "Track feeds, sleep, diapers, milestones and caregiver handoffs in one baby log.",
+          "translated": "Spåra matningar, sömn, blöjor, milstolpar och handoffs från vårdgivare i en babylogg."
+        }
+      ]
+    },
+    {
+      "locale": "th",
+      "section": "metadata",
+      "leafCount": 6,
+      "sample": [
+        {
+          "key": "appName",
+          "source": "BabyMinimo: Baby Tracker",
+          "translated": "BabyMinimo: เครื่องติดตามเด็ก"
+        },
+        {
+          "key": "subtitle",
+          "source": "Feeding, sleep & diaper log",
+          "translated": "บันทึกการให้อาหาร การนอนหลับ และผ้าอ้อม"
+        },
+        {
+          "key": "keywords",
+          "source": "newborn,feeding,sleep,diaper,baby log,baby journal,milestone,tracker,caregiver,handoff,reminder",
+          "translated": "ทารกแรกเกิด การให้อาหาร การนอนหลับ ผ้าอ้อม บันทึกของทารก บันทึกเกี่ยวกับทารก เหตุการณ์สำคัญ ตัวติดตาม ผู้ดูแล การส่งมอบ การแจ้งเตือน"
+        },
+        {
+          "key": "promotionalText",
+          "source": "Track feeding, sleep, diapers, memories, and handoffs in one calm baby log.",
+          "translated": "ติดตามการให้อาหาร การนอนหลับ ผ้าอ้อม ความทรงจำ และการส่งมอบในบันทึกของทารกอันเงียบสงบเพียงหนึ่งเดียว"
+        },
+        {
+          "key": "shortDescription",
+          "source": "Track feeds, sleep, diapers, milestones and caregiver handoffs in one baby log.",
+          "translated": "ติดตามการป้อนนม การนอนหลับ ผ้าอ้อม เหตุการณ์สำคัญ และการส่งมอบของผู้ดูแลในบันทึกข้อมูลทารกเพียงฉบับเดียว"
+        }
+      ]
+    },
+    {
+      "locale": "tr",
+      "section": "metadata",
+      "leafCount": 6,
+      "sample": [
+        {
+          "key": "appName",
+          "source": "BabyMinimo: Baby Tracker",
+          "translated": "BabyMinimo: Bebek Takibi"
+        },
+        {
+          "key": "subtitle",
+          "source": "Feeding, sleep & diaper log",
+          "translated": "Beslenme, uyku ve bebek bezi günlüğü"
+        },
+        {
+          "key": "keywords",
+          "source": "newborn,feeding,sleep,diaper,baby log,baby journal,milestone,tracker,caregiver,handoff,reminder",
+          "translated": "yeni doğan,besleme,uyku,bebek bezi,bebek günlüğü,bebek günlüğü,dönüm noktası,izci,bakıcı,devret,hatırlatma"
+        },
+        {
+          "key": "promotionalText",
+          "source": "Track feeding, sleep, diapers, memories, and handoffs in one calm baby log.",
+          "translated": "Beslenmeyi, uykuyu, bebek bezlerini, anıları ve aktarımları tek bir sakin bebek günlüğünde takip edin."
+        },
+        {
+          "key": "shortDescription",
+          "source": "Track feeds, sleep, diapers, milestones and caregiver handoffs in one baby log.",
+          "translated": "Beslemeleri, uykuyu, bebek bezlerini, kilometre taşlarını ve bakıcı devirlerini tek bir bebek günlüğünde takip edin."
+        }
+      ]
+    },
+    {
+      "locale": "uk",
+      "section": "metadata",
+      "leafCount": 6,
+      "sample": [
+        {
+          "key": "appName",
+          "source": "BabyMinimo: Baby Tracker",
+          "translated": "BabyMinimo: Дитячий трекер"
+        },
+        {
+          "key": "subtitle",
+          "source": "Feeding, sleep & diaper log",
+          "translated": "Журнал годування, сну та пелюшок"
+        },
+        {
+          "key": "keywords",
+          "source": "newborn,feeding,sleep,diaper,baby log,baby journal,milestone,tracker,caregiver,handoff,reminder",
+          "translated": "новонароджений, годування, сон, підгузок, дитячий журнал, дитячий журнал, віха, трекер, доглядач, передача, нагадування"
+        },
+        {
+          "key": "promotionalText",
+          "source": "Track feeding, sleep, diapers, memories, and handoffs in one calm baby log.",
+          "translated": "Відстежуйте годування, сон, підгузки, спогади та передачі в одному спокійному журналі для дитини."
+        },
+        {
+          "key": "shortDescription",
+          "source": "Track feeds, sleep, diapers, milestones and caregiver handoffs in one baby log.",
+          "translated": "Відстежуйте годування, сон, підгузки, етапи та передачі опікунів в одному журналі для дитини."
+        }
+      ]
+    },
+    {
+      "locale": "vi",
+      "section": "metadata",
+      "leafCount": 6,
+      "sample": [
+        {
+          "key": "appName",
+          "source": "BabyMinimo: Baby Tracker",
+          "translated": "BabyMinimo: Theo dõi em bé"
+        },
+        {
+          "key": "subtitle",
+          "source": "Feeding, sleep & diaper log",
+          "translated": "Nhật ký ăn, ngủ và thay tã"
+        },
+        {
+          "key": "keywords",
+          "source": "newborn,feeding,sleep,diaper,baby log,baby journal,milestone,tracker,caregiver,handoff,reminder",
+          "translated": "trẻ sơ sinh, cho ăn, ngủ, tã lót, nhật ký em bé, nhật ký của em bé, cột mốc, công cụ theo dõi, người chăm sóc, bàn giao, nhắc nhở"
+        },
+        {
+          "key": "promotionalText",
+          "source": "Track feeding, sleep, diapers, memories, and handoffs in one calm baby log.",
+          "translated": "Theo dõi việc cho ăn, ngủ, tã lót, ký ức và chuyển giao trong một nhật ký bình tĩnh của bé."
+        },
+        {
+          "key": "shortDescription",
+          "source": "Track feeds, sleep, diapers, milestones and caregiver handoffs in one baby log.",
+          "translated": "Theo dõi các bữa ăn, giấc ngủ, tã lót, các mốc quan trọng và sự chuyển giao của người chăm sóc trong một nhật ký trẻ em."
+        }
+      ]
+    },
+    {
+      "locale": "zh-Hans",
+      "section": "metadata",
+      "leafCount": 6,
+      "sample": [
+        {
+          "key": "appName",
+          "source": "BabyMinimo: Baby Tracker",
+          "translated": "BabyMinimo：婴儿追踪器"
+        },
+        {
+          "key": "subtitle",
+          "source": "Feeding, sleep & diaper log",
+          "translated": "喂食、睡眠和尿布日志"
+        },
+        {
+          "key": "keywords",
+          "source": "newborn,feeding,sleep,diaper,baby log,baby journal,milestone,tracker,caregiver,handoff,reminder",
+          "translated": "新生儿、喂养、睡眠、尿布、婴儿日志、婴儿日记、里程碑、跟踪器、护理人员、交接、提醒"
+        },
+        {
+          "key": "promotionalText",
+          "source": "Track feeding, sleep, diapers, memories, and handoffs in one calm baby log.",
+          "translated": "在一份平静的婴儿日志中跟踪喂养、睡眠、尿布、记忆和交接情况。"
+        },
+        {
+          "key": "shortDescription",
+          "source": "Track feeds, sleep, diapers, milestones and caregiver handoffs in one baby log.",
+          "translated": "在一份婴儿日志中跟踪喂养、睡眠、尿布、里程碑和护理人员交接情况。"
+        }
+      ]
+    },
+    {
+      "locale": "zh-Hant",
+      "section": "metadata",
+      "leafCount": 6,
+      "sample": [
+        {
+          "key": "appName",
+          "source": "BabyMinimo: Baby Tracker",
+          "translated": "BabyMinimo：嬰兒追蹤器"
+        },
+        {
+          "key": "subtitle",
+          "source": "Feeding, sleep & diaper log",
+          "translated": "餵食、睡眠和尿布日誌"
+        },
+        {
+          "key": "keywords",
+          "source": "newborn,feeding,sleep,diaper,baby log,baby journal,milestone,tracker,caregiver,handoff,reminder",
+          "translated": "新生兒、餵食、睡眠、尿布、嬰兒日誌、嬰兒日記、里程碑、追蹤器、照護人員、交接、提醒"
+        },
+        {
+          "key": "promotionalText",
+          "source": "Track feeding, sleep, diapers, memories, and handoffs in one calm baby log.",
+          "translated": "在一份平靜的嬰兒日誌中追蹤餵食、睡眠、尿布、記憶和交接。"
+        },
+        {
+          "key": "shortDescription",
+          "source": "Track feeds, sleep, diapers, milestones and caregiver handoffs in one baby log.",
+          "translated": "在一份嬰兒日誌中追蹤餵食、睡眠、尿布、里程碑和照護者交接。"
+        }
+      ]
+    }
+  ]
+}

@@ -6,12 +6,12 @@
   "reviewRequired": true,
   "sourceLocale": "en",
   "headlines": {
-    "home": "Know what happened last",
-    "handoff": "Handoff in seconds",
-    "timeline": "Every care moment in one place",
-    "growth": "Tiny memories, saved locally",
-    "reminders": "Gentle nudges for due-soon care",
-    "family": "Keep the care circle in sync",
-    "paywall": "Unlock calm baby care"
+    "home": "รู้ว่าเกิดอะไรขึ้นล่าสุด",
+    "handoff": "แฮนด์ออฟในไม่กี่วินาที",
+    "timeline": "ทุกช่วงเวลาแห่งการดูแลในที่เดียว",
+    "growth": "ความทรงจำเล็กๆ ที่บันทึกไว้ในเครื่อง",
+    "reminders": "สะกิดอย่างอ่อนโยนเพื่อการดูแลที่ครบกำหนดในไม่ช้า",
+    "family": "รักษาแวดวงการดูแลให้ตรงกัน",
+    "paywall": "ปลดล็อกการดูแลทารกอย่างสงบ"
   }
 }

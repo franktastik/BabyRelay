@@ -6,12 +6,12 @@
   "reviewRequired": true,
   "sourceLocale": "en",
   "headlines": {
-    "home": "Know what happened last",
-    "handoff": "Handoff in seconds",
-    "timeline": "Every care moment in one place",
-    "growth": "Tiny memories, saved locally",
-    "reminders": "Gentle nudges for due-soon care",
-    "family": "Keep the care circle in sync",
-    "paywall": "Unlock calm baby care"
+    "home": "知道最後發生了什麼",
+    "handoff": "幾秒鐘內切換",
+    "timeline": "每一個關懷時刻都集中在一個地方",
+    "growth": "微小的記憶，保存在本地",
+    "reminders": "溫和的推動以提供及時護理",
+    "family": "保持護理圈同步",
+    "paywall": "解鎖平靜的嬰兒護理"
   }
 }

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { useRouter } from 'expo-router'
+import { useTranslation } from 'react-i18next'
 import { Input } from '@/src/components/ui'
 import { LogFormShell } from '@/src/components/logging'
 import { useAuthStore } from '@/src/stores/authStore'
@@ -9,6 +10,7 @@ import { colors, radius, spacing, typography } from '@/src/theme'
 
 export default function LogMedicationModal() {
   const router = useRouter()
+  const { t } = useTranslation()
   const [name, setName] = useState('Vitamin D Drops')
   const [dose, setDose] = useState('1')
   const [note, setNote] = useState('')
@@ -25,11 +27,11 @@ export default function LogMedicationModal() {
         type: 'medication',
         occurredAt: new Date(),
         metadata: {
-          name: name || 'Medication',
+          name: name || t('log.medication.fallback'),
           dose: dose || undefined,
           note: note || undefined,
         },
-        createdBy: user?.displayName || 'Caregiver',
+        createdBy: user?.displayName || t('log.createdBy.fallback'),
       })
       router.back()
     } finally {
@@ -39,7 +41,7 @@ export default function LogMedicationModal() {
 
   return (
     <LogFormShell
-      title="Health"
+      title={t('log.category.health')}
       note={note}
       onNoteChange={setNote}
       onSave={handleSave}
@@ -48,14 +50,14 @@ export default function LogMedicationModal() {
       activeType="health"
     >
       <View style={styles.card}>
-        <Text style={styles.sectionLabel}>Medication</Text>
-        <Input value={name} onChangeText={setName} placeholder="Medication name" />
+        <Text style={styles.sectionLabel}>{t('log.medication')}</Text>
+        <Input value={name} onChangeText={setName} placeholder={t('log.medication.placeholder')} />
         <View style={styles.fieldSpacer} />
         <Input
           value={dose}
           onChangeText={setDose}
           keyboardType="numeric"
-          placeholder="Dose"
+          placeholder={t('log.dose.placeholder')}
           rightAccessory={<Text style={styles.unit}>ml</Text>}
         />
       </View>

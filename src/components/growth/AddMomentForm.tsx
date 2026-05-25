@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
 import { Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { useTranslation } from 'react-i18next'
 import { Button, Input } from '@/src/components/ui'
 import { colors, radius, shadows, spacing, typography } from '@/src/theme'
 
 const momentTypes = [
-  { key: 'milestone', label: 'Milestone' },
-  { key: 'photo', label: 'Photo' },
-  { key: 'memory', label: 'Memory' },
+  { key: 'milestone', labelKey: 'growth.add.type.milestone' },
+  { key: 'photo', labelKey: 'growth.add.type.photo' },
+  { key: 'memory', labelKey: 'growth.add.type.memory' },
 ]
 
 interface AddMomentFormProps {
@@ -20,6 +21,7 @@ interface AddMomentFormProps {
 }
 
 export function AddMomentForm({ onSave, onCancel }: AddMomentFormProps) {
+  const { t } = useTranslation()
   const [caption, setCaption] = useState('First smile!')
   const [momentType, setMomentType] = useState('milestone')
   const [photoChosen, setPhotoChosen] = useState(false)
@@ -40,10 +42,10 @@ export function AddMomentForm({ onSave, onCancel }: AddMomentFormProps) {
         <Pressable onPress={onCancel} style={styles.backButton} hitSlop={14}>
           <Text style={styles.backText}>‹</Text>
         </Pressable>
-        <Text style={styles.title}>Add a moment</Text>
+        <Text style={styles.title}>{t('growth.add.title')}</Text>
       </View>
 
-      <Text style={styles.dateText}>May 24, 2024</Text>
+      <Text style={styles.dateText}>{t('growth.add.date')}</Text>
 
       <Pressable
         style={[styles.photoCard, photoChosen && styles.photoCardChosen]}
@@ -58,13 +60,13 @@ export function AddMomentForm({ onSave, onCancel }: AddMomentFormProps) {
         ) : (
           <View style={styles.photoEmpty}>
             <Text style={styles.photoIcon}>⌁</Text>
-            <Text style={styles.photoText}>Choose photo</Text>
+            <Text style={styles.photoText}>{t('growth.add.choosePhoto')}</Text>
           </View>
         )}
       </Pressable>
 
       <View style={styles.card}>
-        <Text style={styles.sectionLabel}>Moment type</Text>
+        <Text style={styles.sectionLabel}>{t('growth.add.typeLabel')}</Text>
         <View style={styles.typeRow}>
           {momentTypes.map((type) => {
             const selected = momentType === type.key
@@ -75,7 +77,7 @@ export function AddMomentForm({ onSave, onCancel }: AddMomentFormProps) {
                 onPress={() => setMomentType(type.key)}
               >
                 <Text style={[styles.typeChipText, selected && styles.typeChipTextSelected]}>
-                  {type.label}
+                  {t(type.labelKey)}
                 </Text>
               </Pressable>
             )
@@ -85,30 +87,30 @@ export function AddMomentForm({ onSave, onCancel }: AddMomentFormProps) {
 
       <View style={styles.card}>
         <Input
-          label="Title"
-          placeholder="First smile!"
+          label={t('growth.add.titleLabel')}
+          placeholder={t('growth.add.titlePlaceholder')}
           value={caption}
           onChangeText={setCaption}
         />
         <View style={styles.fieldSpacer} />
         <Input
-          label="Notes (optional)"
-          placeholder="She smiled at Dad today."
+          label={t('growth.add.notesLabel')}
+          placeholder={t('growth.add.notesPlaceholder')}
           value={notes}
           onChangeText={setNotes}
         />
       </View>
 
       <Text style={styles.localNote}>
-        Growth Timeline photos are stored locally on this device in v1.
+        {t('growth.add.localNote')}
       </Text>
 
       <View style={styles.actions}>
         <Button variant="ghost" onPress={onCancel} style={styles.cancelButton}>
-          <Text style={styles.cancelText}>Cancel</Text>
+          <Text style={styles.cancelText}>{t('common.cancel')}</Text>
         </Button>
         <Button variant="primary" onPress={handleSave} style={styles.saveButton}>
-          <Text style={styles.saveText}>Save</Text>
+          <Text style={styles.saveText}>{t('common.save')}</Text>
         </Button>
       </View>
     </ScrollView>

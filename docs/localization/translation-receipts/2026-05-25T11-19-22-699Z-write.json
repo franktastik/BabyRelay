@@ -1,0 +1,350 @@
+{
+  "generatedAt": "2026-05-25T11:19:22.699Z",
+  "provider": "google-public-endpoint",
+  "mode": "write",
+  "locales": [
+    "ro",
+    "ru",
+    "sk",
+    "sv",
+    "th",
+    "tr",
+    "uk",
+    "vi",
+    "zh-Hans",
+    "zh-Hant"
+  ],
+  "sections": [
+    "app-strings"
+  ],
+  "protectedTokens": [
+    "BabyMinimo",
+    "Baby MiniMemo",
+    "StoreKit",
+    "App Store",
+    "Firebase"
+  ],
+  "delayMs": 25,
+  "results": [
+    {
+      "locale": "ro",
+      "section": "app-strings",
+      "leafCount": 100,
+      "sample": [
+        {
+          "key": "auth.login.productName",
+          "source": "Baby MiniMemo",
+          "translated": "Baby MiniMemo"
+        },
+        {
+          "key": "auth.login.tagline",
+          "source": "Tiny moments. Calm care.",
+          "translated": "Momente mici. Îngrijire liniștită."
+        },
+        {
+          "key": "auth.login.hero",
+          "source": "Coordinating baby care, one memo at a time.",
+          "translated": "Coordonarea îngrijirii bebelușului, câte o notă."
+        },
+        {
+          "key": "auth.login.appleButton",
+          "source": "Continue with Apple",
+          "translated": "Continuați cu Apple"
+        },
+        {
+          "key": "auth.login.googleButton",
+          "source": "Continue with Google",
+          "translated": "Continuați cu Google"
+        }
+      ]
+    },
+    {
+      "locale": "ru",
+      "section": "app-strings",
+      "leafCount": 100,
+      "sample": [
+        {
+          "key": "auth.login.productName",
+          "source": "Baby MiniMemo",
+          "translated": "Baby MiniMemo"
+        },
+        {
+          "key": "auth.login.tagline",
+          "source": "Tiny moments. Calm care.",
+          "translated": "Крошечные моменты. Спокойный уход."
+        },
+        {
+          "key": "auth.login.hero",
+          "source": "Coordinating baby care, one memo at a time.",
+          "translated": "Координация ухода за ребенком, по одной памятке за раз."
+        },
+        {
+          "key": "auth.login.appleButton",
+          "source": "Continue with Apple",
+          "translated": "Продолжить с Apple"
+        },
+        {
+          "key": "auth.login.googleButton",
+          "source": "Continue with Google",
+          "translated": "Продолжить с Google"
+        }
+      ]
+    },
+    {
+      "locale": "sk",
+      "section": "app-strings",
+      "leafCount": 100,
+      "sample": [
+        {
+          "key": "auth.login.productName",
+          "source": "Baby MiniMemo",
+          "translated": "Baby MiniMemo"
+        },
+        {
+          "key": "auth.login.tagline",
+          "source": "Tiny moments. Calm care.",
+          "translated": "Drobné momenty. Pokojná starostlivosť."
+        },
+        {
+          "key": "auth.login.hero",
+          "source": "Coordinating baby care, one memo at a time.",
+          "translated": "Koordinácia starostlivosti o dieťa, jedna poznámka naraz."
+        },
+        {
+          "key": "auth.login.appleButton",
+          "source": "Continue with Apple",
+          "translated": "Pokračujte s Apple"
+        },
+        {
+          "key": "auth.login.googleButton",
+          "source": "Continue with Google",
+          "translated": "Pokračujte so službou Google"
+        }
+      ]
+    },
+    {
+      "locale": "sv",
+      "section": "app-strings",
+      "leafCount": 100,
+      "sample": [
+        {
+          "key": "auth.login.productName",
+          "source": "Baby MiniMemo",
+          "translated": "Baby MiniMemo"
+        },
+        {
+          "key": "auth.login.tagline",
+          "source": "Tiny moments. Calm care.",
+          "translated": "Små ögonblick. Lugn vård."
+        },
+        {
+          "key": "auth.login.hero",
+          "source": "Coordinating baby care, one memo at a time.",
+          "translated": "Koordinering av babyvård, ett PM i taget."
+        },
+        {
+          "key": "auth.login.appleButton",
+          "source": "Continue with Apple",
+          "translated": "Fortsätt med Apple"
+        },
+        {
+          "key": "auth.login.googleButton",
+          "source": "Continue with Google",
+          "translated": "Fortsätt med Google"
+        }
+      ]
+    },
+    {
+      "locale": "th",
+      "section": "app-strings",
+      "leafCount": 100,
+      "sample": [
+        {
+          "key": "auth.login.productName",
+          "source": "Baby MiniMemo",
+          "translated": "Baby MiniMemo"
+        },
+        {
+          "key": "auth.login.tagline",
+          "source": "Tiny moments. Calm care.",
+          "translated": "ช่วงเวลาเล็กๆ การดูแลอย่างสงบ"
+        },
+        {
+          "key": "auth.login.hero",
+          "source": "Coordinating baby care, one memo at a time.",
+          "translated": "การประสานงานการดูแลทารก ทีละบันทึก"
+        },
+        {
+          "key": "auth.login.appleButton",
+          "source": "Continue with Apple",
+          "translated": "ต่อด้วยแอปเปิล"
+        },
+        {
+          "key": "auth.login.googleButton",
+          "source": "Continue with Google",
+          "translated": "ดำเนินการต่อด้วย Google"
+        }
+      ]
+    },
+    {
+      "locale": "tr",
+      "section": "app-strings",
+      "leafCount": 100,
+      "sample": [
+        {
+          "key": "auth.login.productName",
+          "source": "Baby MiniMemo",
+          "translated": "Baby MiniMemo"
+        },
+        {
+          "key": "auth.login.tagline",
+          "source": "Tiny moments. Calm care.",
+          "translated": "Minik anlar. Sakin bakım."
+        },
+        {
+          "key": "auth.login.hero",
+          "source": "Coordinating baby care, one memo at a time.",
+          "translated": "Bebek bakımını koordine etmek, her seferinde bir not."
+        },
+        {
+          "key": "auth.login.appleButton",
+          "source": "Continue with Apple",
+          "translated": "Apple'la devam et"
+        },
+        {
+          "key": "auth.login.googleButton",
+          "source": "Continue with Google",
+          "translated": "Google ile devam et"
+        }
+      ]
+    },
+    {
+      "locale": "uk",
+      "section": "app-strings",
+      "leafCount": 100,
+      "sample": [
+        {
+          "key": "auth.login.productName",
+          "source": "Baby MiniMemo",
+          "translated": "Baby MiniMemo"
+        },
+        {
+          "key": "auth.login.tagline",
+          "source": "Tiny moments. Calm care.",
+          "translated": "Маленькі моменти. Спокійний догляд."
+        },
+        {
+          "key": "auth.login.hero",
+          "source": "Coordinating baby care, one memo at a time.",
+          "translated": "Координація догляду за дитиною, одна пам’ятка за раз."
+        },
+        {
+          "key": "auth.login.appleButton",
+          "source": "Continue with Apple",
+          "translated": "Продовжуйте з Apple"
+        },
+        {
+          "key": "auth.login.googleButton",
+          "source": "Continue with Google",
+          "translated": "Продовжуйте з Google"
+        }
+      ]
+    },
+    {
+      "locale": "vi",
+      "section": "app-strings",
+      "leafCount": 100,
+      "sample": [
+        {
+          "key": "auth.login.productName",
+          "source": "Baby MiniMemo",
+          "translated": "Baby MiniMemo"
+        },
+        {
+          "key": "auth.login.tagline",
+          "source": "Tiny moments. Calm care.",
+          "translated": "Những khoảnh khắc nhỏ bé. Bình tĩnh chăm sóc."
+        },
+        {
+          "key": "auth.login.hero",
+          "source": "Coordinating baby care, one memo at a time.",
+          "translated": "Phối hợp chăm sóc em bé, từng bản ghi nhớ một."
+        },
+        {
+          "key": "auth.login.appleButton",
+          "source": "Continue with Apple",
+          "translated": "Tiếp tục với Apple"
+        },
+        {
+          "key": "auth.login.googleButton",
+          "source": "Continue with Google",
+          "translated": "Tiếp tục với Google"
+        }
+      ]
+    },
+    {
+      "locale": "zh-Hans",
+      "section": "app-strings",
+      "leafCount": 100,
+      "sample": [
+        {
+          "key": "auth.login.productName",
+          "source": "Baby MiniMemo",
+          "translated": "Baby MiniMemo"
+        },
+        {
+          "key": "auth.login.tagline",
+          "source": "Tiny moments. Calm care.",
+          "translated": "微小的时刻。平静的关怀。"
+        },
+        {
+          "key": "auth.login.hero",
+          "source": "Coordinating baby care, one memo at a time.",
+          "translated": "协调婴儿护理，一次一份备忘录。"
+        },
+        {
+          "key": "auth.login.appleButton",
+          "source": "Continue with Apple",
+          "translated": "继续使用苹果"
+        },
+        {
+          "key": "auth.login.googleButton",
+          "source": "Continue with Google",
+          "translated": "继续使用谷歌"
+        }
+      ]
+    },
+    {
+      "locale": "zh-Hant",
+      "section": "app-strings",
+      "leafCount": 100,
+      "sample": [
+        {
+          "key": "auth.login.productName",
+          "source": "Baby MiniMemo",
+          "translated": "Baby MiniMemo"
+        },
+        {
+          "key": "auth.login.tagline",
+          "source": "Tiny moments. Calm care.",
+          "translated": "微小的時刻。平靜的關懷。"
+        },
+        {
+          "key": "auth.login.hero",
+          "source": "Coordinating baby care, one memo at a time.",
+          "translated": "協調嬰兒護理，一次一份備忘錄。"
+        },
+        {
+          "key": "auth.login.appleButton",
+          "source": "Continue with Apple",
+          "translated": "繼續使用蘋果"
+        },
+        {
+          "key": "auth.login.googleButton",
+          "source": "Continue with Google",
+          "translated": "繼續使用谷歌"
+        }
+      ]
+    }
+  ]
+}

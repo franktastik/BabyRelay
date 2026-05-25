@@ -6,12 +6,12 @@
   "reviewRequired": true,
   "sourceLocale": "en",
   "headlines": {
-    "home": "Know what happened last",
-    "handoff": "Handoff in seconds",
-    "timeline": "Every care moment in one place",
-    "growth": "Tiny memories, saved locally",
-    "reminders": "Gentle nudges for due-soon care",
-    "family": "Keep the care circle in sync",
-    "paywall": "Unlock calm baby care"
+    "home": "تعرف على ما حدث أخيرًا",
+    "handoff": "التسليم في ثواني",
+    "timeline": "كل لحظة رعاية في مكان واحد",
+    "growth": "ذكريات صغيرة، محفوظة محليًا",
+    "reminders": "دفعات لطيفة للرعاية المستحقة قريبًا",
+    "family": "حافظ على مزامنة دائرة الرعاية",
+    "paywall": "فتح رعاية الطفل الهادئة"
   }
 }

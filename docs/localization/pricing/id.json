@@ -7,21 +7,21 @@
   "sourceLocale": "en",
   "pricingCopy": {
     "period": {
-      "weekly": "per week",
-      "monthly": "per month",
-      "annual": "per year",
-      "lifetime": "one time"
+      "weekly": "per minggu",
+      "monthly": "per bulan",
+      "annual": "per tahun",
+      "lifetime": "satu kali"
     },
     "trial": {
-      "threeDayFree": "3-day free trial",
-      "thenPricePerPeriod": "Then {price} {period}"
+      "threeDayFree": "Uji coba gratis 3 hari",
+      "thenPricePerPeriod": "Kemudian {price} {period}"
     },
     "savings": {
-      "template": "Save {percent}%",
-      "annualDefault": "Save 65%"
+      "template": "Hemat {percent}%",
+      "annualDefault": "Hemat 65%"
     },
-    "restore": "Restore purchases",
-    "manage": "Manage subscription",
-    "cancellation": "Cancel anytime in App Store subscriptions."
+    "restore": "Pulihkan pembelian",
+    "manage": "Kelola langganan",
+    "cancellation": "Batalkan kapan saja dalam langganan App Store."
   }
 }

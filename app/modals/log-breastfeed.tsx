@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { View, Text, StyleSheet, Pressable } from 'react-native'
 import { useRouter } from 'expo-router'
+import { useTranslation } from 'react-i18next'
 import { LogChoiceGroup, LogFormShell } from '@/src/components/logging'
 import { useCareEventStore } from '@/src/stores/careEventStore'
 import { useAuthStore } from '@/src/stores/authStore'
@@ -10,6 +11,7 @@ type Side = 'left' | 'right' | 'both'
 
 export default function LogBreastfeedModal() {
   const router = useRouter()
+  const { t } = useTranslation()
   const [side, setSide] = useState<Side>('left')
   const [note, setNote] = useState('')
   const [saving, setSaving] = useState(false)
@@ -25,7 +27,7 @@ export default function LogBreastfeedModal() {
         type: 'breastfeed',
         occurredAt: new Date(),
         metadata: { side, note: note || undefined },
-        createdBy: user?.displayName || 'Caregiver',
+        createdBy: user?.displayName || t('log.createdBy.fallback'),
       })
       router.back()
     } finally {
@@ -37,15 +39,15 @@ export default function LogBreastfeedModal() {
     router.back()
   }
 
-  const sides: { key: Side; label: string }[] = [
-    { key: 'left', label: 'Left' },
-    { key: 'right', label: 'Right' },
-    { key: 'both', label: 'Both' },
+  const sides: { key: Side; labelKey: string }[] = [
+    { key: 'left', labelKey: 'log.side.left' },
+    { key: 'right', labelKey: 'log.side.right' },
+    { key: 'both', labelKey: 'log.side.both' },
   ]
 
   return (
     <LogFormShell
-      title="Feeding type"
+      title={t('log.feedingType')}
       note={note}
       onNoteChange={setNote}
       onSave={handleSave}
@@ -54,17 +56,17 @@ export default function LogBreastfeedModal() {
       activeType="feeding"
     >
       <LogChoiceGroup
-        label="Feeding type"
+        label={t('log.feedingType')}
         value="nursing"
         onChange={() => undefined}
         options={[
-          { key: 'nursing', label: 'Nursing' },
-          { key: 'bottle', label: 'Bottle' },
+          { key: 'nursing', label: t('log.option.nursing') },
+          { key: 'bottle', label: t('log.option.bottle') },
         ]}
       />
 
       <View style={styles.section}>
-        <Text style={styles.sectionLabel}>Side & duration</Text>
+        <Text style={styles.sectionLabel}>{t('log.sideDuration')}</Text>
         <View style={styles.sideRow}>
           {sides.map((s) => (
             <Pressable
@@ -81,7 +83,7 @@ export default function LogBreastfeedModal() {
                   side === s.key && styles.sideTextSelected,
                 ]}
               >
-                {s.label}
+                {t(s.labelKey)}
               </Text>
             </Pressable>
           ))}

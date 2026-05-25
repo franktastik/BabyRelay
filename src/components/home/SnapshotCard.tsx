@@ -1,5 +1,6 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
+import { useTranslation } from 'react-i18next'
 import { colors, radius, shadows, spacing, typography } from '@/src/theme'
 import type { DemoCareEvent } from '@/src/features/demo/events'
 
@@ -9,27 +10,29 @@ interface SnapshotCardProps {
 }
 
 export function SnapshotCard({ latestEvent }: SnapshotCardProps) {
+  const { t } = useTranslation()
+
   return (
     <View style={styles.container}>
       <View style={styles.grid}>
-        <StatusTile icon="⌁" label="Last fed" value={latestEvent ? getTimeAgo(latestEvent.occurredAt) : '2h 15m ago'} meta="4oz • Sarah" />
-        <StatusTile icon="◔" label="Sleep today" value="8h 12m" meta="Goal: 14h" />
-        <StatusTile icon="♧" label="Last diaper" value="45m ago" meta="Wet • David" />
-        <StatusTile icon="◷" label="Due next" value="Feeding" meta="in 45 minutes" accent />
+        <StatusTile icon="⌁" label={t('home.snapshot.lastFed')} value={latestEvent ? getTimeAgo(latestEvent.occurredAt) : '2h 15m ago'} meta={t('home.snapshot.feedMeta')} />
+        <StatusTile icon="◔" label={t('home.snapshot.sleepToday')} value="8h 12m" meta={t('home.snapshot.sleepGoal')} />
+        <StatusTile icon="♧" label={t('home.snapshot.lastDiaper')} value="45m ago" meta={t('home.snapshot.diaperMeta')} />
+        <StatusTile icon="◷" label={t('home.snapshot.dueNext')} value={t('home.snapshot.dueNextValue')} meta={t('home.snapshot.dueNextMeta')} accent />
       </View>
 
       <View style={styles.summaryCard}>
         <View style={styles.summaryHeader}>
           <Text style={styles.summaryIcon}>▥</Text>
-          <Text style={styles.summaryTitle}>This Week's Summary</Text>
+          <Text style={styles.summaryTitle}>{t('home.summary.title')}</Text>
           <Text style={styles.summaryChevron}>›</Text>
         </View>
         <View style={styles.summaryStats}>
-          <SummaryStat value="48" label="↗ Feeds" tone="good" />
+          <SummaryStat value="48" label={t('home.summary.feeds')} tone="good" />
           <View style={styles.statDivider} />
-          <SummaryStat value="12.4h" label="↘ Sleep" tone="bad" />
+          <SummaryStat value="12.4h" label={t('home.summary.sleep')} tone="bad" />
           <View style={styles.statDivider} />
-          <SummaryStat value="56" label="Diapers" />
+          <SummaryStat value="56" label={t('home.summary.diapers')} />
         </View>
       </View>
     </View>

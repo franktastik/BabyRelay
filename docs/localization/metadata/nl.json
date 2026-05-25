@@ -6,11 +6,11 @@
   "reviewRequired": true,
   "sourceLocale": "en",
   "metadata": {
-    "appName": "BabyMinimo: Baby Tracker",
+    "appName": "BabyMinimo: Babytracker",
     "subtitle": "Feeding, sleep & diaper log",
     "keywords": "newborn,feeding,sleep,diaper,baby log,baby journal,milestone,tracker,caregiver,handoff,reminder",
-    "promotionalText": "Track feeding, sleep, diapers, memories, and handoffs in one calm baby log.",
+    "promotionalText": "Houd voeding, slaap, luiers, herinneringen en overdrachten bij in één rustig babylogboek.",
     "shortDescription": "Track feeds, sleep, diapers, milestones and caregiver handoffs in one baby log.",
-    "positioning": "The calm baby log for feeding, sleep, diapers, memories, and caregiver handoffs."
+    "positioning": "Het rustige babylogboek voor voeding, slaap, luiers, herinneringen en overdrachten van zorgverleners."
   }
 }

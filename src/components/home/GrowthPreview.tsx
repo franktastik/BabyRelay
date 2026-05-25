@@ -1,5 +1,6 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
+import { useTranslation } from 'react-i18next'
 import { colors, radius, shadows, spacing, typography } from '@/src/theme'
 import type { DemoGrowthMoment } from '@/src/features/demo/growth'
 
@@ -9,21 +10,23 @@ interface GrowthPreviewProps {
 }
 
 export function GrowthPreview({ onViewAll }: GrowthPreviewProps) {
+  const { t } = useTranslation()
+
   return (
     <View style={styles.card}>
       <View style={styles.header}>
         <View style={styles.titleRow}>
           <Text style={styles.ribbon}>♙</Text>
-          <Text style={styles.title}>Recent Wins</Text>
+          <Text style={styles.title}>{t('home.wins.title')}</Text>
         </View>
         <Text style={styles.viewAll} onPress={onViewAll}>
-          View all ›
+          {t('home.wins.viewAll')}
         </Text>
       </View>
       <View style={styles.winRow}>
-        <Win icon="♨" label="Week Strong" color={colors.gold} />
-        <Win icon="♙" label="Family Sync" color={colors.sage} />
-        <Win icon="♡" label="Care Champion" color={colors.clay} />
+        <Win icon="♨" label={t('home.wins.weekStrong')} color={colors.gold} />
+        <Win icon="♙" label={t('home.wins.familySync')} color={colors.sage} />
+        <Win icon="♡" label={t('home.wins.careChampion')} color={colors.clay} />
       </View>
     </View>
   )

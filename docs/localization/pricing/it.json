@@ -7,21 +7,21 @@
   "sourceLocale": "en",
   "pricingCopy": {
     "period": {
-      "weekly": "per week",
-      "monthly": "per month",
-      "annual": "per year",
-      "lifetime": "one time"
+      "weekly": "a settimana",
+      "monthly": "al mese",
+      "annual": "all'anno",
+      "lifetime": "Una volta"
     },
     "trial": {
-      "threeDayFree": "3-day free trial",
-      "thenPricePerPeriod": "Then {price} {period}"
+      "threeDayFree": "Prova gratuita di 3 giorni",
+      "thenPricePerPeriod": "Quindi {price} {period}"
     },
     "savings": {
-      "template": "Save {percent}%",
-      "annualDefault": "Save 65%"
+      "template": "Risparmia {percent}%",
+      "annualDefault": "Risparmia il 65%"
     },
-    "restore": "Restore purchases",
-    "manage": "Manage subscription",
-    "cancellation": "Cancel anytime in App Store subscriptions."
+    "restore": "Ripristina gli acquisti",
+    "manage": "Gestisci l'abbonamento",
+    "cancellation": "Annulla in qualsiasi momento negli abbonamenti App Store."
   }
 }

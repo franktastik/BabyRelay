@@ -6,12 +6,12 @@
   "reviewRequired": true,
   "sourceLocale": "en",
   "headlines": {
-    "home": "Know what happened last",
-    "handoff": "Handoff in seconds",
-    "timeline": "Every care moment in one place",
-    "growth": "Tiny memories, saved locally",
-    "reminders": "Gentle nudges for due-soon care",
-    "family": "Keep the care circle in sync",
-    "paywall": "Unlock calm baby care"
+    "home": "지난번에 무슨 일이 있었는지 알아",
+    "handoff": "몇 초 만에 핸드오프",
+    "timeline": "모든 케어 순간을 한 곳에서",
+    "growth": "로컬에 저장된 작은 추억",
+    "reminders": "곧 케어를 위한 부드러운 넛지",
+    "family": "케어 서클의 동기화를 유지하세요",
+    "paywall": "차분한 베이비 케어 잠금 해제"
   }
 }

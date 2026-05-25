@@ -1,5 +1,6 @@
 import React from 'react'
 import { Image, ImageSourcePropType, StyleSheet, Text, View } from 'react-native'
+import { useTranslation } from 'react-i18next'
 import { colors, radius, shadows, spacing, typography } from '@/src/theme'
 import type { DemoGrowthMoment } from '@/src/features/demo/growth'
 import { relativeTime } from '@/src/relative-time'
@@ -14,6 +15,7 @@ interface GrowthMomentCardProps {
 }
 
 export function GrowthMomentCard({ moment }: GrowthMomentCardProps) {
+  const { t } = useTranslation()
   const imageSource: ImageSourcePropType = moment.localImageAsset
     ? growthImages[moment.localImageAsset] || fallbackGrowthImage
     : moment.localImageUri
@@ -26,21 +28,24 @@ export function GrowthMomentCard({ moment }: GrowthMomentCardProps) {
         <Image source={imageSource} style={styles.image} resizeMode="cover" />
       </View>
       <View style={styles.body}>
-        <Text style={styles.title}>{moment.caption || 'The first big smile!'}</Text>
-        <Text style={styles.copy}>{getMomentCopy(moment)}</Text>
+        <Text style={styles.title}>{moment.caption || t('timeline.growth.defaultTitle')}</Text>
+        <Text style={styles.copy}>{getMomentCopy(moment, t)}</Text>
       </View>
     </View>
   )
 }
 
-function getMomentCopy(moment: DemoGrowthMoment) {
+function getMomentCopy(
+  moment: DemoGrowthMoment,
+  t: (key: string, options?: Record<string, unknown>) => string
+) {
   if (moment.momentType === 'milestone') {
-    return 'Leo is exactly 6 weeks old today. Captured this while he was playing with Dad.'
+    return t('timeline.growth.milestoneCopy')
   }
   if (moment.momentType === 'photo') {
-    return `A local photo moment saved ${relativeTime(moment.occurredAt)}.`
+    return t('timeline.growth.photoCopy', { time: relativeTime(moment.occurredAt) })
   }
-  return 'A small memory saved locally for your household.'
+  return t('timeline.growth.memoryCopy')
 }
 
 const styles = StyleSheet.create({

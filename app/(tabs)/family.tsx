@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react'
 import { Image, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native'
 import { UserPlus, UsersRound } from 'lucide-react-native'
+import { useTranslation } from 'react-i18next'
 import { Screen } from '@/src/components/ui'
 import { SettingsHeader } from '@/src/components/settings'
 import { demoCaregivers, type DemoCaregiver } from '@/src/features/demo/caregivers'
@@ -12,6 +13,7 @@ const avatarSources = {
 }
 
 export default function FamilyScreen() {
+  const { t } = useTranslation()
   const [inviteEmail, setInviteEmail] = useState('')
   const [invited, setInvited] = useState(false)
   const scrollRef = useRef<ScrollView>(null)
@@ -24,15 +26,15 @@ export default function FamilyScreen() {
   return (
     <Screen style={styles.screen}>
       <ScrollView ref={scrollRef} contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
-        <SettingsHeader title="Family & Household" subtitle="Coordinating care together" />
+        <SettingsHeader title={t('family.title')} subtitle={t('family.subtitle')} />
 
         <View style={styles.planCard}>
           <View style={styles.planBadge}>
             <UsersRound color={colors.white} size={16} strokeWidth={2.2} />
-            <Text style={styles.planBadgeText}>Active coordination plan</Text>
+            <Text style={styles.planBadgeText}>{t('family.plan.badge')}</Text>
           </View>
-          <Text style={styles.planTitle}>The Miller Household</Text>
-          <Text style={styles.planMeta}>Standard Family Plan • Renewing Oct 12</Text>
+          <Text style={styles.planTitle}>{t('family.plan.title')}</Text>
+          <Text style={styles.planMeta}>{t('family.plan.meta')}</Text>
           <View style={styles.planFooter}>
             <View style={styles.planAvatars}>
               <Image source={require('../../app/caregiver-avatar-1.png')} style={styles.planAvatar} />
@@ -45,18 +47,18 @@ export default function FamilyScreen() {
               onPress={() => scrollRef.current?.scrollToEnd({ animated: true })}
               style={styles.manageButton}
               accessibilityRole="button"
-              accessibilityLabel="Manage caregivers"
+              accessibilityLabel={t('family.plan.manage')}
             >
-              <Text style={styles.manageButtonText}>Manage Caregivers</Text>
+              <Text style={styles.manageButtonText}>{t('family.plan.manage')}</Text>
             </Pressable>
           </View>
         </View>
 
         <View style={styles.sectionHeader}>
-          <Text style={styles.householdTitle}>Household Members</Text>
+          <Text style={styles.householdTitle}>{t('family.members.title')}</Text>
           <View style={styles.inviteInline}>
             <UserPlus color={colors.sageText} size={15} strokeWidth={2.2} />
-            <Text style={styles.inviteInlineText}>Invite</Text>
+            <Text style={styles.inviteInlineText}>{t('family.invite.short')}</Text>
           </View>
         </View>
 
@@ -64,12 +66,12 @@ export default function FamilyScreen() {
           <CaregiverRow key={caregiver.id} caregiver={caregiver} />
         ))}
 
-        <Text style={styles.sectionTitle}>Expand the circle</Text>
+        <Text style={styles.sectionTitle}>{t('family.expand.title')}</Text>
         <View style={styles.inviteCard}>
           <TextInput
             value={inviteEmail}
             onChangeText={setInviteEmail}
-            placeholder="partner@family.com"
+            placeholder={t('family.invite.placeholder')}
             placeholderTextColor={colors.mutedLight}
             keyboardType="email-address"
             autoCapitalize="none"
@@ -77,11 +79,11 @@ export default function FamilyScreen() {
           />
           <Pressable onPress={handleInvite} style={styles.inviteButton}>
             <UserPlus color={colors.white} size={17} strokeWidth={2.3} />
-            <Text style={styles.inviteText}>Invite caregiver</Text>
+            <Text style={styles.inviteText}>{t('family.invite.button')}</Text>
           </Pressable>
           {invited ? (
             <Text style={styles.invitedText}>
-              Demo invite queued locally. Real email delivery is intentionally not wired in v1 demo.
+              {t('family.invite.queued')}
             </Text>
           ) : null}
         </View>

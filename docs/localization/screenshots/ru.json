@@ -6,12 +6,12 @@
   "reviewRequired": true,
   "sourceLocale": "en",
   "headlines": {
-    "home": "Know what happened last",
-    "handoff": "Handoff in seconds",
-    "timeline": "Every care moment in one place",
-    "growth": "Tiny memories, saved locally",
-    "reminders": "Gentle nudges for due-soon care",
-    "family": "Keep the care circle in sync",
-    "paywall": "Unlock calm baby care"
+    "home": "Знать, что произошло последним",
+    "handoff": "Передача за секунды",
+    "timeline": "Каждый момент ухода в одном месте",
+    "growth": "Крошечные воспоминания, сохраненные локально",
+    "reminders": "Нежные подталкивания для скорого ухода",
+    "family": "Синхронизируйте круг ухода",
+    "paywall": "Откройте для себя спокойный уход за ребенком"
   }
 }

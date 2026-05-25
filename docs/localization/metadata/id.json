@@ -6,11 +6,11 @@
   "reviewRequired": true,
   "sourceLocale": "en",
   "metadata": {
-    "appName": "BabyMinimo: Baby Tracker",
+    "appName": "BabyMinimo: Pelacak Bayi",
     "subtitle": "Feeding, sleep & diaper log",
     "keywords": "newborn,feeding,sleep,diaper,baby log,baby journal,milestone,tracker,caregiver,handoff,reminder",
-    "promotionalText": "Track feeding, sleep, diapers, memories, and handoffs in one calm baby log.",
+    "promotionalText": "Lacak pemberian makan, tidur, popok, kenangan, dan serah terima dalam satu catatan bayi yang tenang.",
     "shortDescription": "Track feeds, sleep, diapers, milestones and caregiver handoffs in one baby log.",
-    "positioning": "The calm baby log for feeding, sleep, diapers, memories, and caregiver handoffs."
+    "positioning": "Catatan bayi yang tenang untuk memberi makan, tidur, popok, kenangan, dan serah terima pengasuh."
   }
 }

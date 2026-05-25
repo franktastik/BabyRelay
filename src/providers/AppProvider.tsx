@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import '@/src/localization/i18n'
 import { useAuthStore } from '@/src/stores/authStore'
 import { createDemoAuthAdapter } from '@/src/features/demo/auth'
 import { createDemoHouseholdAdapter } from '@/src/features/demo/household'

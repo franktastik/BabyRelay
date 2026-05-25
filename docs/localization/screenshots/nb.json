@@ -6,12 +6,12 @@
   "reviewRequired": true,
   "sourceLocale": "en",
   "headlines": {
-    "home": "Know what happened last",
-    "handoff": "Handoff in seconds",
-    "timeline": "Every care moment in one place",
-    "growth": "Tiny memories, saved locally",
-    "reminders": "Gentle nudges for due-soon care",
-    "family": "Keep the care circle in sync",
-    "paywall": "Unlock calm baby care"
+    "home": "Vet hva som skjedde sist",
+    "handoff": "Overlevering på sekunder",
+    "timeline": "Hvert omsorgsøyeblikk på ett sted",
+    "growth": "Små minner, lagret lokalt",
+    "reminders": "Milde dytt for pleie snart",
+    "family": "Hold omsorgssirkelen synkronisert",
+    "paywall": "Lås opp rolig babypleie"
   }
 }

@@ -116,8 +116,8 @@ export function buildReminderNotificationPlan(
     reminderId: reminder.id,
     category: reminder.category,
     scheduledAt,
-    title: 'BabyMinimo reminder',
-    body: `${reminder.title} is due soon.`,
+    title: babyMinimoI18n.t('notifications.reminder.title'),
+    body: babyMinimoI18n.t('notifications.reminder.body', { title: reminder.title }),
     data: {
       type: 'reminder',
       reminderId: reminder.id,
@@ -130,3 +130,4 @@ export function buildReminderNotificationPlan(
 export function getDefaultQuietHours() {
   return { ...DEFAULT_QUIET_HOURS }
 }
+import { babyMinimoI18n } from '@/src/localization'
