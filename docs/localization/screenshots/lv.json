@@ -6,12 +6,12 @@
   "reviewRequired": true,
   "sourceLocale": "en",
   "headlines": {
-    "home": "Know what happened last",
-    "handoff": "Handoff in seconds",
-    "timeline": "Every care moment in one place",
-    "growth": "Tiny memories, saved locally",
-    "reminders": "Gentle nudges for due-soon care",
-    "family": "Keep the care circle in sync",
-    "paywall": "Unlock calm baby care"
+    "home": "Ziniet, kas notika pēdējo reizi",
+    "handoff": "Nodošana sekundēs",
+    "timeline": "Katrs aprūpes brīdis vienuviet",
+    "growth": "Sīkas atmiņas, saglabātas lokāli",
+    "reminders": "Maigas pamudinājumi gaidāmajai aprūpei",
+    "family": "Sinhronizējiet aprūpes loku",
+    "paywall": "Atveriet mierīgu mazuļa aprūpi"
   }
 }

@@ -1,6 +1,7 @@
 import React from 'react'
 import { View, Text, StyleSheet, Image, Pressable } from 'react-native'
 import { Bell } from 'lucide-react-native'
+import { useTranslation } from 'react-i18next'
 import { colors, radius, spacing, typography, shadows } from '@/src/theme'
 import { relativeTime } from '@/src/relative-time'
 
@@ -23,7 +24,8 @@ export function HandoffHeroCard({
   lastActionBy,
   onReminderPress,
 }: HandoffHeroCardProps) {
-  const status = lastSleep?.status === 'sleeping' ? 'Currently Sleeping' : 'Awake'
+  const { t } = useTranslation()
+  const status = lastSleep?.status === 'sleeping' ? t('handoff.status.sleeping') : t('handoff.status.awake')
 
   return (
     <View style={styles.container}>
@@ -46,7 +48,7 @@ export function HandoffHeroCard({
           disabled={!onReminderPress}
           style={[styles.bellButton, !onReminderPress && styles.bellButtonDisabled]}
           accessibilityRole={onReminderPress ? 'button' : undefined}
-          accessibilityLabel={onReminderPress ? 'Open reminders' : 'Reminders unavailable'}
+          accessibilityLabel={onReminderPress ? t('handoff.reminders.open') : t('handoff.reminders.unavailable')}
           accessibilityState={!onReminderPress ? { disabled: true } : undefined}
         >
           <Bell color={colors.sageText} size={18} strokeWidth={2.2} />
@@ -58,33 +60,33 @@ export function HandoffHeroCard({
           icon="⌁"
           iconBackground={colors.softSage}
           iconColor={colors.sageText}
-          label="Feeding"
-          value={lastFeed?.label ?? 'No data'}
-          meta={lastFeed ? relativeTime(lastFeed.time) : 'Start logging'}
+          label={t('handoff.metric.feeding')}
+          value={lastFeed?.label ?? t('common.noData')}
+          meta={lastFeed ? relativeTime(lastFeed.time) : t('common.startLogging')}
         />
         <MetricCard
           icon="◡"
           iconBackground={colors.softClay}
           iconColor={colors.clay}
-          label="Diaper"
-          value={lastDiaper?.label ?? 'No data'}
-          meta={lastDiaper ? relativeTime(lastDiaper.time) : 'Start logging'}
+          label={t('handoff.metric.diaper')}
+          value={lastDiaper?.label ?? t('common.noData')}
+          meta={lastDiaper ? relativeTime(lastDiaper.time) : t('common.startLogging')}
         />
         <MetricCard
           icon="☾"
           iconBackground="#F1F0FF"
           iconColor="#7C83D4"
-          label="Sleep"
-          value={lastSleep?.label ?? 'No data'}
-          meta={lastSleep?.startedAt ? `Since ${formatTime(lastSleep.startedAt)}` : lastSleep ? relativeTime(lastSleep.time) : 'Start logging'}
+          label={t('handoff.metric.sleep')}
+          value={lastSleep?.label ?? t('common.noData')}
+          meta={lastSleep?.startedAt ? `Since ${formatTime(lastSleep.startedAt)}` : lastSleep ? relativeTime(lastSleep.time) : t('common.startLogging')}
         />
         <MetricCard
           icon="♨"
           iconBackground="#FFF7DF"
           iconColor="#D69B36"
-          label="Health"
-          value="98.6°"
-          meta={lastActionBy ? `Stable · ${lastActionBy}` : 'Stable'}
+          label={t('handoff.metric.health')}
+          value={t('handoff.metric.healthValue')}
+          meta={lastActionBy ? t('handoff.metric.stableBy', { caregiver: lastActionBy }) : t('common.stable')}
         />
       </View>
     </View>

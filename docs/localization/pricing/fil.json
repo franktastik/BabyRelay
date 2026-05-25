@@ -7,21 +7,21 @@
   "sourceLocale": "en",
   "pricingCopy": {
     "period": {
-      "weekly": "per week",
-      "monthly": "per month",
-      "annual": "per year",
-      "lifetime": "one time"
+      "weekly": "bawat linggo",
+      "monthly": "bawat buwan",
+      "annual": "bawat taon",
+      "lifetime": "isang beses"
     },
     "trial": {
-      "threeDayFree": "3-day free trial",
-      "thenPricePerPeriod": "Then {price} {period}"
+      "threeDayFree": "3 araw na libreng pagsubok",
+      "thenPricePerPeriod": "Tapos {price} {period}"
     },
     "savings": {
-      "template": "Save {percent}%",
-      "annualDefault": "Save 65%"
+      "template": "Makatipid ng {percent}%",
+      "annualDefault": "Makatipid ng 65%"
     },
-    "restore": "Restore purchases",
-    "manage": "Manage subscription",
-    "cancellation": "Cancel anytime in App Store subscriptions."
+    "restore": "Ibalik ang mga binili",
+    "manage": "Pamahalaan ang subscription",
+    "cancellation": "Kanselahin anumang oras sa mga subscription sa App Store."
   }
 }

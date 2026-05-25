@@ -1,20 +1,22 @@
 import React from 'react'
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 import { useRouter } from 'expo-router'
+import { useTranslation } from 'react-i18next'
 import { Screen } from '@/src/components/ui'
 import { LogOptionCard } from '@/src/components/logging'
 import { colors, radius, shadows, spacing, typography } from '@/src/theme'
 
 const logOptions = [
-  { id: 'breastfeed', label: 'Breastfeed', icon: '⌁', route: '/modals/log-breastfeed' },
-  { id: 'bottle', label: 'Bottle', icon: '⌁', route: '/modals/log-bottle' },
-  { id: 'diaper', label: 'Diaper', icon: '♧', route: '/modals/log-diaper' },
-  { id: 'sleep', label: 'Sleep', icon: '☾', route: '/modals/log-sleep' },
-  { id: 'medication', label: 'Medication', icon: '◇', route: '/modals/log-medication' },
+  { id: 'breastfeed', labelKey: 'log.option.breastfeed', icon: '⌁', route: '/modals/log-breastfeed' },
+  { id: 'bottle', labelKey: 'log.option.bottle', icon: '⌁', route: '/modals/log-bottle' },
+  { id: 'diaper', labelKey: 'log.option.diaper', icon: '♧', route: '/modals/log-diaper' },
+  { id: 'sleep', labelKey: 'log.option.sleep', icon: '☾', route: '/modals/log-sleep' },
+  { id: 'medication', labelKey: 'log.option.medication', icon: '◇', route: '/modals/log-medication' },
 ] as const
 
 export default function QuickLogModal() {
   const router = useRouter()
+  const { t } = useTranslation()
 
   return (
     <Screen>
@@ -23,8 +25,8 @@ export default function QuickLogModal() {
           <Text style={styles.closeText}>×</Text>
         </Pressable>
 
-        <Text style={styles.title}>Quick log</Text>
-        <Text style={styles.subtitle}>What would you like to log?</Text>
+        <Text style={styles.title}>{t('log.quick.title')}</Text>
+        <Text style={styles.subtitle}>{t('log.quick.subtitle')}</Text>
 
         <View style={styles.optionPanel}>
           <View style={styles.grid}>
@@ -32,14 +34,14 @@ export default function QuickLogModal() {
               <LogOptionCard
                 key={option.id}
                 icon={option.icon}
-                label={option.label}
+                label={t(option.labelKey)}
                 onPress={() => router.push(option.route)}
               />
             ))}
           </View>
           <LogOptionCard
             icon={logOptions[4].icon}
-            label={logOptions[4].label}
+            label={t(logOptions[4].labelKey)}
             onPress={() => router.push(logOptions[4].route)}
             wide
           />

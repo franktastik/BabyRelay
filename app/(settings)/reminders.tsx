@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Pressable, ScrollView, StyleSheet, Switch, Text, TextInput, View } from 'react-native'
 import { useRouter } from 'expo-router'
 import { Bell, Plus } from 'lucide-react-native'
+import { useTranslation } from 'react-i18next'
 import { Screen } from '@/src/components/ui'
 import { SettingsHeader } from '@/src/components/settings'
 import { AppStateView } from '@/src/components/states'
@@ -18,12 +19,13 @@ import { colors, radius, shadows, spacing, typography } from '@/src/theme'
 
 export default function RemindersScreen() {
   const router = useRouter()
+  const { t } = useTranslation()
   const [reminders, setReminders] = useState(demoReminders)
   const [title, setTitle] = useState('')
   const [permissionState, setPermissionState] =
     useState<BabyMinimoNotificationPermissionState>('notAsked')
   const [notificationMessage, setNotificationMessage] = useState(
-    'Notifications are local on this device for the demo build.'
+    t('reminders.notifications.demo')
   )
 
   useEffect(() => {
@@ -37,8 +39,8 @@ export default function RemindersScreen() {
     setPermissionState(nextState)
     setNotificationMessage(
       nextState === 'granted' || nextState === 'limited'
-        ? 'Reminder notifications are enabled on this device.'
-        : 'Notifications are off. Reminders still stay visible in BabyMinimo.'
+        ? t('reminders.notifications.enabledMessage')
+        : t('reminders.notifications.offMessage')
     )
   }
 
@@ -66,9 +68,9 @@ export default function RemindersScreen() {
     setNotificationMessage(
       result.notificationId
         ? result.delayedForQuietHours
-          ? 'Reminder scheduled after quiet hours.'
-          : 'Reminder notification scheduled.'
-        : 'Reminder saved. Notifications are not enabled on this device.'
+          ? t('reminders.notifications.afterQuietHours')
+          : t('reminders.notifications.scheduled')
+        : t('reminders.notifications.savedNoPermission')
     )
   }
 
@@ -81,8 +83,8 @@ export default function RemindersScreen() {
     const reminder: DemoReminder = {
       id: `rem-${Date.now()}`,
       title: title.trim(),
-      detail: 'Custom household nudge',
-      dueLabel: 'Tomorrow, 8:00 AM',
+      detail: t('reminders.customDetail'),
+      dueLabel: t('reminders.customDue'),
       dueAt,
       active: true,
       category: 'custom',
@@ -106,7 +108,7 @@ export default function RemindersScreen() {
             : item
         )
       )
-      setNotificationMessage('Reminder notification canceled.')
+      setNotificationMessage(t('reminders.notifications.canceled'))
       return
     }
 
@@ -120,15 +122,15 @@ export default function RemindersScreen() {
   return (
     <Screen style={styles.screen}>
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
-        <SettingsHeader title="Reminders" onBack={() => router.back()} rightIcon="none" />
+        <SettingsHeader title={t('reminders.title')} onBack={() => router.back()} rightIcon="none" />
 
         <View style={styles.addCard}>
           <View style={styles.addIcon}>
             <Plus color={colors.white} size={22} strokeWidth={2.6} />
           </View>
           <View style={styles.addCopy}>
-            <Text style={styles.addTitle}>Add a nudge</Text>
-            <Text style={styles.addSubtitle}>Schedule care for your household</Text>
+            <Text style={styles.addTitle}>{t('reminders.add.title')}</Text>
+            <Text style={styles.addSubtitle}>{t('reminders.add.subtitle')}</Text>
           </View>
         </View>
 
@@ -136,45 +138,45 @@ export default function RemindersScreen() {
           <TextInput
             value={title}
             onChangeText={setTitle}
-            placeholder="Reminder title"
+            placeholder={t('reminders.input.placeholder')}
             placeholderTextColor={colors.mutedLight}
             style={styles.input}
           />
           <Pressable onPress={addReminder} style={styles.primaryButton}>
-            <Text style={styles.primaryButtonText}>Create reminder</Text>
+            <Text style={styles.primaryButtonText}>{t('reminders.create')}</Text>
           </Pressable>
         </View>
 
         <View style={styles.permissionCard}>
           <View style={styles.permissionCopy}>
-            <Text style={styles.permissionTitle}>Notifications</Text>
+            <Text style={styles.permissionTitle}>{t('reminders.notifications.title')}</Text>
             <Text style={styles.permissionDetail}>{notificationMessage}</Text>
           </View>
           <Pressable onPress={requestPermissions} style={styles.permissionButton}>
             <Text style={styles.permissionButtonText}>
-              {permissionState === 'granted' || permissionState === 'limited' ? 'Enabled' : 'Enable'}
+              {permissionState === 'granted' || permissionState === 'limited' ? t('reminders.notifications.enabled') : t('reminders.notifications.enable')}
             </Text>
           </Pressable>
         </View>
 
         <View style={styles.sectionRow}>
-          <Text style={styles.sectionLabel}>Active nudges</Text>
-          <Text style={styles.sectionMeta}>{reminders.length} total</Text>
+          <Text style={styles.sectionLabel}>{t('reminders.section.active')}</Text>
+          <Text style={styles.sectionMeta}>{t('reminders.section.total', { count: reminders.length })}</Text>
         </View>
 
         {reminders.length === 0 ? (
           <AppStateView
             tone="empty"
-            title="No reminders yet"
-            copy="Add a nudge for feeds, medicine, tummy time, or anything your household needs to remember."
-            actionLabel="Add reminder"
+            title={t('reminders.empty.title')}
+            copy={t('reminders.empty.copy')}
+            actionLabel={t('reminders.empty.action')}
           />
         ) : (
           reminders.map((reminder) => (
             <View key={reminder.id} style={[styles.reminderRow, !reminder.active && styles.reminderDisabled]}>
               <View style={styles.timeBlock}>
                 <Text style={styles.timeText}>{reminder.dueLabel.split(' ')[0]}</Text>
-                <Text style={styles.timeMeta}>{reminder.dueLabel.replace(reminder.dueLabel.split(' ')[0], '').trim() || 'daily'}</Text>
+                <Text style={styles.timeMeta}>{reminder.dueLabel.replace(reminder.dueLabel.split(' ')[0], '').trim() || t('common.daily')}</Text>
               </View>
               <View style={styles.reminderIcon}>
                 <Bell color={colors.sageText} size={17} strokeWidth={2.1} />
@@ -183,7 +185,7 @@ export default function RemindersScreen() {
                 <Text style={styles.reminderTitle}>{reminder.title}</Text>
                 <Text style={styles.reminderDetail}>
                   {reminder.delayedForQuietHours
-                    ? `${reminder.detail} · after quiet hours`
+                    ? `${reminder.detail} · ${t('reminders.afterQuietHours')}`
                     : reminder.detail}
                 </Text>
               </View>

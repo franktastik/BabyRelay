@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { ScrollView, StyleSheet, View } from 'react-native'
 import { useRouter } from 'expo-router'
+import { useTranslation } from 'react-i18next'
 import { Screen } from '@/src/components/ui'
 import { HandoffHeroCard, DueSoonCard, LatestNoteCard } from '@/src/components/handoff'
 import { AppStateView } from '@/src/components/states'
@@ -10,6 +11,7 @@ import { colors, spacing } from '@/src/theme'
 
 export default function HandoffScreen() {
   const router = useRouter()
+  const { t } = useTranslation()
   const { summary, loading } = useHandoffSummary('baby-1')
 
   useEffect(() => {
@@ -21,8 +23,8 @@ export default function HandoffScreen() {
       <View style={styles.stateContainer}>
         <AppStateView
           tone="loading"
-          title="Preparing handoff..."
-          copy="BabyMinimo is pulling the latest feed, diaper, sleep, and note details."
+          title={t('handoff.loading.title')}
+          copy={t('handoff.loading.copy')}
         />
       </View>
     )

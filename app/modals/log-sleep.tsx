@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { useRouter } from 'expo-router'
+import { useTranslation } from 'react-i18next'
 import { Input } from '@/src/components/ui'
 import { LogChoiceGroup, LogFormShell } from '@/src/components/logging'
 import { useAuthStore } from '@/src/stores/authStore'
@@ -11,6 +12,7 @@ type SleepState = 'crib' | 'arms' | 'other'
 
 export default function LogSleepModal() {
   const router = useRouter()
+  const { t } = useTranslation()
   const [sleepState, setSleepState] = useState<SleepState>('crib')
   const [duration, setDuration] = useState('45')
   const [note, setNote] = useState('')
@@ -31,7 +33,7 @@ export default function LogSleepModal() {
           durationMin: Number(duration || 0),
           note: note || undefined,
         },
-        createdBy: user?.displayName || 'Caregiver',
+        createdBy: user?.displayName || t('log.createdBy.fallback'),
       })
       router.back()
     } finally {
@@ -41,7 +43,7 @@ export default function LogSleepModal() {
 
   return (
     <LogFormShell
-      title="Sleep"
+      title={t('log.option.sleep')}
       note={note}
       onNoteChange={setNote}
       onSave={handleSave}
@@ -50,18 +52,18 @@ export default function LogSleepModal() {
       activeType="sleep"
     >
       <LogChoiceGroup
-        label="Sleep state"
+        label={t('log.sleepState')}
         value={sleepState}
         onChange={setSleepState}
         options={[
-          { key: 'crib', label: 'Crib' },
-          { key: 'arms', label: 'Arms' },
-          { key: 'other', label: 'Other' },
+          { key: 'crib', label: t('log.sleep.crib') },
+          { key: 'arms', label: t('log.sleep.arms') },
+          { key: 'other', label: t('log.sleep.other') },
         ]}
       />
 
       <View style={styles.durationCard}>
-        <Text style={styles.sectionLabel}>Duration</Text>
+        <Text style={styles.sectionLabel}>{t('log.duration')}</Text>
         <Input
           value={duration}
           onChangeText={setDuration}

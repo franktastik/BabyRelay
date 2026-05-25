@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { useRouter } from 'expo-router'
+import { useTranslation } from 'react-i18next'
 import { Input } from '@/src/components/ui'
 import { LogChoiceGroup, LogFormShell } from '@/src/components/logging'
 import { useAuthStore } from '@/src/stores/authStore'
@@ -11,6 +12,7 @@ type MilkType = 'breastmilk' | 'formula'
 
 export default function LogBottleModal() {
   const router = useRouter()
+  const { t } = useTranslation()
   const [amount, setAmount] = useState('4')
   const [milkType, setMilkType] = useState<MilkType>('formula')
   const [note, setNote] = useState('')
@@ -32,7 +34,7 @@ export default function LogBottleModal() {
           milkType,
           note: note || undefined,
         },
-        createdBy: user?.displayName || 'Caregiver',
+        createdBy: user?.displayName || t('log.createdBy.fallback'),
       })
       router.back()
     } finally {
@@ -42,7 +44,7 @@ export default function LogBottleModal() {
 
   return (
     <LogFormShell
-      title="Feeding type"
+      title={t('log.feedingType')}
       note={note}
       onNoteChange={setNote}
       onSave={handleSave}
@@ -51,7 +53,7 @@ export default function LogBottleModal() {
       activeType="feeding"
     >
       <View style={styles.amountCard}>
-        <Text style={styles.sectionLabel}>Amount</Text>
+        <Text style={styles.sectionLabel}>{t('log.amount')}</Text>
         <Input
           value={amount}
           onChangeText={setAmount}
@@ -62,12 +64,12 @@ export default function LogBottleModal() {
       </View>
 
       <LogChoiceGroup
-        label="Milk type"
+        label={t('log.milkType')}
         value={milkType}
         onChange={setMilkType}
         options={[
-          { key: 'breastmilk', label: 'Breastmilk' },
-          { key: 'formula', label: 'Formula' },
+          { key: 'breastmilk', label: t('log.milk.breastmilk') },
+          { key: 'formula', label: t('log.milk.formula') },
         ]}
       />
     </LogFormShell>

@@ -1,0 +1,56 @@
+{
+  "generatedAt": "2026-05-25T10:58:00.000Z",
+  "provider": "google-public-endpoint",
+  "mode": "write",
+  "section": "app-strings",
+  "summary": "App string drafts were generated across a resumed batch. The first run stopped on a protected-token guard, the second run stopped on a transient Google 500 for Traditional Chinese, and the remaining locale was retried successfully after importer hardening.",
+  "status": "draft_requires_ai_linguistic_qa",
+  "locales": [
+    "ar",
+    "cs",
+    "da",
+    "et",
+    "lt",
+    "lv",
+    "de",
+    "el",
+    "es",
+    "fi",
+    "fil",
+    "fr",
+    "he",
+    "hr",
+    "hu",
+    "id",
+    "it",
+    "ja",
+    "ko",
+    "ms",
+    "nl",
+    "nb",
+    "pl",
+    "pt",
+    "ro",
+    "ru",
+    "sk",
+    "sv",
+    "th",
+    "tr",
+    "uk",
+    "vi",
+    "zh-Hans",
+    "zh-Hant"
+  ],
+  "sectionsValidated": [
+    "app-strings"
+  ],
+  "validation": {
+    "command": "node scripts/localization/validate-localization-assets.mjs",
+    "result": "passed"
+  },
+  "followUpRequired": [
+    "AI linguistic QA or owner acceptance before runtime exposure",
+    "RTL simulator visual QA for Arabic and Hebrew",
+    "Text expansion visual QA before screenshot generation"
+  ]
+}

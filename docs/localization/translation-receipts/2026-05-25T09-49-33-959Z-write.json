@@ -1,0 +1,53 @@
+{
+  "generatedAt": "2026-05-25T09:49:33.959Z",
+  "provider": "google-public-endpoint",
+  "mode": "write",
+  "locales": [
+    "de"
+  ],
+  "sections": [
+    "screenshots"
+  ],
+  "protectedTokens": [
+    "BabyMinimo",
+    "Baby MiniMemo",
+    "StoreKit",
+    "App Store",
+    "Firebase"
+  ],
+  "delayMs": 0,
+  "results": [
+    {
+      "locale": "de",
+      "section": "screenshots",
+      "leafCount": 7,
+      "sample": [
+        {
+          "key": "home",
+          "source": "Know what happened last",
+          "translated": "Wissen Sie, was zuletzt passiert ist"
+        },
+        {
+          "key": "handoff",
+          "source": "Handoff in seconds",
+          "translated": "Übergabe in Sekunden"
+        },
+        {
+          "key": "timeline",
+          "source": "Every care moment in one place",
+          "translated": "Jeder Pflegemoment an einem Ort"
+        },
+        {
+          "key": "growth",
+          "source": "Tiny memories, saved locally",
+          "translated": "Winzige Erinnerungen, lokal gespeichert"
+        },
+        {
+          "key": "reminders",
+          "source": "Gentle nudges for due-soon care",
+          "translated": "Sanfte Stupser für die baldige Pflege"
+        }
+      ]
+    }
+  ]
+}

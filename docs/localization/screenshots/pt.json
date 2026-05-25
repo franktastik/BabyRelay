@@ -6,12 +6,12 @@
   "reviewRequired": true,
   "sourceLocale": "en",
   "headlines": {
-    "home": "Know what happened last",
-    "handoff": "Handoff in seconds",
-    "timeline": "Every care moment in one place",
-    "growth": "Tiny memories, saved locally",
-    "reminders": "Gentle nudges for due-soon care",
-    "family": "Keep the care circle in sync",
-    "paywall": "Unlock calm baby care"
+    "home": "Saiba o que aconteceu por último",
+    "handoff": "Transferência em segundos",
+    "timeline": "Cada momento de cuidado em um só lugar",
+    "growth": "Pequenas memórias, salvas localmente",
+    "reminders": "Cutucadas suaves para cuidados imediatos",
+    "family": "Mantenha o círculo de cuidados sincronizado",
+    "paywall": "Desbloqueie cuidados calmos com o bebê"
   }
 }

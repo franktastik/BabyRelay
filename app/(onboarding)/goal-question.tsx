@@ -1,6 +1,7 @@
 import React from 'react'
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 import { useRouter } from 'expo-router'
+import { useTranslation } from 'react-i18next'
 import { Screen, Button, Card } from '@/src/components/ui'
 import { OnboardingFrame } from '@/src/components/onboarding'
 import { colors, radius, shadows, spacing, typography } from '@/src/theme'
@@ -12,57 +13,58 @@ import {
 const goals: Array<{
   id: OnboardingGoal
   icon: string
-  label: string
-  detail: string
+  labelKey: string
+  detailKey: string
 }> = [
   {
     id: 'sync',
     icon: '⇄',
-    label: 'Stay in sync with my partner',
-    detail: 'Everyone knows what happened last.',
+    labelKey: 'onboarding.goalQuestion.option.sync.label',
+    detailKey: 'onboarding.goalQuestion.option.sync.detail',
   },
   {
     id: 'logging',
     icon: '⌁',
-    label: 'Track feeds, diapers, and sleep',
-    detail: 'Build one calm baby log.',
+    labelKey: 'onboarding.goalQuestion.option.logging.label',
+    detailKey: 'onboarding.goalQuestion.option.logging.detail',
   },
   {
     id: 'reminders',
     icon: '◷',
-    label: 'Never miss a reminder',
-    detail: 'Gentle nudges for due-soon care.',
+    labelKey: 'onboarding.goalQuestion.option.reminders.label',
+    detailKey: 'onboarding.goalQuestion.option.reminders.detail',
   },
   {
     id: 'moments',
     icon: '▣',
-    label: 'Capture local photo moments',
-    detail: 'Keep tiny memories on this device.',
+    labelKey: 'onboarding.goalQuestion.option.moments.label',
+    detailKey: 'onboarding.goalQuestion.option.moments.detail',
   },
   {
     id: 'household',
     icon: '♧',
-    label: 'Coordinate our household',
-    detail: 'Parents and caregivers share one view.',
+    labelKey: 'onboarding.goalQuestion.option.household.label',
+    detailKey: 'onboarding.goalQuestion.option.household.detail',
   },
   {
     id: 'overnight',
     icon: '◔',
-    label: 'Make overnight handoffs easier',
-    detail: 'Less waking, less guessing.',
+    labelKey: 'onboarding.goalQuestion.option.overnight.label',
+    detailKey: 'onboarding.goalQuestion.option.overnight.detail',
   },
 ]
 
 export default function GoalQuestionScreen() {
   const router = useRouter()
+  const { t } = useTranslation()
   const primaryGoal = useOnboardingQuestionnaireStore((s) => s.primaryGoal)
   const setPrimaryGoal = useOnboardingQuestionnaireStore((s) => s.setPrimaryGoal)
 
   return (
     <Screen>
       <OnboardingFrame
-        title="What do you need help with first?"
-        subtitle="Pick the care rhythm that matters most right now."
+        title={t('onboarding.goalQuestion.title')}
+        subtitle={t('onboarding.goalQuestion.subtitle')}
         step="Step 2 of 9"
         progress={0.22}
         onBack={() => router.back()}
@@ -76,7 +78,7 @@ export default function GoalQuestionScreen() {
                 onPress={() => setPrimaryGoal(goal.id)}
                 style={[styles.optionCard, selected && styles.optionCardSelected]}
                 accessibilityRole="button"
-                accessibilityLabel={goal.label}
+                accessibilityLabel={t(goal.labelKey)}
                 accessibilityState={{ selected }}
               >
                 <View style={[styles.iconBubble, selected && styles.iconBubbleSelected]}>
@@ -85,8 +87,8 @@ export default function GoalQuestionScreen() {
                   </Text>
                 </View>
                 <View style={styles.optionCopy}>
-                  <Text style={styles.optionLabel}>{goal.label}</Text>
-                  <Text style={styles.optionDetail}>{goal.detail}</Text>
+                  <Text style={styles.optionLabel}>{t(goal.labelKey)}</Text>
+                  <Text style={styles.optionDetail}>{t(goal.detailKey)}</Text>
                 </View>
                 <View style={[styles.radio, selected && styles.radioSelected]}>
                   {selected && <View style={styles.radioDot} />}
@@ -97,9 +99,11 @@ export default function GoalQuestionScreen() {
         </View>
 
         <Card style={styles.reassuranceCard}>
-          <Text style={styles.reassuranceTitle}>Tiny moments. Calm care.</Text>
+          <Text style={styles.reassuranceTitle}>
+            {t('onboarding.goalQuestion.reassurance.title')}
+          </Text>
           <Text style={styles.reassuranceText}>
-            We will use this to shape your preview and keep setup focused.
+            {t('onboarding.goalQuestion.reassurance.body')}
           </Text>
         </Card>
 
@@ -108,7 +112,7 @@ export default function GoalQuestionScreen() {
           disabled={!primaryGoal}
           style={styles.button}
         >
-          Continue →
+          {t('common.continue')} →
         </Button>
       </OnboardingFrame>
     </Screen>

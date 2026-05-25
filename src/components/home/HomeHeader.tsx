@@ -1,6 +1,7 @@
 import React from 'react'
 import { Image, Pressable, View, Text, StyleSheet } from 'react-native'
 import { Settings2 } from 'lucide-react-native'
+import { useTranslation } from 'react-i18next'
 import { colors, typography, spacing, radius, shadows } from '@/src/theme'
 
 interface HomeHeaderProps {
@@ -10,6 +11,8 @@ interface HomeHeaderProps {
 }
 
 export function HomeHeader({ babyName = 'Baby', caregiverName, onSettingsPress }: HomeHeaderProps) {
+  const { t } = useTranslation()
+
   return (
     <View style={styles.container}>
       <View style={styles.identity}>
@@ -17,11 +20,15 @@ export function HomeHeader({ babyName = 'Baby', caregiverName, onSettingsPress }
           <Image source={require('../../../app/logo.png')} style={styles.logoImage} />
         </View>
         <View>
-          <Text style={styles.babyName}>{babyName}’s Relay</Text>
+          <Text style={styles.babyName}>
+            {t('home.header.title', { babyName })}
+          </Text>
           <View style={styles.syncRow}>
             <View style={styles.syncDot} />
             <Text style={styles.caregiver}>
-              {caregiverName ? `Synced just now • ${caregiverName}` : 'Synced just now'}
+              {caregiverName
+                ? t('home.header.syncedWith', { caregiverName })
+                : t('home.header.synced')}
             </Text>
           </View>
         </View>

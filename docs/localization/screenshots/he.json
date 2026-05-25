@@ -6,12 +6,12 @@
   "reviewRequired": true,
   "sourceLocale": "en",
   "headlines": {
-    "home": "Know what happened last",
-    "handoff": "Handoff in seconds",
-    "timeline": "Every care moment in one place",
-    "growth": "Tiny memories, saved locally",
-    "reminders": "Gentle nudges for due-soon care",
-    "family": "Keep the care circle in sync",
-    "paywall": "Unlock calm baby care"
+    "home": "דע מה קרה לאחרונה",
+    "handoff": "מסירה תוך שניות",
+    "timeline": "כל רגע טיפול במקום אחד",
+    "growth": "זיכרונות זעירים, נשמרים מקומית",
+    "reminders": "דחיפות עדינות לטיפול בקרוב",
+    "family": "שמור על מעגל הטיפול מסונכרן",
+    "paywall": "פתח טיפול רגוע בתינוק"
   }
 }

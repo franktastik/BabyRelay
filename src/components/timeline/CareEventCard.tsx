@@ -1,5 +1,6 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
+import { useTranslation } from 'react-i18next'
 import { colors, radius, shadows, spacing, typography } from '@/src/theme'
 import type { DemoCareEvent } from '@/src/features/demo/events'
 import { relativeTime } from '@/src/relative-time'
@@ -12,12 +13,12 @@ const typeIcons: Record<DemoCareEvent['type'], string> = {
   medication: '◇',
 }
 
-const typeLabels: Record<DemoCareEvent['type'], string> = {
-  breastfeed: 'Breastfeed',
-  bottle: 'Bottle',
-  diaper: 'Diaper',
-  sleep: 'Sleep',
-  medication: 'Medication',
+const typeLabelKeys: Record<DemoCareEvent['type'], string> = {
+  breastfeed: 'timeline.care.breastfeed',
+  bottle: 'timeline.care.bottle',
+  diaper: 'timeline.care.diaper',
+  sleep: 'timeline.care.sleep',
+  medication: 'timeline.care.medication',
 }
 
 interface CareEventCardProps {
@@ -25,7 +26,8 @@ interface CareEventCardProps {
 }
 
 export function CareEventCard({ event }: CareEventCardProps) {
-  const detail = getEventDetail(event)
+  const { t } = useTranslation()
+  const detail = getEventDetail(event, t)
 
   return (
     <View style={styles.card}>
@@ -35,7 +37,7 @@ export function CareEventCard({ event }: CareEventCardProps) {
         </View>
         <View style={styles.content}>
           <Text style={styles.title}>
-            {getEventTitle(event)}
+            {getEventTitle(event, t)}
           </Text>
           {detail && <Text style={styles.detail}>{detail}</Text>}
           <Text style={styles.meta}>{relativeTime(event.occurredAt)}</Text>
@@ -45,15 +47,15 @@ export function CareEventCard({ event }: CareEventCardProps) {
   )
 }
 
-function getEventDetail(event: DemoCareEvent): string | null {
+function getEventDetail(event: DemoCareEvent, t: (key: string, options?: Record<string, unknown>) => string): string | null {
   const { type, metadata } = event
   if (type === 'breastfeed') {
     const side = metadata.side as string | undefined
     const duration = metadata.durationMin as number | undefined
     const parts: string[] = []
-    if (side) parts.push(`${capitalize(side)} side`)
-    if (duration) parts.push(`${duration} min`)
-    return parts.length > 0 ? parts.join(' · ') : 'Nursing session'
+    if (side) parts.push(t('timeline.care.side', { side: capitalize(side) }))
+    if (duration) parts.push(t('timeline.care.durationMinutes', { duration }))
+    return parts.length > 0 ? parts.join(' · ') : t('timeline.care.nursingSession')
   }
   if (type === 'bottle') {
     const amountOz = metadata.amountOz as number | undefined
@@ -88,12 +90,15 @@ function getEventDetail(event: DemoCareEvent): string | null {
   return null
 }
 
-function getEventTitle(event: DemoCareEvent) {
+function getEventTitle(event: DemoCareEvent, t: (key: string, options?: Record<string, unknown>) => string) {
   if (event.type === 'breastfeed') {
-    return `${event.createdBy} fed Leo breastmilk.`
+    return t('timeline.care.breastfeedTitle', { caregiver: event.createdBy })
   }
 
-  return `${event.createdBy} logged ${typeLabels[event.type].toLowerCase()}.`
+  return t('timeline.care.loggedTitle', {
+    caregiver: event.createdBy,
+    eventType: t(typeLabelKeys[event.type]).toLowerCase(),
+  })
 }
 
 function capitalize(value: string) {

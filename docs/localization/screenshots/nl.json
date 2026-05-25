@@ -6,12 +6,12 @@
   "reviewRequired": true,
   "sourceLocale": "en",
   "headlines": {
-    "home": "Know what happened last",
-    "handoff": "Handoff in seconds",
-    "timeline": "Every care moment in one place",
-    "growth": "Tiny memories, saved locally",
-    "reminders": "Gentle nudges for due-soon care",
-    "family": "Keep the care circle in sync",
-    "paywall": "Unlock calm baby care"
+    "home": "Weet wat er het laatst is gebeurd",
+    "handoff": "Overdracht binnen enkele seconden",
+    "timeline": "Ieder zorgmoment op één plek",
+    "growth": "Kleine herinneringen, lokaal opgeslagen",
+    "reminders": "Zachte duwtjes voor spoedige verzorging",
+    "family": "Houd de zorgcirkel gesynchroniseerd",
+    "paywall": "Ontgrendel rustige babyverzorging"
   }
 }

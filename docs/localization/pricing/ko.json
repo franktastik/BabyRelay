@@ -7,21 +7,21 @@
   "sourceLocale": "en",
   "pricingCopy": {
     "period": {
-      "weekly": "per week",
-      "monthly": "per month",
-      "annual": "per year",
-      "lifetime": "one time"
+      "weekly": "주당",
+      "monthly": "매월",
+      "annual": "연간",
+      "lifetime": "일회"
     },
     "trial": {
-      "threeDayFree": "3-day free trial",
-      "thenPricePerPeriod": "Then {price} {period}"
+      "threeDayFree": "3일 무료 평가판",
+      "thenPricePerPeriod": "그런 다음 {price} {period}"
     },
     "savings": {
-      "template": "Save {percent}%",
-      "annualDefault": "Save 65%"
+      "template": "{percent}% 저장",
+      "annualDefault": "65% 할인"
     },
-    "restore": "Restore purchases",
-    "manage": "Manage subscription",
-    "cancellation": "Cancel anytime in App Store subscriptions."
+    "restore": "구매 복원",
+    "manage": "구독 관리",
+    "cancellation": "App Store 구독은 언제든지 취소할 수 있습니다."
   }
 }

@@ -6,11 +6,11 @@
   "reviewRequired": true,
   "sourceLocale": "en",
   "metadata": {
-    "appName": "BabyMinimo: Baby Tracker",
-    "subtitle": "Feeding, sleep & diaper log",
+    "appName": "BabyMinimo: beebijälgija",
+    "subtitle": "Söötmis-, une- ja mähkmepäevik",
     "keywords": "newborn,feeding,sleep,diaper,baby log,baby journal,milestone,tracker,caregiver,handoff,reminder",
-    "promotionalText": "Track feeding, sleep, diapers, memories, and handoffs in one calm baby log.",
+    "promotionalText": "Jälgige toitmist, und, mähkmeid, mälestusi ja üleandmisi ühes rahulikus beebilogis.",
     "shortDescription": "Track feeds, sleep, diapers, milestones and caregiver handoffs in one baby log.",
-    "positioning": "The calm baby log for feeding, sleep, diapers, memories, and caregiver handoffs."
+    "positioning": "Rahulik beebipäevik toitmiseks, magamiseks, mähkmete, mälestuste ja hooldaja üleandmiseks."
   }
 }

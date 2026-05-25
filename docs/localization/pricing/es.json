@@ -7,21 +7,21 @@
   "sourceLocale": "en",
   "pricingCopy": {
     "period": {
-      "weekly": "per week",
-      "monthly": "per month",
-      "annual": "per year",
-      "lifetime": "one time"
+      "weekly": "por semana",
+      "monthly": "por mes",
+      "annual": "por año",
+      "lifetime": "una vez"
     },
     "trial": {
-      "threeDayFree": "3-day free trial",
-      "thenPricePerPeriod": "Then {price} {period}"
+      "threeDayFree": "Prueba gratuita de 3 días",
+      "thenPricePerPeriod": "Entonces {price} {period}"
     },
     "savings": {
-      "template": "Save {percent}%",
-      "annualDefault": "Save 65%"
+      "template": "Ahorre {percent}%",
+      "annualDefault": "Ahorra 65%"
     },
-    "restore": "Restore purchases",
-    "manage": "Manage subscription",
-    "cancellation": "Cancel anytime in App Store subscriptions."
+    "restore": "Restaurar compras",
+    "manage": "Administrar suscripción",
+    "cancellation": "Cancela en cualquier momento en suscripciones App Store."
   }
 }

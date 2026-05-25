@@ -7,21 +7,21 @@
   "sourceLocale": "en",
   "pricingCopy": {
     "period": {
-      "weekly": "per week",
-      "monthly": "per month",
-      "annual": "per year",
-      "lifetime": "one time"
+      "weekly": "per vecka",
+      "monthly": "per månad",
+      "annual": "varje år",
+      "lifetime": "en gång"
     },
     "trial": {
-      "threeDayFree": "3-day free trial",
-      "thenPricePerPeriod": "Then {price} {period}"
+      "threeDayFree": "3 dagars gratis provperiod",
+      "thenPricePerPeriod": "Sedan {price} {period}"
     },
     "savings": {
-      "template": "Save {percent}%",
-      "annualDefault": "Save 65%"
+      "template": "Spara {percent}%",
+      "annualDefault": "Spara 65 %"
     },
-    "restore": "Restore purchases",
-    "manage": "Manage subscription",
-    "cancellation": "Cancel anytime in App Store subscriptions."
+    "restore": "Återställ inköp",
+    "manage": "Hantera prenumeration",
+    "cancellation": "Avbryt när som helst i App Store-prenumerationer."
   }
 }

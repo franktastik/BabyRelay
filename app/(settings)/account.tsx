@@ -2,6 +2,7 @@ import React from 'react'
 import { Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { useRouter } from 'expo-router'
 import { Lock, LogOut, Mail, UserRound } from 'lucide-react-native'
+import { useTranslation } from 'react-i18next'
 import { Screen } from '@/src/components/ui'
 import { SettingsHeader, SettingsCard, SettingsRow } from '@/src/components/settings'
 import { useAuthStore } from '@/src/stores/authStore'
@@ -9,12 +10,13 @@ import { colors, radius, shadows, spacing, typography } from '@/src/theme'
 
 export default function AccountScreen() {
   const router = useRouter()
+  const { t } = useTranslation()
   const user = useAuthStore((state) => state.user)
 
   return (
     <Screen style={styles.screen}>
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
-        <SettingsHeader title="Profile & Account" onBack={() => router.back()} rightIcon="none" />
+        <SettingsHeader title={t('account.title')} onBack={() => router.back()} rightIcon="none" />
 
         <View style={styles.profileBlock}>
           <Image source={require('../../app/caregiver-sarah-clean.png')} style={styles.avatar} />
@@ -22,20 +24,20 @@ export default function AccountScreen() {
           <Text style={styles.email}>{user?.email || 'sarah@household.com'}</Text>
         </View>
 
-        <Text style={styles.sectionLabel}>Personal details</Text>
+        <Text style={styles.sectionLabel}>{t('account.section.personal')}</Text>
         <SettingsCard>
-          <SettingsRow icon={UserRound} title="Full name" subtitle={user?.displayName || 'Sarah Miller'} />
-          <SettingsRow icon={Mail} title="Email address" subtitle={user?.email || 'sarah@household.com'} />
+          <SettingsRow icon={UserRound} title={t('account.fullName')} subtitle={user?.displayName || 'Sarah Miller'} />
+          <SettingsRow icon={Mail} title={t('account.emailAddress')} subtitle={user?.email || 'sarah@household.com'} />
         </SettingsCard>
 
-        <Text style={styles.sectionLabel}>Security</Text>
+        <Text style={styles.sectionLabel}>{t('account.section.security')}</Text>
         <SettingsCard>
-          <SettingsRow icon={Lock} title="Password" subtitle="Password changes are deferred to production account security." trailing="Deferred" />
+          <SettingsRow icon={Lock} title={t('account.password')} subtitle={t('account.passwordDeferred')} trailing={t('account.deferred')} />
         </SettingsCard>
 
         <Pressable onPress={() => router.push('/modals/sign-out-confirm')} style={styles.signOutButton}>
           <LogOut color={colors.danger} size={18} strokeWidth={2.2} />
-          <Text style={styles.signOutText}>Sign out</Text>
+          <Text style={styles.signOutText}>{t('account.signOut')}</Text>
         </Pressable>
       </ScrollView>
     </Screen>

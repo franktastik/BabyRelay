@@ -10,6 +10,7 @@ import {
   Image,
 } from 'react-native'
 import { useRouter } from 'expo-router'
+import { useTranslation } from 'react-i18next'
 import { Screen, Button, Input } from '@/src/components/ui'
 import { colors, typography, spacing, radius, shadows } from '@/src/theme'
 import { useAuthStore } from '@/src/stores/authStore'
@@ -21,6 +22,7 @@ const householdAdapter = createDemoHouseholdAdapter()
 
 export default function LoginScreen() {
   const router = useRouter()
+  const { t } = useTranslation()
   const setUser = useAuthStore((s) => s.setUser)
   const setOnboardingState = useAuthStore((s) => s.setOnboardingState)
   const [email, setEmail] = useState('')
@@ -31,7 +33,7 @@ export default function LoginScreen() {
 
   const handleLogin = async () => {
     if (!email || !password) {
-      setError('Please enter your email and password')
+      setError(t('auth.login.errorMissing'))
       return
     }
     setLoading(true)
@@ -43,7 +45,7 @@ export default function LoginScreen() {
       setOnboardingState(onboardingState)
       router.replace(onboardingState.onboardingCompleted ? '/(tabs)/home' : '/(onboarding)/welcome')
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Login failed')
+      setError(e instanceof Error ? e.message : t('auth.login.errorFallback'))
     } finally {
       setLoading(false)
     }
@@ -66,8 +68,8 @@ export default function LoginScreen() {
             <View style={styles.logoMark}>
               <Image source={require('../logo.png')} style={styles.logoImage} />
             </View>
-            <Text style={styles.logo}>Baby MiniMemo</Text>
-            <Text style={styles.subtitle}>Tiny moments. Calm care.</Text>
+            <Text style={styles.logo}>{t('auth.login.productName')}</Text>
+            <Text style={styles.subtitle}>{t('auth.login.tagline')}</Text>
 
             <View style={styles.avatarStack}>
               <View style={[styles.avatar, styles.photoAvatar]}>
@@ -89,7 +91,7 @@ export default function LoginScreen() {
               </View>
             </View>
 
-            <Text style={styles.heroCopy}>Coordinating baby care,{'\n'}one memo at a time.</Text>
+            <Text style={styles.heroCopy}>{t('auth.login.hero')}</Text>
           </View>
 
           <View style={styles.form}>
@@ -100,7 +102,7 @@ export default function LoginScreen() {
               style={[styles.socialButton, styles.socialButtonDisabled]}
             >
               <Text style={styles.appleIcon}></Text>
-              <Text style={styles.socialText}>Continue with Apple</Text>
+              <Text style={styles.socialText}>{t('auth.login.appleButton')}</Text>
             </Pressable>
             <Pressable
               disabled
@@ -109,33 +111,33 @@ export default function LoginScreen() {
               style={[styles.socialButton, styles.socialButtonLight, styles.socialButtonDisabled]}
             >
               <Image source={require('../google-logo.png')} style={styles.googleLogo} />
-              <Text style={[styles.socialText, styles.socialTextDark]}>Continue with Google</Text>
+              <Text style={[styles.socialText, styles.socialTextDark]}>{t('auth.login.googleButton')}</Text>
             </Pressable>
             <Text style={styles.deferredProviderText}>
-              Apple and Google sign-in are deferred until native provider setup.
+              {t('auth.login.deferredProviders')}
             </Text>
 
             <View style={styles.dividerRow}>
               <View style={styles.divider} />
-              <Text style={styles.dividerText}>Or continue with</Text>
+              <Text style={styles.dividerText}>{t('auth.login.divider')}</Text>
               <View style={styles.divider} />
             </View>
 
             <Input
-              label="Household Email"
+              label={t('auth.login.emailLabel')}
               value={email}
               onChangeText={setEmail}
-              placeholder="your@family.com"
+              placeholder={t('auth.login.emailPlaceholder')}
               keyboardType="email-address"
               inputStyle={styles.mockInput}
               leftAccessory={<Text style={styles.inputIcon}>✉</Text>}
               rightAccessory={<Text style={styles.inputBadge}>•••</Text>}
             />
             <Input
-              label="Secure Password"
+              label={t('auth.login.passwordLabel')}
               value={password}
               onChangeText={setPassword}
-              placeholder="Enter your password"
+              placeholder={t('auth.login.passwordPlaceholder')}
               secureTextEntry
               inputStyle={styles.mockInput}
               leftAccessory={<Text style={styles.inputIcon}>⌕</Text>}
@@ -148,24 +150,26 @@ export default function LoginScreen() {
                 accessibilityState={{ checked: rememberMe }}
                 style={styles.rememberToggle}
               >
-                <Text style={styles.remember}>{rememberMe ? '☑' : '□'} Remember me</Text>
+                <Text style={styles.remember}>
+                  {rememberMe ? '☑' : '□'} {t('auth.login.remember')}
+                </Text>
               </Pressable>
-              <Text style={styles.forgot}>Reset deferred</Text>
+              <Text style={styles.forgot}>{t('auth.login.forgotDeferred')}</Text>
             </View>
 
             {error && <Text style={styles.error}>{error}</Text>}
 
             <Button onPress={handleLogin} loading={loading} style={styles.button}>
-              Sign in
+              {t('auth.login.submit')}
             </Button>
 
             <View style={styles.footerCopy}>
-              <Text style={styles.footerText}>New family?</Text>
+              <Text style={styles.footerText}>{t('auth.login.signupPrompt')}</Text>
               <Pressable onPress={() => router.push('/(auth)/signup')}>
-                <Text style={styles.footerLink}>Start your care circle</Text>
+                <Text style={styles.footerLink}>{t('auth.login.signupLink')}</Text>
               </Pressable>
             </View>
-            <Text style={styles.securityText}>♡ END-TO-END ENCRYPTED FAMILY DATA</Text>
+            <Text style={styles.securityText}>♡ {t('auth.login.securityText').toUpperCase()}</Text>
           </View>
         </ScrollView>
       </KeyboardAvoidingView>

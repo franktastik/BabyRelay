@@ -6,12 +6,12 @@
   "reviewRequired": true,
   "sourceLocale": "en",
   "headlines": {
-    "home": "Know what happened last",
-    "handoff": "Handoff in seconds",
-    "timeline": "Every care moment in one place",
-    "growth": "Tiny memories, saved locally",
-    "reminders": "Gentle nudges for due-soon care",
-    "family": "Keep the care circle in sync",
-    "paywall": "Unlock calm baby care"
+    "home": "Дізнайтеся, що сталося останнє",
+    "handoff": "Передача за лічені секунди",
+    "timeline": "Кожна хвилина турботи в одному місці",
+    "growth": "Крихітні спогади, збережені локально",
+    "reminders": "Ніжні поштовхи для найближчого догляду",
+    "family": "Тримайте коло догляду в синхронізації",
+    "paywall": "Розблокуйте спокійний догляд за дитиною"
   }
 }

@@ -12,12 +12,14 @@ The current localization package is a planning and QA scaffold, not final AI-rev
 - `pricing/*.json`: paywall, billing-period, trial, restore, savings, and cancellation copy per supported locale.
 - `pricing/storefront-pricing-matrix.json`: StoreKit-centered pricing product matrix and per-locale storefront template with cost-floor markers.
 - `screenshots/*.json`: localized screenshot headline inputs per supported locale.
+- `batch-translation-implementation-plan.md`: runtime i18n, batch translation, AI linguistic QA, and visual QA implementation plan.
+- `translation-receipts/*.json`: generated batch translation manifests and samples when draft imports run.
 
 ## Review Status
 
 - `en` is canonical.
-- Every non-English locale starts as `draft_requires_ai_linguistic_qa`.
-- Draft files intentionally preserve the English source strings until translation and AI linguistic QA, owner acceptance, or optional native review are performed.
+- Every non-English locale remains `draft_requires_ai_linguistic_qa`.
+- Draft files may contain Google Translate or AI-generated copy, but that content is not release-ready until AI linguistic QA, owner acceptance, or optional native review is performed.
 
 This avoids presenting unreviewed machine translation as production-ready copy.
 
@@ -42,6 +44,24 @@ Every batch must produce:
 - AI linguistic QA status, explicit owner acceptance status, or optional native-review status
 - simulator visual evidence before a locale is considered runtime-ready
 
+## Batch Translation Command
+
+Use the draft importer for machine-generated translation batches:
+
+```sh
+bun run localization:translate:draft -- --locales de,fr --sections app-strings --write
+```
+
+The command:
+
+- reads English source files from `docs/localization/<section>/en.json`
+- translates leaf strings with key context
+- restores protected tokens such as `BabyMinimo`, `Baby MiniMemo`, `StoreKit`, `App Store`, and `{placeholders}`
+- keeps target files in `draft_requires_ai_linguistic_qa`
+- writes a receipt under `docs/localization/translation-receipts/`
+
+Run without `--write` only to test the pipeline and generate a dry-run receipt. Network translation must be approved before execution in agent sessions.
+
 ## Pricing Rule
 
 Runtime price strings must come from StoreKit localized product display values. These docs may contain planning prices and localized billing-period copy, but production UI must not use static converted currency strings.
@@ -59,4 +79,4 @@ Runtime price strings must come from StoreKit localized product display values. 
 3. Run RTL/text-expansion simulator checks for high-risk locales.
 4. Record AI linguistic QA, owner-acceptance, and optional native-speaker review gaps before release.
 
-QA gates are tracked in `docs/localization/manual-qa-gaps.md`. Final localized screenshots and release localization signoff remain blocked until runtime i18n, locale override, RTL handling, AI linguistic QA or owner acceptance, and localized screenshot baselines exist. Native-speaker review is recommended for high-risk locales and revenue/legal copy, but it is not a hard blocker when AI linguistic QA passes.
+QA gates are tracked in `docs/localization/manual-qa-gaps.md` and the latest judge note is `docs/goals/babyminimo-emulator-hardening/notes/T342-locale-visual-qa.md`. Final localized screenshots and release localization signoff remain blocked until a full simulator locale override, RTL handling, AI linguistic QA or owner acceptance, StoreKit localized price verification, and localized screenshot baselines exist. Native-speaker review is recommended for high-risk locales and revenue/legal copy, but it is not a hard blocker when AI linguistic QA passes.

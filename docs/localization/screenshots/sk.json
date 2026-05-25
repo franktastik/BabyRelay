@@ -6,12 +6,12 @@
   "reviewRequired": true,
   "sourceLocale": "en",
   "headlines": {
-    "home": "Know what happened last",
-    "handoff": "Handoff in seconds",
-    "timeline": "Every care moment in one place",
-    "growth": "Tiny memories, saved locally",
-    "reminders": "Gentle nudges for due-soon care",
-    "family": "Keep the care circle in sync",
-    "paywall": "Unlock calm baby care"
+    "home": "Vedieť, čo sa stalo naposledy",
+    "handoff": "Odovzdanie za pár sekúnd",
+    "timeline": "Každý moment starostlivosti na jednom mieste",
+    "growth": "Drobné spomienky uložené lokálne",
+    "reminders": "Jemné šťuchnutia pre včasnú starostlivosť",
+    "family": "Udržujte kruh starostlivosti v synchronizácii",
+    "paywall": "Odomknite pokojnú starostlivosť o bábätko"
   }
 }

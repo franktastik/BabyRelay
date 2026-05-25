@@ -6,11 +6,11 @@
   "reviewRequired": true,
   "sourceLocale": "en",
   "metadata": {
-    "appName": "BabyMinimo: Baby Tracker",
-    "subtitle": "Feeding, sleep & diaper log",
-    "keywords": "newborn,feeding,sleep,diaper,baby log,baby journal,milestone,tracker,caregiver,handoff,reminder",
-    "promotionalText": "Track feeding, sleep, diapers, memories, and handoffs in one calm baby log.",
-    "shortDescription": "Track feeds, sleep, diapers, milestones and caregiver handoffs in one baby log.",
-    "positioning": "The calm baby log for feeding, sleep, diapers, memories, and caregiver handoffs."
+    "appName": "BabyMinimo: 아기 추적기",
+    "subtitle": "수유, 수면, 기저귀 기록",
+    "keywords": "신생아,수유,수면,기저귀,아기 기록,아기 일지,마일스톤,트래커,간병인,핸드오프,알림",
+    "promotionalText": "차분한 아기 일지에서 수유, 수면, 기저귀, 추억, 전달 사항을 추적하세요.",
+    "shortDescription": "하나의 아기 기록에서 수유, 수면, 기저귀, 주요 일정 및 간병인 전달을 추적합니다.",
+    "positioning": "수유, 수면, 기저귀, 추억, 간병인 전달을 위한 차분한 아기 일지입니다."
   }
 }

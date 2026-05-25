@@ -6,11 +6,11 @@
   "reviewRequired": true,
   "sourceLocale": "en",
   "metadata": {
-    "appName": "BabyMinimo: Baby Tracker",
+    "appName": "BabyMinimo: Babakövető",
     "subtitle": "Feeding, sleep & diaper log",
-    "keywords": "newborn,feeding,sleep,diaper,baby log,baby journal,milestone,tracker,caregiver,handoff,reminder",
-    "promotionalText": "Track feeding, sleep, diapers, memories, and handoffs in one calm baby log.",
+    "keywords": "újszülött,etetés,alvás,pelenka,babanapló,babanapló,mérföldkő,követő,gondozó,átadás,emlékeztető",
+    "promotionalText": "Kövesse nyomon az etetést, az alvást, a pelenkákat, az emlékeket és az átadásokat egyetlen nyugodt babanaplóban.",
     "shortDescription": "Track feeds, sleep, diapers, milestones and caregiver handoffs in one baby log.",
-    "positioning": "The calm baby log for feeding, sleep, diapers, memories, and caregiver handoffs."
+    "positioning": "Nyugodt babanapló etetéshez, alváshoz, pelenkákhoz, emlékekhez és gondozói átadásokhoz."
   }
 }

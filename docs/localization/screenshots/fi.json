@@ -6,12 +6,12 @@
   "reviewRequired": true,
   "sourceLocale": "en",
   "headlines": {
-    "home": "Know what happened last",
-    "handoff": "Handoff in seconds",
-    "timeline": "Every care moment in one place",
-    "growth": "Tiny memories, saved locally",
-    "reminders": "Gentle nudges for due-soon care",
-    "family": "Keep the care circle in sync",
-    "paywall": "Unlock calm baby care"
+    "home": "Tiedä mitä tapahtui viimeksi",
+    "handoff": "Handoff sekunneissa",
+    "timeline": "Jokainen hoitohetki yhdessä paikassa",
+    "growth": "Pienet muistot, tallennettu paikallisesti",
+    "reminders": "Hellävaraiset nyökytyksiä pikaiseen hoitoon",
+    "family": "Pidä hoitopiiri synkronoituna",
+    "paywall": "Avaa rauhallinen vauvanhoito"
   }
 }

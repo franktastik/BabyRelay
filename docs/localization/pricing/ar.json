@@ -7,21 +7,21 @@
   "sourceLocale": "en",
   "pricingCopy": {
     "period": {
-      "weekly": "per week",
-      "monthly": "per month",
-      "annual": "per year",
-      "lifetime": "one time"
+      "weekly": "في الأسبوع",
+      "monthly": "كل شهر",
+      "annual": "كل سنة",
+      "lifetime": "مرة واحدة"
     },
     "trial": {
-      "threeDayFree": "3-day free trial",
-      "thenPricePerPeriod": "Then {price} {period}"
+      "threeDayFree": "تجربة مجانية لمدة 3 أيام",
+      "thenPricePerPeriod": "ثم {price} {period}"
     },
     "savings": {
-      "template": "Save {percent}%",
-      "annualDefault": "Save 65%"
+      "template": "حفظ {percent}%",
+      "annualDefault": "وفر 65%"
     },
-    "restore": "Restore purchases",
-    "manage": "Manage subscription",
-    "cancellation": "Cancel anytime in App Store subscriptions."
+    "restore": "استعادة المشتريات",
+    "manage": "إدارة الاشتراك",
+    "cancellation": "قم بالإلغاء في أي وقت في اشتراكات App Store."
   }
 }

@@ -2,27 +2,29 @@ import React, { useState } from 'react'
 import { Pressable, ScrollView, StyleSheet, Switch, Text, View } from 'react-native'
 import { useRouter } from 'expo-router'
 import { CheckCircle2, EyeOff, RotateCcw, ShieldCheck, Smartphone } from 'lucide-react-native'
+import { useTranslation } from 'react-i18next'
 import { Screen } from '@/src/components/ui'
 import { SettingsHeader } from '@/src/components/settings'
 import { clearAndBlankBabyMinimoCurrentStateWidget } from '@/src/features/widgets/currentStateWidgetUpdater'
 import { useWidgetSettingsStore } from '@/src/stores'
 import { colors, radius, shadows, spacing, typography } from '@/src/theme'
 
-const visibleItems = [
-  'current baby status',
-  'due soon reminder',
-  'last feed, diaper, and sleep',
-  'last updated time',
+const visibleItemKeys = [
+  'widgets.visible.status',
+  'widgets.visible.reminder',
+  'widgets.visible.lastCare',
+  'widgets.visible.updated',
 ]
 
-const hiddenItems = [
-  'notes and free-text details',
-  'Growth Timeline photos',
-  'account, billing, and invite data',
+const hiddenItemKeys = [
+  'widgets.hidden.notes',
+  'widgets.hidden.photos',
+  'widgets.hidden.account',
 ]
 
 export default function WidgetSettingsScreen() {
   const router = useRouter()
+  const { t } = useTranslation()
   const widgetSnapshotsEnabled = useWidgetSettingsStore((state) => state.widgetSnapshotsEnabled)
   const lastClearedAt = useWidgetSettingsStore((state) => state.lastClearedAt)
   const setWidgetSnapshotsEnabled = useWidgetSettingsStore(
@@ -32,13 +34,13 @@ export default function WidgetSettingsScreen() {
     (state) => state.markWidgetSnapshotCleared
   )
   const [statusMessage, setStatusMessage] = useState(
-    'Widgets update from this device when BabyMinimo refreshes Home.'
+    t('widgets.status.default')
   )
 
   const clearWidgetSnapshot = async () => {
     await clearAndBlankBabyMinimoCurrentStateWidget().catch(() => null)
     markWidgetSnapshotCleared()
-    setStatusMessage('Widget snapshot cleared on this device.')
+    setStatusMessage(t('widgets.status.cleared'))
   }
 
   const toggleWidgets = async (enabled: boolean) => {
@@ -46,28 +48,28 @@ export default function WidgetSettingsScreen() {
 
     if (!enabled) {
       await clearWidgetSnapshot()
-      setStatusMessage('Widgets are off. No baby care snapshot is shown.')
+      setStatusMessage(t('widgets.status.off'))
       return
     }
 
-    setStatusMessage('Widgets will update again from Home after the next refresh.')
+    setStatusMessage(t('widgets.status.on'))
   }
 
   return (
     <Screen style={styles.screen}>
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
-        <SettingsHeader title="Widgets" onBack={() => router.back()} rightIcon="none" />
+        <SettingsHeader title={t('widgets.title')} onBack={() => router.back()} rightIcon="none" />
 
-        <Text style={styles.sectionLabel}>Widget visibility</Text>
+        <Text style={styles.sectionLabel}>{t('widgets.section.visibility')}</Text>
         <View style={styles.card}>
           <View style={styles.settingRow}>
             <View style={styles.iconShell}>
               <Smartphone color={colors.sageText} size={18} strokeWidth={2.2} />
             </View>
             <View style={styles.rowCopy}>
-              <Text style={styles.rowTitle}>Show baby status widgets</Text>
+              <Text style={styles.rowTitle}>{t('widgets.show.title')}</Text>
               <Text style={styles.rowSubtitle}>
-                Updates this device's Home Screen widget.
+                {t('widgets.show.subtitle')}
               </Text>
             </View>
             <Switch
@@ -83,50 +85,50 @@ export default function WidgetSettingsScreen() {
           </View>
         </View>
 
-        <Text style={styles.sectionLabel}>Privacy</Text>
+        <Text style={styles.sectionLabel}>{t('widgets.section.privacy')}</Text>
         <View style={styles.card}>
           <View style={styles.privacyHeader}>
             <View style={styles.iconShell}>
               <ShieldCheck color={colors.sageText} size={18} strokeWidth={2.2} />
             </View>
             <View style={styles.rowCopy}>
-              <Text style={styles.rowTitle}>Visible on this device</Text>
+              <Text style={styles.rowTitle}>{t('widgets.visible.title')}</Text>
               <Text style={styles.rowSubtitle}>
-                Anyone who can see the widget can see this glanceable care state.
+                {t('widgets.visible.subtitle')}
               </Text>
             </View>
           </View>
 
-          {visibleItems.map((item) => (
-            <View key={item} style={styles.bulletRow}>
+          {visibleItemKeys.map((itemKey) => (
+            <View key={itemKey} style={styles.bulletRow}>
               <CheckCircle2 color={colors.sageText} size={16} strokeWidth={2.2} />
-              <Text style={styles.bulletText}>{item}</Text>
+              <Text style={styles.bulletText}>{t(itemKey)}</Text>
             </View>
           ))}
 
           <View style={styles.divider} />
 
-          {hiddenItems.map((item) => (
-            <View key={item} style={styles.bulletRow}>
+          {hiddenItemKeys.map((itemKey) => (
+            <View key={itemKey} style={styles.bulletRow}>
               <EyeOff color={colors.muted} size={16} strokeWidth={2.2} />
-              <Text style={styles.bulletText}>{item}</Text>
+              <Text style={styles.bulletText}>{t(itemKey)}</Text>
             </View>
           ))}
         </View>
 
-        <Text style={styles.sectionLabel}>Reset</Text>
+        <Text style={styles.sectionLabel}>{t('widgets.section.reset')}</Text>
         <View style={styles.card}>
           <Pressable onPress={clearWidgetSnapshot} style={styles.clearRow}>
             <View style={[styles.iconShell, styles.clearIconShell]}>
               <RotateCcw color={colors.clay} size={18} strokeWidth={2.2} />
             </View>
             <View style={styles.rowCopy}>
-              <Text style={styles.rowTitle}>Clear widget snapshot</Text>
+              <Text style={styles.rowTitle}>{t('widgets.clear.title')}</Text>
               <Text style={styles.rowSubtitle}>
-                Blanks the widget until BabyMinimo writes a fresh local snapshot.
+                {t('widgets.clear.subtitle')}
               </Text>
               {lastClearedAt ? (
-                <Text style={styles.clearedText}>Last cleared {formatClearedAt(lastClearedAt)}</Text>
+                <Text style={styles.clearedText}>{t('widgets.clear.lastCleared', { time: formatClearedAt(lastClearedAt, t) })}</Text>
               ) : null}
             </View>
           </Pressable>
@@ -136,10 +138,10 @@ export default function WidgetSettingsScreen() {
   )
 }
 
-const formatClearedAt = (iso: string) => {
+const formatClearedAt = (iso: string, t: (key: string) => string) => {
   const date = new Date(iso)
   if (Number.isNaN(date.getTime())) {
-    return 'recently'
+    return t('widgets.clear.recently')
   }
 
   return date.toLocaleTimeString('en-US', {

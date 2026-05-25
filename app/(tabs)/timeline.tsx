@@ -2,6 +2,7 @@ import { useCallback } from 'react'
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 import { useFocusEffect, useRouter } from 'expo-router'
 import { Search, Settings2 } from 'lucide-react-native'
+import { useTranslation } from 'react-i18next'
 import { Screen } from '@/src/components/ui'
 import { TimelineFilters, TimelineList } from '@/src/components/timeline'
 import { buildTimelineItems, filterTimelineItems } from '@/src/features/timeline/adapter'
@@ -13,6 +14,7 @@ import { colors, radius, shadows, spacing, typography } from '@/src/theme'
 
 export default function TimelineScreen() {
   const router = useRouter()
+  const { t } = useTranslation()
   const selectedBabyId = useAuthStore((s) => s.selectedBabyId) || 'baby-1'
   const filter = useFiltersStore((s) => s.filter)
   const setFilter = useFiltersStore((s) => s.setFilter)
@@ -34,10 +36,10 @@ export default function TimelineScreen() {
   return (
     <Screen style={styles.screen}>
       <View style={styles.header}>
-        <Text style={styles.title}>Timeline</Text>
+        <Text style={styles.title}>{t('timeline.title')}</Text>
         <View style={styles.headerActions}>
-          <IconButton icon="search" label="Timeline search coming soon" />
-          <IconButton icon="settings" label="Timeline settings coming soon" />
+          <IconButton icon="search" label={t('timeline.searchComingSoon')} />
+          <IconButton icon="settings" label={t('timeline.settingsComingSoon')} />
         </View>
       </View>
 

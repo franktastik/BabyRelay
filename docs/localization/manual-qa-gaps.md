@@ -4,14 +4,14 @@ This document supports `PBI-065 T5`. It records what is still required before lo
 
 ## Current Gate
 
-Status: blocked for non-English runtime visual acceptance.
+Status: blocked for non-English release visual acceptance.
 
-The current localization package is a planning scaffold. English is canonical, while non-English files are draft placeholders that intentionally mirror English until translation and AI linguistic QA, owner acceptance, or optional native review are complete.
+English is canonical. Non-English files now contain machine-translated draft app strings, metadata, pricing copy, and screenshot headline inputs, but they remain `draft_requires_ai_linguistic_qa` until AI linguistic QA, owner acceptance, or optional native review is complete.
 
 Runtime limitations:
-- The app does not yet load localized string bundles.
-- The simulator does not yet expose a dev/test locale override.
-- Arabic and Hebrew RTL layout behavior is not wired.
+- The app loads English by default and has a guarded German draft QA runtime path for the first runtime batch.
+- The app does not yet expose a startup-level dev/test locale override that can force any supported locale across all routes.
+- Arabic and Hebrew draft assets exist, but RTL layout direction/mirroring is not wired.
 - StoreKit localized prices are not available in the local emulator-only build.
 - Approved localized screenshot baselines do not exist yet.
 
@@ -46,7 +46,7 @@ Run these before broad localized screenshot generation:
 
 Do not proceed to final localized ASO screenshots or release localization signoff until:
 - Runtime i18n wiring exists in the app.
-- A dev/test locale override exists for simulator QA.
+- A dev/test locale override exists for full simulator QA across all supported locales.
 - RTL layout is implemented and verified for Arabic and Hebrew.
 - Non-English translations pass AI linguistic QA or are explicitly accepted by the product owner.
 - StoreKit localized display prices are verified in sandbox/TestFlight for enabled products.

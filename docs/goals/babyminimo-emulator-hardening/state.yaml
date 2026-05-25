@@ -37,7 +37,7 @@ visual_board:
     status: live
     url: "http://127.0.0.1:41737/"
 
-active_task: T337
+active_task: T307
 
 tasks:
   - id: T001
@@ -13387,7 +13387,7 @@ tasks:
   - id: T337
     type: scout
     assignee: Scout
-    status: active
+    status: done
     pbi: "PBI-065"
     pbi_title: "App, store metadata, and screenshot localization"
     phase: "Phase 11, before ASO screenshot generation and production release readiness."
@@ -13422,10 +13422,25 @@ tasks:
       - "Need files outside allowed_files."
       - "Implementation, dependency installation, or network translation is needed before the plan is accepted."
       - "Verification fails twice."
+    receipt:
+      result: done
+      decision: "accept"
+      summary: "Translated the flashcard-generator localization workflow into a BabyMinimo runtime i18n and batch translation implementation plan. The plan allows Google Translate/AI drafts, removes native review as a hard blocker, and requires automated validation, AI linguistic QA or owner acceptance, and simulator visual QA before release exposure."
+      evidence:
+        - "docs/localization/batch-translation-implementation-plan.md"
+        - "docs/localization/README.md"
+      files_changed:
+        - "docs/localization/batch-translation-implementation-plan.md"
+        - "docs/goals/babyminimo-emulator-hardening/state.yaml"
+      verification:
+        - command: "node scripts/localization/validate-localization-assets.mjs"
+          result: "passed"
+        - command: "node /Users/frank/.codex/plugins/cache/goalbuddy/goalbuddy/0.2.22/skills/goalbuddy/scripts/check-goal-state.mjs docs/goals/babyminimo-emulator-hardening/state.yaml"
+          result: "passed"
   - id: T338
     type: worker
     assignee: Worker
-    status: queued
+    status: done
     pbi: "PBI-065"
     pbi_title: "App, store metadata, and screenshot localization"
     phase: "Phase 11, before ASO screenshot generation and production release readiness."
@@ -13448,6 +13463,13 @@ tasks:
     allowed_files:
       - "app/**"
       - "src/**"
+      - "src/localization/i18n.ts"
+      - "src/localization/index.ts"
+      - "src/localization/localeRegistry.ts"
+      - "src/localization/localeRegistry.test.ts"
+      - "src/localization/resources/en.ts"
+      - "src/localization/resources/en.test.ts"
+      - "src/providers/AppProvider.tsx"
       - "locales/**"
       - "docs/**"
       - "scripts/**"
@@ -13464,10 +13486,46 @@ tasks:
       - "Need production credentials or store writes."
       - "Need to expose unreviewed translated strings as release-ready."
       - "Verification fails twice."
+    receipt:
+      result: done
+      summary: "Implemented the BabyMinimo runtime i18n foundation with an explicit locale registry, English-only runtime resources, locale detection, draft-gated fallback, manual language override helpers, and tests that keep English app strings aligned with docs/localization/app-strings/en.json."
+      changed_files:
+        - "package.json"
+        - "bun.lock"
+        - "src/localization/i18n.ts"
+        - "src/localization/index.ts"
+        - "src/localization/localeRegistry.ts"
+        - "src/localization/localeRegistry.test.ts"
+        - "src/localization/resources/en.ts"
+        - "src/localization/resources/en.test.ts"
+        - "src/providers/AppProvider.tsx"
+        - "CHANGELOG.md"
+        - "docs/goals/babyminimo-emulator-hardening/state.yaml"
+      runtime_policy:
+        - "English is the only runtime-enabled locale until a translated locale is AI-QA-passed, owner-accepted, or native-reviewed in a later task."
+        - "Draft locales can be tested with explicit allowDraftLocales overrides but do not become user-facing by default."
+      commands:
+        - command: "bun run test:typecheck"
+          status: pass
+        - command: "bun run test:unit"
+          status: pass
+        - command: "node scripts/localization/validate-localization-assets.mjs"
+          status: pass
+        - command: "npx expo-doctor"
+          status: pass
+      verification:
+        - command: "bun run test:typecheck"
+          result: "passed"
+        - command: "bun run test:unit"
+          result: "passed"
+        - command: "node scripts/localization/validate-localization-assets.mjs"
+          result: "passed"
+        - command: "npx expo-doctor"
+          result: "passed, 20/20 checks"
   - id: T339
     type: worker
     assignee: Worker
-    status: queued
+    status: done
     pbi: "PBI-065"
     pbi_title: "App, store metadata, and screenshot localization"
     phase: "Phase 11, before ASO screenshot generation and production release readiness."
@@ -13506,10 +13564,48 @@ tasks:
       - "Network translation is required and approval is not available."
       - "Validation cannot distinguish draft machine output from accepted runtime copy."
       - "Verification fails twice."
+    receipt:
+      result: done
+      summary: "Added Google Translate-backed batch translation tooling and generated validated draft localization assets for all supported non-English locales across app strings, metadata, pricing copy, and screenshot headlines. Protected token and placeholder guards caught and prevented bad imports; metadata length constraints now fall back to canonical English when machine translations exceed store limits."
+      changed_files:
+        - "scripts/localization/**"
+        - "docs/localization/**"
+        - "package.json"
+        - "bun.lock"
+        - "CHANGELOG.md"
+        - "docs/goals/babyminimo-emulator-hardening/state.yaml"
+      commands:
+        - command: "node scripts/localization/batch-translate-google.mjs --locales de --sections screenshots --write --delay-ms 0"
+          status: pass
+        - command: "node scripts/localization/batch-translate-google.mjs --write --delay-ms 25"
+          status: pass
+        - command: "node scripts/localization/batch-translate-google.mjs --write --delay-ms 10 --locales ja,ko,ms,nl,nb,pl,pt,ro,ru,sk,sv,th,tr,uk,vi,zh-Hans,zh-Hant"
+          status: pass
+        - command: "node scripts/localization/batch-translate-google.mjs --write --delay-ms 10 --sections metadata,pricing,screenshots"
+          status: pass
+        - command: "node scripts/localization/batch-translate-google.mjs --write --delay-ms 10 --sections metadata"
+          status: pass
+        - command: "node scripts/localization/validate-localization-assets.mjs"
+          status: pass
+        - command: "bun run test:typecheck"
+          status: pass
+        - command: "bun run test:unit"
+          status: pass
+      receipts:
+        - "docs/localization/translation-receipts/2026-05-25T09-49-33-959Z-write.json"
+        - "docs/localization/translation-receipts/2026-05-25T10-04-11-007Z-write.json"
+        - "docs/localization/translation-receipts/2026-05-25T10-40-38-487Z-write.json"
+        - "docs/localization/translation-receipts/2026-05-25T10-41-33-386Z-write.json"
+        - "docs/localization/translation-receipts/2026-05-25T10-53-57-206Z-write.json"
+        - "docs/localization/translation-receipts/2026-05-25T10-58-00-000Z-app-strings-resume-summary.json"
+      caveats:
+        - "All non-English localization files remain draft_requires_ai_linguistic_qa and are not runtime-ready."
+        - "Metadata fields that exceeded store length limits were reverted to canonical English by the importer."
+        - "Arabic and Hebrew still need RTL simulator QA before release exposure."
   - id: T340
     type: worker
     assignee: Worker
-    status: queued
+    status: done
     pbi: "PBI-065"
     pbi_title: "App, store metadata, and screenshot localization"
     phase: "Phase 11, before ASO screenshot generation and production release readiness."
@@ -13547,10 +13643,36 @@ tasks:
       - "Visual drift from approved screenshots1 references is introduced."
       - "Unreviewed machine translation would be presented as release-ready."
       - "Verification fails twice."
+    receipt:
+      result: done
+      summary: "Localized the first low-risk runtime batch through the BabyMinimo i18n runtime: login copy, onboarding goal/pain-point questionnaire copy, and Settings copy/language QA controls now read from translation keys. English remains the production runtime default, while German is available only through explicit draft-locale QA gating."
+      changed_files:
+        - "app/**"
+        - "src/**"
+        - "docs/**"
+        - "scripts/**"
+        - "CHANGELOG.md"
+        - "docs/goals/babyminimo-emulator-hardening/state.yaml"
+      commands:
+        - command: "bun run test:typecheck"
+          status: pass
+        - command: "bun run test:unit"
+          status: pass
+        - command: "node scripts/localization/validate-localization-assets.mjs"
+          status: pass
+        - command: "npx expo-doctor"
+          status: pass
+        - command: "Simulator smoke at http://127.0.0.1:3200/?device=B2C19543-60E2-489E-8E08-4E3F775AD6A0"
+          status: pass
+      receipts:
+        - "docs/localization/translation-receipts/2026-05-25T11-19-22-699Z-write.json"
+      caveats:
+        - "German remains draft-only and is not release-ready until AI linguistic QA and text-expansion visual QA are accepted."
+        - "Remaining feature screens are queued in T341 and still use English/runtime literals until that task is completed."
   - id: T341
     type: worker
     assignee: Worker
-    status: queued
+    status: done
     pbi: "PBI-065"
     pbi_title: "App, store metadata, and screenshot localization"
     phase: "Phase 11, before ASO screenshot generation and production release readiness."
@@ -13588,10 +13710,36 @@ tasks:
       - "Production notification provider setup is required."
       - "StoreKit/App Store Connect setup is required."
       - "Verification fails twice."
+    receipt:
+      result: done
+      summary: "Localized the remaining non-production runtime surface for PBI-065. Home, Timeline/Growth, Handoff, Quick Log, core log modals, Reminders, Family, Widgets, Account, notification policy copy, and local lifecycle cleanup copy now use BabyMinimo i18n keys. Expanded the app-string source of truth and regenerated draft app-string assets for all supported locales while keeping non-English release status as draft/QA-gated."
+      changed_files:
+        - "app/**"
+        - "src/**"
+        - "docs/**"
+        - "scripts/**"
+        - "CHANGELOG.md"
+        - "docs/goals/babyminimo-emulator-hardening/state.yaml"
+      commands:
+        - command: "bun run test:typecheck"
+          status: pass
+        - command: "bun run test:unit"
+          status: pass
+        - command: "node scripts/localization/validate-localization-assets.mjs"
+          status: pass
+        - command: "npx expo-doctor"
+          status: pass
+        - command: "Simulator smoke at http://127.0.0.1:3200/?device=B2C19543-60E2-489E-8E08-4E3F775AD6A0"
+          status: pass
+      receipts:
+        - "docs/localization/translation-receipts/2026-05-25T12-34-15-432Z-write.json"
+      caveats:
+        - "Non-English app strings are machine-translated draft assets and remain blocked from release exposure until AI linguistic QA and visual QA are accepted."
+        - "Widget fallback short-label keys are intentionally mirrored from English in draft locale files until a linguistic QA pass chooses compact localized equivalents."
   - id: T342
     type: judge
     assignee: Judge
-    status: queued
+    status: done
     pbi: "PBI-065"
     pbi_title: "App, store metadata, and screenshot localization"
     phase: "Phase 11, before ASO screenshot generation and production release readiness."
@@ -13626,6 +13774,33 @@ tasks:
       - "Runtime locale override is unavailable."
       - "Localized screenshots require missing approved baseline images."
       - "Verification fails twice."
+    receipt:
+      result: done
+      decision: "partial_pass_with_release_blockers"
+      summary: "Completed the PBI-065 locale visual QA judge pass. English runtime smoke passed on the browser simulator and evidence was saved. German text-expansion and Arabic/Hebrew RTL release visual QA remain blocked until a startup-level locale override, reviewed runtime resources, RTL layout handling, and localized screenshot baselines exist."
+      changed_files:
+        - "docs/**"
+        - "CHANGELOG.md"
+        - "docs/goals/babyminimo-emulator-hardening/state.yaml"
+      commands:
+        - command: "node scripts/localization/validate-localization-assets.mjs"
+          status: pass
+        - command: "bun run test:typecheck"
+          status: pass
+        - command: "bun run test:unit"
+          status: pass
+        - command: "Simulator smoke at http://127.0.0.1:3200/?device=B2C19543-60E2-489E-8E08-4E3F775AD6A0"
+          status: pass
+        - command: "node /Users/frank/.codex/plugins/cache/goalbuddy/goalbuddy/0.2.22/skills/goalbuddy/scripts/check-goal-state.mjs docs/goals/babyminimo-emulator-hardening/state.yaml"
+          status: pass
+      receipts:
+        - "docs/goals/babyminimo-emulator-hardening/notes/T342-locale-visual-qa.md"
+        - "docs/goals/babyminimo-emulator-hardening/notes/T342-english-login-smoke.png"
+      blockers:
+        - "A dev/test locale override is needed to force any supported locale at startup or through a QA-only route."
+        - "Arabic and Hebrew runtime resources and RTL layout/mirroring remain unverified."
+        - "German full-route visual QA still needs forced-locale simulator coverage across every localized screen."
+        - "Localized screenshot generation remains blocked until AI linguistic QA and localized visual baselines exist."
   - id: T302
     type: worker
     assignee: Worker
@@ -13991,7 +14166,7 @@ tasks:
   - id: T307
     type: scout
     assignee: Scout
-    status: queued
+    status: active
     pbi: "PBI-050"
     pbi_title: "Production Firebase and security hardening"
     phase: "Phase 10."

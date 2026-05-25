@@ -6,12 +6,12 @@
   "reviewRequired": true,
   "sourceLocale": "en",
   "headlines": {
-    "home": "Know what happened last",
-    "handoff": "Handoff in seconds",
-    "timeline": "Every care moment in one place",
-    "growth": "Tiny memories, saved locally",
-    "reminders": "Gentle nudges for due-soon care",
-    "family": "Keep the care circle in sync",
-    "paywall": "Unlock calm baby care"
+    "home": "Žinokite, kas atsitiko paskutinį kartą",
+    "handoff": "Perdavimas per kelias sekundes",
+    "timeline": "Kiekviena priežiūros akimirka vienoje vietoje",
+    "growth": "Maži prisiminimai, išsaugoti vietoje",
+    "reminders": "Švelnūs stumtelėjimai greitai priežiūrai",
+    "family": "Sinchronizuokite priežiūros ratą",
+    "paywall": "Atraskite ramią kūdikio priežiūrą"
   }
 }

@@ -1,5 +1,6 @@
 import React from 'react'
 import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native'
+import { useTranslation } from 'react-i18next'
 import type { TimelineItem } from '@/src/features/timeline/adapter'
 import { CareEventCard } from './CareEventCard'
 import { GrowthMomentCard } from './GrowthMomentCard'
@@ -11,35 +12,36 @@ interface TimelineListProps {
 }
 
 export function TimelineList({ items, onAddMoment }: TimelineListProps) {
+  const { t } = useTranslation()
+
   if (items.length === 0) {
     return (
       <View style={styles.empty}>
         <View style={styles.emptyIconShell}>
           <Text style={styles.emptyIcon}>♡</Text>
         </View>
-        <Text style={styles.emptyTitle}>Start your story together</Text>
+        <Text style={styles.emptyTitle}>{t('timeline.empty.title')}</Text>
         <Text style={styles.emptyCopy}>
-          Every feeding, diaper change, nap, and milestone will appear here,
-          building your family&apos;s shared memory.
+          {t('timeline.empty.copy')}
         </Text>
 
         <View style={styles.emptyCard}>
           <Text style={styles.emptyCardIcon}>⌁</Text>
           <View style={styles.emptyCardText}>
-            <Text style={styles.emptyCardTitle}>Log care events</Text>
-            <Text style={styles.emptyCardMeta}>Feedings, diapers, sleep, and more</Text>
+            <Text style={styles.emptyCardTitle}>{t('timeline.empty.logEvents')}</Text>
+            <Text style={styles.emptyCardMeta}>{t('timeline.empty.logEventsMeta')}</Text>
           </View>
         </View>
         <View style={styles.emptyCard}>
           <Text style={styles.emptyCardIcon}>♙</Text>
           <View style={styles.emptyCardText}>
-            <Text style={styles.emptyCardTitle}>See who did what</Text>
-            <Text style={styles.emptyCardMeta}>Every caregiver&apos;s actions appear automatically</Text>
+            <Text style={styles.emptyCardTitle}>{t('timeline.empty.seeWho')}</Text>
+            <Text style={styles.emptyCardMeta}>{t('timeline.empty.seeWhoMeta')}</Text>
           </View>
         </View>
 
         <Pressable onPress={onAddMoment} style={styles.emptyCta}>
-          <Text style={styles.emptyCtaText}>＋ Add First Moment</Text>
+          <Text style={styles.emptyCtaText}>{t('timeline.empty.cta')}</Text>
         </Pressable>
       </View>
     )
@@ -53,15 +55,15 @@ export function TimelineList({ items, onAddMoment }: TimelineListProps) {
         const timeLabel =
           item.type === 'growth'
             ? index === 0
-              ? 'TODAY'
-              : 'YESTERDAY, 4:20 PM'
+              ? t('timeline.type.today')
+              : t('timeline.type.yesterday')
             : '10:45 AM'
         const typeLabel =
           item.type === 'growth'
-            ? 'GROWTH'
-            : item.careEvent
-              ? getCareTypeLabel(item.careEvent.type)
-              : 'CARE'
+              ? t('timeline.filter.growth').toUpperCase()
+              : item.careEvent
+              ? getCareTypeLabel(item.careEvent.type, t)
+              : t('timeline.type.care')
         return (
           <View style={styles.itemRow}>
             <View style={styles.rail}>
@@ -89,9 +91,12 @@ export function TimelineList({ items, onAddMoment }: TimelineListProps) {
   )
 }
 
-function getCareTypeLabel(type: NonNullable<TimelineItem['careEvent']>['type']) {
-  if (type === 'breastfeed' || type === 'bottle') return 'FEEDING'
-  if (type === 'medication') return 'HEALTH'
+function getCareTypeLabel(
+  type: NonNullable<TimelineItem['careEvent']>['type'],
+  t: (key: string) => string
+) {
+  if (type === 'breastfeed' || type === 'bottle') return t('timeline.type.feeding')
+  if (type === 'medication') return t('timeline.type.health')
   return type.toUpperCase()
 }
 
