@@ -8,6 +8,8 @@ import { SettingsHeader } from '@/src/components/settings'
 import { AppStateView } from '@/src/components/states'
 import { trackEvent } from '@/src/features/analytics'
 import { demoReminders, type DemoReminder } from '@/src/features/demo/reminders'
+import { useAuthStore } from '@/src/stores/authStore'
+import { useBabyMinimoActivityStore } from '@/src/stores/activityStore'
 import {
   cancelBabyMinimoReminderNotification,
   getBabyMinimoNotificationPermissionState,
@@ -20,6 +22,8 @@ import { colors, radius, shadows, spacing, typography } from '@/src/theme'
 export default function RemindersScreen() {
   const router = useRouter()
   const { t } = useTranslation()
+  const selectedBabyId = useAuthStore((state) => state.selectedBabyId) || 'baby-1'
+  const addActivity = useBabyMinimoActivityStore((state) => state.addActivity)
   const [reminders, setReminders] = useState(demoReminders)
   const [title, setTitle] = useState('')
   const [permissionState, setPermissionState] =
@@ -82,6 +86,7 @@ export default function RemindersScreen() {
 
     const reminder: DemoReminder = {
       id: `rem-${Date.now()}`,
+      babyId: selectedBabyId,
       title: title.trim(),
       detail: t('reminders.customDetail'),
       dueLabel: t('reminders.customDue'),
@@ -93,6 +98,13 @@ export default function RemindersScreen() {
     trackEvent('reminder_created', {
       reminderId: reminder.id,
       category: reminder.category,
+    })
+    addActivity({
+      babyId: selectedBabyId,
+      type: 'reminder_created',
+      label: 'Reminder created',
+      detail: reminder.title,
+      metadata: { category: reminder.category },
     })
     setTitle('')
     await scheduleReminder(reminder)
@@ -161,10 +173,10 @@ export default function RemindersScreen() {
 
         <View style={styles.sectionRow}>
           <Text style={styles.sectionLabel}>{t('reminders.section.active')}</Text>
-          <Text style={styles.sectionMeta}>{t('reminders.section.total', { count: reminders.length })}</Text>
+          <Text style={styles.sectionMeta}>{t('reminders.section.total', { count: reminders.filter((reminder) => reminder.babyId === selectedBabyId).length })}</Text>
         </View>
 
-        {reminders.length === 0 ? (
+        {reminders.filter((reminder) => reminder.babyId === selectedBabyId).length === 0 ? (
           <AppStateView
             tone="empty"
             title={t('reminders.empty.title')}
@@ -172,7 +184,7 @@ export default function RemindersScreen() {
             actionLabel={t('reminders.empty.action')}
           />
         ) : (
-          reminders.map((reminder) => (
+          reminders.filter((reminder) => reminder.babyId === selectedBabyId).map((reminder) => (
             <View key={reminder.id} style={[styles.reminderRow, !reminder.active && styles.reminderDisabled]}>
               <View style={styles.timeBlock}>
                 <Text style={styles.timeText}>{reminder.dueLabel.split(' ')[0]}</Text>

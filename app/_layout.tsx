@@ -41,7 +41,9 @@ export default function RootLayout() {
         <Stack.Screen name="modals/log-sleep" options={{ presentation: 'modal' }} />
         <Stack.Screen name="modals/log-medication" options={{ presentation: 'modal' }} />
         <Stack.Screen name="modals/add-moment" options={{ presentation: 'modal' }} />
+        <Stack.Screen name="modals/baby-switcher" options={{ presentation: 'modal' }} />
         <Stack.Screen name="modals/sign-out-confirm" options={{ presentation: 'transparentModal' }} />
+        <Stack.Screen name="modals/delete-account-confirm" options={{ presentation: 'transparentModal' }} />
       </Stack>
     </AppProvider>
   )

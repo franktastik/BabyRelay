@@ -37,7 +37,7 @@ visual_board:
     status: live
     url: "http://127.0.0.1:41737/"
 
-active_task: T327
+active_task: T352
 
 tasks:
   - id: T001
@@ -777,6 +777,10 @@ tasks:
       - "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
       - "docs/goals/babyminimo-emulator-hardening/state.yaml"
       - "CHANGELOG.md"
+      - "app/(settings)/account.tsx"
+      - "app/_layout.tsx"
+      - "app/modals/delete-account-confirm.tsx"
+      - "src/localization/resources/en.ts"
       - "app/**"
       - "src/**"
       - "e2e/**"
@@ -816,6 +820,10 @@ tasks:
       - "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
       - "docs/goals/babyminimo-emulator-hardening/state.yaml"
       - "CHANGELOG.md"
+      - "app/(settings)/account.tsx"
+      - "app/_layout.tsx"
+      - "app/modals/delete-account-confirm.tsx"
+      - "src/localization/resources/en.ts"
       - "app/**"
       - "src/**"
       - "e2e/**"
@@ -855,6 +863,8 @@ tasks:
       - "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
       - "docs/goals/babyminimo-emulator-hardening/state.yaml"
       - "CHANGELOG.md"
+      - "app/modals/delete-account-confirm.tsx"
+      - "docs/product/babyminimo-data-lifecycle-privacy-plan.md"
       - "app/**"
       - "src/**"
       - "e2e/**"
@@ -894,6 +904,16 @@ tasks:
       - "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
       - "docs/goals/babyminimo-emulator-hardening/state.yaml"
       - "CHANGELOG.md"
+      - "src/stores/activityStore.ts"
+      - "src/stores/index.ts"
+      - "src/stores/careEventStore.ts"
+      - "app/(settings)/reminders.tsx"
+      - "app/(tabs)/handoff.tsx"
+      - "app/modals/add-moment.tsx"
+      - "app/modals/baby-switcher.tsx"
+      - "src/features/privacy/localLifecycle.ts"
+      - "src/features/privacy/localLifecycleCore.ts"
+      - "src/features/privacy/localLifecycle.test.ts"
       - "app/**"
       - "src/**"
       - "e2e/**"
@@ -933,6 +953,16 @@ tasks:
       - "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
       - "docs/goals/babyminimo-emulator-hardening/state.yaml"
       - "CHANGELOG.md"
+      - "src/stores/activityStore.ts"
+      - "src/stores/index.ts"
+      - "src/stores/careEventStore.ts"
+      - "app/(settings)/reminders.tsx"
+      - "app/(tabs)/handoff.tsx"
+      - "app/modals/add-moment.tsx"
+      - "app/modals/baby-switcher.tsx"
+      - "src/features/privacy/localLifecycle.ts"
+      - "src/features/privacy/localLifecycleCore.ts"
+      - "src/features/privacy/localLifecycle.test.ts"
       - "app/**"
       - "src/**"
       - "e2e/**"
@@ -13807,8 +13837,8 @@ tasks:
     status: done
     pbi: "PBI-063"
     pbi_title: "ASO App Store screenshot generation and gifting creative set"
-    phase: "Phase 11, immediately before Release and App Store readiness."
-    production_last_phase: false
+    phase: "Phase 11, after production Firebase/App Store readiness gates."
+    production_last_phase: true
     objective: "PBI-063 T1: Run ASO benefit discovery using the app-store-screenshot skill framework and BabyMinimo product hierarchy."
     inputs:
       - "PBI source: docs/product/babyminimo-pbi-codex-goalbuddy-pack.md#PBI-063"
@@ -14059,8 +14089,8 @@ tasks:
     status: blocked
     pbi: "PBI-063"
     pbi_title: "ASO App Store screenshot generation and gifting creative set"
-    phase: "Phase 11, immediately before Release and App Store readiness."
-    production_last_phase: false
+    phase: "Phase 11, after production Firebase/App Store readiness gates."
+    production_last_phase: true
     objective: "PBI-063 T4: Generate/export the final App Store screenshot set and screenshot manifest."
     inputs:
       - "PBI source: docs/product/babyminimo-pbi-codex-goalbuddy-pack.md#PBI-063"
@@ -14098,7 +14128,7 @@ tasks:
       - "Verification fails twice."
     receipt:
       result: blocked
-      summary: "Created a draft screenshot manifest but did not generate/export final App Store screenshots because the required product and source-asset gates are not cleared."
+      summary: "Created a draft screenshot manifest but did not generate/export final App Store screenshots because App Store screenshots are explicitly deferred until production Firebase/App Store tickets are resolved."
       files_changed:
         - "docs/marketing/babyminimo-aso-screenshot-manifest.draft.json"
         - "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
@@ -14110,6 +14140,7 @@ tasks:
         - "Paywall/premium screenshots require StoreKit/TestFlight product, display price, trial, restore, and legal-copy validation."
         - "Localized screenshot generation is blocked by PBI-065 runtime i18n and AI linguistic QA gates."
         - "Final App Store dimension generation tooling has not been run for approved source assets."
+        - "Product owner directed that App Store screenshots happen after all production tickets are resolved."
       safe_progress:
         - "Draft English manifest exists at docs/marketing/babyminimo-aso-screenshot-manifest.draft.json."
   - id: T306
@@ -14118,8 +14149,8 @@ tasks:
     status: blocked
     pbi: "PBI-063"
     pbi_title: "ASO App Store screenshot generation and gifting creative set"
-    phase: "Phase 11, immediately before Release and App Store readiness."
-    production_last_phase: false
+    phase: "Phase 11, after production Firebase/App Store readiness gates."
+    production_last_phase: true
     objective: "PBI-063 T5: Verify assets against the manifest, update release docs, CHANGELOG.md, and GoalBuddy receipt."
     inputs:
       - "PBI source: docs/product/babyminimo-pbi-codex-goalbuddy-pack.md#PBI-063"
@@ -14158,11 +14189,12 @@ tasks:
     receipt:
       result: blocked
       decision: "blocked_until_final_assets_exist"
-      summary: "Cannot verify final App Store screenshot assets because T305 is blocked and no final generated/exported assets exist yet. Resume after approved source retakes, headline confirmation, StoreKit/paywall validation, and final export."
+      summary: "Cannot verify final App Store screenshot assets because T305 is blocked and no final generated/exported assets exist yet. Resume after production Firebase/App Store tickets are resolved, approved source retakes are captured, headline order is confirmed, StoreKit/paywall validation passes, and final export is generated."
       blockers:
         - "No final generated App Store screenshot assets exist."
         - "Draft manifest only; production-quality source rows are still blocked or require retakes."
         - "Localized screenshots remain blocked until runtime localization and AI linguistic QA gates are cleared."
+        - "Product owner directed that App Store screenshots happen after all production tickets are resolved."
   - id: T307
     type: scout
     assignee: Scout
@@ -14996,7 +15028,7 @@ tasks:
   - id: T327
     type: scout
     assignee: Scout
-    status: active
+    status: done
     pbi: "PBI-056"
     pbi_title: "Account deletion and data purge"
     phase: "Phase 10, local/emulator privacy hardening before production Firebase and App Store readiness."
@@ -15030,10 +15062,22 @@ tasks:
       - "Acceptance criteria conflict with approved PBI scope."
       - "Verification fails twice."
       - "Requires production Firebase deploy, App Store Connect write, signing, production credentials, or irreversible production data deletion."
+    receipt:
+      result: done
+      summary: "Defined the account deletion policy for user profile, household membership, babies, care events, reminders, local Growth Timeline photos/metadata, widget snapshots, notifications, analytics, and auth session. Local/emulator ownership is separated from backend/shared production purge ownership."
+      evidence:
+        - "src/features/privacy/accountDeletionPolicy.ts"
+        - "src/features/privacy/index.ts"
+        - "src/features/privacy/accountDeletionPolicy.test.ts"
+      verification:
+        - command: "bun run test:typecheck"
+          result: "passed"
+        - command: "bun run test:unit"
+          result: "passed"
   - id: T328
     type: worker
     assignee: Worker
-    status: queued
+    status: done
     pbi: "PBI-056"
     pbi_title: "Account deletion and data purge"
     phase: "Phase 10, local/emulator privacy hardening before production Firebase and App Store readiness."
@@ -15055,6 +15099,10 @@ tasks:
       - "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
       - "docs/goals/babyminimo-emulator-hardening/state.yaml"
       - "CHANGELOG.md"
+      - "app/(settings)/account.tsx"
+      - "app/_layout.tsx"
+      - "app/modals/delete-account-confirm.tsx"
+      - "src/localization/resources/en.ts"
       - "app/**"
       - "src/**"
       - "e2e/**"
@@ -15067,6 +15115,30 @@ tasks:
       - "Acceptance criteria conflict with approved PBI scope."
       - "Verification fails twice."
       - "Requires production Firebase deploy, App Store Connect write, signing, production credentials, or irreversible production data deletion."
+    receipt:
+      result: done
+      summary: "Added an Account screen delete entry and a transparent confirmation modal with password field, typed DELETE confirmation, disabled/submit/error states, emulator-safe sign out, and production-purge caveat copy."
+      changed_files:
+        - "app/(settings)/account.tsx"
+        - "app/_layout.tsx"
+        - "app/modals/delete-account-confirm.tsx"
+        - "src/localization/resources/en.ts"
+      evidence:
+        - "app/(settings)/account.tsx"
+        - "app/_layout.tsx"
+        - "app/modals/delete-account-confirm.tsx"
+        - "src/localization/resources/en.ts"
+        - "docs/localization/app-strings/*.json"
+      commands:
+        - command: "bun run test:typecheck"
+          status: pass
+        - command: "bun run test:unit"
+          status: pass
+      verification:
+        - command: "bun run test:typecheck"
+          result: "passed"
+        - command: "bun run test:unit"
+          result: "passed"
   - id: T329
     type: worker
     assignee: Worker
@@ -15092,6 +15164,8 @@ tasks:
       - "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
       - "docs/goals/babyminimo-emulator-hardening/state.yaml"
       - "CHANGELOG.md"
+      - "app/modals/delete-account-confirm.tsx"
+      - "docs/product/babyminimo-data-lifecycle-privacy-plan.md"
       - "app/**"
       - "src/**"
       - "e2e/**"
@@ -15107,7 +15181,7 @@ tasks:
   - id: T330
     type: worker
     assignee: Worker
-    status: queued
+    status: done
     pbi: "PBI-056"
     pbi_title: "Account deletion and data purge"
     phase: "Phase 10, local/emulator privacy hardening before production Firebase and App Store readiness."
@@ -15129,6 +15203,8 @@ tasks:
       - "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
       - "docs/goals/babyminimo-emulator-hardening/state.yaml"
       - "CHANGELOG.md"
+      - "app/modals/delete-account-confirm.tsx"
+      - "docs/product/babyminimo-data-lifecycle-privacy-plan.md"
       - "app/**"
       - "src/**"
       - "e2e/**"
@@ -15141,10 +15217,29 @@ tasks:
       - "Acceptance criteria conflict with approved PBI scope."
       - "Verification fails twice."
       - "Requires production Firebase deploy, App Store Connect write, signing, production credentials, or irreversible production data deletion."
+    receipt:
+      result: done
+      summary: "Connected account deletion to the existing local lifecycle cleanup path for local Growth Timeline state, care cache, widget snapshots/settings, notification schedules, analytics identity, and auth/session stores. Production backend purge stays gated in T329."
+      changed_files:
+        - "app/modals/delete-account-confirm.tsx"
+        - "docs/product/babyminimo-data-lifecycle-privacy-plan.md"
+      evidence:
+        - "app/modals/delete-account-confirm.tsx"
+        - "docs/product/babyminimo-data-lifecycle-privacy-plan.md"
+      commands:
+        - command: "bun run test:typecheck"
+          status: pass
+        - command: "bun run test:unit"
+          status: pass
+      verification:
+        - command: "bun run test:typecheck"
+          result: "passed"
+        - command: "bun run test:unit"
+          result: "passed"
   - id: T331
     type: worker
     assignee: Worker
-    status: queued
+    status: done
     pbi: "PBI-056"
     pbi_title: "Account deletion and data purge"
     phase: "Phase 10, local/emulator privacy hardening before production Firebase and App Store readiness."
@@ -15166,6 +15261,9 @@ tasks:
       - "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
       - "docs/goals/babyminimo-emulator-hardening/state.yaml"
       - "CHANGELOG.md"
+      - "src/features/privacy/accountDeletionPolicy.test.ts"
+      - "e2e/maestro/smoke.yaml"
+      - "docs/product/babyminimo-data-lifecycle-privacy-plan.md"
       - "app/**"
       - "src/**"
       - "e2e/**"
@@ -15178,10 +15276,33 @@ tasks:
       - "Acceptance criteria conflict with approved PBI scope."
       - "Verification fails twice."
       - "Requires production Firebase deploy, App Store Connect write, signing, production credentials, or irreversible production data deletion."
+    receipt:
+      result: done
+      summary: "Added unit coverage for deletion policy, extended Maestro smoke coverage to assert the delete-account route without executing destructive deletion, and updated lifecycle/privacy docs plus changelog."
+      changed_files:
+        - "src/features/privacy/accountDeletionPolicy.test.ts"
+        - "e2e/maestro/smoke.yaml"
+        - "docs/product/babyminimo-data-lifecycle-privacy-plan.md"
+        - "CHANGELOG.md"
+      evidence:
+        - "src/features/privacy/accountDeletionPolicy.test.ts"
+        - "e2e/maestro/smoke.yaml"
+        - "docs/product/babyminimo-data-lifecycle-privacy-plan.md"
+        - "CHANGELOG.md"
+      commands:
+        - command: "bun run test:typecheck"
+          status: pass
+        - command: "bun run test:unit"
+          status: pass
+      verification:
+        - command: "bun run test:typecheck"
+          result: "passed"
+        - command: "bun run test:unit"
+          result: "passed"
   - id: T332
     type: scout
     assignee: Scout
-    status: queued
+    status: done
     pbi: "PBI-067"
     pbi_title: "Multi-baby household support"
     phase: "Phase 9, before production Firebase and App Store readiness."
@@ -15214,10 +15335,21 @@ tasks:
       - "Acceptance criteria conflict with approved PBI scope."
       - "Verification fails twice."
       - "Requires production Firebase deploy, App Store Connect write, signing, or production credentials."
+    receipt:
+      result: done
+      summary: "Audited selectedBabyId paths and defined the multi-baby policy: one household owns multiple babies; Home, Timeline, Handoff, Quick Log, Reminders, Growth Timeline, widgets, and local cleanup scope to selectedBabyId; all-babies aggregation is deferred."
+      evidence:
+        - "docs/product/babyminimo-multi-baby-activity-plan.md"
+        - "src/stores/authStore.ts"
+        - "app/(tabs)/home.tsx"
+        - "app/(tabs)/timeline.tsx"
+      verification:
+        - command: "bun run test:typecheck"
+          result: "passed"
   - id: T343
     type: worker
     assignee: Worker
-    status: queued
+    status: done
     pbi: "PBI-067"
     pbi_title: "Multi-baby household support"
     phase: "Phase 9, before production Firebase and App Store readiness."
@@ -15240,6 +15372,13 @@ tasks:
       - "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
       - "docs/goals/babyminimo-emulator-hardening/state.yaml"
       - "CHANGELOG.md"
+      - "src/features/demo/household.ts"
+      - "src/stores/authStore.ts"
+      - "app/modals/baby-switcher.tsx"
+      - "app/_layout.tsx"
+      - "app/(onboarding)/add-baby.tsx"
+      - "src/components/home/HomeHeader.tsx"
+      - "src/localization/resources/en.ts"
       - "app/**"
       - "src/**"
       - "e2e/**"
@@ -15253,10 +15392,26 @@ tasks:
       - "Acceptance criteria conflict with approved PBI scope."
       - "Verification fails twice."
       - "Requires production Firebase deploy, App Store Connect write, signing, or production credentials."
+    receipt:
+      result: done
+      summary: "Added local/emulator household baby inventory, Home header baby selector affordance, baby-switcher modal, add-another-baby form, and onboarding store hydration for initial baby state."
+      changed_files:
+        - "src/features/demo/household.ts"
+        - "src/stores/authStore.ts"
+        - "app/modals/baby-switcher.tsx"
+        - "app/_layout.tsx"
+        - "app/(onboarding)/add-baby.tsx"
+        - "src/components/home/HomeHeader.tsx"
+        - "src/localization/resources/en.ts"
+      commands:
+        - command: "bun run test:typecheck"
+          status: pass
+        - command: "bun run test:unit"
+          status: pass
   - id: T344
     type: worker
     assignee: Worker
-    status: queued
+    status: done
     pbi: "PBI-067"
     pbi_title: "Multi-baby household support"
     phase: "Phase 9, before production Firebase and App Store readiness."
@@ -15279,6 +15434,12 @@ tasks:
       - "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
       - "docs/goals/babyminimo-emulator-hardening/state.yaml"
       - "CHANGELOG.md"
+      - "app/(tabs)/home.tsx"
+      - "app/(tabs)/handoff.tsx"
+      - "app/(settings)/reminders.tsx"
+      - "src/features/demo/reminders.ts"
+      - "src/features/widgets/currentStateWidgetUpdater.ts"
+      - "src/features/widgets/widgetPayload.test.ts"
       - "app/**"
       - "src/**"
       - "e2e/**"
@@ -15292,10 +15453,25 @@ tasks:
       - "Acceptance criteria conflict with approved PBI scope."
       - "Verification fails twice."
       - "Requires production Firebase deploy, App Store Connect write, signing, or production credentials."
+    receipt:
+      result: done
+      summary: "Scoped Home display, Handoff view/analytics, Reminders list/create flow, widget snapshot updates, and widget tests to selectedBabyId. Quick Log, Timeline, and Growth Timeline already used selectedBabyId and were verified during audit."
+      changed_files:
+        - "app/(tabs)/home.tsx"
+        - "app/(tabs)/handoff.tsx"
+        - "app/(settings)/reminders.tsx"
+        - "src/features/demo/reminders.ts"
+        - "src/features/widgets/currentStateWidgetUpdater.ts"
+        - "src/features/widgets/widgetPayload.test.ts"
+      commands:
+        - command: "bun run test:typecheck"
+          status: pass
+        - command: "bun run test:unit"
+          status: pass
   - id: T345
     type: judge
     assignee: Judge
-    status: queued
+    status: done
     pbi: "PBI-067"
     pbi_title: "Multi-baby household support"
     phase: "Phase 9, before production Firebase and App Store readiness."
@@ -15331,10 +15507,23 @@ tasks:
       - "Acceptance criteria conflict with approved PBI scope."
       - "Verification fails twice."
       - "Requires production Firebase deploy, App Store Connect write, signing, or production credentials."
+    receipt:
+      result: done
+      decision: accept
+      summary: "Added auth store multi-baby unit tests, verified typecheck/unit tests, and smoked Home plus baby-switcher modal in the browser simulator. App Store screenshots remain deferred until production tickets are resolved."
+      evidence:
+        - "src/stores/authStore.test.ts"
+        - "Simulator route babyminimo:///(tabs)/home loaded"
+        - "Simulator route babyminimo:///modals/baby-switcher loaded"
+      verification:
+        - command: "bun run test:typecheck"
+          result: "passed"
+        - command: "bun run test:unit"
+          result: "passed"
   - id: T346
     type: pm
     assignee: PM
-    status: queued
+    status: done
     pbi: "PBI-067"
     pbi_title: "Multi-baby household support"
     phase: "Phase 9, before production Firebase and App Store readiness."
@@ -15364,10 +15553,20 @@ tasks:
       - "Need files outside allowed_files."
       - "Acceptance criteria conflict with approved PBI scope."
       - "Verification fails twice."
+    receipt:
+      result: done
+      summary: "Updated the multi-baby/activity planning doc and changelog. Final App Store screenshot generation is explicitly deferred until production Firebase/App Store tickets are resolved."
+      evidence:
+        - "docs/product/babyminimo-multi-baby-activity-plan.md"
+        - "CHANGELOG.md"
+        - "docs/goals/babyminimo-emulator-hardening/state.yaml"
+      verification:
+        - command: "bun run test:typecheck"
+          result: "passed"
   - id: T347
     type: scout
     assignee: Scout
-    status: queued
+    status: done
     pbi: "PBI-068"
     pbi_title: "Baby Activity and Habit Tracker"
     phase: "Phase 9.5, before production Firebase and App Store readiness."
@@ -15403,10 +15602,25 @@ tasks:
       - "Acceptance criteria conflict with approved PBI scope."
       - "Verification fails twice."
       - "Requires production Firebase deploy, App Store Connect write, signing, or production credentials."
+    receipt:
+      result: done
+      summary: "Defined the BabyMinimo activity model and policy from the flashcard-generator activity reference: selected-baby scoped local activity, 120-item bounded retention, supportive care-rhythm language, and no punitive streak mechanics."
+      files_inspected:
+        - "/Users/frank/flashcard-generator/stores/activityStore.ts"
+        - "/Users/frank/flashcard-generator/lib/analytics/events.ts"
+        - "/Users/frank/flashcard-generator/docs/delivery/PBI-020/prd.md"
+        - "/Users/frank/flashcard-generator/docs/delivery/PBI-020/tasks.md"
+      evidence:
+        - "src/features/activity/activityModel.ts"
+        - "src/features/activity/activityModel.test.ts"
+        - "docs/product/babyminimo-multi-baby-activity-plan.md"
+      verification:
+        - command: "bun run test:typecheck"
+          result: "passed"
   - id: T348
     type: worker
     assignee: Worker
-    status: queued
+    status: done
     pbi: "PBI-068"
     pbi_title: "Baby Activity and Habit Tracker"
     phase: "Phase 9.5, before production Firebase and App Store readiness."
@@ -15430,6 +15644,16 @@ tasks:
       - "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
       - "docs/goals/babyminimo-emulator-hardening/state.yaml"
       - "CHANGELOG.md"
+      - "src/stores/activityStore.ts"
+      - "src/stores/index.ts"
+      - "src/stores/careEventStore.ts"
+      - "app/(settings)/reminders.tsx"
+      - "app/(tabs)/handoff.tsx"
+      - "app/modals/add-moment.tsx"
+      - "app/modals/baby-switcher.tsx"
+      - "src/features/privacy/localLifecycle.ts"
+      - "src/features/privacy/localLifecycleCore.ts"
+      - "src/features/privacy/localLifecycle.test.ts"
       - "app/**"
       - "src/**"
       - "e2e/**"
@@ -15442,10 +15666,34 @@ tasks:
       - "Acceptance criteria conflict with approved PBI scope."
       - "Verification fails twice."
       - "Requires production Firebase deploy, App Store Connect write, signing, or production credentials."
+    receipt:
+      result: done
+      summary: "Implemented the local BabyMinimo activity recorder and hooked it into care-event saves, reminder creation, Growth Timeline Add Moment, Handoff views, baby selection, baby creation, and local account cleanup."
+      changed_files:
+        - "src/stores/activityStore.ts"
+        - "src/stores/index.ts"
+        - "src/stores/careEventStore.ts"
+        - "app/(settings)/reminders.tsx"
+        - "app/(tabs)/handoff.tsx"
+        - "app/modals/add-moment.tsx"
+        - "app/modals/baby-switcher.tsx"
+        - "src/features/privacy/localLifecycle.ts"
+        - "src/features/privacy/localLifecycleCore.ts"
+        - "src/features/privacy/localLifecycle.test.ts"
+      commands:
+        - command: "bun run test:typecheck"
+          status: pass
+        - command: "bun run test:unit"
+          status: pass
+      verification:
+        - command: "bun run test:typecheck"
+          result: "passed"
+        - command: "bun run test:unit"
+          result: "passed"
   - id: T349
     type: worker
     assignee: Worker
-    status: queued
+    status: done
     pbi: "PBI-068"
     pbi_title: "Baby Activity and Habit Tracker"
     phase: "Phase 9.5, before production Firebase and App Store readiness."
@@ -15468,6 +15716,10 @@ tasks:
       - "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
       - "docs/goals/babyminimo-emulator-hardening/state.yaml"
       - "CHANGELOG.md"
+      - "app/(settings)/activity.tsx"
+      - "app/(tabs)/settings.tsx"
+      - "src/localization/resources/en.ts"
+      - "docs/localization/app-strings/*.json"
       - "app/**"
       - "src/**"
       - "e2e/**"
@@ -15481,10 +15733,28 @@ tasks:
       - "Acceptance criteria conflict with approved PBI scope."
       - "Verification fails twice."
       - "Requires production Firebase deploy, App Store Connect write, signing, or production credentials."
+    receipt:
+      result: done
+      summary: "Added an Activity Rhythm screen under Settings, not as a new primary tab. The screen summarizes selected-baby activity counts and recent local touchpoints while preserving supportive BabyMinimo copy."
+      changed_files:
+        - "app/(settings)/activity.tsx"
+        - "app/(tabs)/settings.tsx"
+        - "src/localization/resources/en.ts"
+        - "docs/localization/app-strings/*.json"
+      commands:
+        - command: "bun run test:typecheck"
+          status: pass
+        - command: "bun run test:unit"
+          status: pass
+      verification:
+        - command: "bun run test:typecheck"
+          result: "passed"
+        - command: "bun run test:unit"
+          result: "passed"
   - id: T350
     type: judge
     assignee: Judge
-    status: queued
+    status: done
     pbi: "PBI-068"
     pbi_title: "Baby Activity and Habit Tracker"
     phase: "Phase 9.5, before production Firebase and App Store readiness."
@@ -15520,10 +15790,24 @@ tasks:
       - "Acceptance criteria conflict with approved PBI scope."
       - "Verification fails twice."
       - "Requires production Firebase deploy, App Store Connect write, signing, or production credentials."
+    receipt:
+      result: done
+      decision: accept
+      summary: "Added activity unit coverage, reran typecheck/unit tests, opened baby switcher and Activity Rhythm routes in the simulator, and corrected the baby switcher vertical layout so it no longer collides with the Dynamic Island/status area."
+      evidence:
+        - "src/features/activity/activityModel.test.ts"
+        - "xcrun simctl openurl booted babyminimo:///modals/baby-switcher"
+        - "xcrun simctl openurl booted 'babyminimo:///(settings)/activity'"
+        - "Browser simulator URL returned HTTP 200"
+      verification:
+        - command: "bun run test:typecheck"
+          result: "passed"
+        - command: "bun run test:unit"
+          result: "passed"
   - id: T351
     type: pm
     assignee: PM
-    status: queued
+    status: done
     pbi: "PBI-068"
     pbi_title: "Baby Activity and Habit Tracker"
     phase: "Phase 9.5, before production Firebase and App Store readiness."
@@ -15554,10 +15838,24 @@ tasks:
       - "Need files outside allowed_files."
       - "Acceptance criteria conflict with approved PBI scope."
       - "Verification fails twice."
+    receipt:
+      result: done
+      summary: "Updated the multi-baby/activity planning doc, localization source files, changelog, and GoalBuddy receipts. Final App Store screenshots remain deferred until production Firebase/App Store tasks are resolved."
+      evidence:
+        - "docs/product/babyminimo-multi-baby-activity-plan.md"
+        - "docs/localization/app-strings/*.json"
+        - "src/localization/resources/en.ts"
+        - "CHANGELOG.md"
+        - "docs/goals/babyminimo-emulator-hardening/state.yaml"
+      verification:
+        - command: "bun run test:typecheck"
+          result: "passed"
+        - command: "bun run test:unit"
+          result: "passed"
   - id: T352
     type: scout
     assignee: Scout
-    status: queued
+    status: active
     pbi: "PBI-053"
     pbi_title: "Release and App Store readiness"
     phase: "Phase 11."

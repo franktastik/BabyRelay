@@ -23,6 +23,7 @@ const createDependencies = (completed: BabyMinimoLifecycleCleanupStep[] = []) =>
       resetAuthSession: dependencyFor('authSession'),
       resetCareEvents: dependencyFor('careEvents'),
       resetGrowthTimeline: dependencyFor('growthTimeline'),
+      resetActivity: dependencyFor('activity'),
       resetWidgetSettings: dependencyFor('widgetSettings'),
     } satisfies BabyMinimoLifecycleCleanupDependencies,
   }
@@ -46,6 +47,7 @@ describe('BabyMinimo local lifecycle cleanup', () => {
     ])
     expect(completed).not.toContain('careEvents')
     expect(completed).not.toContain('growthTimeline')
+    expect(completed).not.toContain('activity')
     expect(completed).not.toContain('widgetSettings')
   })
 
@@ -63,6 +65,7 @@ describe('BabyMinimo local lifecycle cleanup', () => {
       'authSession',
       'careEvents',
       'growthTimeline',
+      'activity',
       'widgetSettings',
     ])
   })

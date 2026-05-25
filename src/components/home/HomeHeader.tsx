@@ -1,38 +1,55 @@
 import React from 'react'
 import { Image, Pressable, View, Text, StyleSheet } from 'react-native'
-import { Settings2 } from 'lucide-react-native'
+import { ChevronDown, Settings2 } from 'lucide-react-native'
 import { useTranslation } from 'react-i18next'
 import { colors, typography, spacing, radius, shadows } from '@/src/theme'
 
 interface HomeHeaderProps {
   babyName?: string
   caregiverName?: string
+  babyCount?: number
+  onBabyPress?: () => void
   onSettingsPress?: () => void
 }
 
-export function HomeHeader({ babyName = 'Baby', caregiverName, onSettingsPress }: HomeHeaderProps) {
+export function HomeHeader({
+  babyName = 'Baby',
+  caregiverName,
+  babyCount = 1,
+  onBabyPress,
+  onSettingsPress,
+}: HomeHeaderProps) {
   const { t } = useTranslation()
 
   return (
     <View style={styles.container}>
-      <View style={styles.identity}>
+      <Pressable
+        onPress={onBabyPress}
+        disabled={!onBabyPress}
+        accessibilityRole={onBabyPress ? 'button' : undefined}
+        accessibilityLabel={t('babySwitcher.open')}
+        style={styles.identity}
+      >
         <View style={styles.avatar}>
           <Image source={require('../../../app/logo.png')} style={styles.logoImage} />
         </View>
         <View>
-          <Text style={styles.babyName}>
-            {t('home.header.title', { babyName })}
-          </Text>
+          <View style={styles.babyNameRow}>
+            <Text style={styles.babyName}>{t('home.header.title', { babyName })}</Text>
+            {onBabyPress ? <ChevronDown color={colors.sageText} size={17} strokeWidth={2.4} /> : null}
+          </View>
           <View style={styles.syncRow}>
             <View style={styles.syncDot} />
             <Text style={styles.caregiver}>
-              {caregiverName
-                ? t('home.header.syncedWith', { caregiverName })
-                : t('home.header.synced')}
+              {babyCount > 1
+                ? t('babySwitcher.count', { count: babyCount })
+                : caregiverName
+                  ? t('home.header.syncedWith', { caregiverName })
+                  : t('home.header.synced')}
             </Text>
           </View>
         </View>
-      </View>
+      </Pressable>
       <View style={styles.peopleStack}>
         <Image source={require('../../../app/caregiver-avatar-1.png')} style={styles.person} />
         <Image source={require('../../../app/caregiver-avatar-2.png')} style={[styles.person, styles.personOverlap]} />
@@ -77,6 +94,11 @@ const styles = StyleSheet.create({
   babyName: {
     ...typography.h2,
     color: colors.stoneText,
+  },
+  babyNameRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.xs,
   },
   syncRow: {
     flexDirection: 'row',

@@ -1,4 +1,16 @@
-import { addDoc, collection, doc, getDoc, serverTimestamp, setDoc, updateDoc } from 'firebase/firestore'
+import {
+  addDoc,
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  orderBy,
+  query,
+  serverTimestamp,
+  setDoc,
+  updateDoc,
+  where,
+} from 'firebase/firestore'
 import { firestore } from '@/src/lib/firebase'
 
 export interface DemoBaby {
@@ -16,13 +28,33 @@ export interface DemoHousehold {
 export interface DemoHouseholdAdapter {
   createHousehold: (name: string) => Promise<DemoHousehold>
   createBaby: (householdId: string, name: string, birthDate: string | null) => Promise<DemoBaby>
+  listBabies: (householdId: string) => Promise<DemoBaby[]>
+  selectBaby: (userId: string, householdId: string, babyId: string) => Promise<void>
   completeOnboarding: (userId: string, householdId: string, babyId: string) => Promise<void>
   getOnboardingState: (userId: string) => Promise<{
     currentHouseholdId: string | null
     selectedBabyId: string | null
     onboardingCompleted: boolean
+    babies: DemoBaby[]
   }>
 }
+
+type StoredBaby = {
+  name?: string
+  birthDate?: string | null
+}
+
+const babiesCollection = () => collection(firestore, 'babies')
+
+const readBabies = (docs: Array<{ id: string; data: () => StoredBaby }>): DemoBaby[] =>
+  docs.map((babyDoc) => {
+    const data = babyDoc.data()
+    return {
+      id: babyDoc.id,
+      name: data.name || 'Baby',
+      birthDate: typeof data.birthDate === 'string' ? data.birthDate : null,
+    }
+  })
 
 export const createDemoHouseholdAdapter = (): DemoHouseholdAdapter => ({
   createHousehold: async (name: string) => {
@@ -62,6 +94,28 @@ export const createDemoHouseholdAdapter = (): DemoHouseholdAdapter => ({
 
     return baby
   },
+  listBabies: async (householdId: string) => {
+    const snapshot = await getDocs(
+      query(babiesCollection(), where('householdId', '==', householdId), orderBy('createdAt', 'asc'))
+    )
+    return readBabies(snapshot.docs)
+  },
+  selectBaby: async (userId: string, householdId: string, babyId: string) => {
+    await Promise.all([
+      updateDoc(doc(firestore, 'households', householdId), {
+        selectedBabyId: babyId,
+        updatedAt: serverTimestamp(),
+      }),
+      setDoc(
+        doc(firestore, 'users', userId),
+        {
+          selectedBabyId: babyId,
+          updatedAt: serverTimestamp(),
+        },
+        { merge: true }
+      ),
+    ])
+  },
   completeOnboarding: async (userId: string, householdId: string, babyId: string) => {
     await setDoc(
       doc(firestore, 'users', userId),
@@ -77,12 +131,15 @@ export const createDemoHouseholdAdapter = (): DemoHouseholdAdapter => ({
   getOnboardingState: async (userId: string) => {
     const profileSnap = await getDoc(doc(firestore, 'users', userId))
     const profile = profileSnap.exists() ? profileSnap.data() : {}
+    const currentHouseholdId =
+      typeof profile.currentHouseholdId === 'string' ? profile.currentHouseholdId : null
+    const babies = currentHouseholdId ? await createDemoHouseholdAdapter().listBabies(currentHouseholdId) : []
 
     return {
-      currentHouseholdId:
-        typeof profile.currentHouseholdId === 'string' ? profile.currentHouseholdId : null,
+      currentHouseholdId,
       selectedBabyId: typeof profile.selectedBabyId === 'string' ? profile.selectedBabyId : null,
       onboardingCompleted: profile.onboardingCompleted === true,
+      babies,
     }
   },
 })

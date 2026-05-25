@@ -7,16 +7,29 @@ import { HandoffHeroCard, DueSoonCard, LatestNoteCard } from '@/src/components/h
 import { AppStateView } from '@/src/components/states'
 import { trackEvent } from '@/src/features/analytics'
 import { useHandoffSummary } from '@/src/features/handoff'
+import { useAuthStore } from '@/src/stores/authStore'
+import { useBabyMinimoActivityStore } from '@/src/stores/activityStore'
 import { colors, spacing } from '@/src/theme'
 
 export default function HandoffScreen() {
   const router = useRouter()
   const { t } = useTranslation()
-  const { summary, loading } = useHandoffSummary('baby-1')
+  const selectedBabyId = useAuthStore((state) => state.selectedBabyId) || 'baby-1'
+  const selectedBaby = useAuthStore((state) =>
+    state.babies.find((baby) => baby.id === selectedBabyId)
+  )
+  const addActivity = useBabyMinimoActivityStore((state) => state.addActivity)
+  const { summary, loading } = useHandoffSummary(selectedBabyId)
 
   useEffect(() => {
-    trackEvent('handoff_viewed', { babyId: 'baby-1' })
-  }, [])
+    trackEvent('handoff_viewed', { babyId: selectedBabyId })
+    addActivity({
+      babyId: selectedBabyId,
+      type: 'handoff_viewed',
+      label: 'Handoff viewed',
+      detail: selectedBaby?.name || summary?.babyName,
+    })
+  }, [addActivity, selectedBaby?.name, selectedBabyId, summary?.babyName])
 
   if (loading || !summary) {
     return (
@@ -38,7 +51,7 @@ export default function HandoffScreen() {
         showsVerticalScrollIndicator={false}
       >
         <HandoffHeroCard
-          babyName={summary.babyName}
+          babyName={selectedBaby?.name || summary.babyName}
           lastFeed={summary.lastFeed}
           lastDiaper={summary.lastDiaper}
           lastSleep={summary.lastSleep}

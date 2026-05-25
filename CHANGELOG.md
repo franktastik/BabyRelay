@@ -136,6 +136,9 @@ All notable changes to this project are documented here.
 - Added Google Translate-backed BabyMinimo draft localization files for all supported non-English locales across app strings, store metadata, pricing copy, and screenshot headlines, with validation receipts and protected-token checks.
 - Changed the PBI-065 localization release gate so native-speaker review is recommended for high-risk locales and revenue/legal copy but not a hard blocker when AI linguistic QA, automated validation, and simulator visual QA pass.
 - Added the first BabyMinimo runtime localization batch for login, onboarding questionnaire screens, and Settings language QA, with English active by default and German draft access gated for simulator/testing only.
+- Added local/emulator account deletion hardening with a documented deletion policy, Account screen entry point, typed `DELETE` confirmation modal, local lifecycle cleanup, Maestro coverage, and privacy notes while keeping irreversible production backend purge gated.
+- Added local/emulator multi-baby household support with a Home baby switcher, add-another-baby flow, selected-baby state, selected-baby-scoped reminders/handoff display, unit coverage, and a multi-baby policy document for twins/triplets.
+- Added local/emulator Activity Rhythm support with a per-baby activity model, bounded local activity recorder, care/reminder/growth/handoff/baby-switch activity hooks, Settings entry point, Activity Rhythm screen, localization keys, and unit coverage.
 
 ### Changed
 
@@ -150,6 +153,7 @@ All notable changes to this project are documented here.
 - Reworked the quick-log chooser and care logging forms to route every core action through Firebase Emulator-backed care events.
 - Updated widget state wiring so disabled widgets publish a blank safe state from Home and sign-out clears the current widget snapshot before returning to auth.
 - Updated sign-out to run the local lifecycle cleanup path after Firebase Emulator sign-out and log only retryable cleanup step names in development.
+- Centered the baby switcher modal content away from the Dynamic Island/status area and added a Home fallback for direct-link close/cancel paths so it no longer triggers an unhandled `GO_BACK` warning.
 - Reworked Timeline and Growth Timeline visual treatment against the approved integrated Timeline screenshot, including explicit filter pills, image-forward Growth cards, Timeline tab labeling, and local Add Moment save flow.
 - Reworked the Family tab to match the approved Family & Household mockup hierarchy instead of a generic caregivers-only page.
 - Updated Handoff loading presentation and Reminders empty-state behavior to use the shared BabyMinimo state components.

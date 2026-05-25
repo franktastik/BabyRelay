@@ -36,6 +36,7 @@ export function AppProvider({ children }: AppProviderProps) {
             currentHouseholdId: null,
             selectedBabyId: null,
             onboardingCompleted: false,
+            babies: [],
           })
         }
       } else {
@@ -43,6 +44,7 @@ export function AppProvider({ children }: AppProviderProps) {
           currentHouseholdId: null,
           selectedBabyId: null,
           onboardingCompleted: false,
+          babies: [],
         })
       }
       setAuthBootstrapped(true)

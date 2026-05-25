@@ -13,6 +13,7 @@ export default function HomeScreen() {
   const router = useRouter()
   const user = useAuthStore((state) => state.user)
   const selectedBabyId = useAuthStore((state) => state.selectedBabyId) || 'baby-1'
+  const babies = useAuthStore((state) => state.babies)
   const localEvents = useCareEventStore((state) => state.events)
   const subscribeToEvents = useCareEventStore((state) => state.subscribeToEvents)
   const widgetSnapshotsEnabled = useWidgetSettingsStore((state) => state.widgetSnapshotsEnabled)
@@ -21,6 +22,8 @@ export default function HomeScreen() {
     .filter((event) => event.babyId === selectedBabyId)
     .sort((a, b) => b.occurredAt.getTime() - a.occurredAt.getTime())[0]
   const latestEvent = latestLocalEvent
+  const selectedBaby = babies.find((baby) => baby.id === selectedBabyId)
+  const babyName = selectedBaby?.name || 'Luna'
 
   useFocusEffect(
     useCallback(() => {
@@ -101,8 +104,10 @@ export default function HomeScreen() {
         showsVerticalScrollIndicator={false}
       >
         <HomeHeader
-          babyName="Luna"
+          babyName={babyName}
           caregiverName="Mama"
+          babyCount={Math.max(1, babies.length)}
+          onBabyPress={() => router.push('/modals/baby-switcher')}
           onSettingsPress={() => router.push('/settings')}
         />
 

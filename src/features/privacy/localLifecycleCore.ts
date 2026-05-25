@@ -9,6 +9,7 @@ export type BabyMinimoLifecycleCleanupStep =
   | 'authSession'
   | 'careEvents'
   | 'growthTimeline'
+  | 'activity'
   | 'widgetSettings'
 
 export interface BabyMinimoLifecycleCleanupResult {
@@ -27,6 +28,7 @@ export interface BabyMinimoLifecycleCleanupDependencies {
   resetAuthSession: () => void
   resetCareEvents: () => void
   resetGrowthTimeline: () => void
+  resetActivity: () => void
   resetWidgetSettings: () => void
 }
 
@@ -65,6 +67,7 @@ export const createBabyMinimoLifecycleCleanup = (
   if (reason === 'accountDeletion') {
     await runStep(result, 'careEvents', dependencies.resetCareEvents)
     await runStep(result, 'growthTimeline', dependencies.resetGrowthTimeline)
+    await runStep(result, 'activity', dependencies.resetActivity)
     await runStep(result, 'widgetSettings', dependencies.resetWidgetSettings)
   }
 

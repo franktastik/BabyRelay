@@ -34,7 +34,7 @@ Production requirements:
 
 ## Account Deletion Contract
 
-Account deletion is owned by PBI-056 and remains production-gated. PBI-057 defines the policy that PBI-056 must follow:
+Account deletion is owned by PBI-056. The local/emulator-safe UI and device cleanup can ship before production Firebase/App Store readiness; irreversible production cloud deletion remains gated to the backend purge task.
 
 - Require explicit confirmation and provider-specific reauthentication.
 - Backend cleanup must run before Firebase Auth user deletion when possible.
@@ -42,6 +42,18 @@ Account deletion is owned by PBI-056 and remains production-gated. PBI-057 defin
 - Last-admin or last-owner household cases must be blocked or handled by a documented transfer/deletion policy.
 - Local cleanup must remove auth/session state, local Growth Timeline metadata/photos, widget snapshots, notification schedules, and analytics identity.
 - If backend cleanup fails, record a retry-safe deletion state instead of silently deleting Auth only.
+
+Local/emulator behavior implemented before production:
+- Account settings may expose a delete-account entry only when the UI clearly explains that production cloud deletion is not yet enabled.
+- The local confirmation requires the caregiver to type `DELETE` and enter their password before cleanup.
+- The app signs out of the Firebase Emulator session, clears local identity surfaces, blanks widgets, cancels local reminders, resets analytics, clears local care-event caches, clears local Growth Timeline metadata, and resets widget settings.
+- Shared household, baby profile, membership, care-event, and reminder authority remains backend-owned. The local client must not delete another caregiver's valid household data.
+
+Production-gated behavior:
+- Real Firebase Auth account deletion.
+- Backend purge callable/Function.
+- Firestore security rule coverage for membership, ownership, last-admin, and retry-safe deletion states.
+- Production push token invalidation and App Store entitlement cleanup where applicable.
 
 ## Local Growth Timeline Cleanup
 

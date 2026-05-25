@@ -15,6 +15,7 @@ export default function AddBabyScreen() {
   const user = useAuthStore((s) => s.user)
   const setCurrentHouseholdId = useAuthStore((s) => s.setCurrentHouseholdId)
   const setSelectedBabyId = useAuthStore((s) => s.setSelectedBabyId)
+  const setBabies = useAuthStore((s) => s.setBabies)
   const [babyName, setBabyName] = useState('')
   const [birthDate, setBirthDate] = useState('')
   const [loading, setLoading] = useState(false)
@@ -39,6 +40,7 @@ export default function AddBabyScreen() {
       }
       setCurrentHouseholdId(household.id)
       setSelectedBabyId(baby.id)
+      setBabies([baby])
       router.push('/(onboarding)/invite-caregiver')
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Failed to add baby')
