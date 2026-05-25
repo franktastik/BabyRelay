@@ -13,6 +13,7 @@ interface CareEventState {
   events: DemoCareEvent[]
   addEvent: (event: Omit<DemoCareEvent, 'id'>) => Promise<DemoCareEvent>
   setEvents: (events: DemoCareEvent[]) => void
+  resetEvents: () => void
   subscribeToEvents: (babyId: string) => () => void
   getEvents: (babyId: string, limit?: number) => DemoCareEvent[]
   getLatestEvent: (babyId: string) => DemoCareEvent | null
@@ -35,6 +36,7 @@ export const useCareEventStore = create<CareEventState>((set, get) => ({
     return savedEvent
   },
   setEvents: (events) => set({ events }),
+  resetEvents: () => set({ events: [] }),
   subscribeToEvents: (babyId) =>
     getEventsAdapter().subscribeToEvents(babyId, (events) => set({ events })),
   getEvents: (babyId, limit) => {

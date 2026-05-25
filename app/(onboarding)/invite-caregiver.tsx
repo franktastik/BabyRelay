@@ -26,8 +26,8 @@ export default function InviteCaregiverScreen() {
         center
         title="Shared care is better care."
         subtitle="Staying in sync with Leo's other caregivers means less mental load and smoother handoffs for everyone."
-        step="Step 3 of 5"
-        progress={0.6}
+        step="Step 9 of 9"
+        progress={1}
         onBack={() => router.back()}
       >
         <View style={styles.avatarCluster}>

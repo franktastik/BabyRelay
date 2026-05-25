@@ -21,9 +21,16 @@ export function SettingsRow({
   trailing,
 }: SettingsRowProps) {
   const color = danger ? colors.danger : colors.sageText
+  const interactive = Boolean(onPress)
 
   return (
-    <Pressable onPress={onPress} style={styles.row}>
+    <Pressable
+      onPress={onPress}
+      disabled={!interactive}
+      accessibilityRole={interactive ? 'button' : undefined}
+      accessibilityState={!interactive ? { disabled: true } : undefined}
+      style={styles.row}
+    >
       <View style={[styles.iconShell, danger && styles.iconShellDanger]}>
         <Icon color={color} size={18} strokeWidth={2.2} />
       </View>
@@ -32,7 +39,7 @@ export function SettingsRow({
         {subtitle ? <Text style={styles.subtitle}>{subtitle}</Text> : null}
       </View>
       {trailing ? <Text style={styles.trailing}>{trailing}</Text> : null}
-      <ChevronRight color={colors.mutedLight} size={18} strokeWidth={2} />
+      {interactive ? <ChevronRight color={colors.mutedLight} size={18} strokeWidth={2} /> : null}
     </Pressable>
   )
 }

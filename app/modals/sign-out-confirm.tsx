@@ -3,14 +3,17 @@ import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
 import { useRouter } from 'expo-router'
 import { trackEvent } from '@/src/features/analytics'
 import { createDemoAuthAdapter } from '@/src/features/demo/auth'
-import { useAuthStore } from '@/src/stores/authStore'
+import {
+  getBabyMinimoLifecycleCleanupRetrySteps,
+  hasBabyMinimoLifecycleCleanupFailures,
+  runBabyMinimoLocalLifecycleCleanup,
+} from '@/src/features/privacy'
 import { colors, radius, shadows, spacing, typography } from '@/src/theme'
 
 const authAdapter = createDemoAuthAdapter()
 
 export default function SignOutConfirmModal() {
   const router = useRouter()
-  const resetAuth = useAuthStore((state) => state.reset)
   const [submitting, setSubmitting] = useState(false)
 
   const signOut = async () => {
@@ -19,7 +22,18 @@ export default function SignOutConfirmModal() {
       trackEvent('sign_out_confirmed')
       await authAdapter.signOut()
     } finally {
-      resetAuth()
+      const cleanupResult = await runBabyMinimoLocalLifecycleCleanup('signOut')
+      if (
+        typeof __DEV__ !== 'undefined' &&
+        __DEV__ &&
+        hasBabyMinimoLifecycleCleanupFailures(cleanupResult)
+      ) {
+        console.warn(
+          '[BabyMinimo lifecycle]',
+          'Retryable local cleanup steps:',
+          getBabyMinimoLifecycleCleanupRetrySteps(cleanupResult)
+        )
+      }
       router.replace('/(auth)/login')
       setSubmitting(false)
     }

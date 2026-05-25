@@ -8,12 +8,15 @@ flowchart TD
 
     subgraph Onboarding["Onboarding"]
         E[Welcome]
-        F[Problem Framing]
-        G[Benefits Preview]
-        H[Add Baby]
-        I[Choose Priorities]
-        J[Invite Caregiver]
-        K[First Handoff Preview]
+        F[Goal Question]
+        G[Pain Points]
+        H[Problem Framing]
+        I[Benefits Preview]
+        J[Choose Priorities]
+        K[Notification Priming]
+        AB[Add Baby]
+        AC[Invite Caregiver]
+        AD[First Handoff Preview]
     end
 
     subgraph MainApp["Main App Tabs"]
@@ -53,7 +56,10 @@ flowchart TD
     H --> I
     I --> J
     J --> K
-    K --> L
+    K --> AB
+    AB --> AC
+    AC --> AD
+    AD --> L
 
     L --> P
     P --> Q

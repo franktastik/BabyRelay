@@ -1,7 +1,7 @@
 import React from 'react'
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { useRouter } from 'expo-router'
-import { Bell, Camera, Crown, LogOut, Shield, UsersRound } from 'lucide-react-native'
+import { Bell, Camera, Crown, LogOut, Shield, Smartphone, UsersRound } from 'lucide-react-native'
 import { Screen } from '@/src/components/ui'
 import { SettingsCard, SettingsHeader, SettingsRow } from '@/src/components/settings'
 import { colors, radius, shadows, spacing, typography } from '@/src/theme'
@@ -20,7 +20,14 @@ export default function SettingsScreen() {
             <Text style={styles.planName}>Premium Plan</Text>
             <Text style={styles.planMeta}>Renews Oct 12, 2024</Text>
           </View>
-          <Text style={styles.managePill}>Manage</Text>
+          <Pressable
+            onPress={() => router.push('/plans')}
+            style={styles.managePill}
+            accessibilityRole="button"
+            accessibilityLabel="Manage plan"
+          >
+            <Text style={styles.managePillText}>Manage</Text>
+          </Pressable>
         </View>
 
         <Text style={styles.sectionLabel}>Shared coordination</Text>
@@ -37,11 +44,21 @@ export default function SettingsScreen() {
             subtitle="Feeding and meds"
             onPress={() => router.push('/reminders')}
           />
+        </SettingsCard>
+
+        <Text style={styles.sectionLabel}>Features</Text>
+        <SettingsCard>
           <SettingsRow
             icon={Camera}
             title="Growth Timeline"
             subtitle="Local photo moments on this device"
             onPress={() => router.push('/timeline')}
+          />
+          <SettingsRow
+            icon={Smartphone}
+            title="Widgets"
+            subtitle="Device snapshot visibility"
+            onPress={() => router.push('/widgets')}
           />
         </SettingsCard>
 
@@ -93,12 +110,13 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   managePill: {
-    ...typography.label,
-    color: colors.white,
     backgroundColor: colors.sage,
     borderRadius: radius.full,
-    overflow: 'hidden',
     paddingHorizontal: spacing.md,
     paddingVertical: spacing.sm,
+  },
+  managePillText: {
+    ...typography.label,
+    color: colors.white,
   },
 })

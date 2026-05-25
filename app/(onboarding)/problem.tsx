@@ -31,7 +31,8 @@ export default function ProblemScreen() {
       <OnboardingFrame
         title={'Care is a relay,\nnot a marathon.'}
         subtitle="Newborn care is a shared journey. BabyMinimo helps your family stay perfectly in sync."
-        progress={0.4}
+        step="Step 4 of 9"
+        progress={0.44}
         onBack={() => router.back()}
       >
         <View style={styles.problems}>
@@ -53,7 +54,6 @@ export default function ProblemScreen() {
             See how it works →
           </Button>
         </View>
-        <Text style={styles.step}>Step 2 of 7</Text>
       </OnboardingFrame>
     </Screen>
   )
@@ -103,11 +103,5 @@ const styles = StyleSheet.create({
   },
   button: {
     width: '100%',
-  },
-  step: {
-    ...typography.bodySmall,
-    color: colors.muted,
-    textAlign: 'center',
-    marginTop: spacing.base,
   },
 })

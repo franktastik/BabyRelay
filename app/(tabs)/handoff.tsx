@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { ScrollView, StyleSheet, View } from 'react-native'
+import { useRouter } from 'expo-router'
 import { Screen } from '@/src/components/ui'
 import { HandoffHeroCard, DueSoonCard, LatestNoteCard } from '@/src/components/handoff'
 import { AppStateView } from '@/src/components/states'
@@ -8,6 +9,7 @@ import { useHandoffSummary } from '@/src/features/handoff'
 import { colors, spacing } from '@/src/theme'
 
 export default function HandoffScreen() {
+  const router = useRouter()
   const { summary, loading } = useHandoffSummary('baby-1')
 
   useEffect(() => {
@@ -39,6 +41,7 @@ export default function HandoffScreen() {
           lastDiaper={summary.lastDiaper}
           lastSleep={summary.lastSleep}
           lastActionBy={summary.lastActionBy}
+          onReminderPress={() => router.push('/reminders')}
         />
 
         <DueSoonCard medication={summary.nextMedication} />

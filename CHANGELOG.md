@@ -78,8 +78,10 @@ All notable changes to this project are documented here.
 - Added strict visual baseline testing with a Maestro screenshot map and zero-diff ImageMagick comparison against the approved `screenshots1/` mockups.
 - Added production-readiness PBIs for notifications, production Firebase/security, full interaction hardening, E2E/visual release QA, release/App Store readiness, widget implementation, native subscriptions/App Store IAP, account deletion, and data lifecycle/privacy hardening.
 - Added PBI-066 for Firebase Remote Config and remote app controls, including safe A/B experiment flags for pricing/paywall copy without making Remote Config the source of truth for StoreKit prices, security, secrets, or entitlements.
+- Added PBI-062 questionnaire-style onboarding screens for goal selection, pain-point selection, local notification priming, and personalized setup preview.
 - Updated PBI-064 with competitor pricing research and the current BabyMinimo launch pricing hypothesis: Annual $39.99/year selected by default with a valid "Save 65%" badge, Monthly $9.99/month, Weekly $3.99/week as an experiment/fallback, and optional 3-day free trial with clear terms.
 - Clarified the lifetime pricing formula in PBI-064 as a 25- or 26-month value anchor: 2 years of monthly access plus 1 or 2 extra monthly periods before selecting the closest App Store price point.
+- Expanded the GoalBuddy board into per-PBI subtask cards with local/non-production work queued before production Firebase and App Store Connect work.
 - Added emulator performance and cost-discovery PBIs, including Firebase Emulator load testing, lazy-loading audit, and canceled-subscription heavy-data purge policy.
 - Added a Firebase Emulator load-test script that reports Firestore read/write/delete counts, timing, and operation-cost estimates for local BabyMinimo workflows.
 - Added the first Firebase Emulator cost-discovery receipt with measured read/write/delete counts, lazy-loading notes, and remaining optimization candidates.
@@ -100,6 +102,22 @@ All notable changes to this project are documented here.
 - Added a localization PBI for app strings, App Store metadata, country/storefront pricing metadata with PPP-style affordability and above-floor markers, paywall/notification copy, RTL QA, and localized screenshot generation across Arabic, Czech, Danish, English, Estonian, Lithuanian, Latvian, German, Greek, Spanish, Finnish, Filipino, French, Hebrew, Croatian, Hungarian, Indonesian, Italian, Japanese, Korean, Malay, Dutch, Norwegian, Polish, Portuguese, Romanian, Russian, Slovak, Swedish, Thai, Turkish, Ukrainian, Vietnamese, Simplified Chinese, and Traditional Chinese.
 - Added a conversion paywall and pricing experiment PBI covering weekly/monthly pricing candidates, computed savings badges, trial validation, lifetime purchase positioning, gift/subscription creative, dynamic BabyMinimo logo guidance, Apple Retention Messaging API cancellation-offer planning, and Apple IAP validation cases.
 - Updated the login screen contract and copy to the softer Baby MiniMemo positioning: "Tiny moments. Calm care.", memo-focused hero copy, and "Start your care circle" signup language.
+- Added the PBI-045 widget data contract with privacy-safe JSON payload states, stale/expired refresh policy, and local snapshot storage abstraction for future native widgets.
+- Added the PBI-046 iOS current-state widget slice with an Expo Widgets extension, small/medium widget layout props, Home snapshot update wiring, native build verification, and simulator smoke evidence.
+- Added the PBI-047 widget settings and privacy controls slice with a Settings > Widgets entry, local visibility toggle, clear snapshot action, and simulator evidence for enabled/disabled states.
+- Added the PBI-048 Android widget parity plan covering the recommended custom Expo config-plugin path, shared widget payload contract, Android size mapping, privacy boundaries, refresh policy, and verification strategy.
+- Added the PBI-052 release QA inventory with functional coverage, visual baseline gaps, scrollable baseline blockers, manual native checks, and the current strict visual comparison failure mode.
+- Added the PBI-054 widget release-slice receipt with safer widget visual states, explicit widget state badges, Settings > Widgets simulator evidence, and the remaining native Home Screen widget screenshot gap.
+- Added the PBI-057 data lifecycle and privacy plan with sign-out, account deletion, local Growth Timeline cleanup, widget snapshot, analytics, household/member removal, export/delete, stale/offline, and log/test-artifact policies.
+- Added a local lifecycle cleanup service with unit coverage for sign-out cleanup, future account-deletion local cleanup, retryable cleanup failures, and blocking auth-session cleanup failures.
+- Added the PBI-064 BabyMinimo paywall visual spec, defining the modal hierarchy, dynamic brand mark constraints, icon-led benefits, plan selector states, truthful savings-badge rules, trial disclosures, Remote Config boundaries, and App Store screenshot caveats.
+- Added the PBI-064 pricing experiment plan with product ID candidates, annual/monthly/weekly/lifetime/gift pricing assumptions, computed savings-badge rules, PPP-style storefront pricing buckets, above-floor contribution-margin markers, trial assumptions, gifting hypotheses, and cancellation-retention offer planning.
+- Added the PBI-064 StoreKit, sandbox, and TestFlight validation plan for weekly, monthly, annual, trial, restore, cancellation, refund/revoke, lifetime, gifting, retention-offer, storefront, and localization payment scenarios.
+- Added the PBI-064 non-production BabyMinimo paywall prototype to Plans with an animated brand mark, icon-led benefits, annual/monthly/weekly plan rows, annual selected by default, truthful demo pricing copy, StoreKit-deferred CTA behavior, restore/legal placeholders, and simulator evidence.
+- Added the PBI-064 paywall experiment readout with conversion hypotheses, verification results, App Store validation caveats, release go/no-go criteria, and the stop point before production IAP/App Store Connect work.
+- Added the PBI-065 localization architecture with supported locale inventory, key naming conventions, fallback behavior, canonical English strings, pricing localization rules, metadata length checks, RTL QA requirements, and translation QA workflow.
+- Added PBI-065 draft localization assets for all supported locales, including app string inventories, App Store metadata drafts, paywall/pricing copy, screenshot headline inputs, and a StoreKit-centered storefront pricing matrix with native-review status markers.
+- Added PBI-065 localization asset validation for locale coverage, key parity, interpolation placeholders, metadata limits, StoreKit pricing-source rules, margin markers, product IDs, and screenshot headline completeness.
 
 ### Changed
 
@@ -111,6 +129,8 @@ All notable changes to this project are documented here.
 - Replaced the default tab bar with a custom BabyMinimo bottom shell, including the raised center Log action and Home/Handoff/Events/Family destinations.
 - Reworked Home toward the approved dashboard reference with a 2x2 care status grid, weekly summary card, quick actions, recent wins, and nav-safe scroll padding.
 - Reworked the quick-log chooser and care logging forms to route every core action through Firebase Emulator-backed care events.
+- Updated widget state wiring so disabled widgets publish a blank safe state from Home and sign-out clears the current widget snapshot before returning to auth.
+- Updated sign-out to run the local lifecycle cleanup path after Firebase Emulator sign-out and log only retryable cleanup step names in development.
 - Reworked Timeline and Growth Timeline visual treatment against the approved integrated Timeline screenshot, including explicit filter pills, image-forward Growth cards, Timeline tab labeling, and local Add Moment save flow.
 - Reworked the Family tab to match the approved Family & Household mockup hierarchy instead of a generic caregivers-only page.
 - Updated Handoff loading presentation and Reminders empty-state behavior to use the shared BabyMinimo state components.
@@ -120,6 +140,11 @@ All notable changes to this project are documented here.
 - Scoped Home, Timeline, and Handoff listeners to focused routes and deferred Home's secondary Growth Timeline preview load until after initial interactions.
 - Connected the Reminders screen to local device notifications while preserving Firebase Emulator as the app's current data/auth boundary.
 - Clarified that BabyMinimo's notification strategy is local-first for cost/privacy, with Firebase Messaging/APNs reserved for sparse remote-push use cases and Expo Push Service left as an optional future migration.
+- Wired Home to publish a privacy-safe BabyMinimo widget snapshot after interactions while skipping unsupported or unavailable native widget modules in local dev.
+- Wired Home to stop publishing widget snapshots when local widget visibility is disabled.
+- Hardened visible demo controls so social login, Timeline header icons, account security, and plan purchase controls are clearly disabled/deferred when production setup is not wired, while Growth Timeline and Family management controls now route to useful local destinations.
+- Expanded the Maestro smoke flow across Settings, Plans, Widgets, Reminders, Account, and Handoff/Family hardening paths, and updated the visual capture flow to the current Baby MiniMemo login copy.
+- Shortened the Google Play short description draft so the localization metadata package stays inside the 80-character limit.
 
 ### Fixed
 
@@ -127,6 +152,7 @@ All notable changes to this project are documented here.
 - Removed the Timeline rail warning overlay by replacing unsupported dotted borders with a supported subtle rail style.
 - Fixed the Settings shortcut on Home so it opens the Settings hub instead of rendering as an inert icon.
 - Fixed Growth Timeline demo asset IDs so active growth moments reference the approved Growth Timeline image asset directly.
+- Removed the React Native `InteractionManager` deprecation warning from the Home lazy-loading path so the simulator no longer shows the warning banner during local smoke tests.
 
 ### Internal
 

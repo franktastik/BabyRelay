@@ -30,7 +30,7 @@ export default function AccountScreen() {
 
         <Text style={styles.sectionLabel}>Security</Text>
         <SettingsCard>
-          <SettingsRow icon={Lock} title="Password" subtitle="Updated 3 months ago" trailing="Change" />
+          <SettingsRow icon={Lock} title="Password" subtitle="Password changes are deferred to production account security." trailing="Deferred" />
         </SettingsCard>
 
         <Pressable onPress={() => router.push('/modals/sign-out-confirm')} style={styles.signOutButton}>
