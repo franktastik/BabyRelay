@@ -8,7 +8,13 @@ const localeManifestPath = join(localizationRoot, 'locales.json')
 
 const REQUIRED_SECTIONS = ['app-strings', 'metadata', 'pricing', 'screenshots']
 const VALID_DIRECTIONS = new Set(['ltr', 'rtl'])
-const VALID_STATUSES = new Set(['canonical', 'draft_requires_native_review'])
+const VALID_STATUSES = new Set([
+  'canonical',
+  'draft_requires_ai_linguistic_qa',
+  'ai_linguistic_qa_passed',
+  'owner_accepted',
+  'native_reviewed',
+])
 const VALID_MARGIN_MARKERS = new Set(['unknown', 'above_floor', 'near_floor', 'below_floor_blocked'])
 const VALID_LAUNCH_DECISIONS = new Set(['candidate', 'needs_review', 'blocked'])
 const PROTECTED_TOKENS = ['BabyMinimo', 'Baby MiniMemo', 'StoreKit', 'App Store', 'Firebase']
@@ -218,7 +224,7 @@ function main() {
 
   const nonEnglishLocales = locales.filter((locale) => locale.code !== 'en')
   for (const locale of nonEnglishLocales) {
-    assert(locale.status === 'draft_requires_native_review', `${locale.code}: non-English locale must be draft_requires_native_review until accepted`, failures)
+    assert(locale.status !== 'canonical', `${locale.code}: non-English locale must not be canonical`, failures)
   }
 
   for (const section of REQUIRED_SECTIONS) {
@@ -244,7 +250,7 @@ function main() {
           screenshots: 'headlines',
         }[section]
         if (JSON.stringify(doc[payloadKey]) === JSON.stringify(englishDoc[payloadKey])) {
-          warnings.push(`${section}/${localeEntry.code}: mirrors English source and still requires native review`)
+          warnings.push(`${section}/${localeEntry.code}: mirrors English source and still requires AI linguistic QA or owner acceptance`)
         }
       }
     }

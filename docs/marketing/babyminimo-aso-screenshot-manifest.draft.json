@@ -1,0 +1,66 @@
+[
+  {
+    "locale": "en",
+    "order": 1,
+    "benefit": "KNOW WHAT HAPPENED LAST",
+    "sourceScreenshot": "docs/product/implementation-screenshots/handoff-t020-smoke.png",
+    "sourceRating": "usable",
+    "requiresRetake": true,
+    "generationStatus": "blocked_pending_final_source"
+  },
+  {
+    "locale": "en",
+    "order": 2,
+    "benefit": "LOG FEEDS, SLEEP, AND DIAPERS",
+    "sourceScreenshot": "docs/product/implementation-screenshots/quick-log-t020-smoke.png",
+    "sourceRating": "usable",
+    "requiresRetake": true,
+    "generationStatus": "blocked_pending_final_source"
+  },
+  {
+    "locale": "en",
+    "order": 3,
+    "benefit": "SEE THE FULL DAY AT A GLANCE",
+    "sourceScreenshot": "docs/product/implementation-screenshots/timeline-t020-smoke.png",
+    "sourceRating": "great",
+    "requiresRetake": false,
+    "generationStatus": "blocked_pending_owner_confirmation"
+  },
+  {
+    "locale": "en",
+    "order": 4,
+    "benefit": "REMEMBER TINY PHOTO MOMENTS",
+    "sourceScreenshot": "docs/product/implementation-screenshots/timeline-growth-filter-t017.png",
+    "sourceRating": "usable",
+    "requiresRetake": true,
+    "generationStatus": "blocked_pending_final_source"
+  },
+  {
+    "locale": "en",
+    "order": 5,
+    "benefit": "SHARE CARE WITH YOUR HOUSEHOLD",
+    "sourceScreenshot": "docs/product/implementation-screenshots/family-household-t018.png",
+    "sourceRating": "usable",
+    "requiresRetake": true,
+    "generationStatus": "blocked_pending_final_source"
+  },
+  {
+    "locale": "en",
+    "order": 6,
+    "benefit": "STAY READY WITH GENTLE REMINDERS",
+    "sourceScreenshot": "docs/product/implementation-screenshots/reminders-t018.png",
+    "sourceRating": "usable",
+    "requiresRetake": true,
+    "generationStatus": "blocked_pending_final_source"
+  },
+  {
+    "locale": "en",
+    "order": 7,
+    "benefit": "UNLOCK CALM BABY CARE",
+    "sourceScreenshot": "docs/testing/screenshots/pbi-064/paywall-prototype.jpg",
+    "sourceRating": "usable",
+    "requiresRetake": true,
+    "generationStatus": "blocked_pending_storekit_validation",
+    "optional": true
+  }
+]

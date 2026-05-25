@@ -37,7 +37,7 @@ visual_board:
     status: live
     url: "http://127.0.0.1:41737/"
 
-active_task: T300
+active_task: T337
 
 tasks:
   - id: T001
@@ -8878,6 +8878,7 @@ tasks:
       - "docs/goals/babyminimo-emulator-hardening/state.yaml"
       - "CHANGELOG.md"
       - "docs/**"
+      - "docs/marketing/babyminimo-aso-benefit-discovery.md"
       - "e2e/**"
       - "scripts/**"
       - "app.json"
@@ -8920,6 +8921,7 @@ tasks:
       - "docs/goals/babyminimo-emulator-hardening/state.yaml"
       - "CHANGELOG.md"
       - "docs/**"
+      - "docs/marketing/babyminimo-aso-screenshot-source-audit.md"
       - "e2e/**"
       - "scripts/**"
       - "app.json"
@@ -8962,6 +8964,7 @@ tasks:
       - "docs/goals/babyminimo-emulator-hardening/state.yaml"
       - "CHANGELOG.md"
       - "docs/**"
+      - "docs/marketing/babyminimo-aso-screenshot-pairings.md"
       - "e2e/**"
       - "scripts/**"
       - "app.json"
@@ -9004,6 +9007,7 @@ tasks:
       - "docs/goals/babyminimo-emulator-hardening/state.yaml"
       - "CHANGELOG.md"
       - "docs/**"
+      - "docs/marketing/babyminimo-aso-benefit-discovery.md"
       - "e2e/**"
       - "scripts/**"
       - "app.json"
@@ -9046,6 +9050,7 @@ tasks:
       - "docs/goals/babyminimo-emulator-hardening/state.yaml"
       - "CHANGELOG.md"
       - "docs/**"
+      - "docs/marketing/babyminimo-aso-screenshot-source-audit.md"
       - "e2e/**"
       - "scripts/**"
       - "app.json"
@@ -11938,6 +11943,7 @@ tasks:
       - "docs/goals/babyminimo-emulator-hardening/state.yaml"
       - "CHANGELOG.md"
       - "docs/**"
+      - "docs/marketing/babyminimo-aso-screenshot-pairings.md"
       - "e2e/**"
       - "scripts/**"
       - "app.json"
@@ -11991,6 +11997,7 @@ tasks:
       - "docs/goals/babyminimo-emulator-hardening/state.yaml"
       - "CHANGELOG.md"
       - "docs/**"
+      - "docs/marketing/babyminimo-aso-benefit-discovery.md"
       - "e2e/**"
       - "scripts/**"
       - "app.json"
@@ -13124,7 +13131,7 @@ tasks:
       - "Verification fails twice."
     receipt:
       result: done
-      summary: "Added draft localization assets for all 35 supported locales, including app string inventories, App Store metadata drafts, notification/paywall/pricing copy, screenshot headline inputs, and a StoreKit-centered storefront pricing matrix. Non-English locales are explicitly marked draft_requires_native_review."
+      summary: "Added draft localization assets for all 35 supported locales, including app string inventories, App Store metadata drafts, notification/paywall/pricing copy, screenshot headline inputs, and a StoreKit-centered storefront pricing matrix. Non-English locales are explicitly marked draft_requires_ai_linguistic_qa."
       changed_files:
         - "docs/**"
         - "scripts/**"
@@ -13196,7 +13203,7 @@ tasks:
       - "Verification fails twice."
     receipt:
       result: done
-      summary: "Added a docs-localization validator modeled after the flashcard-generator localization workflow, adapted for BabyMinimo's current draft/native-review state. The validator checks locale/file completeness, English key parity, interpolation placeholders, metadata length limits, StoreKit runtime-price-source rules, product IDs, margin markers, launch decisions, and screenshot headline coverage. The first validation run caught a real Google Play short-description overage and the draft metadata was shortened from 81 to 79 characters."
+      summary: "Added a docs-localization validator modeled after the flashcard-generator localization workflow, adapted for BabyMinimo's current draft/AI linguistic QA state. The validator checks locale/file completeness, English key parity, interpolation placeholders, metadata length limits, StoreKit runtime-price-source rules, product IDs, margin markers, launch decisions, and screenshot headline coverage. The first validation run caught a real Google Play short-description overage and the draft metadata was shortened from 81 to 79 characters."
       changed_files:
         - "scripts/localization/validate-localization-assets.mjs"
         - "scripts/localization/generate-draft-localization.mjs"
@@ -13234,12 +13241,12 @@ tasks:
         - command: "npx expo-doctor"
           result: "passed: 20/20 checks"
       caveats:
-        - "Non-English localization files intentionally still mirror English and require native review before runtime exposure or final screenshots."
+        - "Non-English localization files intentionally still mirror English and require AI linguistic QA before runtime exposure or final screenshots."
         - "This task validates documentation assets only; runtime i18n wiring belongs in a later implementation slice with src/app allowed paths."
   - id: T300
     type: judge
     assignee: Judge
-    status: active
+    status: done
     pbi: "PBI-065"
     pbi_title: "App, store metadata, and screenshot localization"
     phase: "Phase 11, before ASO screenshot generation and release readiness."
@@ -13278,15 +13285,42 @@ tasks:
       - "Need files outside allowed_files."
       - "Acceptance criteria conflict with approved PBI scope."
       - "Verification fails twice."
+    receipt:
+      result: done
+      decision: "partial_accept_with_blocked_runtime_locale_visuals"
+      summary: "English simulator smoke passed and local coordination surfaces were reachable. RTL and text-expansion representative locale visual checks are blocked because PBI-065 currently has docs-only draft localization assets and the app does not yet have runtime i18n, locale override, RTL layout handling, or accepted translated strings wired."
+      files_changed:
+        - "docs/goals/babyminimo-emulator-hardening/notes/T300-judge.md"
+        - "docs/goals/babyminimo-emulator-hardening/notes/T300-english-smoke.png"
+        - "docs/goals/babyminimo-emulator-hardening/state.yaml"
+        - "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+        - "CHANGELOG.md"
+      evidence:
+        - "docs/goals/babyminimo-emulator-hardening/notes/T300-judge.md"
+        - "docs/goals/babyminimo-emulator-hardening/notes/T300-english-smoke.png"
+      verification:
+        - command: "curl -I http://127.0.0.1:41737/"
+          result: "passed: GoalBuddy redirected to /babyminimo-emulator-hardening/"
+        - command: "curl -I \"http://127.0.0.1:3200/?device=B2C19543-60E2-489E-8E08-4E3F775AD6A0\""
+          result: "passed: browser-hosted simulator returned 200"
+        - command: "curl -I http://127.0.0.1:4000/auth"
+          result: "passed: Firebase Emulator Auth UI returned 200"
+        - command: "xcrun simctl io B2C19543-60E2-489E-8E08-4E3F775AD6A0 screenshot docs/goals/babyminimo-emulator-hardening/notes/T300-english-smoke.png"
+          result: "passed: captured English runtime screenshot with no red screen"
+      blocked_checks:
+        - "Arabic and Hebrew RTL visual QA until runtime i18n and RTL layout handling exist."
+        - "German, Finnish, Russian, Japanese, Korean, Simplified Chinese, and Traditional Chinese text-expansion/compact-layout visual QA until accepted translated strings and locale override exist."
+      follow_up:
+        - "T301 records AI linguistic QA/optional native QA gaps and keeps final localized screenshot generation blocked until runtime i18n is implemented."
   - id: T301
     type: judge
     assignee: Judge
-    status: queued
+    status: done
     pbi: "PBI-065"
     pbi_title: "App, store metadata, and screenshot localization"
     phase: "Phase 11, before ASO screenshot generation and release readiness."
     production_last_phase: false
-    objective: "PBI-065 T5: Record native-speaker/manual QA gaps, update PBI docs, CHANGELOG.md, and GoalBuddy receipt."
+    objective: "PBI-065 T5: Record AI linguistic QA/optional native QA gaps, update PBI docs, CHANGELOG.md, and GoalBuddy receipt."
     inputs:
       - "PBI source: docs/product/babyminimo-pbi-codex-goalbuddy-pack.md#PBI-065"
       - "Dependency: PBI-051"
@@ -13320,10 +13354,282 @@ tasks:
       - "Need files outside allowed_files."
       - "Acceptance criteria conflict with approved PBI scope."
       - "Verification fails twice."
-  - id: T302
+    receipt:
+      result: done
+      decision: "accept_with_release_blockers_recorded"
+      summary: "Recorded the PBI-065 manual localization QA gaps and release gate. Final localized screenshots and release localization signoff remain blocked until runtime i18n, locale override, RTL layout handling, AI linguistic QA, StoreKit localized price verification, and localized screenshot baselines exist."
+      files_changed:
+        - "docs/localization/manual-qa-gaps.md"
+        - "docs/localization/README.md"
+        - "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+        - "docs/goals/babyminimo-emulator-hardening/state.yaml"
+        - "CHANGELOG.md"
+      evidence:
+        - "docs/localization/manual-qa-gaps.md"
+        - "docs/localization/README.md"
+      verification:
+        - command: "node scripts/localization/validate-localization-assets.mjs"
+          result: "passed: 35 locales checked with 136 expected draft mirror warnings"
+        - command: "bun run test:typecheck"
+          result: "passed"
+        - command: "bun run test:unit"
+          result: "passed: 32 tests"
+        - command: "npx expo-doctor"
+          result: "passed: 20/20 checks"
+        - command: "node /Users/frank/.codex/plugins/cache/goalbuddy/goalbuddy/0.2.22/skills/goalbuddy/scripts/check-goal-state.mjs docs/goals/babyminimo-emulator-hardening/state.yaml"
+          result: "passed"
+      release_blockers:
+        - "Runtime i18n wiring is still required before non-English simulator QA."
+        - "Arabic and Hebrew RTL support must be implemented and visually verified."
+        - "Native-speaker review or explicit owner acceptance is required before shipping non-English copy."
+        - "StoreKit localized price display must be verified in sandbox/TestFlight."
+        - "Localized screenshot baselines must exist before strict visual comparison."
+  - id: T337
+    type: scout
+    assignee: Scout
+    status: active
+    pbi: "PBI-065"
+    pbi_title: "App, store metadata, and screenshot localization"
+    phase: "Phase 11, before ASO screenshot generation and production release readiness."
+    production_last_phase: false
+    objective: "PBI-065 T6: Translate the flashcard-generator localization pipeline into a BabyMinimo runtime i18n and batch translation implementation plan."
+    inputs:
+      - "PBI source: docs/product/babyminimo-pbi-codex-goalbuddy-pack.md#PBI-065"
+      - "Reference implementation: /Users/frank/flashcard-generator config/i18n.ts, constants/locale-registry.ts, i18n contract tests, docs/store-metadata-localization-source.md, and learning.md localization entries"
+      - "Current BabyMinimo localization assets: docs/localization/**"
+      - "Current blocker: non-English files are draft mirrors and runtime i18n is not wired"
+    constraints:
+      - "Follow rules.md and AGENTS.md before starting implementation."
+      - "Keep one active task at a time and update GoalBuddy receipts after verification."
+      - "No production Firebase, App Store Connect, Google Play Console, or live StoreKit writes."
+      - "Do not expose machine-translated strings at runtime until validators pass and the review status allows it."
+    expected_output:
+      - "BabyMinimo runtime localization and batch translation plan"
+      - "Batch order by namespace and locale risk"
+      - "Validation gates copied from flashcard-generator and adapted to BabyMinimo"
+      - "GoalBuddy receipt and changelog/doc updates"
+    allowed_files:
+      - "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+      - "docs/product/babyminimo-localization-architecture.md"
+      - "docs/localization/README.md"
+      - "docs/localization/manual-qa-gaps.md"
+      - "docs/goals/babyminimo-emulator-hardening/state.yaml"
+      - "CHANGELOG.md"
+    verify:
+      - "node scripts/localization/validate-localization-assets.mjs"
+      - "node /Users/frank/.codex/plugins/cache/goalbuddy/goalbuddy/0.2.22/skills/goalbuddy/scripts/check-goal-state.mjs docs/goals/babyminimo-emulator-hardening/state.yaml"
+    stop_if:
+      - "Need files outside allowed_files."
+      - "Implementation, dependency installation, or network translation is needed before the plan is accepted."
+      - "Verification fails twice."
+  - id: T338
     type: worker
     assignee: Worker
     status: queued
+    pbi: "PBI-065"
+    pbi_title: "App, store metadata, and screenshot localization"
+    phase: "Phase 11, before ASO screenshot generation and production release readiness."
+    production_last_phase: false
+    objective: "PBI-065 T7: Implement runtime i18n foundation with locale registry, language detection, manual override, fallback rules, and guarded locale exposure."
+    inputs:
+      - "Dependency: T337"
+      - "Reference implementation: /Users/frank/flashcard-generator/config/i18n.ts and constants/locale-registry.ts"
+      - "Existing BabyMinimo English source strings and docs/localization/app-strings/en.json"
+    constraints:
+      - "Follow rules.md and AGENTS.md before starting implementation."
+      - "Keep one active task at a time and update GoalBuddy receipts after verification."
+      - "No production Firebase, App Store Connect, Google Play Console, or live StoreKit writes."
+      - "Runtime should default to English until a locale is marked accepted for runtime."
+    expected_output:
+      - "i18n runtime module"
+      - "locale registry"
+      - "language preference/override path"
+      - "tests for fallback and locale normalization"
+    allowed_files:
+      - "app/**"
+      - "src/**"
+      - "locales/**"
+      - "docs/**"
+      - "scripts/**"
+      - "package.json"
+      - "bun.lock"
+      - "CHANGELOG.md"
+      - "docs/goals/babyminimo-emulator-hardening/state.yaml"
+    verify:
+      - "bun run test:typecheck"
+      - "bun run test:unit"
+      - "node scripts/localization/validate-localization-assets.mjs"
+      - "npx expo-doctor"
+    stop_if:
+      - "Need production credentials or store writes."
+      - "Need to expose unreviewed translated strings as release-ready."
+      - "Verification fails twice."
+  - id: T339
+    type: worker
+    assignee: Worker
+    status: queued
+    pbi: "PBI-065"
+    pbi_title: "App, store metadata, and screenshot localization"
+    phase: "Phase 11, before ASO screenshot generation and production release readiness."
+    production_last_phase: false
+    objective: "PBI-065 T8: Add batch translation import tooling using owner-approved Google Translate/AI drafts plus protected-token, placeholder, and English-leak validation."
+    inputs:
+      - "Dependency: T337"
+      - "Dependency: T338"
+      - "Reference implementation: flashcard-generator machine translation batch import and i18n completeness guard pattern"
+      - "Supported locale list from docs/localization/locales.json"
+    constraints:
+      - "Follow rules.md and AGENTS.md before starting implementation."
+      - "Keep one active task at a time and update GoalBuddy receipts after verification."
+      - "Network translation requires explicit approval if it is executed."
+      - "Machine translations are drafts until AI linguistic QA or owner acceptance is recorded."
+    expected_output:
+      - "Batch translation script or documented command wrapper"
+      - "Batch manifests by namespace and locale"
+      - "Validation for placeholders, protected terms, ICU/interpolation variables, and English leaks"
+      - "No production store writes"
+    allowed_files:
+      - "scripts/localization/**"
+      - "docs/localization/**"
+      - "docs/product/**"
+      - "locales/**"
+      - "src/**"
+      - "package.json"
+      - "bun.lock"
+      - "CHANGELOG.md"
+      - "docs/goals/babyminimo-emulator-hardening/state.yaml"
+    verify:
+      - "node scripts/localization/validate-localization-assets.mjs"
+      - "bun run test:typecheck"
+      - "bun run test:unit"
+    stop_if:
+      - "Network translation is required and approval is not available."
+      - "Validation cannot distinguish draft machine output from accepted runtime copy."
+      - "Verification fails twice."
+  - id: T340
+    type: worker
+    assignee: Worker
+    status: queued
+    pbi: "PBI-065"
+    pbi_title: "App, store metadata, and screenshot localization"
+    phase: "Phase 11, before ASO screenshot generation and production release readiness."
+    production_last_phase: false
+    objective: "PBI-065 T9: Localize first runtime batch for low-risk app shell, auth/login, onboarding questionnaire, and settings language controls."
+    inputs:
+      - "Dependency: T338"
+      - "Dependency: T339"
+      - "Approved visual source: docs/product/superdesign-reference-assets/screenshots1/"
+    constraints:
+      - "Follow rules.md and AGENTS.md before starting implementation."
+      - "Keep one active task at a time and update GoalBuddy receipts after verification."
+      - "Preserve BabyMinimo visual layout and avoid text overflow."
+      - "No production Firebase, App Store Connect, Google Play Console, or live StoreKit writes."
+    expected_output:
+      - "Auth/onboarding/settings strings read through i18n"
+      - "Locale override smoke path"
+      - "Focused tests"
+      - "Simulator smoke evidence for English and one text-expansion locale"
+    allowed_files:
+      - "app/**"
+      - "src/**"
+      - "locales/**"
+      - "docs/**"
+      - "e2e/**"
+      - "scripts/**"
+      - "CHANGELOG.md"
+      - "docs/goals/babyminimo-emulator-hardening/state.yaml"
+    verify:
+      - "bun run test:typecheck"
+      - "bun run test:unit"
+      - "node scripts/localization/validate-localization-assets.mjs"
+      - "Simulator smoke at http://127.0.0.1:3200/?device=B2C19543-60E2-489E-8E08-4E3F775AD6A0"
+    stop_if:
+      - "Visual drift from approved screenshots1 references is introduced."
+      - "Unreviewed machine translation would be presented as release-ready."
+      - "Verification fails twice."
+  - id: T341
+    type: worker
+    assignee: Worker
+    status: queued
+    pbi: "PBI-065"
+    pbi_title: "App, store metadata, and screenshot localization"
+    phase: "Phase 11, before ASO screenshot generation and production release readiness."
+    production_last_phase: false
+    objective: "PBI-065 T10: Localize care logging, Home, Handoff, Timeline/Growth, Reminders, Family, widgets, notifications, and account deletion strings."
+    inputs:
+      - "Dependency: T338"
+      - "Dependency: T339"
+      - "Dependency: T340"
+      - "Current local-notification and widget docs"
+    constraints:
+      - "Follow rules.md and AGENTS.md before starting implementation."
+      - "Keep one active task at a time and update GoalBuddy receipts after verification."
+      - "Keep Growth Timeline local-only copy accurate."
+      - "Keep notification and account deletion copy calm, explicit, and non-alarming."
+    expected_output:
+      - "Remaining release-scope strings read through i18n"
+      - "Notification/widget/account deletion localization keys"
+      - "Focused tests for high-risk string namespaces"
+    allowed_files:
+      - "app/**"
+      - "src/**"
+      - "locales/**"
+      - "docs/**"
+      - "e2e/**"
+      - "scripts/**"
+      - "CHANGELOG.md"
+      - "docs/goals/babyminimo-emulator-hardening/state.yaml"
+    verify:
+      - "bun run test:typecheck"
+      - "bun run test:unit"
+      - "node scripts/localization/validate-localization-assets.mjs"
+      - "npx expo-doctor"
+    stop_if:
+      - "Production notification provider setup is required."
+      - "StoreKit/App Store Connect setup is required."
+      - "Verification fails twice."
+  - id: T342
+    type: judge
+    assignee: Judge
+    status: queued
+    pbi: "PBI-065"
+    pbi_title: "App, store metadata, and screenshot localization"
+    phase: "Phase 11, before ASO screenshot generation and production release readiness."
+    production_last_phase: false
+    objective: "PBI-065 T11: Run locale visual QA for English, RTL, and text-expansion representatives and update screenshot blockers."
+    inputs:
+      - "Dependency: T338"
+      - "Dependency: T340"
+      - "Dependency: T341"
+      - "Approved visual source: docs/product/superdesign-reference-assets/screenshots1/"
+    constraints:
+      - "Follow rules.md and AGENTS.md before starting implementation."
+      - "Keep one active task at a time and update GoalBuddy receipts after verification."
+      - "Do not claim 1:1 localized screenshot readiness until localized baselines exist."
+    expected_output:
+      - "Simulator screenshots/evidence"
+      - "RTL and text-expansion QA receipt"
+      - "Updated blockers for PBI-063 localized screenshots"
+    allowed_files:
+      - "docs/**"
+      - "e2e/**"
+      - "scripts/**"
+      - "CHANGELOG.md"
+      - "docs/goals/babyminimo-emulator-hardening/state.yaml"
+    verify:
+      - "node scripts/localization/validate-localization-assets.mjs"
+      - "bun run test:typecheck"
+      - "bun run test:unit"
+      - "Simulator smoke at http://127.0.0.1:3200/?device=B2C19543-60E2-489E-8E08-4E3F775AD6A0"
+      - "node /Users/frank/.codex/plugins/cache/goalbuddy/goalbuddy/0.2.22/skills/goalbuddy/scripts/check-goal-state.mjs docs/goals/babyminimo-emulator-hardening/state.yaml"
+    stop_if:
+      - "Runtime locale override is unavailable."
+      - "Localized screenshots require missing approved baseline images."
+      - "Verification fails twice."
+  - id: T302
+    type: worker
+    assignee: Worker
+    status: done
     pbi: "PBI-063"
     pbi_title: "ASO App Store screenshot generation and gifting creative set"
     phase: "Phase 11, immediately before Release and App Store readiness."
@@ -13350,6 +13656,7 @@ tasks:
       - "docs/goals/babyminimo-emulator-hardening/state.yaml"
       - "CHANGELOG.md"
       - "docs/**"
+      - "docs/marketing/babyminimo-aso-benefit-discovery.md"
       - "e2e/**"
       - "scripts/**"
       - "app.json"
@@ -13363,10 +13670,48 @@ tasks:
       - "Need files outside allowed_files."
       - "Acceptance criteria conflict with approved PBI scope."
       - "Verification fails twice."
+    receipt:
+      result: done
+      summary: "Ran ASO benefit discovery using the app-store-screenshot skill framework and BabyMinimo product hierarchy. Added action-led screenshot benefit candidates, recommended screenshot order, screens to avoid, optional paywall/gifting creative guidance, and a confirmation gate before final generation."
+      files_inspected:
+        - "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+        - "docs/product/superdesign-reference-assets/screenshots1/"
+        - "app/"
+        - "src/"
+      files_changed:
+        - "docs/marketing/babyminimo-aso-benefit-discovery.md"
+        - "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+        - "docs/goals/babyminimo-emulator-hardening/state.yaml"
+        - "CHANGELOG.md"
+      changed_files:
+        - "docs/marketing/babyminimo-aso-benefit-discovery.md"
+        - "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+        - "docs/goals/babyminimo-emulator-hardening/state.yaml"
+        - "CHANGELOG.md"
+      commands:
+        - command: "node scripts/localization/validate-localization-assets.mjs"
+          status: pass
+        - command: "bun run test:typecheck"
+          status: pass
+        - command: "bun run test:unit"
+          status: pass
+        - command: "npx expo-doctor"
+          status: pass
+      benefit_candidates:
+        - "KNOW WHAT HAPPENED LAST"
+        - "LOG FEEDS, SLEEP, AND DIAPERS"
+        - "SEE THE FULL DAY AT A GLANCE"
+        - "REMEMBER TINY PHOTO MOMENTS"
+        - "SHARE CARE WITH YOUR HOUSEHOLD"
+        - "STAY READY WITH GENTLE REMINDERS"
+        - "UNLOCK CALM BABY CARE"
+      caveats:
+        - "Final screenshot generation still requires owner confirmation of headline order and whether paywall/gifting should appear in the launch set."
+        - "Localized screenshot generation remains blocked by the PBI-065 runtime i18n and AI linguistic QA gates."
   - id: T303
     type: worker
     assignee: Worker
-    status: queued
+    status: done
     pbi: "PBI-063"
     pbi_title: "ASO App Store screenshot generation and gifting creative set"
     phase: "Phase 11, immediately before Release and App Store readiness."
@@ -13393,6 +13738,7 @@ tasks:
       - "docs/goals/babyminimo-emulator-hardening/state.yaml"
       - "CHANGELOG.md"
       - "docs/**"
+      - "docs/marketing/babyminimo-aso-screenshot-source-audit.md"
       - "e2e/**"
       - "scripts/**"
       - "app.json"
@@ -13406,10 +13752,57 @@ tasks:
       - "Need files outside allowed_files."
       - "Acceptance criteria conflict with approved PBI scope."
       - "Verification fails twice."
+    receipt:
+      result: done
+      summary: "Inspected existing BabyMinimo implementation, QA, testing, and GoalBuddy simulator screenshots against the approved visual-reference folder and graded candidate ASO sources as Great, Usable, or Retake."
+      files_inspected:
+        - "docs/product/implementation-screenshots/"
+        - "docs/qa/screenshots/"
+        - "docs/testing/screenshots/"
+        - "docs/product/superdesign-reference-assets/screenshots1/"
+        - "docs/goals/babyminimo-emulator-hardening/notes/T300-english-smoke.png"
+      files_changed:
+        - "docs/marketing/babyminimo-aso-screenshot-source-audit.md"
+        - "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+        - "docs/goals/babyminimo-emulator-hardening/state.yaml"
+        - "CHANGELOG.md"
+      changed_files:
+        - "docs/marketing/babyminimo-aso-screenshot-source-audit.md"
+        - "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+        - "docs/goals/babyminimo-emulator-hardening/state.yaml"
+        - "CHANGELOG.md"
+      commands:
+        - command: "node scripts/localization/validate-localization-assets.mjs"
+          status: pass
+        - command: "bun run test:typecheck"
+          status: pass
+        - command: "bun run test:unit"
+          status: pass
+        - command: "npx expo-doctor"
+          status: pass
+      ratings:
+        great:
+          - "Timeline mixed care/growth screenshot"
+        usable:
+          - "Handoff current-state screenshot"
+          - "Home current-state dashboard screenshot"
+          - "Quick Log / Log Event screenshots"
+          - "Growth Timeline / Add Moment screenshots"
+          - "Family & Household screenshot"
+          - "Reminders screenshot"
+          - "Plans/Paywall prototype screenshot, gated on StoreKit validation"
+        retake_or_exclude:
+          - "Login/signup screenshots for primary ASO set"
+          - "Onboarding-only screenshots for primary ASO set"
+          - "Settings/account screenshots"
+          - "Empty states"
+      caveats:
+        - "Current implementation screenshots are mostly full simulator captures at 1206x2622 while approved visual references are cropped around 346x730; final ASO generation must normalize crop/device framing."
+        - "Paywall/gifting screenshots remain gated on StoreKit/TestFlight validation and accurate product behavior."
   - id: T304
     type: worker
     assignee: Worker
-    status: queued
+    status: done
     pbi: "PBI-063"
     pbi_title: "ASO App Store screenshot generation and gifting creative set"
     phase: "Phase 11, immediately before Release and App Store readiness."
@@ -13436,6 +13829,7 @@ tasks:
       - "docs/goals/babyminimo-emulator-hardening/state.yaml"
       - "CHANGELOG.md"
       - "docs/**"
+      - "docs/marketing/babyminimo-aso-screenshot-pairings.md"
       - "e2e/**"
       - "scripts/**"
       - "app.json"
@@ -13449,10 +13843,45 @@ tasks:
       - "Need files outside allowed_files."
       - "Acceptance criteria conflict with approved PBI scope."
       - "Verification fails twice."
+    receipt:
+      result: done
+      summary: "Paired the working ASO benefit candidates with current source screenshots, documented retake needs, and marked premium/gifting screenshot generation as gated by StoreKit/product accuracy."
+      files_changed:
+        - "docs/marketing/babyminimo-aso-screenshot-pairings.md"
+        - "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+        - "docs/goals/babyminimo-emulator-hardening/state.yaml"
+        - "CHANGELOG.md"
+      changed_files:
+        - "docs/marketing/babyminimo-aso-screenshot-pairings.md"
+        - "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+        - "docs/goals/babyminimo-emulator-hardening/state.yaml"
+        - "CHANGELOG.md"
+      commands:
+        - command: "node scripts/localization/validate-localization-assets.mjs"
+          status: pass
+        - command: "bun run test:typecheck"
+          status: pass
+        - command: "bun run test:unit"
+          status: pass
+        - command: "npx expo-doctor"
+          status: pass
+      primary_pairings:
+        - "KNOW WHAT HAPPENED LAST -> handoff-t020-smoke.png"
+        - "LOG FEEDS, SLEEP, AND DIAPERS -> quick-log/log modal retake"
+        - "SEE THE FULL DAY AT A GLANCE -> timeline-t020-smoke.png"
+        - "REMEMBER TINY PHOTO MOMENTS -> timeline-growth/add-moment retake"
+        - "SHARE CARE WITH YOUR HOUSEHOLD -> family-household-t018.png retake"
+        - "STAY READY WITH GENTLE REMINDERS -> reminders-t018.png retake"
+      gated_pairings:
+        - "UNLOCK CALM BABY CARE -> paywall retake after StoreKit/TestFlight validation"
+        - "GIFT CALM CARE TO FAMILY -> blocked until gifting/subscription-for-someone exists or is explicitly scoped as a future marketing concept"
+      caveats:
+        - "Final ASO generation should not proceed until the product owner confirms headline order and accepts source screenshots."
+        - "Localized generation remains blocked by PBI-065 runtime localization gates."
   - id: T305
     type: worker
     assignee: Worker
-    status: queued
+    status: blocked
     pbi: "PBI-063"
     pbi_title: "ASO App Store screenshot generation and gifting creative set"
     phase: "Phase 11, immediately before Release and App Store readiness."
@@ -13492,10 +13921,26 @@ tasks:
       - "Need files outside allowed_files."
       - "Acceptance criteria conflict with approved PBI scope."
       - "Verification fails twice."
+    receipt:
+      result: blocked
+      summary: "Created a draft screenshot manifest but did not generate/export final App Store screenshots because the required product and source-asset gates are not cleared."
+      files_changed:
+        - "docs/marketing/babyminimo-aso-screenshot-manifest.draft.json"
+        - "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+        - "docs/goals/babyminimo-emulator-hardening/state.yaml"
+        - "CHANGELOG.md"
+      blockers:
+        - "Product owner must confirm final headline order and whether premium/gifting screenshots are in scope."
+        - "Final clean simulator retakes are needed for most selected source screenshots."
+        - "Paywall/premium screenshots require StoreKit/TestFlight product, display price, trial, restore, and legal-copy validation."
+        - "Localized screenshot generation is blocked by PBI-065 runtime i18n and AI linguistic QA gates."
+        - "Final App Store dimension generation tooling has not been run for approved source assets."
+      safe_progress:
+        - "Draft English manifest exists at docs/marketing/babyminimo-aso-screenshot-manifest.draft.json."
   - id: T306
     type: judge
     assignee: Judge
-    status: queued
+    status: blocked
     pbi: "PBI-063"
     pbi_title: "ASO App Store screenshot generation and gifting creative set"
     phase: "Phase 11, immediately before Release and App Store readiness."
@@ -13535,6 +13980,14 @@ tasks:
       - "Need files outside allowed_files."
       - "Acceptance criteria conflict with approved PBI scope."
       - "Verification fails twice."
+    receipt:
+      result: blocked
+      decision: "blocked_until_final_assets_exist"
+      summary: "Cannot verify final App Store screenshot assets because T305 is blocked and no final generated/exported assets exist yet. Resume after approved source retakes, headline confirmation, StoreKit/paywall validation, and final export."
+      blockers:
+        - "No final generated App Store screenshot assets exist."
+        - "Draft manifest only; production-quality source rows are still blocked or require retakes."
+        - "Localized screenshots remain blocked until runtime localization and AI linguistic QA gates are cleared."
   - id: T307
     type: scout
     assignee: Scout

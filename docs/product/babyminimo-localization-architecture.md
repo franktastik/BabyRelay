@@ -313,11 +313,30 @@ Process:
 
 1. English canonical copy approved.
 2. Machine translation or AI draft generated.
-3. Automated validation for keys, interpolation, length, metadata, and pricing matrix completeness.
-4. Native-speaker/manual review for launch-critical locales.
-5. Simulator checks for RTL and text-expansion locales.
+3. Drafts imported in batches by namespace and locale risk.
+4. Automated validation for keys, interpolation, protected tokens, English leaks, length, metadata, and pricing matrix completeness.
+5. AI-assisted linguistic QA or explicit owner acceptance for launch-critical locales. Native-speaker/manual review is recommended for high-risk locales and revenue/legal copy, but it is not a hard blocker when AI linguistic QA passes.
+6. Simulator checks for RTL and text-expansion locales.
 
-Manual high-risk locales:
+The flashcard-generator localization workflow is the implementation precedent. BabyMinimo should copy the same safety posture:
+
+- use Google Translate or AI only as draft sources when owner-approved
+- keep a source marker for each generated batch
+- preserve brand tokens and technical/legal tokens exactly
+- fail validation on missing keys, broken placeholders, and protected-token damage
+- add namespace-specific English-leak checks before exposing non-English runtime locales
+- use AI linguistic QA to score tone, meaning, ASO intent, cultural fit, medical/caregiver safety, and truncation risk before runtime exposure
+- keep final localized screenshots blocked until runtime i18n and visual QA pass
+
+Recommended batch order:
+
+1. App shell, auth/login, onboarding questionnaire, and settings language controls.
+2. Care logging, Home, Handoff, Timeline, and Growth Timeline.
+3. Reminders, Family, widgets, notifications, account deletion, and state screens.
+4. Paywall, pricing, trial, lifetime, gift, retention-offer, and metadata copy.
+5. Screenshot headline/overlay localization after runtime locale QA.
+
+High-risk locales for AI linguistic QA, visual QA, and optional native review:
 
 - Arabic
 - Hebrew

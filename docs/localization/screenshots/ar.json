@@ -2,7 +2,7 @@
   "locale": "ar",
   "language": "Arabic",
   "direction": "rtl",
-  "status": "draft_requires_native_review",
+  "status": "draft_requires_ai_linguistic_qa",
   "reviewRequired": true,
   "sourceLocale": "en",
   "headlines": {
