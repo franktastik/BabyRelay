@@ -6,6 +6,8 @@ All notable changes to this project are documented here.
 
 ### Added
 
+- Added PBI-067 for multi-baby household support, covering twins/triplets in one household, baby switching, add-another-baby flows, selected-baby scoping, widgets/handoff behavior, and simulator evidence.
+- Added PBI-068 for a gentle Baby Activity and Habit Tracker, adapting the flashcard app's local activity-store pattern to per-baby care rhythm summaries and optional screenshot-ready Activity/Rhythm surfaces.
 - Added the BabyMinimo PBI, Codex command, GoalBuddy, code plan, and design source-of-truth pack.
 - Added Expo Router project foundation with `package.json`, `app.json`, `tsconfig.json`, and `expo-env.d.ts`.
 - Added BabyMinimo design tokens: sage, clay, gold, cream, creamAlt, ink, muted, danger, plus spacing, radius, typography, and shadows.
