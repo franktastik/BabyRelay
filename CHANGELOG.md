@@ -121,6 +121,7 @@ All notable changes to this project are documented here.
 - Added runtime localization coverage for Home, Timeline, Growth Timeline, Handoff, Quick Log, core log modals, Reminders, Family, Widgets, Account, notifications, and local lifecycle cleanup copy.
 - Updated the localization batch importer to fall back to English when machine translation drops protected tokens or interpolation placeholders.
 - Added a locale visual QA judge note documenting English simulator smoke evidence and the remaining German full-route, RTL, StoreKit-price, and localized screenshot blockers.
+- Reclassified account deletion planning, UI, local cleanup, local/emulator tests, Maestro coverage, and privacy docs as non-production work while keeping backend purge/deploy verification production-gated.
 - Added PBI-065 localization asset validation for locale coverage, key parity, interpolation placeholders, metadata limits, StoreKit pricing-source rules, margin markers, product IDs, and screenshot headline completeness.
 - Added the PBI-065 simulator visual QA judge receipt, confirming English runtime smoke while blocking RTL and text-expansion locale visual acceptance until runtime i18n and accepted translations are wired.
 - Added the PBI-065 localization QA gap register for AI linguistic QA, optional native-speaker review, RTL checks, text-expansion checks, StoreKit localized price verification, and localized screenshot baseline blockers.
