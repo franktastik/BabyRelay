@@ -118,6 +118,12 @@ All notable changes to this project are documented here.
 - Added the PBI-065 localization architecture with supported locale inventory, key naming conventions, fallback behavior, canonical English strings, pricing localization rules, metadata length checks, RTL QA requirements, and translation QA workflow.
 - Added PBI-065 draft localization assets for all supported locales, including app string inventories, App Store metadata drafts, paywall/pricing copy, screenshot headline inputs, and a StoreKit-centered storefront pricing matrix with native-review status markers.
 - Added PBI-065 localization asset validation for locale coverage, key parity, interpolation placeholders, metadata limits, StoreKit pricing-source rules, margin markers, product IDs, and screenshot headline completeness.
+- Added the PBI-065 simulator visual QA judge receipt, confirming English runtime smoke while blocking RTL and text-expansion locale visual acceptance until runtime i18n and accepted translations are wired.
+- Added the PBI-065 manual localization QA gap register for native-speaker review, RTL checks, text-expansion checks, StoreKit localized price verification, and localized screenshot baseline blockers.
+- Added the PBI-063 ASO benefit discovery artifact with action-led App Store screenshot benefit candidates and screenshot set guidance.
+- Added the PBI-063 ASO screenshot source audit, grading existing BabyMinimo runtime screenshots and recording retake requirements before final App Store screenshot pairing.
+- Added the PBI-063 ASO screenshot pairing manifest draft, including launch pairings, retake shot list, and paywall/gifting generation blockers.
+- Added the PBI-063 draft ASO screenshot manifest with explicit generation blockers instead of producing unapproved final App Store assets.
 
 ### Changed
 

@@ -1960,6 +1960,8 @@ Implementation receipt:
 - T1 added `docs/product/babyminimo-localization-architecture.md` with the supported locale inventory, key naming conventions, fallback behavior, canonical English string inventory, pricing localization rules, metadata length checks, RTL QA requirements, and translation QA workflow.
 - T2 added `docs/localization/` draft assets for all 35 supported locales, including app strings, App Store metadata drafts, notification/paywall/pricing copy, screenshot headline inputs, and a StoreKit-centered storefront pricing matrix with review status markers. Non-English files are marked `draft_requires_native_review` until translation and native review are completed.
 - T3 added `scripts/localization/validate-localization-assets.mjs` and documented the validation command in `docs/localization/README.md`. The validator checks locale/file completeness, English key parity, interpolation placeholders, metadata length limits, StoreKit runtime-price-source rules, product IDs, margin markers, launch-decision fields, and screenshot headline completeness. The first validation pass caught and fixed the Google Play short description length from 81 to 79 characters.
+- T4 captured English simulator smoke evidence at `docs/goals/babyminimo-emulator-hardening/notes/T300-english-smoke.png` and recorded the judge result in `docs/goals/babyminimo-emulator-hardening/notes/T300-judge.md`. English runtime smoke passed, but RTL and text-expansion representative locale visual checks remain blocked until runtime i18n, a simulator locale override, RTL layout handling, and accepted non-English translations are implemented.
+- T5 added `docs/localization/manual-qa-gaps.md` and updated the localization README with the release gate: final localized screenshots and release localization signoff remain blocked until runtime i18n, locale override, RTL handling, native review, StoreKit localized price verification, and localized screenshot baselines exist.
 
 #### PBI-063: ASO App Store screenshot generation and gifting creative set
 
@@ -2009,6 +2011,13 @@ Task mapping:
 - T3: Pair each confirmed benefit with a source screenshot and identify whether an extra gifting/subscription creative is needed.
 - T4: Generate/export the final App Store screenshot set and screenshot manifest.
 - T5: Verify assets against the manifest, update release docs, CHANGELOG.md, and GoalBuddy receipt.
+
+Implementation receipt:
+- T1 added `docs/marketing/babyminimo-aso-benefit-discovery.md` with the target audience, implemented app capability summary, recommended action-led screenshot benefits, primary 6-screen screenshot order, optional premium/gifting screenshots, screens to avoid, and the owner confirmation gate before final App Store screenshot generation.
+- T2 added `docs/marketing/babyminimo-aso-screenshot-source-audit.md`, grading existing implementation/runtime screenshots as Great, Usable, or Retake. Timeline is currently the strongest source, Handoff/Home/Family/Reminders/Paywall are usable with retake caveats, and login/onboarding/settings/empty states should be excluded from the primary ASO set.
+- T3 added `docs/marketing/babyminimo-aso-screenshot-pairings.md` with working benefit-to-source pairings, a retake shot list, optional premium/gifting decisions, and a draft manifest shape. Final generation remains blocked until headline order, source retakes, and StoreKit/paywall accuracy are approved.
+- T4 added `docs/marketing/babyminimo-aso-screenshot-manifest.draft.json`, but final App Store screenshot export is blocked. Current blockers: product owner headline/order confirmation, final clean retakes, StoreKit/TestFlight paywall accuracy for premium screenshots, localized runtime i18n/native review for non-English screenshots, and final App Store dimension generation tooling.
+- T5 asset verification is blocked because no final generated App Store screenshot assets exist yet; verification should resume after T4 blockers are cleared.
 
 #### PBI-053: Release and App Store readiness
 

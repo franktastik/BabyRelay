@@ -37,3 +37,5 @@ Runtime price strings must come from StoreKit localized product display values. 
    The validator checks locale manifest completeness, per-locale file coverage, key parity with English, interpolation placeholders, App Store / Google Play metadata length limits, StoreKit pricing-source rules, margin-marker fields, product IDs, and screenshot headline completeness.
 3. Run RTL/text-expansion simulator checks for high-risk locales.
 4. Record native-speaker review gaps before release.
+
+Manual QA gates are tracked in `docs/localization/manual-qa-gaps.md`. Final localized screenshots and release localization signoff remain blocked until runtime i18n, locale override, RTL handling, native review, and localized screenshot baselines exist.
