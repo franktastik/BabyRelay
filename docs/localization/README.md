@@ -2,7 +2,7 @@
 
 These files support `PBI-065 T2`.
 
-The current localization package is a planning and QA scaffold, not final native-reviewed translation content.
+The current localization package is a planning and QA scaffold, not final AI-reviewed or owner-accepted translation content.
 
 ## Contents
 
@@ -16,8 +16,8 @@ The current localization package is a planning and QA scaffold, not final native
 ## Review Status
 
 - `en` is canonical.
-- Every non-English locale is marked `draft_requires_native_review`.
-- Draft files intentionally preserve the English source strings until translation and native review are performed.
+- Every non-English locale starts as `draft_requires_ai_linguistic_qa`.
+- Draft files intentionally preserve the English source strings until translation and AI linguistic QA, owner acceptance, or optional native review are performed.
 
 This avoids presenting unreviewed machine translation as production-ready copy.
 
@@ -39,7 +39,7 @@ Every batch must produce:
 - protected-token report for `BabyMinimo`, `Baby MiniMemo`, product IDs, URLs, legal names, interpolation placeholders, and platform terms
 - placeholder/interpolation parity report
 - namespace-level English-leak report
-- native-review status or explicit owner acceptance status
+- AI linguistic QA status, explicit owner acceptance status, or optional native-review status
 - simulator visual evidence before a locale is considered runtime-ready
 
 ## Pricing Rule
@@ -57,6 +57,6 @@ Runtime price strings must come from StoreKit localized product display values. 
 
    The validator checks locale manifest completeness, per-locale file coverage, key parity with English, interpolation placeholders, App Store / Google Play metadata length limits, StoreKit pricing-source rules, margin-marker fields, product IDs, and screenshot headline completeness.
 3. Run RTL/text-expansion simulator checks for high-risk locales.
-4. Record native-speaker review gaps before release.
+4. Record AI linguistic QA, owner-acceptance, and optional native-speaker review gaps before release.
 
-Manual QA gates are tracked in `docs/localization/manual-qa-gaps.md`. Final localized screenshots and release localization signoff remain blocked until runtime i18n, locale override, RTL handling, native review, and localized screenshot baselines exist.
+QA gates are tracked in `docs/localization/manual-qa-gaps.md`. Final localized screenshots and release localization signoff remain blocked until runtime i18n, locale override, RTL handling, AI linguistic QA or owner acceptance, and localized screenshot baselines exist. Native-speaker review is recommended for high-risk locales and revenue/legal copy, but it is not a hard blocker when AI linguistic QA passes.

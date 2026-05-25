@@ -3,21 +3,21 @@
     "code": "ar",
     "language": "Arabic",
     "direction": "rtl",
-    "status": "draft_requires_native_review",
+    "status": "draft_requires_ai_linguistic_qa",
     "sourceLocale": "en"
   },
   {
     "code": "cs",
     "language": "Czech",
     "direction": "ltr",
-    "status": "draft_requires_native_review",
+    "status": "draft_requires_ai_linguistic_qa",
     "sourceLocale": "en"
   },
   {
     "code": "da",
     "language": "Danish",
     "direction": "ltr",
-    "status": "draft_requires_native_review",
+    "status": "draft_requires_ai_linguistic_qa",
     "sourceLocale": "en"
   },
   {
@@ -31,217 +31,217 @@
     "code": "et",
     "language": "Estonian",
     "direction": "ltr",
-    "status": "draft_requires_native_review",
+    "status": "draft_requires_ai_linguistic_qa",
     "sourceLocale": "en"
   },
   {
     "code": "lt",
     "language": "Lithuanian",
     "direction": "ltr",
-    "status": "draft_requires_native_review",
+    "status": "draft_requires_ai_linguistic_qa",
     "sourceLocale": "en"
   },
   {
     "code": "lv",
     "language": "Latvian",
     "direction": "ltr",
-    "status": "draft_requires_native_review",
+    "status": "draft_requires_ai_linguistic_qa",
     "sourceLocale": "en"
   },
   {
     "code": "de",
     "language": "German",
     "direction": "ltr",
-    "status": "draft_requires_native_review",
+    "status": "draft_requires_ai_linguistic_qa",
     "sourceLocale": "en"
   },
   {
     "code": "el",
     "language": "Greek",
     "direction": "ltr",
-    "status": "draft_requires_native_review",
+    "status": "draft_requires_ai_linguistic_qa",
     "sourceLocale": "en"
   },
   {
     "code": "es",
     "language": "Spanish",
     "direction": "ltr",
-    "status": "draft_requires_native_review",
+    "status": "draft_requires_ai_linguistic_qa",
     "sourceLocale": "en"
   },
   {
     "code": "fi",
     "language": "Finnish",
     "direction": "ltr",
-    "status": "draft_requires_native_review",
+    "status": "draft_requires_ai_linguistic_qa",
     "sourceLocale": "en"
   },
   {
     "code": "fil",
     "language": "Filipino",
     "direction": "ltr",
-    "status": "draft_requires_native_review",
+    "status": "draft_requires_ai_linguistic_qa",
     "sourceLocale": "en"
   },
   {
     "code": "fr",
     "language": "French",
     "direction": "ltr",
-    "status": "draft_requires_native_review",
+    "status": "draft_requires_ai_linguistic_qa",
     "sourceLocale": "en"
   },
   {
     "code": "he",
     "language": "Hebrew",
     "direction": "rtl",
-    "status": "draft_requires_native_review",
+    "status": "draft_requires_ai_linguistic_qa",
     "sourceLocale": "en"
   },
   {
     "code": "hr",
     "language": "Croatian",
     "direction": "ltr",
-    "status": "draft_requires_native_review",
+    "status": "draft_requires_ai_linguistic_qa",
     "sourceLocale": "en"
   },
   {
     "code": "hu",
     "language": "Hungarian",
     "direction": "ltr",
-    "status": "draft_requires_native_review",
+    "status": "draft_requires_ai_linguistic_qa",
     "sourceLocale": "en"
   },
   {
     "code": "id",
     "language": "Indonesian",
     "direction": "ltr",
-    "status": "draft_requires_native_review",
+    "status": "draft_requires_ai_linguistic_qa",
     "sourceLocale": "en"
   },
   {
     "code": "it",
     "language": "Italian",
     "direction": "ltr",
-    "status": "draft_requires_native_review",
+    "status": "draft_requires_ai_linguistic_qa",
     "sourceLocale": "en"
   },
   {
     "code": "ja",
     "language": "Japanese",
     "direction": "ltr",
-    "status": "draft_requires_native_review",
+    "status": "draft_requires_ai_linguistic_qa",
     "sourceLocale": "en"
   },
   {
     "code": "ko",
     "language": "Korean",
     "direction": "ltr",
-    "status": "draft_requires_native_review",
+    "status": "draft_requires_ai_linguistic_qa",
     "sourceLocale": "en"
   },
   {
     "code": "ms",
     "language": "Malay",
     "direction": "ltr",
-    "status": "draft_requires_native_review",
+    "status": "draft_requires_ai_linguistic_qa",
     "sourceLocale": "en"
   },
   {
     "code": "nl",
     "language": "Dutch",
     "direction": "ltr",
-    "status": "draft_requires_native_review",
+    "status": "draft_requires_ai_linguistic_qa",
     "sourceLocale": "en"
   },
   {
     "code": "nb",
     "language": "Norwegian Bokmal",
     "direction": "ltr",
-    "status": "draft_requires_native_review",
+    "status": "draft_requires_ai_linguistic_qa",
     "sourceLocale": "en"
   },
   {
     "code": "pl",
     "language": "Polish",
     "direction": "ltr",
-    "status": "draft_requires_native_review",
+    "status": "draft_requires_ai_linguistic_qa",
     "sourceLocale": "en"
   },
   {
     "code": "pt",
     "language": "Portuguese",
     "direction": "ltr",
-    "status": "draft_requires_native_review",
+    "status": "draft_requires_ai_linguistic_qa",
     "sourceLocale": "en"
   },
   {
     "code": "ro",
     "language": "Romanian",
     "direction": "ltr",
-    "status": "draft_requires_native_review",
+    "status": "draft_requires_ai_linguistic_qa",
     "sourceLocale": "en"
   },
   {
     "code": "ru",
     "language": "Russian",
     "direction": "ltr",
-    "status": "draft_requires_native_review",
+    "status": "draft_requires_ai_linguistic_qa",
     "sourceLocale": "en"
   },
   {
     "code": "sk",
     "language": "Slovak",
     "direction": "ltr",
-    "status": "draft_requires_native_review",
+    "status": "draft_requires_ai_linguistic_qa",
     "sourceLocale": "en"
   },
   {
     "code": "sv",
     "language": "Swedish",
     "direction": "ltr",
-    "status": "draft_requires_native_review",
+    "status": "draft_requires_ai_linguistic_qa",
     "sourceLocale": "en"
   },
   {
     "code": "th",
     "language": "Thai",
     "direction": "ltr",
-    "status": "draft_requires_native_review",
+    "status": "draft_requires_ai_linguistic_qa",
     "sourceLocale": "en"
   },
   {
     "code": "tr",
     "language": "Turkish",
     "direction": "ltr",
-    "status": "draft_requires_native_review",
+    "status": "draft_requires_ai_linguistic_qa",
     "sourceLocale": "en"
   },
   {
     "code": "uk",
     "language": "Ukrainian",
     "direction": "ltr",
-    "status": "draft_requires_native_review",
+    "status": "draft_requires_ai_linguistic_qa",
     "sourceLocale": "en"
   },
   {
     "code": "vi",
     "language": "Vietnamese",
     "direction": "ltr",
-    "status": "draft_requires_native_review",
+    "status": "draft_requires_ai_linguistic_qa",
     "sourceLocale": "en"
   },
   {
     "code": "zh-Hans",
     "language": "Simplified Chinese",
     "direction": "ltr",
-    "status": "draft_requires_native_review",
+    "status": "draft_requires_ai_linguistic_qa",
     "sourceLocale": "en"
   },
   {
     "code": "zh-Hant",
     "language": "Traditional Chinese",
     "direction": "ltr",
-    "status": "draft_requires_native_review",
+    "status": "draft_requires_ai_linguistic_qa",
     "sourceLocale": "en"
   }
 ]

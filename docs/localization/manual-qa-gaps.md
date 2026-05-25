@@ -1,4 +1,4 @@
-# BabyMinimo Localization Manual QA Gaps
+# BabyMinimo Localization QA Gaps
 
 This document supports `PBI-065 T5`. It records what is still required before localized app UI, metadata, pricing copy, and App Store screenshots can be considered release-ready.
 
@@ -6,7 +6,7 @@ This document supports `PBI-065 T5`. It records what is still required before lo
 
 Status: blocked for non-English runtime visual acceptance.
 
-The current localization package is a planning scaffold. English is canonical, while non-English files are draft placeholders that intentionally mirror English until translation and native review are complete.
+The current localization package is a planning scaffold. English is canonical, while non-English files are draft placeholders that intentionally mirror English until translation and AI linguistic QA, owner acceptance, or optional native review are complete.
 
 Runtime limitations:
 - The app does not yet load localized string bundles.
@@ -15,10 +15,11 @@ Runtime limitations:
 - StoreKit localized prices are not available in the local emulator-only build.
 - Approved localized screenshot baselines do not exist yet.
 
-## Required Manual QA Before Release
+## Required Localization QA Before Release
 
 Each supported locale needs:
-- Native-speaker review for app strings, onboarding, notification copy, paywall copy, pricing copy, account deletion copy, and metadata.
+- AI linguistic QA or explicit owner acceptance for app strings, onboarding, notification copy, paywall copy, pricing copy, account deletion copy, and metadata.
+- Optional native-speaker review for high-risk locales, App Store metadata, revenue/legal copy, and any locale where AI QA flags uncertainty.
 - App Store metadata review for app name/subtitle/description/keywords within platform limits.
 - Pricing review against StoreKit/App Store Connect product display prices, not static converted values.
 - Screenshot headline review for clarity, emotional fit, truncation risk, and ASO intent.
@@ -47,7 +48,7 @@ Do not proceed to final localized ASO screenshots or release localization signof
 - Runtime i18n wiring exists in the app.
 - A dev/test locale override exists for simulator QA.
 - RTL layout is implemented and verified for Arabic and Hebrew.
-- Non-English translations are reviewed or explicitly accepted by the product owner.
+- Non-English translations pass AI linguistic QA or are explicitly accepted by the product owner.
 - StoreKit localized display prices are verified in sandbox/TestFlight for enabled products.
 - Visual baselines are captured for localized screenshot states.
 
@@ -59,4 +60,4 @@ The following can continue before final translation:
 - Screenshot manifest structure.
 - Pricing experiment copy structure.
 - Metadata validation scripts.
-- Translation vendor/native-review workflow planning.
+- Translation vendor, AI linguistic QA, and optional native-review workflow planning.

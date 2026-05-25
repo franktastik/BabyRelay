@@ -1923,8 +1923,8 @@ Scope:
   - Positioning: `The calm baby log for feeding, sleep, diapers, memories, and caregiver handoffs.`
 - Prepare localized screenshot generation inputs for PBI-063: benefit headlines, screenshot manifest locale column, localized source-state seed data, and device/font notes.
 - Handle RTL layout requirements for Arabic and Hebrew, including text alignment, direction, clipped text checks, and icon placement where mirrored layouts are expected.
-- Define translation QA workflow using native-speaker review where possible and machine translation only as a first draft.
-- Use the `/Users/frank/flashcard-generator` localization pipeline as the implementation precedent: i18n runtime registry, batched machine translation imports, Google Translate/AI draft generation where owner-approved, protected-token validation, interpolation placeholder validation, namespace-level English-leak checks, and explicit native-review status before release exposure.
+- Define translation QA workflow using AI-assisted linguistic QA and optional native-speaker review where risk justifies it; machine translation remains a first draft until QA passes.
+- Use the `/Users/frank/flashcard-generator` localization pipeline as the implementation precedent: i18n runtime registry, batched machine translation imports, Google Translate/AI draft generation where owner-approved, protected-token validation, interpolation placeholder validation, namespace-level English-leak checks, and explicit AI QA, owner-acceptance, or optional native-review status before release exposure.
 - Run translation in batches instead of one giant import. Suggested batch order: app shell/auth/onboarding/settings, care logging/Home/Handoff, Timeline/Growth, reminders/family/widgets/notifications/account deletion, paywall/pricing/metadata, screenshots.
 - Preserve brand and protected terms across every translation batch: `BabyMinimo`, `Baby MiniMemo`, `StoreKit`, product IDs, URLs, legal names, interpolation placeholders, emoji-free notification text where applicable, and any App Store required phrase.
 - Add locale fallback rules: unsupported locale falls back to English; incomplete keys fail tests before release.
@@ -1942,7 +1942,7 @@ Acceptance criteria:
 - Storefront pricing matrix includes affordability/PPP notes, cost-floor estimate, above-floor marker, and launch/no-launch decision for each country/region price.
 - PBI-063 screenshot manifest can generate localized screenshot sets for every supported locale without missing headline/caption strings.
 - Automated tests fail on missing translation keys, malformed interpolation variables, unsupported fallback paths, invalid metadata lengths, and missing localized pricing metadata.
-- Batch translation imports include a machine-translation source marker, native-review status, protected-token report, interpolation report, and English-leak report before any locale can be marked runtime-ready.
+- Batch translation imports include a machine-translation source marker, AI linguistic QA status or owner-acceptance status, protected-token report, interpolation report, and English-leak report before any locale can be marked runtime-ready.
 - Manual QA checklist exists for at least high-risk text expansion locales: German, Finnish, Russian, Arabic, Hebrew, Japanese, Korean, Simplified Chinese, and Traditional Chinese.
 
 Dependencies:
@@ -1958,7 +1958,7 @@ Task mapping:
 - T2: Add translated app strings, App Store metadata drafts, notification copy, paywall/pricing copy, country/storefront pricing metadata, and screenshot headline inputs for all supported locales.
 - T3: Add tests for missing keys, interpolation variables, fallback behavior, metadata length limits, localized pricing metadata, and screenshot manifest locale completeness.
 - T4: Run simulator smoke/visual checks for English plus RTL and text-expansion representative locales.
-- T5: Record native-speaker/manual QA gaps, update PBI docs, CHANGELOG.md, and GoalBuddy receipt.
+- T5: Record AI linguistic QA, owner-acceptance, optional native-speaker/manual QA gaps, update PBI docs, CHANGELOG.md, and GoalBuddy receipt.
 - T6: Translate the flashcard-generator localization pipeline into a BabyMinimo runtime i18n and batch translation implementation plan.
 - T7: Implement runtime i18n foundation with locale registry, language detection, manual override, fallback rules, and guarded locale exposure.
 - T8: Add batch translation import tooling using owner-approved Google Translate/AI drafts plus protected-token, placeholder, and English-leak validation.
@@ -1968,10 +1968,10 @@ Task mapping:
 
 Implementation receipt:
 - T1 added `docs/product/babyminimo-localization-architecture.md` with the supported locale inventory, key naming conventions, fallback behavior, canonical English string inventory, pricing localization rules, metadata length checks, RTL QA requirements, and translation QA workflow.
-- T2 added `docs/localization/` draft assets for all 35 supported locales, including app strings, App Store metadata drafts, notification/paywall/pricing copy, screenshot headline inputs, and a StoreKit-centered storefront pricing matrix with review status markers. Non-English files are marked `draft_requires_native_review` until translation and native review are completed.
+- T2 added `docs/localization/` draft assets for all 35 supported locales, including app strings, App Store metadata drafts, notification/paywall/pricing copy, screenshot headline inputs, and a StoreKit-centered storefront pricing matrix with review status markers. Non-English files are marked `draft_requires_ai_linguistic_qa` until translation and AI linguistic QA, owner acceptance, or optional native review are completed.
 - T3 added `scripts/localization/validate-localization-assets.mjs` and documented the validation command in `docs/localization/README.md`. The validator checks locale/file completeness, English key parity, interpolation placeholders, metadata length limits, StoreKit runtime-price-source rules, product IDs, margin markers, launch-decision fields, and screenshot headline completeness. The first validation pass caught and fixed the Google Play short description length from 81 to 79 characters.
 - T4 captured English simulator smoke evidence at `docs/goals/babyminimo-emulator-hardening/notes/T300-english-smoke.png` and recorded the judge result in `docs/goals/babyminimo-emulator-hardening/notes/T300-judge.md`. English runtime smoke passed, but RTL and text-expansion representative locale visual checks remain blocked until runtime i18n, a simulator locale override, RTL layout handling, and accepted non-English translations are implemented.
-- T5 added `docs/localization/manual-qa-gaps.md` and updated the localization README with the release gate: final localized screenshots and release localization signoff remain blocked until runtime i18n, locale override, RTL handling, native review, StoreKit localized price verification, and localized screenshot baselines exist.
+- T5 added `docs/localization/manual-qa-gaps.md` and updated the localization README with the release gate: final localized screenshots and release localization signoff remain blocked until runtime i18n, locale override, RTL handling, AI linguistic QA or owner acceptance, StoreKit localized price verification, and localized screenshot baselines exist.
 - Follow-up tasks T6-T11 are now queued before production Firebase/App Store work so BabyMinimo can copy the proven flashcard-generator localization pipeline before release infrastructure begins.
 
 #### PBI-063: ASO App Store screenshot generation and gifting creative set
@@ -2027,7 +2027,7 @@ Implementation receipt:
 - T1 added `docs/marketing/babyminimo-aso-benefit-discovery.md` with the target audience, implemented app capability summary, recommended action-led screenshot benefits, primary 6-screen screenshot order, optional premium/gifting screenshots, screens to avoid, and the owner confirmation gate before final App Store screenshot generation.
 - T2 added `docs/marketing/babyminimo-aso-screenshot-source-audit.md`, grading existing implementation/runtime screenshots as Great, Usable, or Retake. Timeline is currently the strongest source, Handoff/Home/Family/Reminders/Paywall are usable with retake caveats, and login/onboarding/settings/empty states should be excluded from the primary ASO set.
 - T3 added `docs/marketing/babyminimo-aso-screenshot-pairings.md` with working benefit-to-source pairings, a retake shot list, optional premium/gifting decisions, and a draft manifest shape. Final generation remains blocked until headline order, source retakes, and StoreKit/paywall accuracy are approved.
-- T4 added `docs/marketing/babyminimo-aso-screenshot-manifest.draft.json`, but final App Store screenshot export is blocked. Current blockers: product owner headline/order confirmation, final clean retakes, StoreKit/TestFlight paywall accuracy for premium screenshots, localized runtime i18n/native review for non-English screenshots, and final App Store dimension generation tooling.
+- T4 added `docs/marketing/babyminimo-aso-screenshot-manifest.draft.json`, but final App Store screenshot export is blocked. Current blockers: product owner headline/order confirmation, final clean retakes, StoreKit/TestFlight paywall accuracy for premium screenshots, localized runtime i18n with AI linguistic QA or owner acceptance for non-English screenshots, and final App Store dimension generation tooling.
 - T5 asset verification is blocked because no final generated App Store screenshot assets exist yet; verification should resume after T4 blockers are cleared.
 
 #### PBI-053: Release and App Store readiness

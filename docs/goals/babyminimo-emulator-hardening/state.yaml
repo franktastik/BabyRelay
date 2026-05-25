@@ -13131,7 +13131,7 @@ tasks:
       - "Verification fails twice."
     receipt:
       result: done
-      summary: "Added draft localization assets for all 35 supported locales, including app string inventories, App Store metadata drafts, notification/paywall/pricing copy, screenshot headline inputs, and a StoreKit-centered storefront pricing matrix. Non-English locales are explicitly marked draft_requires_native_review."
+      summary: "Added draft localization assets for all 35 supported locales, including app string inventories, App Store metadata drafts, notification/paywall/pricing copy, screenshot headline inputs, and a StoreKit-centered storefront pricing matrix. Non-English locales are explicitly marked draft_requires_ai_linguistic_qa."
       changed_files:
         - "docs/**"
         - "scripts/**"
@@ -13203,7 +13203,7 @@ tasks:
       - "Verification fails twice."
     receipt:
       result: done
-      summary: "Added a docs-localization validator modeled after the flashcard-generator localization workflow, adapted for BabyMinimo's current draft/native-review state. The validator checks locale/file completeness, English key parity, interpolation placeholders, metadata length limits, StoreKit runtime-price-source rules, product IDs, margin markers, launch decisions, and screenshot headline coverage. The first validation run caught a real Google Play short-description overage and the draft metadata was shortened from 81 to 79 characters."
+      summary: "Added a docs-localization validator modeled after the flashcard-generator localization workflow, adapted for BabyMinimo's current draft/AI linguistic QA state. The validator checks locale/file completeness, English key parity, interpolation placeholders, metadata length limits, StoreKit runtime-price-source rules, product IDs, margin markers, launch decisions, and screenshot headline coverage. The first validation run caught a real Google Play short-description overage and the draft metadata was shortened from 81 to 79 characters."
       changed_files:
         - "scripts/localization/validate-localization-assets.mjs"
         - "scripts/localization/generate-draft-localization.mjs"
@@ -13241,7 +13241,7 @@ tasks:
         - command: "npx expo-doctor"
           result: "passed: 20/20 checks"
       caveats:
-        - "Non-English localization files intentionally still mirror English and require native review before runtime exposure or final screenshots."
+        - "Non-English localization files intentionally still mirror English and require AI linguistic QA before runtime exposure or final screenshots."
         - "This task validates documentation assets only; runtime i18n wiring belongs in a later implementation slice with src/app allowed paths."
   - id: T300
     type: judge
@@ -13311,7 +13311,7 @@ tasks:
         - "Arabic and Hebrew RTL visual QA until runtime i18n and RTL layout handling exist."
         - "German, Finnish, Russian, Japanese, Korean, Simplified Chinese, and Traditional Chinese text-expansion/compact-layout visual QA until accepted translated strings and locale override exist."
       follow_up:
-        - "T301 records native-speaker/manual QA gaps and keeps final localized screenshot generation blocked until runtime i18n is implemented."
+        - "T301 records AI linguistic QA/optional native QA gaps and keeps final localized screenshot generation blocked until runtime i18n is implemented."
   - id: T301
     type: judge
     assignee: Judge
@@ -13320,7 +13320,7 @@ tasks:
     pbi_title: "App, store metadata, and screenshot localization"
     phase: "Phase 11, before ASO screenshot generation and release readiness."
     production_last_phase: false
-    objective: "PBI-065 T5: Record native-speaker/manual QA gaps, update PBI docs, CHANGELOG.md, and GoalBuddy receipt."
+    objective: "PBI-065 T5: Record AI linguistic QA/optional native QA gaps, update PBI docs, CHANGELOG.md, and GoalBuddy receipt."
     inputs:
       - "PBI source: docs/product/babyminimo-pbi-codex-goalbuddy-pack.md#PBI-065"
       - "Dependency: PBI-051"
@@ -13357,7 +13357,7 @@ tasks:
     receipt:
       result: done
       decision: "accept_with_release_blockers_recorded"
-      summary: "Recorded the PBI-065 manual localization QA gaps and release gate. Final localized screenshots and release localization signoff remain blocked until runtime i18n, locale override, RTL layout handling, native review, StoreKit localized price verification, and localized screenshot baselines exist."
+      summary: "Recorded the PBI-065 manual localization QA gaps and release gate. Final localized screenshots and release localization signoff remain blocked until runtime i18n, locale override, RTL layout handling, AI linguistic QA, StoreKit localized price verification, and localized screenshot baselines exist."
       files_changed:
         - "docs/localization/manual-qa-gaps.md"
         - "docs/localization/README.md"
@@ -13482,7 +13482,7 @@ tasks:
       - "Follow rules.md and AGENTS.md before starting implementation."
       - "Keep one active task at a time and update GoalBuddy receipts after verification."
       - "Network translation requires explicit approval if it is executed."
-      - "Machine translations are drafts until native review or owner acceptance is recorded."
+      - "Machine translations are drafts until AI linguistic QA or owner acceptance is recorded."
     expected_output:
       - "Batch translation script or documented command wrapper"
       - "Batch manifests by namespace and locale"
@@ -13707,7 +13707,7 @@ tasks:
         - "UNLOCK CALM BABY CARE"
       caveats:
         - "Final screenshot generation still requires owner confirmation of headline order and whether paywall/gifting should appear in the launch set."
-        - "Localized screenshot generation remains blocked by the PBI-065 runtime i18n and native-review gates."
+        - "Localized screenshot generation remains blocked by the PBI-065 runtime i18n and AI linguistic QA gates."
   - id: T303
     type: worker
     assignee: Worker
@@ -13933,7 +13933,7 @@ tasks:
         - "Product owner must confirm final headline order and whether premium/gifting screenshots are in scope."
         - "Final clean simulator retakes are needed for most selected source screenshots."
         - "Paywall/premium screenshots require StoreKit/TestFlight product, display price, trial, restore, and legal-copy validation."
-        - "Localized screenshot generation is blocked by PBI-065 runtime i18n and native-review gates."
+        - "Localized screenshot generation is blocked by PBI-065 runtime i18n and AI linguistic QA gates."
         - "Final App Store dimension generation tooling has not been run for approved source assets."
       safe_progress:
         - "Draft English manifest exists at docs/marketing/babyminimo-aso-screenshot-manifest.draft.json."
@@ -13987,7 +13987,7 @@ tasks:
       blockers:
         - "No final generated App Store screenshot assets exist."
         - "Draft manifest only; production-quality source rows are still blocked or require retakes."
-        - "Localized screenshots remain blocked until runtime localization and native-review gates are cleared."
+        - "Localized screenshots remain blocked until runtime localization and AI linguistic QA gates are cleared."
   - id: T307
     type: scout
     assignee: Scout
