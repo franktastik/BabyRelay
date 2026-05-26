@@ -29,7 +29,7 @@ export default function AddBabyScreen() {
     setLoading(true)
     setError(null)
     try {
-      const household = await householdAdapter.createHousehold(`${user?.displayName || 'My'}'s Household`)
+      const household = await householdAdapter.createHousehold(`${user?.displayName || 'My'}'s Household`, user?.id)
       const baby = await householdAdapter.createBaby(household.id, babyName, birthDate || null)
       trackEvent('baby_created', {
         householdId: household.id,

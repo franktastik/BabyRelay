@@ -39,6 +39,12 @@ export default function LogBreastfeedModal() {
     router.back()
   }
 
+  const handleFeedingTypeChange = (nextType: 'nursing' | 'bottle') => {
+    if (nextType === 'bottle') {
+      router.replace('/modals/log-bottle')
+    }
+  }
+
   const sides: { key: Side; labelKey: string }[] = [
     { key: 'left', labelKey: 'log.side.left' },
     { key: 'right', labelKey: 'log.side.right' },
@@ -58,7 +64,7 @@ export default function LogBreastfeedModal() {
       <LogChoiceGroup
         label={t('log.feedingType')}
         value="nursing"
-        onChange={() => undefined}
+        onChange={handleFeedingTypeChange}
         options={[
           { key: 'nursing', label: t('log.option.nursing') },
           { key: 'bottle', label: t('log.option.bottle') },

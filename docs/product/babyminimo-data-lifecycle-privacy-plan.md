@@ -14,6 +14,8 @@ This document supports PBI-057. It defines the local/emulator-safe lifecycle con
 | Reminders | Local/demo and emulator-backed flows | Firestore reminders plus local notifications | Notification copy stays caregiver-safe and avoids private free-text details. |
 | Growth Timeline photos | Local device only in v1 | Local file system only in v1 | Never upload photos in v1; local cleanup must remove metadata and local files when deletion/reset is requested. |
 | Growth Timeline metadata | Local SQLite/demo store in v1 | Local SQLite in v1 | Local-only; delete on device cleanup/account deletion. |
+| Growth Timeline media backup manifests | Local/demo export payload in v1 | User-created local archive manifest | Manifest records local media pointers and captions for backup/export; it is not uploaded or retained by BabyMinimo cloud services in v1. |
+| Growth album exports | Deferred local/demo artifact | User-created local PDF/image pages in v1 | Treat generated albums as user-created local artifacts; do not upload or retain export archives in cloud without a separate lifecycle/purge policy. |
 | Widget snapshots | Expo Widgets/native local snapshot | Local app group/widget storage | Disable, sign out, and account deletion must blank or clear widget data. |
 | Analytics events | Local internal buffer in demo | Future analytics provider | No sensitive notes, image URIs, account secrets, or raw household/member IDs. Provide opt-out policy before production analytics. |
 | Billing/subscription state | Deferred | StoreKit plus backend-authoritative entitlements | Production-only; not controlled by Remote Config or client-only state. |
@@ -63,6 +65,16 @@ Cleanup must:
 - Leave bundled demo/reference assets intact.
 - Never attempt to delete cloud storage for Growth Timeline v1 because v1 photos are local-only.
 
+## Local Growth Timeline Media Durability
+
+Growth Timeline display should be metadata-driven:
+- Timeline metadata stores caption, moment type, occurred time, baby ID, and a pointer to an app-local image file or bundled demo asset.
+- The UI should prefer an app-local thumbnail/file URI when available, fall back to approved bundled demo assets for seeded demo records, and show a calm missing-media state when no durable pointer exists.
+- User-selected images should be copied into an app-controlled local media directory before the moment is considered durable; temporary picker/cache URIs are not enough.
+- Local-only baby photos can be lost if the app is deleted, app data is cleared, or the device is lost/replaced before backup.
+- Backup/export should produce a local manifest that records media pointers, captions, dates, baby ID, and export metadata so future archive packaging can include media files and metadata together.
+- Generated album text supplied by the user is preserved exactly as typed, including the user's own language, and is not automatically translated.
+
 ## Widget Snapshot Cleanup
 
 Widget disable, sign out, and account deletion must:
@@ -84,6 +96,7 @@ Before release, BabyMinimo needs a privacy support path for:
 - Exporting account and household data where legally required.
 - Deleting account/user-scoped data.
 - Explaining that local-only Growth Timeline photos are controlled on the device unless the user exports or backs them up outside BabyMinimo.
+- Explaining that Growth Timeline album PDFs/image pages are user-created local export artifacts controlled by the user after export.
 - Clarifying shared household records may remain visible to other caregivers according to household policy.
 
 ## Offline, Cache, And Stale Data
@@ -128,7 +141,7 @@ Security risks:
 
 Cost risks:
 - Local Growth Timeline photos are cost-safe in v1 because they remain on device, but future cloud media/export/report features must use the PBI-060 heavy-data purge policy.
-- Remote push tokens, analytics events, and export archives can become retention/cost surfaces and need lifecycle cleanup before production launch.
+- Remote push tokens, analytics events, Growth album export archives, and generated report archives can become retention/cost surfaces and need lifecycle cleanup before production launch.
 - Repeated cleanup retry jobs must be bounded and observable so failures do not create runaway Functions or Firestore writes.
 
 Production rollout gates:

@@ -35,6 +35,7 @@ export function AppProvider({ children }: AppProviderProps) {
           setOnboardingState({
             currentHouseholdId: null,
             selectedBabyId: null,
+            householdRole: null,
             onboardingCompleted: false,
             babies: [],
           })
@@ -43,6 +44,7 @@ export function AppProvider({ children }: AppProviderProps) {
         setOnboardingState({
           currentHouseholdId: null,
           selectedBabyId: null,
+          householdRole: null,
           onboardingCompleted: false,
           babies: [],
         })

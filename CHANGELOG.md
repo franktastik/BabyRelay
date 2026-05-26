@@ -6,6 +6,15 @@ All notable changes to this project are documented here.
 
 ### Added
 
+- Implemented PBI-069/T354 with a local Growth Timeline album export flow, a 20-template BabyMinimo frame catalog, paginated frame picker, Storybook timeline item removal, First Year placeholders, PDF/image output selection, local export payload tests, and simulator evidence.
+- Added PBI-070 and GoalBuddy task T355 for Growth Timeline local media durability, backup/export manifest planning, local-media safety UI, and user-language album text.
+- Tightened the album export plan so shipped frame art stays free of baked-in English UI text, frame text renders through runtime i18n, and future PDF/image export supports common print-size presets.
+- Expanded PBI-069 and GoalBuddy task T354 with the approved BabyMinimo frame examples, a 20-template catalog split into 12 single/detail baby frames and 8 collage frames, Image Gen 2 static asset requirements, pagination, Storybook timeline editing, and 12-month album support.
+- Added PBI-069 and GoalBuddy task T354 for local-first Growth Timeline album export, printable PDF/image-page output, and a curated static album frame catalog.
+- Added Husband to the household relationship label choices for Family and onboarding invites.
+- Added display-only household relationship labels for Family and onboarding invites so invited members can be identified as Parent, Partner, Grandparent, Family, Nanny, Nurse, Babysitter, Friend, or Other without changing authorization roles.
+- Added PBI-051A and GoalBuddy task T353 to track the six remaining real UI hardening bugs from the control integration audit before production release work.
+- Added a BabyMinimo control and integration audit documenting remaining non-production controls, UI hardening bugs, and Firebase/App Store Connect/native integration ticket candidates.
 - Added PBI-067 for multi-baby household support, covering twins/triplets in one household, baby switching, add-another-baby flows, selected-baby scoping, widgets/handoff behavior, and simulator evidence.
 - Added PBI-068 for a gentle Baby Activity and Habit Tracker, adapting the flashcard app's local activity-store pattern to per-baby care rhythm summaries and optional screenshot-ready Activity/Rhythm surfaces.
 - Added the BabyMinimo PBI, Codex command, GoalBuddy, code plan, and design source-of-truth pack.
@@ -142,6 +151,8 @@ All notable changes to this project are documented here.
 
 ### Changed
 
+- Surfaced Baby Activity on Home with a care-rhythm tracker card and clearer Settings copy so the habit tracker is visible outside the Settings list.
+- Reordered the bottom navigation so Home appears before Handoff.
 - Tightened the login screen toward the approved Superdesign visual reference using the BabyMinimo logo asset, correct avatar composition, and wider sign-in card proportions.
 - Updated the login, onboarding goal/pain-point, and Settings screens to read copy from the BabyMinimo i18n runtime while preserving the approved visual layout.
 - Rebuilt signup and onboarding screens against the approved `screenshots1` references, including the embedded solution preview, add-baby photo target, care-circle selection, invite caregiver form, and preview handoff card.
@@ -171,6 +182,12 @@ All notable changes to this project are documented here.
 
 ### Fixed
 
+- Fixed Growth album frame selection so localized frame names never leak raw `album.frame.*` keys and selected collage/First Year frames show a real multi-slot preview before export.
+- Completed PBI-051A/T353 UI hardening by removing misleading static affordances, routing Breastfeed Bottle selection to the Bottle form, restyling log time/date metadata as read-only, and adding button semantics/test IDs to the Home Growth "View all" action.
+- Hid Family invite controls from non-owner/non-admin household members and added local household-role permission checks so invited caregivers cannot invite other caregivers.
+- Fixed the Timeline settings/sliders control so it opens a functional display panel with newest/oldest ordering.
+- Fixed the Timeline header search control so it opens a working inline search field and filters care events and growth memories.
+- Fixed Timeline search layout so the filter row cannot stretch into a large blank gap when search returns no results.
 - Fixed emulator auth routing so login no longer marks every signed-in user as onboarded; onboarding completion now restores from Firestore Emulator profile data after household and baby setup.
 - Removed the Timeline rail warning overlay by replacing unsupported dotted borders with a supported subtle rail style.
 - Fixed the Settings shortcut on Home so it opens the Settings hub instead of rendering as an inert icon.

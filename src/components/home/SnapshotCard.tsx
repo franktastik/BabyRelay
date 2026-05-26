@@ -25,7 +25,6 @@ export function SnapshotCard({ latestEvent }: SnapshotCardProps) {
         <View style={styles.summaryHeader}>
           <Text style={styles.summaryIcon}>▥</Text>
           <Text style={styles.summaryTitle}>{t('home.summary.title')}</Text>
-          <Text style={styles.summaryChevron}>›</Text>
         </View>
         <View style={styles.summaryStats}>
           <SummaryStat value="48" label={t('home.summary.feeds')} tone="good" />
@@ -179,10 +178,6 @@ const styles = StyleSheet.create({
     ...typography.action,
     flex: 1,
     color: colors.ink,
-  },
-  summaryChevron: {
-    color: colors.muted,
-    fontSize: 22,
   },
   summaryStats: {
     flexDirection: 'row',

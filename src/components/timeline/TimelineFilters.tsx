@@ -22,6 +22,7 @@ export function TimelineFilters({ selected, onSelect }: TimelineFiltersProps) {
   return (
     <ScrollView
       horizontal
+      style={styles.scroll}
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={styles.container}
     >
@@ -41,6 +42,11 @@ export function TimelineFilters({ selected, onSelect }: TimelineFiltersProps) {
 }
 
 const styles = StyleSheet.create({
+  scroll: {
+    height: 62,
+    flexGrow: 0,
+    flexShrink: 0,
+  },
   container: {
     paddingHorizontal: 24,
     paddingTop: 4,

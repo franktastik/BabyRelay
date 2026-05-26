@@ -46,4 +46,27 @@ describe('auth store multi-baby state', () => {
       { id: 'baby-2', name: 'Milo', birthDate: null },
     ])
   })
+
+  test('stores household role from onboarding state', () => {
+    resetAuthStore()
+
+    useAuthStore.getState().setOnboardingState({
+      currentHouseholdId: 'household-1',
+      selectedBabyId: 'baby-1',
+      householdRole: 'caregiver',
+      onboardingCompleted: true,
+      babies: [],
+    })
+
+    expect(useAuthStore.getState().householdRole).toBe('caregiver')
+
+    useAuthStore.getState().setOnboardingState({
+      currentHouseholdId: null,
+      selectedBabyId: null,
+      onboardingCompleted: false,
+      babies: [],
+    })
+
+    expect(useAuthStore.getState().householdRole).toBeNull()
+  })
 })

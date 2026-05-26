@@ -2,9 +2,10 @@ import { useCallback, useEffect, useState } from 'react'
 import { ScrollView, StyleSheet } from 'react-native'
 import { useFocusEffect, useRouter } from 'expo-router'
 import { Screen } from '@/src/components/ui'
-import { HomeHeader, SnapshotCard, QuickActionBar, GrowthPreview } from '@/src/components/home'
+import { ActivityRhythmPreview, HomeHeader, SnapshotCard, QuickActionBar, GrowthPreview } from '@/src/components/home'
 import type { DemoGrowthMoment } from '@/src/features/demo/growth'
 import { useAuthStore } from '@/src/stores/authStore'
+import { useBabyMinimoActivityStore } from '@/src/stores/activityStore'
 import { useCareEventStore } from '@/src/stores/careEventStore'
 import { useWidgetSettingsStore } from '@/src/stores/widgetSettingsStore'
 import { spacing } from '@/src/theme'
@@ -16,6 +17,7 @@ export default function HomeScreen() {
   const babies = useAuthStore((state) => state.babies)
   const localEvents = useCareEventStore((state) => state.events)
   const subscribeToEvents = useCareEventStore((state) => state.subscribeToEvents)
+  const getActivitySummary = useBabyMinimoActivityStore((state) => state.getSummaryForBaby)
   const widgetSnapshotsEnabled = useWidgetSettingsStore((state) => state.widgetSnapshotsEnabled)
   const [moments, setMoments] = useState<DemoGrowthMoment[]>([])
   const latestLocalEvent = localEvents
@@ -24,6 +26,7 @@ export default function HomeScreen() {
   const latestEvent = latestLocalEvent
   const selectedBaby = babies.find((baby) => baby.id === selectedBabyId)
   const babyName = selectedBaby?.name || 'Luna'
+  const activitySummary = getActivitySummary(selectedBabyId)
 
   useFocusEffect(
     useCallback(() => {
@@ -114,6 +117,11 @@ export default function HomeScreen() {
         <SnapshotCard
           latestEvent={latestEvent || undefined}
           lastActionBy={latestEvent?.createdBy}
+        />
+
+        <ActivityRhythmPreview
+          summary={activitySummary}
+          onPress={() => router.push('/activity')}
         />
 
         <QuickActionBar />

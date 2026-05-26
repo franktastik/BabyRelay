@@ -5,6 +5,7 @@ import { colors, radius, typography } from '@/src/theme'
 interface InputProps {
   value: string
   onChangeText: (text: string) => void
+  onFocus?: () => void
   placeholder?: string
   label?: string
   secureTextEntry?: boolean
@@ -20,6 +21,7 @@ interface InputProps {
 export function Input({
   value,
   onChangeText,
+  onFocus,
   placeholder,
   label,
   secureTextEntry = false,
@@ -53,6 +55,7 @@ export function Input({
           style={styles.input}
           accessibilityLabel={accessibilityLabel ?? label}
           testID={testID ?? generatedTestID}
+          onFocus={onFocus}
           onChange={(event) => onChangeText(event.nativeEvent.text)}
           onEndEditing={(event) => onChangeText(event.nativeEvent.text)}
         />

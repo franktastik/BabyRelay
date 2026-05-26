@@ -90,14 +90,18 @@ Operating model:
 - Codex owns screenshot understanding and final visual QA. Do not rely on OpenCode models for image vision unless a real multimodal OpenCode model is explicitly available and smoke-tested.
 
 Preferred implementation model order:
-1. `opencode-go/glm-5.1` if the smoke test passes.
-2. `opencode-go/qwen3.6-plus` as the safe fallback.
-3. `opencode-go/deepseek-v4-flash`.
-4. `opencode-go/deepseek-v4-pro`.
-5. `opencode-go/kimi-k2.6` only if its JSON Schema smoke gate passes in the current session.
+1. `opencode-go/qwen3.7-max` for bounded text-only/code implementation tasks if the smoke test passes.
+2. `opencode-go/glm-5.1` as the safe fallback when Qwen3.7 Max is unavailable or fails smoke.
+3. `opencode-go/qwen3.6-plus`.
+4. `opencode-go/deepseek-v4-flash`.
+5. `opencode-go/deepseek-v4-pro`.
+6. `opencode-go/kimi-k2.6` only if its JSON Schema smoke gate passes in the current session.
+
+Important: `opencode-go/qwen3.7-max` is text-only. It may implement bounded code changes, tests, and docs, but it must not be used as the visual judge. Codex still owns screenshot understanding, simulator/browser visual QA, and final accept/tighten/reject decisions.
 
 Current local smoke status:
-- 2026-05-23: `opencode-go/glm-5.1` returned `GLM_OK` and is the preferred bounded code implementation model.
+- 2026-05-26: `opencode-go/qwen3.7-max` is available in `opencode models` and is the preferred bounded text-only implementation model, pending current-session smoke before delegation.
+- 2026-05-23: `opencode-go/glm-5.1` returned `GLM_OK` and remains the first fallback implementation model.
 - 2026-05-23: `opencode-go/qwen3.6-plus` returned `QWEN_OK` and is the safe fallback implementation model.
 - 2026-05-23: `opencode-go/kimi-k2.6` failed with the known JSON Schema provider error.
 - 2026-05-22: `opencode-go/kimi-k2.6` failed with the known JSON Schema provider error.
@@ -106,6 +110,7 @@ Current local smoke status:
 Before delegating implementation work, run the smoke gate for the intended model:
 
 ```sh
+opencode run --model opencode-go/qwen3.7-max --format json "Reply with exactly: QWEN37_OK"
 opencode run --model opencode-go/glm-5.1 --format json "Reply with exactly: GLM_OK"
 opencode run --model opencode-go/qwen3.6-plus --format json "Reply with exactly: QWEN_OK"
 opencode run --model opencode-go/kimi-k2.6 --format json "Reply with exactly: KIMI_OK"
@@ -114,12 +119,13 @@ opencode run --model opencode-go/kimi-k2.6 --format json "Reply with exactly: KI
 Expected passing results:
 
 ```text
+QWEN37_OK
 GLM_OK
 QWEN_OK
 KIMI_OK
 ```
 
-If Kimi fails with `JSON Schema not supported: could not understand the instance {'default': 'latest'}`, do not use Kimi for implementation in that session. If GLM-5.1 fails, use Qwen 3.6 Plus. If Qwen fails, use the first fallback model that passes a smoke test:
+If Kimi fails with `JSON Schema not supported: could not understand the instance {'default': 'latest'}`, do not use Kimi for implementation in that session. If Qwen3.7 Max fails, use GLM-5.1. If GLM-5.1 fails, use Qwen 3.6 Plus. If Qwen 3.6 Plus fails, use the first fallback model that passes a smoke test:
 
 ```sh
 opencode run --model opencode-go/deepseek-v4-flash --format json "Reply with exactly: OK"

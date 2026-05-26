@@ -12,6 +12,10 @@ import {
   where,
 } from 'firebase/firestore'
 import { firestore } from '@/src/lib/firebase'
+import {
+  normalizeHouseholdMemberRole,
+  type HouseholdMemberRole,
+} from '@/src/features/household/permissions'
 
 export interface DemoBaby {
   id: string
@@ -26,7 +30,7 @@ export interface DemoHousehold {
 }
 
 export interface DemoHouseholdAdapter {
-  createHousehold: (name: string) => Promise<DemoHousehold>
+  createHousehold: (name: string, ownerUserId?: string) => Promise<DemoHousehold>
   createBaby: (householdId: string, name: string, birthDate: string | null) => Promise<DemoBaby>
   listBabies: (householdId: string) => Promise<DemoBaby[]>
   selectBaby: (userId: string, householdId: string, babyId: string) => Promise<void>
@@ -34,6 +38,7 @@ export interface DemoHouseholdAdapter {
   getOnboardingState: (userId: string) => Promise<{
     currentHouseholdId: string | null
     selectedBabyId: string | null
+    householdRole: HouseholdMemberRole | null
     onboardingCompleted: boolean
     babies: DemoBaby[]
   }>
@@ -57,9 +62,10 @@ const readBabies = (docs: Array<{ id: string; data: () => StoredBaby }>): DemoBa
   })
 
 export const createDemoHouseholdAdapter = (): DemoHouseholdAdapter => ({
-  createHousehold: async (name: string) => {
+  createHousehold: async (name: string, ownerUserId?: string) => {
     const householdRef = await addDoc(collection(firestore, 'households'), {
       name,
+      ownerUserId: ownerUserId ?? null,
       createdAt: serverTimestamp(),
       updatedAt: serverTimestamp(),
     })
@@ -122,6 +128,7 @@ export const createDemoHouseholdAdapter = (): DemoHouseholdAdapter => ({
       {
         currentHouseholdId: householdId,
         selectedBabyId: babyId,
+        householdRole: 'owner',
         onboardingCompleted: true,
         updatedAt: serverTimestamp(),
       },
@@ -133,12 +140,34 @@ export const createDemoHouseholdAdapter = (): DemoHouseholdAdapter => ({
     const profile = profileSnap.exists() ? profileSnap.data() : {}
     const currentHouseholdId =
       typeof profile.currentHouseholdId === 'string' ? profile.currentHouseholdId : null
+    const onboardingCompleted = profile.onboardingCompleted === true
+    const storedHouseholdRole = normalizeHouseholdMemberRole(profile.householdRole)
+    let householdRole = storedHouseholdRole
+
+    if (onboardingCompleted && currentHouseholdId && !storedHouseholdRole) {
+      const householdSnap = await getDoc(doc(firestore, 'households', currentHouseholdId))
+      const household = householdSnap.exists() ? householdSnap.data() : {}
+      householdRole = household.ownerUserId === userId ? 'owner' : null
+
+      if (householdRole) {
+        await setDoc(
+          doc(firestore, 'users', userId),
+          {
+            householdRole,
+            updatedAt: serverTimestamp(),
+          },
+          { merge: true }
+        )
+      }
+    }
+
     const babies = currentHouseholdId ? await createDemoHouseholdAdapter().listBabies(currentHouseholdId) : []
 
     return {
       currentHouseholdId,
       selectedBabyId: typeof profile.selectedBabyId === 'string' ? profile.selectedBabyId : null,
-      onboardingCompleted: profile.onboardingCompleted === true,
+      householdRole,
+      onboardingCompleted,
       babies,
     }
   },

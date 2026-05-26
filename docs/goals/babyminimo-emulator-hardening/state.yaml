@@ -15852,10 +15852,247 @@ tasks:
           result: "passed"
         - command: "bun run test:unit"
           result: "passed"
+  - id: T353
+    type: worker
+    assignee: Worker
+    status: done
+    pbi: "PBI-051A"
+    pbi_title: "UI hardening follow-up for misleading controls"
+    phase: "Phase 10."
+    production_last_phase: false
+    objective: "PBI-051A T1-T3: Resolve CTRL-101 through CTRL-106 misleading UI controls from the control integration audit."
+    inputs:
+      - "PBI source: docs/product/babyminimo-pbi-codex-goalbuddy-pack.md#PBI-051A"
+      - "Audit source: docs/product/babyminimo-control-integration-audit.md#ui-hardening-bugs"
+      - "Dependency: PBI-051"
+      - "Dependency: PBI-052"
+    constraints:
+      - "Follow rules.md and AGENTS.md before starting implementation."
+      - "Keep one active task at a time and update GoalBuddy receipts after verification."
+      - "Keep this as a local UI hardening task; do not start production Firebase, StoreKit, App Store Connect, auth-provider, or production notification work."
+      - "Preserve approved BabyMinimo visual direction while making misleading controls honest."
+    requirements:
+      - "Home weekly summary chevron is either wired to a useful detail route or removed/restyled as read-only."
+      - "Shared SettingsHeader right settings icon is hidden unless an actual right-side action is provided."
+      - "Family caregiver row ellipsis is either wired to a role-aware member menu or removed until member actions exist."
+      - "Breastfeed modal Bottle option either routes to the Bottle modal or no longer appears selectable."
+      - "Log form event time/date pills are either editable or restyled as read-only metadata."
+      - "Text links that navigate, including Home/Growth View all, expose accessibilityRole button and stable test IDs."
+      - "Update docs/product/babyminimo-control-integration-audit.md with the resolution for CTRL-101 through CTRL-106."
+    expected_output:
+      - "Files changed or inspected"
+      - "Implementation summary for CTRL-101 through CTRL-106"
+      - "Verification commands and results"
+      - "Simulator or Maestro evidence for Home, Family, and log-form interactions"
+      - "Updated changelog and GoalBuddy receipt"
+    allowed_files:
+      - "app/**"
+      - "src/**"
+      - "e2e/**"
+      - "docs/product/babyminimo-control-integration-audit.md"
+      - "docs/product/babyminimo-interaction-hardening-inventory.md"
+      - "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+      - "docs/goals/babyminimo-emulator-hardening/state.yaml"
+      - "docs/qa/**"
+      - "CHANGELOG.md"
+    verify:
+      - "bun run test:typecheck"
+      - "bun run test:unit"
+      - "simulator smoke through serve-sim for Home, Family, Breastfeed/Bottle log form, and Timeline/Growth View all"
+    stop_if:
+      - "Need production Firebase, StoreKit, App Store Connect, auth-provider, signing, or production notification credentials."
+      - "Acceptance criteria conflict with approved PBI scope."
+      - "Verification fails twice."
+    receipt:
+      result: done
+      decision: accept
+      summary: "Resolved CTRL-101 through CTRL-106 by removing misleading static affordances, hiding SettingsHeader right actions unless wired, routing Breastfeed Bottle selection to the Bottle form, restyling log time/date metadata as read-only, and adding button semantics/test IDs to the Home Growth View all action."
+      evidence:
+        - "docs/product/babyminimo-control-integration-audit.md"
+        - "docs/qa/screenshots/pbi-051a/home-summary-no-chevron.png"
+        - "docs/qa/screenshots/pbi-051a/family-no-ellipsis-no-header-action.png"
+        - "docs/qa/screenshots/pbi-051a/breastfeed-bottle-routes-to-bottle.png"
+        - "docs/qa/screenshots/pbi-051a/growth-view-all-opens-timeline.png"
+      verification:
+        - command: "bun run test:typecheck"
+          result: "passed"
+        - command: "bun run test:unit"
+          result: "passed"
+        - command: "simulator smoke through serve-sim for Home, Family, Breastfeed/Bottle log form, and Timeline/Growth View all"
+          result: "passed"
+  - id: T354
+    type: worker
+    assignee: Worker
+    status: done
+    pbi: "PBI-069"
+    pbi_title: "Growth Timeline Album Export and Frame Catalog"
+    phase: "Phase 10."
+    production_last_phase: false
+    objective: "PBI-069 T1-T5: Define and implement local-first Growth Timeline album export with 20 BabyMinimo-branded static frame templates: 12 single/detail baby frames and 8 collage frames, plus pagination, Storybook timeline editing, and 12-month album support."
+    inputs:
+      - "PBI source: docs/product/babyminimo-pbi-codex-goalbuddy-pack.md#PBI-069"
+      - "Dependencies: PBI-025, PBI-026, PBI-027, PBI-028, PBI-052, PBI-057, PBI-063"
+      - "Data lifecycle source: docs/product/babyminimo-data-lifecycle-privacy-plan.md"
+    constraints:
+      - "Follow rules.md and AGENTS.md before starting implementation."
+      - "Keep one active task at a time and update GoalBuddy receipts after verification."
+      - "Keep this as a local Growth Timeline/export task; do not start production Firebase storage, cloud media sync, print-provider APIs, StoreKit, App Store Connect, billing, auth/session, or migration work."
+      - "Runtime AI frame generation is out of scope for v1; Image Gen 2/Codex image generation may be used only to design or refine approved static frame concepts/assets."
+      - "Growth Timeline remains inside Timeline; do not add a new primary tab."
+    requirements:
+      - "Add a Timeline Growth-context entry point such as Create album or Export album."
+      - "Support both printable PDF album output and individual image-page output in the model and UI."
+      - "Allow selected Growth Timeline photo moments to include captions, dates, baby name, and optional household/relationship attribution when already available."
+      - "Use the product-owner-provided frame examples as the visual reference: premium baby keepsake stationery, warm cream paper, soft sage, muted gold, soft florals, subtle BabyMinimo branding, gentle shadows, and print-ready margins."
+      - "Create a curated static frame catalog with exactly 20 v1 templates: 12 single/detail baby frames and 8 collage frames."
+      - "The 12 single/detail baby frames are Classic Cream single, Sage Keepsake single, Storybook single, Minimal White single, Soft Floral single, Milestone Card single, Print Shop Border single, Tiny Toes single/detail frame, Welcome Home single, Moonlight Nap single, Little Star single, and Heirloom Portrait single."
+      - "The 8 collage frames are Two Together 2-photo collage, Little Moments Strip 3-photo collage, First Smiles Grid 4-photo collage, Family Circle arched plus 2 circles, Scrapbook Keepsake collage, Milestone Collage 1 large plus 3 small, First Year Grid 12-photo layout, and Grandparent Keepsake 3-photo."
+      - "Every frame includes subtle BabyMinimo branding such as BabyMinimo, BabyMinimo Memories, or a small BabyMinimo imprint."
+      - "Exactly 8 templates are collage layouts; the remaining 12 templates are single/detail baby frames."
+      - "Generate polished empty frame assets and generated-baby sample preview assets with Image Gen 2, then save approved outputs as frontend static assets or static frame style definitions."
+      - "Frame catalog entries have stable IDs, display names, layout metadata, preview metadata, and static approved assets or static style definitions."
+      - "Implement a paginated frame selector with 8 frames per page and stable test IDs for page controls."
+      - "Storybook frame supports baby timeline items by default and lets users remove selected timeline items before export."
+      - "First Year Grid supports 12 monthly photo slots in month order, with tasteful empty placeholders for missing months."
+      - "Frame preview supports generated sample baby photos for QA/design review."
+      - "Add local export payload tests for selected moment IDs, frame ID, baby name, captions, dates, output format, exact 20-frame catalog count, exact 12 single/detail plus 8 collage split, Storybook item removal, and 12-month slot ordering."
+      - "Add localization keys for every visible export/frame string across all supported app-string files."
+      - "Update data lifecycle documentation so generated export archives/pages are treated as user-created local artifacts and future cloud/export archive retention follows heavy-data purge policy."
+    expected_output:
+      - "Files changed or inspected"
+      - "Frame catalog decisions, Image Gen 2 static asset paths, and any static asset/design-generation caveats"
+      - "Implementation summary for album export entry point, selection, frame selector, and preview/export payload"
+      - "Verification commands and results"
+      - "Simulator or visual QA evidence for Timeline Growth export access, frame pagination, Storybook editing, 12-month layout, and at least one preview state"
+      - "Updated changelog, lifecycle docs, and GoalBuddy receipt"
+    allowed_files:
+      - "app/**"
+      - "src/**"
+      - "e2e/**"
+      - "docs/product/**"
+      - "docs/goals/babyminimo-emulator-hardening/state.yaml"
+      - "docs/localization/**"
+      - "docs/qa/**"
+      - "CHANGELOG.md"
+    verify:
+      - "bun run test:typecheck"
+      - "bun run test:unit"
+      - "simulator smoke through serve-sim for Timeline Growth export entry point, paginated frame selector, Storybook item removal, 12-month layout, and PDF/image preview state"
+      - "visual QA screenshots for empty frame assets and generated-baby sample preview assets against the provided examples"
+    stop_if:
+      - "Need production Firebase storage, cloud media sync, print-provider APIs, StoreKit, App Store Connect, billing, auth/session changes, migrations, or production credentials."
+      - "Implementation would require runtime AI frame generation inside the app."
+      - "Implementation would require backend export history or cloud storage."
+      - "Acceptance criteria conflict with approved Growth Timeline local-only scope."
+      - "Verification fails twice."
+    receipt:
+      result: done
+      decision: accept
+      summary: "Implemented a local-first Growth Timeline album export flow with a 20-template BabyMinimo frame catalog, 8-per-page frame picker, Storybook timeline item removal, First Year 12-month placeholders, PDF/image output selection, typed local export payloads, localization keys, catalog documentation, and simulator evidence."
+      evidence:
+        - "app/(tabs)/timeline.tsx"
+        - "app/modals/export-album.tsx"
+        - "src/features/album/frameCatalog.ts"
+        - "src/features/album/frameCatalog.test.ts"
+        - "docs/product/babyminimo-album-export-frame-catalog.md"
+        - "docs/qa/screenshots/pbi-069/timeline-growth-export-entry.png"
+        - "docs/qa/screenshots/pbi-069/album-modal-frame-selector-page-1.png"
+        - "docs/qa/screenshots/pbi-069/album-frame-selector-page-2.png"
+        - "docs/qa/screenshots/pbi-069/storybook-removal-export-ready.png"
+        - "docs/qa/screenshots/pbi-069/first-year-placeholders-export-ready.png"
+      verification:
+        - command: "bun run test:typecheck"
+          result: "passed"
+        - command: "bun run test:unit"
+          result: "passed"
+        - command: "simulator smoke through serve-sim for Timeline Growth export entry point, paginated frame selector, Storybook item removal, 12-month layout, and PDF/image preview state"
+          result: "passed"
+        - command: "visual QA screenshots for empty frame assets and generated-baby sample preview assets against the provided examples"
+          result: "passed with static style definitions and local sample photo previews"
+  - id: T355
+    type: worker
+    assignee: Worker
+    status: done
+    pbi: "PBI-070"
+    pbi_title: "Growth Timeline Local Media Durability and Backup Export"
+    phase: "Phase 10."
+    production_last_phase: false
+    objective: "PBI-070 T1-T4: Define and implement local Growth Timeline media durability, backup/export manifest metadata, local-media safety UI, and user-language album text before production work."
+    inputs:
+      - "PBI source: docs/product/babyminimo-pbi-codex-goalbuddy-pack.md#PBI-070"
+      - "Data lifecycle source: docs/product/babyminimo-data-lifecycle-privacy-plan.md"
+      - "Album catalog source: docs/product/babyminimo-album-export-frame-catalog.md"
+    constraints:
+      - "Follow rules.md and AGENTS.md before starting implementation."
+      - "Keep this as local/demo Growth Timeline durability work; do not add production Firebase Storage, cloud media sync, backend export history, iCloud automation, StoreKit, App Store Connect, billing, auth/session, or database migration work."
+      - "Frame assets remain decorative/text-free except approved BabyMinimo brand marks; visible text renders through runtime i18n or user-authored export text."
+      - "Growth Timeline remains inside Timeline; do not add a new primary tab."
+    requirements:
+      - "Add a typed Growth Timeline media durability model that classifies selected media as ready, bundled-demo, or missing."
+      - "Add a local backup/export manifest with baby ID, timestamp, media count, storage mode, and per-moment media records."
+      - "Show a Timeline Growth-context media safety indicator that explains local-only storage and backup risk with backup-ready and missing-media counts."
+      - "Add album export payload support for user-authored custom text and local media backup manifest metadata."
+      - "Allow users to type album titles/notes in their own language; preserve those values exactly and do not auto-translate them."
+      - "Update PBI/docs to explicitly say no baked-in English text in shipped frame assets."
+      - "Add localization keys for every visible media safety and album custom-text string across all supported app-string files."
+      - "Add unit tests for media classification, backup manifest construction, summary counts, and custom album text payloads."
+    expected_output:
+      - "Files changed or inspected"
+      - "Implementation summary for local media durability model, safety UI, backup manifest, and album custom text"
+      - "Updated PBI/docs, lifecycle docs, localization strings, CHANGELOG.md, and GoalBuddy receipt"
+      - "Verification commands and results"
+      - "Simulator or visual QA evidence for Timeline Growth media safety and album custom text/local export manifest surfaces"
+    allowed_files:
+      - "app/**"
+      - "src/**"
+      - "docs/product/**"
+      - "docs/goals/babyminimo-emulator-hardening/state.yaml"
+      - "docs/localization/**"
+      - "docs/qa/**"
+      - "CHANGELOG.md"
+    verify:
+      - "ruby -e \"require 'yaml'; YAML.load_file('docs/goals/babyminimo-emulator-hardening/state.yaml'); puts 'yaml ok'\""
+      - "bun run test:typecheck"
+      - "bun run test:unit"
+      - "git diff --check"
+      - "simulator smoke through serve-sim for Timeline Growth media safety card and album custom text/local manifest preview"
+    stop_if:
+      - "Need production Firebase Storage, cloud media sync, backend export history, iCloud automation, StoreKit, App Store Connect, billing, auth/session changes, migrations, or production credentials."
+      - "Implementation would require runtime AI frame generation inside the app."
+      - "Verification fails twice."
+    receipt:
+      result: done
+      decision: accept
+      summary: "Implemented local Growth Timeline media durability modeling, a local backup/export manifest, Timeline Growth media-safety UI, album custom text fields that preserve user-entered language, album export manifest metadata, documentation updates, localization strings, tests, and simulator evidence."
+      evidence:
+        - "app/(tabs)/timeline.tsx"
+        - "app/modals/export-album.tsx"
+        - "src/components/timeline/GrowthMediaSafetyCard.tsx"
+        - "src/features/growth/mediaDurability.ts"
+        - "src/features/growth/mediaDurability.test.ts"
+        - "src/features/album/frameCatalog.ts"
+        - "src/features/album/frameCatalog.test.ts"
+        - "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+        - "docs/product/babyminimo-data-lifecycle-privacy-plan.md"
+        - "docs/product/babyminimo-album-export-frame-catalog.md"
+        - "docs/qa/screenshots/pbi-070/timeline-growth-media-safety.png"
+        - "docs/qa/screenshots/pbi-070/album-custom-text-local-manifest.png"
+        - "docs/qa/screenshots/pbi-070/album-local-export-manifest-ready.png"
+      verification:
+        - command: "ruby -e \"require 'yaml'; YAML.load_file('docs/goals/babyminimo-emulator-hardening/state.yaml'); puts 'yaml ok'\""
+          result: "passed"
+        - command: "bun run test:typecheck"
+          result: "passed"
+        - command: "bun run test:unit"
+          result: "passed"
+        - command: "git diff --check"
+          result: "passed"
+        - command: "simulator smoke through serve-sim for Timeline Growth media safety card and album custom text/local manifest preview"
+          result: "passed"
   - id: T352
     type: scout
     assignee: Scout
-    status: active
+    status: queued
     pbi: "PBI-053"
     pbi_title: "Release and App Store readiness"
     phase: "Phase 11."
