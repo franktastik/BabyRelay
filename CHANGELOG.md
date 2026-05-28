@@ -199,6 +199,7 @@ All notable changes to this project are documented here.
 
 ### Fixed
 
+- Fixed PR review issues in Growth album export and Add Moment modals: direct-open Add Moment close now falls back to Timeline, album exports no longer use unselected Storybook items, empty captions use runtime-localized fallback copy, and previews do not show fake selected photos.
 - Fixed the Growth album close button so directly opened album modals fall back to Timeline instead of triggering an unhandled `GO_BACK` development warning.
 - Fixed enlarged Growth album frame previews so First Year Grid, Little Moments Strip, and Heirloom Portrait decorations no longer repeat text-like ornaments or overlap the photo count, brand line, or divider.
 - Fixed album preview photo counts so collage frames report the number of selected photos actually displayed in that frame instead of the larger total selected for export.

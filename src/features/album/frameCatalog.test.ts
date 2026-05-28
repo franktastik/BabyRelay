@@ -232,6 +232,32 @@ describe('album frame catalog', () => {
     expect(payload.selectedMomentIds).toEqual(['gm-1', 'gm-2', 'gm-3', 'gm-4'])
   })
 
+  test('keeps Storybook timeline items inside the selected photo set', () => {
+    const payload = buildAlbumExportPayload({
+      babyName: 'Luna',
+      frameId: 'storybook-single',
+      outputFormat: 'image-pages',
+      selectedMoments: moments.slice(0, 2),
+      storybookTimelineItemIds: ['gm-1', 'gm-3', 'missing'],
+    })
+
+    expect(payload.storybookTimelineItemIds).toEqual(['gm-1'])
+    expect(payload.selectedMomentIds).toEqual(['gm-1', 'gm-2'])
+  })
+
+  test('uses the caller-provided localized fallback caption for empty moment captions', () => {
+    const [emptyCaptionMoment] = moments
+    const payload = buildAlbumExportPayload({
+      babyName: 'Luna',
+      frameId: 'classic-cream',
+      outputFormat: 'pdf',
+      selectedMoments: [{ ...emptyCaptionMoment, caption: '' }],
+      fallbackCaption: 'Localized growth moment',
+    })
+
+    expect(payload.moments[0].caption).toBe('Localized growth moment')
+  })
+
   test('orders First Year slots from month 1 through 12 with placeholders for missing months', () => {
     const slots = buildFirstYearSlots(moments.slice(0, 2))
 

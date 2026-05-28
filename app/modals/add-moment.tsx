@@ -34,11 +34,20 @@ export default function AddMomentModal() {
       detail: data.caption || data.momentType,
       metadata: { momentType: data.momentType },
     })
-    router.back()
+    closeMoment()
   }
 
   const handleCancel = () => {
-    router.back()
+    closeMoment()
+  }
+
+  const closeMoment = () => {
+    if (router.canGoBack()) {
+      router.back()
+      return
+    }
+
+    router.replace('/(tabs)/timeline')
   }
 
   return (

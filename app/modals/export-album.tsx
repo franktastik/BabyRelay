@@ -100,11 +100,7 @@ export default function ExportAlbumModal() {
     if (selectedMomentIds.length === 0 && defaultMomentIds.length > 0) {
       setSelectedMomentIds(defaultMomentIds)
     }
-
-    if (storybookItemIds.length === 0 && moments.length > 0) {
-      setStorybookItemIds(getDefaultStorybookTimelineItemIds(moments))
-    }
-  }, [defaultMomentIds, moments, selectedMomentIds.length, storybookItemIds.length])
+  }, [defaultMomentIds, selectedMomentIds.length])
 
   const pageData = getActiveAlbumFramePage(page)
   const selectedFrame = getActiveAlbumFrameById(selectedFrameId) || activeAlbumFrameCatalog[0]
@@ -114,7 +110,11 @@ export default function ExportAlbumModal() {
     activeAlbumFrameCatalog.findIndex((frame) => frame.id === selectedFrame.id)
   )
   const selectedMoments = moments.filter((moment) => selectedMomentIds.includes(moment.id))
+  const selectedMomentIdSet = useMemo(() => new Set(selectedMoments.map((moment) => moment.id)), [selectedMoments])
   const selectedMomentPhotos = selectedMoments.map(getMomentImageSource)
+  const storybookMoments = selectedMoments.slice(0, 4)
+  const selectedStorybookItemIds = storybookItemIds.filter((momentId) => selectedMomentIdSet.has(momentId))
+  const canBuildAlbum = selectedMoments.length > 0
   const mediaBackupManifest = buildGrowthTimelineBackupManifest({
     babyId: selectedBabyId,
     moments: selectedMoments,
@@ -124,20 +124,25 @@ export default function ExportAlbumModal() {
     frameId: selectedFrame.id,
     outputFormat,
     selectedMoments,
-    storybookTimelineItemIds: storybookItemIds,
+    storybookTimelineItemIds: selectedStorybookItemIds,
     householdAttribution: t('album.householdAttribution'),
     customText: {
       title: clampAlbumText(customTitle, ALBUM_TITLE_MAX_LENGTH).trim(),
       note: clampAlbumText(customNote, ALBUM_NOTE_MAX_LENGTH).trim(),
     },
     mediaBackupManifest,
+    fallbackCaption: t('timeline.growth.defaultTitle'),
   })
 
   const toggleMoment = (momentId: string) => {
     setExportReady(false)
-    setSelectedMomentIds((current) =>
-      current.includes(momentId) ? current.filter((id) => id !== momentId) : [...current, momentId]
-    )
+    setSelectedMomentIds((current) => {
+      if (current.includes(momentId)) {
+        return current.length <= 1 ? current : current.filter((id) => id !== momentId)
+      }
+
+      return [...current, momentId]
+    })
   }
 
   const toggleStorybookItem = (momentId: string) => {
@@ -397,7 +402,7 @@ export default function ExportAlbumModal() {
           <View style={styles.section} testID="album-storybook-editor">
             <Text style={styles.sectionTitle}>{t('album.storybook.title')}</Text>
             <Text style={styles.helperText}>{t('album.storybook.meta')}</Text>
-            {moments.slice(0, 4).map((moment) => {
+            {storybookMoments.map((moment) => {
               const selected = storybookItemIds.includes(moment.id)
               return (
                 <Pressable
@@ -476,6 +481,7 @@ export default function ExportAlbumModal() {
           variant="primary"
           onPress={() => setExportReady(true)}
           style={styles.exportButton}
+          disabled={!canBuildAlbum}
           accessibilityLabel={t('album.export.button')}
           testID="album-build-local-export-button"
         >
@@ -719,7 +725,7 @@ function AlbumFramePreview({
               large && frame.supportsMonthlySlots && styles.previewPhotoSlotMonthlyLarge,
             ]}
           >
-            {index < Math.max(1, displayedPhotoCount) ? (
+            {index < displayedPhotoCount ? (
               <Image
                 source={availablePhotos[index % availablePhotos.length]}
                 style={styles.previewImage}

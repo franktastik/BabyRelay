@@ -171,6 +171,7 @@ export function buildAlbumExportPayload({
   householdAttribution,
   customText,
   mediaBackupManifest,
+  fallbackCaption = '',
   generatedAt = new Date(),
 }: {
   babyName: string
@@ -181,9 +182,12 @@ export function buildAlbumExportPayload({
   householdAttribution?: string
   customText?: AlbumCustomText
   mediaBackupManifest?: GrowthTimelineBackupManifest
+  fallbackCaption?: string
   generatedAt?: Date
 }): AlbumExportPayload {
   const frame = getAlbumFrameById(frameId)
+  const selectedMomentIds = new Set(selectedMoments.map((moment) => moment.id))
+  const selectedStorybookTimelineItemIds = storybookTimelineItemIds.filter((momentId) => selectedMomentIds.has(momentId))
 
   if (!frame) {
     throw new Error(`Unknown album frame: ${frameId}`)
@@ -194,14 +198,14 @@ export function buildAlbumExportPayload({
     frameId,
     frameName: frame.name,
     outputFormat,
-    selectedMomentIds: selectedMoments.map((moment) => moment.id),
+    selectedMomentIds: Array.from(selectedMomentIds),
     moments: selectedMoments.map((moment) => ({
       id: moment.id,
-      caption: moment.caption || 'BabyMinimo memory',
+      caption: moment.caption || fallbackCaption,
       date: moment.occurredAt.toISOString(),
       momentType: moment.momentType,
     })),
-    storybookTimelineItemIds: frame.supportsTimelineItems ? storybookTimelineItemIds : [],
+    storybookTimelineItemIds: frame.supportsTimelineItems ? selectedStorybookTimelineItemIds : [],
     firstYearSlots: frame.supportsMonthlySlots ? buildFirstYearSlots(selectedMoments) : undefined,
     householdAttribution,
     customText,
