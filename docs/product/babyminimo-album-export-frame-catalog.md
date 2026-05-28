@@ -45,22 +45,39 @@ Future native PDF/image rendering should target print-safe margins and 300 DPI o
 
 ## Catalog Split
 
-The frame catalog contains exactly 20 templates:
+The source frame catalog contains exactly 51 templates after the feminine floral, unique-design, and 3D static-asset expansion. The 3D designs are additive catalog entries with their own stable `three-d-*` IDs; they must not replace, rename, or visually convert the existing flat/stationery frame families.
 
-- 12 single/detail baby frames: Classic Cream, Sage Keepsake, Storybook, Minimal White, Soft Floral, Milestone Card, Print Shop Border, Tiny Toes, Welcome Home, Moonlight Nap, Little Star, Heirloom Portrait.
+The user-facing v1 picker exposes 41 active templates: 33 single/detail baby frames and 8 collage frames. The 10 `three-d-*` templates remain experimental and disabled in the normal picker and preview carousel until BabyMinimo has per-photo crop/reposition controls. The current 3D assets can leave visible white gaps for some photo aspect ratios, so they are retained as local static assets for future iteration but are not user-selectable.
+
+- 43 single/detail baby frames: Classic Cream, Sage Keepsake, Storybook, Blush Gallery, Rose Floral, Milestone Card, Print Shop Border, Tiny Toes, Welcome Home, Blush Moon Nap, Little Star, Heirloom Portrait, Rose Garden, Pink Peony, Blush Bow, Red Rose Keepsake, Butterfly Blush, Lace Princess, Garden Party, Curling Vine, Rose Lace, Daisy Chain, Pearl Oval, Three Month Steps, Cloud Dream, Golden Scroll, Meadow Wreath, Ribbon Keepsake, Six Month Steps, Twelve Month Steps, Little Crown, Garden Arch, Fan Fold Trio, 3D Teddy Fan, 3D Safari Trio, 3D Woodland Arch, 3D Dino Cloud, 3D Moon Cloud, 3D Rainbow Trio, 3D Rose Bow, 3D Ocean Sail, 3D Balloon Duo, 3D Castle Portrait.
+- Three Month Steps, Six Month Steps, and Twelve Month Steps are stepped milestone layouts, not one-photo ornament variants. They arrange 3, 6, and 12 photo slots like a small staircase to represent baby progress over 3 months, 6 months, and 12 months.
+- Fan Fold Trio uses three tall overlapping photo panels fanned from a shared bottom point, based on the product-owner sketch.
+- The 10 3D static-asset frames use the product-owner-provided `new-frame-sample/` direction: soft 3D keepsake objects, raised clay/paper framing, nursery toys, moon/clouds, rainbow, roses, ocean, balloons, and castle treatments. These are local frontend assets in v1 and are experimental until photo placement can be adjusted per slot. 3D frame PNGs should have transparent outside canvases and tight object bounds so they do not render as white squares inside the album page.
 - 8 collage frames: Two Together, Little Moments Strip, First Smiles Grid, Family Circle, Scrapbook Keepsake, Milestone Collage, First Year Grid, Grandparent Keepsake.
+
+The catalog intentionally includes a feminine/girl-forward group with blush, pink peony, rose, lace, bow, and butterfly treatments. These styles must look meaningfully different from the sage/cream/gold keepsake set instead of reusing the same top-line heart ornament.
+
+The additional unique-design set uses curling vine lines, rose lace, daisy chains, pearl oval matting, stepped milestones, fan-fold panels, cloud/star sleep motifs, golden scrollwork, meadow wreath marks, ribbons, crown rules, and garden arches. Each design should read as its own frame family, not a color-only variant.
+
+Five generated baby test photos are included as local frontend assets and demo Growth Timeline moments so album previews can exercise user-selected media instead of repeating one foot image.
 
 Every frame includes BabyMinimo branding in the preview or catalog metadata.
 
 ## UI Behavior
 
 - Timeline shows the album entry point only in the Growth filter context.
-- The frame picker paginates 8 frames per page.
+- The frame picker paginates 8 frames per page and is collapsed/off by default so the screen does not show the full frame grid unless the user turns it on.
+- Enlarged frame previews include left/right controls to select the previous or next frame directly.
+- Decorative frame overlays are off by default and can be turned on from a compact On/Off switch below the frame artwork inside the enlarged preview.
+- Enlarged frame previews include compact circular palette controls for original, cream, sage, and pink frame colors; palette changes recolor the frame background and main accent/decoration marks without resizing the preview.
+- Experimental 3D frames are hidden from the normal frame picker and enlarged-preview next/previous controls. They should not be re-enabled until per-photo crop/reposition controls exist, such as drag-to-position and pinch-to-zoom, because automatic placement alone has shown visible edge gaps on some 3D openings.
 - Storybook supports timeline item removal before export.
 - First Year Grid renders 12 month slots and uses empty placeholders for missing month photos.
 - Export output can be toggled between PDF album and image pages.
 - The Build local export action produces a local preview state and typed payload, not a file upload.
 - The album text section lets users type a title and note in their own language; those values are stored in the local export payload and rendered into safe text zones.
+- Album title and note editing is collapsed/off by default to keep the modal compact; users can turn it on when they want to customize printed text.
+- Album title and note inputs enforce frame-safe character limits with visible counters before export.
 - The export payload can include a local media backup manifest so selected Growth Timeline photos and captions can be backed up together.
 
 ## Visual QA Evidence
@@ -75,3 +92,4 @@ Every frame includes BabyMinimo branding in the preview or catalog metadata.
 
 - The v1 local export action prepares a local payload/preview state; native PDF/image rendering and share-sheet file writing remain a future implementation slice.
 - Static style definitions stand in for final approved binary frame art. No runtime AI call is made inside BabyMinimo.
+- The 3D frame assets are intentionally disabled from the user-facing v1 picker until a crop/reposition editor can prevent visible white gaps for varied user photo aspect ratios.

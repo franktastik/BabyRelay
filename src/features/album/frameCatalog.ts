@@ -10,8 +10,10 @@ export interface AlbumFrameTemplate {
   nameKey: string
   layoutKind: AlbumFrameLayoutKind
   photoSlots: number
-  tone: 'cream' | 'sage' | 'white' | 'floral' | 'gold' | 'storybook'
+  tone: 'cream' | 'sage' | 'white' | 'floral' | 'gold' | 'storybook' | 'blush' | 'rose'
   branding: 'BabyMinimo' | 'BabyMinimo Memories'
+  availability?: 'active' | 'experimental'
+  disabledReason?: 'needsPhotoPositioning'
   supportsTimelineItems?: boolean
   supportsMonthlySlots?: boolean
   staticAssetMode: 'styleDefinition'
@@ -53,20 +55,55 @@ export interface AlbumMonthSlot {
 }
 
 export const ALBUM_FRAMES_PER_PAGE = 8
+const THREE_D_EXPERIMENTAL_OPTIONS = {
+  availability: 'experimental',
+  disabledReason: 'needsPhotoPositioning',
+} as const
 
 export const albumFrameCatalog: AlbumFrameTemplate[] = [
   singleFrame('classic-cream', 'Classic Cream', 1, 'cream'),
   singleFrame('sage-keepsake', 'Sage Keepsake', 1, 'sage'),
   singleFrame('storybook-single', 'Storybook', 1, 'storybook', { supportsTimelineItems: true }),
-  singleFrame('minimal-white', 'Minimal White', 1, 'white'),
-  singleFrame('soft-floral', 'Soft Floral', 1, 'floral'),
+  singleFrame('minimal-white', 'Blush Gallery', 1, 'blush'),
+  singleFrame('soft-floral', 'Rose Floral', 1, 'rose'),
   singleFrame('milestone-card', 'Milestone Card', 1, 'gold'),
   singleFrame('print-shop-border', 'Print Shop Border', 1, 'cream'),
   singleFrame('tiny-toes', 'Tiny Toes', 1, 'cream'),
   singleFrame('welcome-home', 'Welcome Home', 1, 'sage'),
-  singleFrame('moonlight-nap', 'Moonlight Nap', 1, 'storybook'),
+  singleFrame('moonlight-nap', 'Blush Moon Nap', 1, 'blush'),
   singleFrame('little-star', 'Little Star', 1, 'gold'),
   singleFrame('heirloom-portrait', 'Heirloom Portrait', 1, 'white'),
+  singleFrame('rose-garden', 'Rose Garden', 1, 'rose'),
+  singleFrame('pink-peony', 'Pink Peony', 1, 'blush'),
+  singleFrame('blush-bow', 'Blush Bow', 1, 'blush'),
+  singleFrame('red-rose-keepsake', 'Red Rose Keepsake', 1, 'rose'),
+  singleFrame('butterfly-blush', 'Butterfly Blush', 1, 'blush'),
+  singleFrame('lace-princess', 'Lace Princess', 1, 'rose'),
+  singleFrame('garden-party', 'Garden Party', 1, 'floral'),
+  singleFrame('curling-vine', 'Curling Vine', 1, 'sage'),
+  singleFrame('rose-lace', 'Rose Lace', 1, 'rose'),
+  singleFrame('daisy-chain', 'Daisy Chain', 1, 'floral'),
+  singleFrame('pearl-oval', 'Pearl Oval', 1, 'white'),
+  singleFrame('three-month-steps', 'Three Month Steps', 3, 'cream'),
+  singleFrame('cloud-dream', 'Cloud Dream', 1, 'white'),
+  singleFrame('golden-scroll', 'Golden Scroll', 1, 'gold'),
+  singleFrame('meadow-wreath', 'Meadow Wreath', 1, 'sage'),
+  singleFrame('ribbon-keepsake', 'Ribbon Keepsake', 1, 'blush'),
+  singleFrame('six-month-steps', 'Six Month Steps', 6, 'blush'),
+  singleFrame('twelve-month-steps', 'Twelve Month Steps', 12, 'storybook', { supportsMonthlySlots: true }),
+  singleFrame('little-crown', 'Little Crown', 1, 'gold'),
+  singleFrame('garden-arch', 'Garden Arch', 1, 'floral'),
+  singleFrame('fan-fold-trio', 'Fan Fold Trio', 3, 'gold'),
+  singleFrame('three-d-teddy-fan', '3D Teddy Fan', 3, 'blush', THREE_D_EXPERIMENTAL_OPTIONS),
+  singleFrame('three-d-safari-trio', '3D Safari Trio', 3, 'sage', THREE_D_EXPERIMENTAL_OPTIONS),
+  singleFrame('three-d-woodland-arch', '3D Woodland Arch', 1, 'sage', THREE_D_EXPERIMENTAL_OPTIONS),
+  singleFrame('three-d-dino-cloud', '3D Dino Cloud', 1, 'sage', THREE_D_EXPERIMENTAL_OPTIONS),
+  singleFrame('three-d-moon-cloud', '3D Moon Cloud', 1, 'storybook', THREE_D_EXPERIMENTAL_OPTIONS),
+  singleFrame('three-d-rainbow-trio', '3D Rainbow Trio', 3, 'blush', THREE_D_EXPERIMENTAL_OPTIONS),
+  singleFrame('three-d-rose-bow', '3D Rose Bow', 1, 'rose', THREE_D_EXPERIMENTAL_OPTIONS),
+  singleFrame('three-d-ocean-sail', '3D Ocean Sail', 1, 'white', THREE_D_EXPERIMENTAL_OPTIONS),
+  singleFrame('three-d-balloon-duo', '3D Balloon Duo', 2, 'gold', THREE_D_EXPERIMENTAL_OPTIONS),
+  singleFrame('three-d-castle-portrait', '3D Castle Portrait', 1, 'blush', THREE_D_EXPERIMENTAL_OPTIONS),
   collageFrame('two-together', 'Two Together', 2, 'cream'),
   collageFrame('little-moments-strip', 'Little Moments Strip', 3, 'white'),
   collageFrame('first-smiles-grid', 'First Smiles Grid', 4, 'cream'),
@@ -77,19 +114,35 @@ export const albumFrameCatalog: AlbumFrameTemplate[] = [
   collageFrame('grandparent-keepsake', 'Grandparent Keepsake', 3, 'floral'),
 ]
 
+export const activeAlbumFrameCatalog: AlbumFrameTemplate[] = albumFrameCatalog.filter(
+  (frame) => frame.availability !== 'experimental'
+)
+
 export function getAlbumFrameById(frameId: string): AlbumFrameTemplate | undefined {
   return albumFrameCatalog.find((frame) => frame.id === frameId)
 }
 
 export function getAlbumFramePage(pageIndex: number, pageSize = ALBUM_FRAMES_PER_PAGE) {
-  const pageCount = Math.ceil(albumFrameCatalog.length / pageSize)
+  return getFramePage(albumFrameCatalog, pageIndex, pageSize)
+}
+
+export function getActiveAlbumFrameById(frameId: string): AlbumFrameTemplate | undefined {
+  return activeAlbumFrameCatalog.find((frame) => frame.id === frameId)
+}
+
+export function getActiveAlbumFramePage(pageIndex: number, pageSize = ALBUM_FRAMES_PER_PAGE) {
+  return getFramePage(activeAlbumFrameCatalog, pageIndex, pageSize)
+}
+
+function getFramePage(frames: AlbumFrameTemplate[], pageIndex: number, pageSize = ALBUM_FRAMES_PER_PAGE) {
+  const pageCount = Math.ceil(frames.length / pageSize)
   const page = Math.min(Math.max(pageIndex, 0), pageCount - 1)
   const start = page * pageSize
 
   return {
     page,
     pageCount,
-    frames: albumFrameCatalog.slice(start, start + pageSize),
+    frames: frames.slice(start, start + pageSize),
   }
 }
 
@@ -163,7 +216,10 @@ function singleFrame(
   name: string,
   photoSlots: number,
   tone: AlbumFrameTemplate['tone'],
-  options: Pick<AlbumFrameTemplate, 'supportsTimelineItems' | 'supportsMonthlySlots'> = {}
+  options: Pick<
+    AlbumFrameTemplate,
+    'availability' | 'disabledReason' | 'supportsTimelineItems' | 'supportsMonthlySlots'
+  > = {}
 ): AlbumFrameTemplate {
   return {
     id,

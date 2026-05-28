@@ -1579,10 +1579,15 @@ Scope:
 - Support both printable PDF album export and individual image-page export.
 - Support print-size presets for common photo book outputs: 8 x 8 square baby books/gifts, 8.5 x 11 family albums/storybooks, A4 for Europe/common bookshelf printing, and 12 x 12 premium keepsake/coffee-table books.
 - Let users select Growth Timeline photo moments and include captions, dates, baby name, and optional household/relationship attribution when already available.
-- Add a curated built-in album frame catalog before any runtime generation: 20 templates total, split into 12 single/detail baby frames and 8 collage frames.
+- Add a curated built-in album frame catalog before any runtime generation: 51 source templates total, split into 43 single/detail baby frames and 8 collage frames, including feminine blush/rose floral styles, varied curl, wreath, plaid, pearl, cloud, crown, arch, and fan-fold treatments, plus 10 local static 3D frame assets from `new-frame-sample/` so frames do not feel repeated. The 10 3D frames are new additive designs with their own stable `three-d-*` IDs; do not convert old flat/stationery frames into 3D variants. The user-facing v1 picker exposes only the 41 active non-3D templates while the 10 3D templates remain experimental/disabled until per-photo crop/reposition support exists.
 - Use Image Gen 2/Codex image generation during implementation planning to create or refine approved static frame concepts/assets; do not generate frames dynamically inside the app in v1.
-- Save approved empty frame assets and sample preview assets with generated baby photos as frontend static assets for QA/design review.
+- Save approved empty frame assets and sample preview assets with generated baby photos as frontend static assets for QA/design review; include at least 5 local test baby photos that behave like user-selected Growth Timeline media in the demo flow.
 - Add a paginated frame picker that shows 8 frames per page.
+- Keep the lower frame picker collapsed/off by default; users can turn it on when they want to browse the full grid, while the enlarged preview arrows remain the primary quick-browse path.
+- Keep optional decorative frame overlays off by default, with a compact On/Off switch inside the enlarged preview pop-up.
+- Add compact circular frame color controls in the enlarged preview footer for original, cream, sage, and pink palettes; changing color must not resize the album preview.
+- Let the enlarged preview pop-up browse and select frames directly with left/back and right/next overlay controls so users do not need to scroll back to the picker after inspecting a frame.
+- Keep 3D frame templates disabled from normal picker and enlarged-preview navigation until per-photo crop/reposition controls exist, because automatic placement alone can leave white edge gaps for some photo aspect ratios. Add a follow-up native editing requirement for per-photo crop/reposition controls, such as drag-to-position and pinch-to-zoom, so users can fine tune camera-roll photos before export.
 - Support Storybook pages that include baby timeline items by default and let users remove selected timeline items before export.
 - Support a first-year/12-month layout with one photo slot per month and tasteful empty placeholders when a month is missing.
 - Keep exports local/on-device or local-demo only in the first implementation.
@@ -1594,19 +1599,54 @@ Approved visual direction:
 - Shipped frame art must not contain baked-in English words. Decorative frame assets should be text-free except approved brand marks, and all user-visible frame text such as titles, dates, labels, month names, captions, and attribution must be rendered by the export layer through runtime i18n.
 - User-authored album text fields should accept the user's own language and keyboard input. Do not auto-translate user-entered titles, captions, dedications, or notes unless a later explicit translation feature is approved.
 
-Initial v1 album frame catalog, 12 single/detail baby frames:
+Initial v1 album frame catalog, 43 single/detail baby frames:
 - Classic Cream single: warm BabyMinimo cream border with small date/caption footer.
 - Sage Keepsake single: soft sage mat with rounded photo window and quiet household attribution.
 - Storybook single: gentle illustrated page treatment for milestone moments.
-- Minimal White single: clean gallery-style white border with restrained typography.
-- Soft Floral single: subtle newborn-safe botanical corner details.
+- Blush Gallery single: a converted Minimal White frame with blush gallery matting for softer feminine albums.
+- Rose Floral single: a converted Soft Floral frame with stronger pink/red botanical corner details.
 - Milestone Card single: card-like layout emphasizing age, date, and moment title.
 - Print Shop Border single: high-margin layout suitable for home printers and photo labs.
 - Tiny Toes single/detail frame: detail-forward frame for feet, hands, and small close-up moments.
 - Welcome Home single: first-day or homecoming portrait frame with calm keepsake stationery.
-- Moonlight Nap single: soft bedtime/rest portrait frame with muted celestial accents.
+- Blush Moon Nap single: a converted Moonlight Nap frame with blush bedtime/celestial accents.
 - Little Star single: celebratory single-photo frame for milestone portraits.
 - Heirloom Portrait single: classic portrait layout with restrained archival styling.
+- Rose Garden single: red-rose keepsake corners for feminine floral albums.
+- Pink Peony single: pink peony wash and bloom accents.
+- Blush Bow single: ribbon/bow stationery treatment.
+- Red Rose Keepsake single: stronger red rose keepsake styling.
+- Butterfly Blush single: soft butterfly/blush frame for portrait moments.
+- Lace Princess single: lace-dot and crown-inspired keepsake styling.
+- Garden Party single: mixed pink and sage floral corner treatment.
+- Curling Vine single: sage curling lines that wrap around the image field.
+- Rose Lace single: rose corners with lace-dot stationery.
+- Daisy Chain single: daisy-chain edge treatment.
+- Pearl Oval single: pearl/oval mat for classic portraits.
+- Three Month Steps single/detail: three photo slots arranged as rising milestone steps for a 3-month baby progress page.
+- Cloud Dream single: cloud and star bedtime frame.
+- Golden Scroll single: muted gold scrollwork corners.
+- Meadow Wreath single: meadow sprig/wreath edge treatment.
+- Ribbon Keepsake single: ribbon-tail keepsake treatment.
+- Six Month Steps single/detail: six photo slots arranged like a small staircase for half-year milestone progress.
+- Twelve Month Steps single/detail: twelve monthly photo slots arranged in stepped rows for a first-year staircase page.
+- Little Crown single: crown-and-rule keepsake treatment.
+- Garden Arch single: floral arched garden border.
+- Fan Fold Trio single/detail: three tall overlapping photo panels fanned from a shared bottom point, based on the product-owner sketch.
+- 3D Teddy Fan single/detail: three raised portrait panels with soft teddy nursery styling from the 3D sample set.
+- 3D Safari Trio single/detail: three raised portrait panels with giraffe, elephant, lion, and leaf styling from the 3D sample set.
+- 3D Woodland Arch single: raised arch portrait frame with woodland nursery styling from the 3D sample set.
+- 3D Dino Cloud single: raised dinosaur/cloud portrait frame from the 3D sample set.
+- 3D Moon Cloud single: raised moon, cloud, and star portrait frame from the 3D sample set.
+- 3D Rainbow Trio single/detail: three portrait openings with rainbow, cloud, star, and teddy styling from the 3D sample set.
+- 3D Rose Bow single: raised pink rose and bow portrait frame from the 3D sample set.
+- 3D Ocean Sail single: raised ocean, whale, starfish, and sailboat portrait frame from the 3D sample set.
+- 3D Balloon Duo single/detail: two raised portrait panels with balloons and block styling from the 3D sample set.
+- 3D Castle Portrait single: raised princess castle portrait frame from the 3D sample set.
+
+The 3D static frames must use transparent photo openings so selected baby photos appear inside the raised frame panes. They should use transparent outside canvases and tight object bounds so the raised object sits directly on the album page instead of appearing inside a white square. They should not render as flat photos floating over the frame artwork, and the standard album title/body text block should not overlap the 3D object base.
+These 3D frames are additive designs, not edits to the existing flat/stationery frames.
+These 3D frames are experimental in v1 and must remain hidden from the normal picker and preview carousel until BabyMinimo supports slot-level drag/pinch photo positioning.
 
 Initial v1 album frame catalog, 8 collage frames:
 - Two Together 2-photo collage: side-by-side partner/family memory layout.
@@ -1622,9 +1662,14 @@ Acceptance criteria:
 - Album export entry point is reachable from Timeline when Growth moments are in context.
 - Export supports both PDF album output and individual image-page output.
 - Export supports selectable print-size/page presets, records the selected size in the export payload, and preserves 300 DPI print-readiness guidance for future native PDF/image rendering.
-- Frame catalog has exactly 20 v1 templates: 12 single/detail baby frames and 8 collage frames, each with stable IDs, display names, layout metadata, preview metadata, and static approved assets or static style definitions.
-- Exactly 8 v1 templates are collage layouts; the remaining 12 are single/detail baby frames.
-- Frame picker paginates the catalog with 8 frames per page and stable test IDs for page controls.
+- Frame catalog has exactly 51 source templates: 43 single/detail baby frames and 8 collage frames, each with stable IDs, display names, layout metadata, preview metadata, and static approved assets or static style definitions.
+- User-facing v1 frame picker and preview navigation expose only 41 active templates, excluding the 10 experimental `three-d-*` frames until slot-level crop/reposition support is implemented.
+- Exactly 8 v1 templates are collage layouts; the remaining 43 are single/detail baby frames.
+- Frame picker paginates the active catalog with 8 frames per page and stable test IDs for page controls.
+- Frame picker grid defaults to hidden/off and can be toggled on without affecting the selected frame preview.
+- Optional decorative frame overlays default to off and can be enabled from a compact switch below the frame artwork inside the enlarged preview pop-up, without covering the album preview.
+- Enlarged preview exposes compact circular color options for original, cream, sage, and pink palettes; selecting a palette changes the frame background and main accent/decoration colors without changing preview dimensions.
+- Enlarged frame preview has left/right overlay controls that update the selected frame and keep the paginated picker in sync.
 - Approved empty frame assets and generated-baby sample preview assets are saved as frontend static assets; runtime AI frame generation is not used in the app.
 - Storybook export lets users remove timeline items before export.
 - First Year Grid preserves month ordering and renders empty month placeholders where photos are missing.
@@ -1635,6 +1680,8 @@ Acceptance criteria:
 - Localization keys are added for every visible export/frame string across all supported app-string files.
 - Frame text zones support localization, long-string wrapping/shrinking, and RTL-safe alignment; no approved shipped frame asset contains baked-in English UI text.
 - Custom album title/note fields are editable before export and stored in the local export payload in the language the user typed.
+- Custom album title/note editing defaults to hidden/off and can be turned on without changing stored default title/note values.
+- Custom album title/note fields enforce frame-safe character limits with visible counters so user-entered text cannot overflow album previews or future rendered exports.
 - Data lifecycle documentation states generated export archives/pages are user-created local artifacts and future cloud/export archive retention follows the heavy-data purge policy.
 
 Dependencies: PBI-025, PBI-026, PBI-027, PBI-028, PBI-052, PBI-057, PBI-063.
@@ -1643,16 +1690,16 @@ Suggested phase: Phase 10, before production Firebase and App Store readiness.
 
 Task mapping:
 - T1: Define local album export model, output formats, privacy rules, and data lifecycle behavior.
-- T2: Generate or curate static frame concepts/assets using Image Gen 2/Codex image generation as a design aid, then record the approved 20-template frame catalog with 12 single/detail baby frames and 8 collage frames.
-- T3: Build the Timeline Growth export entry point, selection flow, paginated frame selector, Storybook timeline editor, 12-month layout support, and preview state without adding a new primary tab.
+- T2: Generate or curate static frame concepts/assets using Image Gen 2/Codex image generation as a design aid, then record the approved 51-template frame catalog with 43 single/detail baby frames and 8 collage frames.
+- T3: Build the Timeline Growth export entry point, selection flow, paginated frame selector, enlarged preview frame navigation, Storybook timeline editor, 12-month layout support, and preview state without adding a new primary tab.
 - T4: Implement local PDF/image-page payload generation or a local-demo export stub with clear deferred native/export boundaries.
 - T5: Add unit tests, simulator/visual evidence, localization updates, lifecycle docs, CHANGELOG.md, and GoalBuddy receipt.
 
 Implementation receipt:
 - T354 implemented a local-first album export flow from the Timeline Growth filter context.
-- Added a typed 20-frame catalog with exactly 12 single/detail baby frames and 8 collage frames, stable IDs, layout metadata, static style-definition assets, and generated-sample preview metadata.
+- Added a typed 51-frame catalog with exactly 43 single/detail baby frames and 8 collage frames, stable IDs, layout metadata, static style-definition/static 3D frame assets, generated-sample preview metadata, and five local test baby-photo assets for QA.
 - Added local export payload construction for selected moment IDs, frame ID, baby name, captions, dates, output format, Storybook item removal, and First Year month slots.
-- Added a modal with Growth moment selection, 8-per-page frame pagination, Storybook timeline item removal, First Year 12-slot placeholder preview, PDF/image output selection, and local export preview state.
+- Added a modal with Growth moment selection, default-off album text editing, default-off frame picker grid with 8-per-page frame pagination, default-off optional frame decorations, enlarged preview frame navigation, Storybook timeline item removal, First Year 12-slot placeholder preview, PDF/image output selection, and local export preview state.
 - Visual evidence is recorded under `docs/qa/screenshots/pbi-069/`.
 - Verification passed: `bun run test:typecheck`, `bun run test:unit`, and simulator smoke through serve-sim.
 

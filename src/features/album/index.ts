@@ -1,8 +1,11 @@
 export {
   ALBUM_FRAMES_PER_PAGE,
+  activeAlbumFrameCatalog,
   albumFrameCatalog,
   buildAlbumExportPayload,
   buildFirstYearSlots,
+  getActiveAlbumFrameById,
+  getActiveAlbumFramePage,
   getAlbumFrameById,
   getAlbumFramePage,
   getDefaultStorybookTimelineItemIds,

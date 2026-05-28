@@ -6,10 +6,27 @@ All notable changes to this project are documented here.
 
 ### Added
 
-- Implemented PBI-069/T354 with a local Growth Timeline album export flow, a 20-template BabyMinimo frame catalog, paginated frame picker, Storybook timeline item removal, First Year placeholders, PDF/image output selection, local export payload tests, and simulator evidence.
+- Added a tappable enlarged album frame preview from the Growth Timeline album export modal so users can inspect the selected frame before building a local export.
+- Added a default-off toggle for the lower album frame picker so the full frame grid stays hidden until users choose to browse it.
+- Added a default-off toggle for album title/note editing so the Growth album modal stays compact until users choose to customize printed text.
+- Added compact color swatches to the enlarged album frame preview so users can switch between original, cream, sage, and pink frame palettes without changing the preview size.
+- Added Three Month Steps, Six Month Steps, and Twelve Month Steps album frames so milestone previews can use stepped 3-, 6-, and 12-photo arrangements instead of repeating single-photo layouts.
+- Added a Fan Fold Trio album frame with three tall overlapping photo panels based on the product-owner sketch.
+- Added 10 local static 3D album frame designs from `new-frame-sample/`, including teddy fan, safari trio, woodland arch, dino cloud, moon cloud, rainbow trio, rose bow, ocean sail, balloon duo, and castle portrait frames with transparent photo openings for inserted baby photos.
+- Marked the 10 local static 3D album frame designs as experimental and disabled them from the user-facing picker/preview carousel until slot-level drag/pinch photo positioning can prevent visible white edge gaps.
+- Removed opaque white canvases and excess transparent margins from the 3D frame assets so the raised frame objects sit directly on the selected album background.
+- Added enlarged album preview controls for previous/next frame selection and a default-off decoration switch inside the preview pop-up.
+- Added frame-safe character limits and visible counters for Growth album title and note text to prevent user-entered copy from overflowing album frames.
+- Added 13 more unique BabyMinimo album frame designs with curl, lace, daisy, pearl, plaid, cloud, scroll, wreath, ribbon, polka-dot, story-curl, crown, and garden-arch treatments.
+- Added five generated local baby test-photo assets and seeded them as demo Growth Timeline media so album previews exercise multiple user-selected photo types instead of repeating one sample.
+- Added optional decorative edge details for album frame previews with a toggle to turn floral/keepsake frame designs on or off.
+- Added distinct per-frame decoration treatments for the album catalog so previews no longer reuse the same flower, heart, and corner design across every frame.
+- Added distinct high-resolution baby feet and smiling baby sample images for album frame previews so enlarged frame QA is clearer and no longer repeats the same feet photo in every selected slot.
+- Expanded the Growth album frame catalog with seven feminine blush/rose frames and converted Minimal White, Soft Floral, and Moonlight Nap into more distinct girl-forward treatments.
+- Implemented PBI-069/T354 with a local Growth Timeline album export flow, a 51-template BabyMinimo source frame catalog, 41 active user-facing frame templates, paginated frame picker, Storybook timeline item removal, First Year placeholders, PDF/image output selection, local export payload tests, and simulator evidence.
 - Added PBI-070 and GoalBuddy task T355 for Growth Timeline local media durability, backup/export manifest planning, local-media safety UI, and user-language album text.
 - Tightened the album export plan so shipped frame art stays free of baked-in English UI text, frame text renders through runtime i18n, and future PDF/image export supports common print-size presets.
-- Expanded PBI-069 and GoalBuddy task T354 with the approved BabyMinimo frame examples, a 20-template catalog split into 12 single/detail baby frames and 8 collage frames, Image Gen 2 static asset requirements, pagination, Storybook timeline editing, and 12-month album support.
+- Expanded PBI-069 and GoalBuddy task T354 with the approved BabyMinimo frame examples, static asset requirements, pagination, Storybook timeline editing, and 12-month album support.
 - Added PBI-069 and GoalBuddy task T354 for local-first Growth Timeline album export, printable PDF/image-page output, and a curated static album frame catalog.
 - Added Husband to the household relationship label choices for Family and onboarding invites.
 - Added display-only household relationship labels for Family and onboarding invites so invited members can be identified as Parent, Partner, Grandparent, Family, Nanny, Nurse, Babysitter, Friend, or Other without changing authorization roles.
@@ -182,8 +199,12 @@ All notable changes to this project are documented here.
 
 ### Fixed
 
+- Fixed the Growth album close button so directly opened album modals fall back to Timeline instead of triggering an unhandled `GO_BACK` development warning.
+- Fixed enlarged Growth album frame previews so First Year Grid, Little Moments Strip, and Heirloom Portrait decorations no longer repeat text-like ornaments or overlap the photo count, brand line, or divider.
+- Fixed album preview photo counts so collage frames report the number of selected photos actually displayed in that frame instead of the larger total selected for export.
 - Fixed Growth album frame selection so localized frame names never leak raw `album.frame.*` keys and selected collage/First Year frames show a real multi-slot preview before export.
 - Completed PBI-051A/T353 UI hardening by removing misleading static affordances, routing Breastfeed Bottle selection to the Bottle form, restyling log time/date metadata as read-only, and adding button semantics/test IDs to the Home Growth "View all" action.
+- Fixed enlarged album collage previews so selected photos use full-image containment instead of cropping important baby photo details.
 - Hid Family invite controls from non-owner/non-admin household members and added local household-role permission checks so invited caregivers cannot invite other caregivers.
 - Fixed the Timeline settings/sliders control so it opens a functional display panel with newest/oldest ordering.
 - Fixed the Timeline header search control so it opens a working inline search field and filters care events and growth memories.

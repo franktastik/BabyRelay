@@ -1,9 +1,12 @@
 import { describe, expect, test } from 'bun:test'
 import {
   ALBUM_FRAMES_PER_PAGE,
+  activeAlbumFrameCatalog,
   albumFrameCatalog,
   buildAlbumExportPayload,
   buildFirstYearSlots,
+  getActiveAlbumFrameById,
+  getActiveAlbumFramePage,
   getAlbumFramePage,
   getDefaultStorybookTimelineItemIds,
 } from './frameCatalog'
@@ -21,12 +24,126 @@ const moments: DemoGrowthMoment[] = Array.from({ length: 4 }, (_, index) => ({
 }))
 
 describe('album frame catalog', () => {
-  test('has exactly 20 stable frame IDs split into 12 single and 8 collage frames', () => {
-    expect(albumFrameCatalog).toHaveLength(20)
-    expect(new Set(albumFrameCatalog.map((frame) => frame.id)).size).toBe(20)
-    expect(albumFrameCatalog.filter((frame) => frame.layoutKind === 'single')).toHaveLength(12)
+  test('has exactly 51 stable frame IDs split into 43 single and 8 collage frames', () => {
+    expect(albumFrameCatalog).toHaveLength(51)
+    expect(new Set(albumFrameCatalog.map((frame) => frame.id)).size).toBe(51)
+    expect(albumFrameCatalog.filter((frame) => frame.layoutKind === 'single')).toHaveLength(43)
     expect(albumFrameCatalog.filter((frame) => frame.layoutKind === 'collage')).toHaveLength(8)
     expect(albumFrameCatalog.every((frame) => frame.branding.includes('BabyMinimo'))).toBe(true)
+  })
+
+  test('includes the expanded unique design set for non-collage frames', () => {
+    const expandedFrameIds = [
+      'curling-vine',
+      'rose-lace',
+      'daisy-chain',
+      'pearl-oval',
+      'three-month-steps',
+      'cloud-dream',
+      'golden-scroll',
+      'meadow-wreath',
+      'ribbon-keepsake',
+      'six-month-steps',
+      'twelve-month-steps',
+      'little-crown',
+      'garden-arch',
+      'fan-fold-trio',
+    ]
+
+    expect(expandedFrameIds.every((id) => albumFrameCatalog.some((frame) => frame.id === id))).toBe(true)
+    expect(expandedFrameIds.every((id) => albumFrameCatalog.find((frame) => frame.id === id)?.layoutKind === 'single')).toBe(true)
+  })
+
+  test('includes feminine blush and rose frame options without changing collage count', () => {
+    const feminineFrameIds = [
+      'minimal-white',
+      'soft-floral',
+      'moonlight-nap',
+      'rose-garden',
+      'pink-peony',
+      'blush-bow',
+      'red-rose-keepsake',
+      'butterfly-blush',
+      'lace-princess',
+      'garden-party',
+    ]
+
+    expect(feminineFrameIds.every((id) => albumFrameCatalog.some((frame) => frame.id === id))).toBe(true)
+    expect(albumFrameCatalog.filter((frame) => frame.tone === 'blush' || frame.tone === 'rose').length).toBeGreaterThanOrEqual(12)
+    expect(albumFrameCatalog.filter((frame) => frame.layoutKind === 'collage')).toHaveLength(8)
+  })
+
+  test('includes stepped milestone layouts for 3, 6, and 12 month photo arrangements', () => {
+    expect(albumFrameCatalog.find((frame) => frame.id === 'three-month-steps')).toMatchObject({
+      layoutKind: 'single',
+      photoSlots: 3,
+    })
+    expect(albumFrameCatalog.find((frame) => frame.id === 'six-month-steps')).toMatchObject({
+      layoutKind: 'single',
+      photoSlots: 6,
+    })
+    expect(albumFrameCatalog.find((frame) => frame.id === 'twelve-month-steps')).toMatchObject({
+      layoutKind: 'single',
+      photoSlots: 12,
+      supportsMonthlySlots: true,
+    })
+  })
+
+  test('includes a fan-fold trio frame with three overlapping photo panels', () => {
+    expect(albumFrameCatalog.find((frame) => frame.id === 'fan-fold-trio')).toMatchObject({
+      layoutKind: 'single',
+      photoSlots: 3,
+      tone: 'gold',
+    })
+  })
+
+  test('includes ten static 3D frame designs from the new sample set', () => {
+    const threeDFrameIds = [
+      'three-d-teddy-fan',
+      'three-d-safari-trio',
+      'three-d-woodland-arch',
+      'three-d-dino-cloud',
+      'three-d-moon-cloud',
+      'three-d-rainbow-trio',
+      'three-d-rose-bow',
+      'three-d-ocean-sail',
+      'three-d-balloon-duo',
+      'three-d-castle-portrait',
+    ]
+
+    expect(threeDFrameIds.every((id) => albumFrameCatalog.some((frame) => frame.id === id))).toBe(true)
+    expect(threeDFrameIds.every((id) => albumFrameCatalog.find((frame) => frame.id === id)?.layoutKind === 'single')).toBe(true)
+  })
+
+  test('keeps 3D frame designs experimental until photo positioning is available', () => {
+    const threeDFrames = albumFrameCatalog.filter((frame) => frame.id.startsWith('three-d-'))
+
+    expect(threeDFrames).toHaveLength(10)
+    expect(threeDFrames.every((frame) => frame.availability === 'experimental')).toBe(true)
+    expect(threeDFrames.every((frame) => frame.disabledReason === 'needsPhotoPositioning')).toBe(true)
+    expect(activeAlbumFrameCatalog).toHaveLength(41)
+    expect(activeAlbumFrameCatalog.some((frame) => frame.id.startsWith('three-d-'))).toBe(false)
+    expect(getActiveAlbumFrameById('three-d-castle-portrait')).toBeUndefined()
+  })
+
+  test('adds 3D frame designs without replacing existing flat frame IDs', () => {
+    const originalFlatFrameIds = [
+      'classic-cream',
+      'sage-keepsake',
+      'storybook-single',
+      'minimal-white',
+      'soft-floral',
+      'milestone-card',
+      'print-shop-border',
+      'tiny-toes',
+      'welcome-home',
+      'moonlight-nap',
+      'little-star',
+      'heirloom-portrait',
+    ]
+
+    expect(originalFlatFrameIds.every((id) => albumFrameCatalog.some((frame) => frame.id === id))).toBe(true)
+    expect(originalFlatFrameIds.every((id) => !id.startsWith('three-d-'))).toBe(true)
   })
 
   test('has runtime localization strings for every frame in English and German draft resources', () => {
@@ -42,12 +159,32 @@ describe('album frame catalog', () => {
     const firstPage = getAlbumFramePage(0)
     const secondPage = getAlbumFramePage(1)
     const thirdPage = getAlbumFramePage(2)
+    const fourthPage = getAlbumFramePage(3)
+    const fifthPage = getAlbumFramePage(4)
+    const sixthPage = getAlbumFramePage(5)
+    const seventhPage = getAlbumFramePage(6)
 
     expect(ALBUM_FRAMES_PER_PAGE).toBe(8)
     expect(firstPage.frames).toHaveLength(8)
     expect(secondPage.frames).toHaveLength(8)
-    expect(thirdPage.frames).toHaveLength(4)
-    expect(thirdPage.pageCount).toBe(3)
+    expect(thirdPage.frames).toHaveLength(8)
+    expect(fourthPage.frames).toHaveLength(8)
+    expect(fifthPage.frames).toHaveLength(8)
+    expect(sixthPage.frames).toHaveLength(8)
+    expect(seventhPage.frames).toHaveLength(3)
+    expect(fifthPage.pageCount).toBe(7)
+  })
+
+  test('paginates only active frames for the user-facing picker', () => {
+    const firstPage = getActiveAlbumFramePage(0)
+    const fifthPage = getActiveAlbumFramePage(4)
+    const sixthPage = getActiveAlbumFramePage(5)
+
+    expect(firstPage.frames).toHaveLength(8)
+    expect(fifthPage.frames).toHaveLength(8)
+    expect(sixthPage.frames).toHaveLength(1)
+    expect(sixthPage.pageCount).toBe(6)
+    expect([firstPage, fifthPage, sixthPage].flatMap((page) => page.frames).some((frame) => frame.id.startsWith('three-d-'))).toBe(false)
   })
 
   test('builds local export payloads without changing storage mode', () => {
