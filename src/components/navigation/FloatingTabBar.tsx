@@ -18,8 +18,8 @@ export function FloatingTabBar({ state, navigation }: BottomTabBarProps) {
   const focusedRoute = state.routes[state.index]?.name
 
   const items: TabItem[] = [
-    { key: 'handoff', label: 'Handoff', icon: 'handoff', routeName: 'handoff' },
     { key: 'home', label: 'Home', icon: 'home', routeName: 'home' },
+    { key: 'handoff', label: 'Handoff', icon: 'handoff', routeName: 'handoff' },
     { key: 'log', label: 'Log', icon: 'log', onPress: () => router.push('/modals/quick-log') },
     { key: 'timeline', label: 'Timeline', icon: 'timeline', routeName: 'timeline' },
     { key: 'family', label: 'Family', icon: 'family', routeName: 'family' },

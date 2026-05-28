@@ -4,12 +4,14 @@ import { View, StyleSheet } from 'react-native'
 import { AddMomentForm } from '@/src/components/growth'
 import { trackEvent } from '@/src/features/analytics'
 import { useAuthStore } from '@/src/stores/authStore'
+import { useBabyMinimoActivityStore } from '@/src/stores/activityStore'
 import { useGrowthTimelineStore } from '@/src/stores/growthTimelineStore'
 import { colors } from '@/src/theme'
 
 export default function AddMomentModal() {
   const router = useRouter()
   const addMoment = useGrowthTimelineStore((s) => s.addMoment)
+  const addActivity = useBabyMinimoActivityStore((s) => s.addActivity)
   const selectedBabyId = useAuthStore((s) => s.selectedBabyId) || 'baby-1'
 
   const handleSave = (data: { caption: string; momentType: string; localImageUri: string; localImageAsset?: string }) => {
@@ -25,11 +27,27 @@ export default function AddMomentModal() {
       babyId: selectedBabyId,
       momentType: data.momentType,
     })
-    router.back()
+    addActivity({
+      babyId: selectedBabyId,
+      type: 'growth_moment_added',
+      label: 'Growth moment added',
+      detail: data.caption || data.momentType,
+      metadata: { momentType: data.momentType },
+    })
+    closeMoment()
   }
 
   const handleCancel = () => {
-    router.back()
+    closeMoment()
+  }
+
+  const closeMoment = () => {
+    if (router.canGoBack()) {
+      router.back()
+      return
+    }
+
+    router.replace('/(tabs)/timeline')
   }
 
   return (

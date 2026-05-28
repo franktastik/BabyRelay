@@ -20,6 +20,10 @@ export const updateBabyMinimoCurrentStateWidget = async (
     return { status: 'skipped', reason: 'unsupported-platform' }
   }
 
+  if (process.env.EXPO_PUBLIC_ENABLE_NATIVE_WIDGETS !== 'true') {
+    return { status: 'skipped', reason: 'native-widget-unavailable' }
+  }
+
   try {
     const widgetModule = await import('@/src/widgets/BabyMinimoCurrentStateWidget')
     widgetModule.default.updateSnapshot(mapWidgetPayloadToCurrentStateWidgetProps(payload))

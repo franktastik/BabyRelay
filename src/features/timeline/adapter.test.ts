@@ -1,5 +1,10 @@
 import { describe, expect, test } from 'bun:test'
-import { buildTimelineItems, filterTimelineItems } from './adapter'
+import {
+  buildTimelineItems,
+  filterTimelineItems,
+  searchTimelineItems,
+  sortTimelineItems,
+} from './adapter'
 import type { DemoCareEvent } from '@/src/features/demo/events'
 import type { DemoGrowthMoment } from '@/src/features/demo/growth'
 
@@ -63,5 +68,28 @@ describe('timeline adapter', () => {
   test('keeps all items for all and notes filters', () => {
     expect(filterTimelineItems(timeline, 'all')).toHaveLength(3)
     expect(filterTimelineItems(timeline, 'notes')).toHaveLength(3)
+  })
+
+  test('searches care and growth timeline content', () => {
+    expect(searchTimelineItems(timeline, 'dada').map((item) => item.id)).toEqual(['care-diaper-1'])
+    expect(searchTimelineItems(timeline, 'smile').map((item) => item.id)).toEqual(['growth-growth-1'])
+    expect(searchTimelineItems(timeline, 'wet').map((item) => item.id)).toEqual(['care-diaper-1'])
+  })
+
+  test('returns all items for blank timeline search', () => {
+    expect(searchTimelineItems(timeline, '   ')).toHaveLength(3)
+  })
+
+  test('sorts timeline items by selected display order', () => {
+    expect(sortTimelineItems(timeline, 'newest').map((item) => item.id)).toEqual([
+      'care-diaper-1',
+      'growth-growth-1',
+      'care-feed-1',
+    ])
+    expect(sortTimelineItems(timeline, 'oldest').map((item) => item.id)).toEqual([
+      'care-feed-1',
+      'growth-growth-1',
+      'care-diaper-1',
+    ])
   })
 })

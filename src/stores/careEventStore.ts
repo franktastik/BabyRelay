@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import { trackEvent } from '@/src/features/analytics'
 import { createDemoEventsAdapter, type DemoCareEvent } from '@/src/features/demo/events'
+import { useBabyMinimoActivityStore } from './activityStore'
 
 let eventsAdapter: ReturnType<typeof createDemoEventsAdapter> | null = null
 
@@ -33,6 +34,13 @@ export const useCareEventStore = create<CareEventState>((set, get) => ({
         type: savedEvent.type,
       })
     }
+    useBabyMinimoActivityStore.getState().addActivity({
+      babyId: savedEvent.babyId,
+      type: 'care_event_logged',
+      label: careEventActivityLabel(savedEvent.type),
+      detail: savedEvent.createdBy,
+      metadata: { careType: savedEvent.type },
+    })
     return savedEvent
   },
   setEvents: (events) => set({ events }),
@@ -55,3 +63,11 @@ export const useCareEventStore = create<CareEventState>((set, get) => ({
     )
   },
 }))
+
+const careEventActivityLabel = (type: DemoCareEvent['type']) => {
+  if (type === 'breastfeed') return 'Breastfeed logged'
+  if (type === 'bottle') return 'Bottle logged'
+  if (type === 'diaper') return 'Diaper logged'
+  if (type === 'sleep') return 'Sleep logged'
+  return 'Medication logged'
+}

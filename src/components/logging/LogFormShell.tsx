@@ -59,11 +59,17 @@ export function LogFormShell({
             <Text style={styles.nowText}>{t('common.justNow')}</Text>
           </View>
           <View style={styles.timeRow}>
-            <View style={styles.timePill}>
+            <View
+              style={styles.timePill}
+              accessibilityLabel={`${t('log.form.eventTime')}: 10:45 AM`}
+            >
               <Text style={styles.timeIcon}>◷</Text>
               <Text style={styles.timeValue}>10:45{'\n'}AM</Text>
             </View>
-            <View style={styles.timePill}>
+            <View
+              style={styles.timePill}
+              accessibilityLabel={`${t('log.form.eventTime')}: ${t('common.today')}`}
+            >
               <Text style={styles.timeIcon}>▣</Text>
               <Text style={styles.timeValue}>{t('common.today')}</Text>
             </View>
@@ -235,10 +241,9 @@ const styles = StyleSheet.create({
   timePill: {
     flex: 1,
     minHeight: 76,
-    borderRadius: radius.lg,
-    backgroundColor: colors.cream,
-    borderWidth: 1,
-    borderColor: colors.border,
+    borderRadius: radius.md,
+    backgroundColor: colors.creamAlt,
+    borderWidth: 0,
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',

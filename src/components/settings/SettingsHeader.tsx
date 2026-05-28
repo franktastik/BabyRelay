@@ -8,18 +8,29 @@ interface SettingsHeaderProps {
   subtitle?: string
   onBack?: () => void
   rightIcon?: 'settings' | 'none'
+  onRightPress?: () => void
+  rightAccessibilityLabel?: string
 }
 
 export function SettingsHeader({
   title,
   subtitle,
   onBack,
-  rightIcon = 'settings',
+  rightIcon = 'none',
+  onRightPress,
+  rightAccessibilityLabel,
 }: SettingsHeaderProps) {
+  const showRightAction = rightIcon === 'settings' && onRightPress
+
   return (
     <View style={styles.container}>
       {onBack ? (
-        <Pressable onPress={onBack} style={styles.iconButton} hitSlop={12}>
+        <Pressable
+          onPress={onBack}
+          style={styles.iconButton}
+          hitSlop={12}
+          accessibilityRole="button"
+        >
           <ChevronLeft color={colors.stoneText} size={20} strokeWidth={2.3} />
         </Pressable>
       ) : (
@@ -31,10 +42,16 @@ export function SettingsHeader({
         {subtitle ? <Text style={styles.subtitle}>{subtitle}</Text> : null}
       </View>
 
-      {rightIcon === 'settings' ? (
-        <View style={styles.iconButton}>
+      {showRightAction ? (
+        <Pressable
+          onPress={onRightPress}
+          style={styles.iconButton}
+          hitSlop={12}
+          accessibilityRole="button"
+          accessibilityLabel={rightAccessibilityLabel}
+        >
           <Settings2 color={colors.stoneText} size={18} strokeWidth={2.2} />
-        </View>
+        </Pressable>
       ) : (
         <View style={styles.iconSpacer} />
       )}

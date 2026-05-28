@@ -35,14 +35,18 @@ export function AppProvider({ children }: AppProviderProps) {
           setOnboardingState({
             currentHouseholdId: null,
             selectedBabyId: null,
+            householdRole: null,
             onboardingCompleted: false,
+            babies: [],
           })
         }
       } else {
         setOnboardingState({
           currentHouseholdId: null,
           selectedBabyId: null,
+          householdRole: null,
           onboardingCompleted: false,
+          babies: [],
         })
       }
       setAuthBootstrapped(true)

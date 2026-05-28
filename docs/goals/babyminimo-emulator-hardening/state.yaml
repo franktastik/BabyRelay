@@ -37,7 +37,7 @@ visual_board:
     status: live
     url: "http://127.0.0.1:41737/"
 
-active_task: T327
+active_task: T352
 
 tasks:
   - id: T001
@@ -777,6 +777,10 @@ tasks:
       - "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
       - "docs/goals/babyminimo-emulator-hardening/state.yaml"
       - "CHANGELOG.md"
+      - "app/(settings)/account.tsx"
+      - "app/_layout.tsx"
+      - "app/modals/delete-account-confirm.tsx"
+      - "src/localization/resources/en.ts"
       - "app/**"
       - "src/**"
       - "e2e/**"
@@ -816,6 +820,10 @@ tasks:
       - "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
       - "docs/goals/babyminimo-emulator-hardening/state.yaml"
       - "CHANGELOG.md"
+      - "app/(settings)/account.tsx"
+      - "app/_layout.tsx"
+      - "app/modals/delete-account-confirm.tsx"
+      - "src/localization/resources/en.ts"
       - "app/**"
       - "src/**"
       - "e2e/**"
@@ -855,6 +863,8 @@ tasks:
       - "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
       - "docs/goals/babyminimo-emulator-hardening/state.yaml"
       - "CHANGELOG.md"
+      - "app/modals/delete-account-confirm.tsx"
+      - "docs/product/babyminimo-data-lifecycle-privacy-plan.md"
       - "app/**"
       - "src/**"
       - "e2e/**"
@@ -894,6 +904,16 @@ tasks:
       - "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
       - "docs/goals/babyminimo-emulator-hardening/state.yaml"
       - "CHANGELOG.md"
+      - "src/stores/activityStore.ts"
+      - "src/stores/index.ts"
+      - "src/stores/careEventStore.ts"
+      - "app/(settings)/reminders.tsx"
+      - "app/(tabs)/handoff.tsx"
+      - "app/modals/add-moment.tsx"
+      - "app/modals/baby-switcher.tsx"
+      - "src/features/privacy/localLifecycle.ts"
+      - "src/features/privacy/localLifecycleCore.ts"
+      - "src/features/privacy/localLifecycle.test.ts"
       - "app/**"
       - "src/**"
       - "e2e/**"
@@ -933,6 +953,16 @@ tasks:
       - "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
       - "docs/goals/babyminimo-emulator-hardening/state.yaml"
       - "CHANGELOG.md"
+      - "src/stores/activityStore.ts"
+      - "src/stores/index.ts"
+      - "src/stores/careEventStore.ts"
+      - "app/(settings)/reminders.tsx"
+      - "app/(tabs)/handoff.tsx"
+      - "app/modals/add-moment.tsx"
+      - "app/modals/baby-switcher.tsx"
+      - "src/features/privacy/localLifecycle.ts"
+      - "src/features/privacy/localLifecycleCore.ts"
+      - "src/features/privacy/localLifecycle.test.ts"
       - "app/**"
       - "src/**"
       - "e2e/**"
@@ -13807,8 +13837,8 @@ tasks:
     status: done
     pbi: "PBI-063"
     pbi_title: "ASO App Store screenshot generation and gifting creative set"
-    phase: "Phase 11, immediately before Release and App Store readiness."
-    production_last_phase: false
+    phase: "Phase 11, after production Firebase/App Store readiness gates."
+    production_last_phase: true
     objective: "PBI-063 T1: Run ASO benefit discovery using the app-store-screenshot skill framework and BabyMinimo product hierarchy."
     inputs:
       - "PBI source: docs/product/babyminimo-pbi-codex-goalbuddy-pack.md#PBI-063"
@@ -14059,8 +14089,8 @@ tasks:
     status: blocked
     pbi: "PBI-063"
     pbi_title: "ASO App Store screenshot generation and gifting creative set"
-    phase: "Phase 11, immediately before Release and App Store readiness."
-    production_last_phase: false
+    phase: "Phase 11, after production Firebase/App Store readiness gates."
+    production_last_phase: true
     objective: "PBI-063 T4: Generate/export the final App Store screenshot set and screenshot manifest."
     inputs:
       - "PBI source: docs/product/babyminimo-pbi-codex-goalbuddy-pack.md#PBI-063"
@@ -14098,7 +14128,7 @@ tasks:
       - "Verification fails twice."
     receipt:
       result: blocked
-      summary: "Created a draft screenshot manifest but did not generate/export final App Store screenshots because the required product and source-asset gates are not cleared."
+      summary: "Created a draft screenshot manifest but did not generate/export final App Store screenshots because App Store screenshots are explicitly deferred until production Firebase/App Store tickets are resolved."
       files_changed:
         - "docs/marketing/babyminimo-aso-screenshot-manifest.draft.json"
         - "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
@@ -14110,6 +14140,7 @@ tasks:
         - "Paywall/premium screenshots require StoreKit/TestFlight product, display price, trial, restore, and legal-copy validation."
         - "Localized screenshot generation is blocked by PBI-065 runtime i18n and AI linguistic QA gates."
         - "Final App Store dimension generation tooling has not been run for approved source assets."
+        - "Product owner directed that App Store screenshots happen after all production tickets are resolved."
       safe_progress:
         - "Draft English manifest exists at docs/marketing/babyminimo-aso-screenshot-manifest.draft.json."
   - id: T306
@@ -14118,8 +14149,8 @@ tasks:
     status: blocked
     pbi: "PBI-063"
     pbi_title: "ASO App Store screenshot generation and gifting creative set"
-    phase: "Phase 11, immediately before Release and App Store readiness."
-    production_last_phase: false
+    phase: "Phase 11, after production Firebase/App Store readiness gates."
+    production_last_phase: true
     objective: "PBI-063 T5: Verify assets against the manifest, update release docs, CHANGELOG.md, and GoalBuddy receipt."
     inputs:
       - "PBI source: docs/product/babyminimo-pbi-codex-goalbuddy-pack.md#PBI-063"
@@ -14158,11 +14189,12 @@ tasks:
     receipt:
       result: blocked
       decision: "blocked_until_final_assets_exist"
-      summary: "Cannot verify final App Store screenshot assets because T305 is blocked and no final generated/exported assets exist yet. Resume after approved source retakes, headline confirmation, StoreKit/paywall validation, and final export."
+      summary: "Cannot verify final App Store screenshot assets because T305 is blocked and no final generated/exported assets exist yet. Resume after production Firebase/App Store tickets are resolved, approved source retakes are captured, headline order is confirmed, StoreKit/paywall validation passes, and final export is generated."
       blockers:
         - "No final generated App Store screenshot assets exist."
         - "Draft manifest only; production-quality source rows are still blocked or require retakes."
         - "Localized screenshots remain blocked until runtime localization and AI linguistic QA gates are cleared."
+        - "Product owner directed that App Store screenshots happen after all production tickets are resolved."
   - id: T307
     type: scout
     assignee: Scout
@@ -14996,7 +15028,7 @@ tasks:
   - id: T327
     type: scout
     assignee: Scout
-    status: active
+    status: done
     pbi: "PBI-056"
     pbi_title: "Account deletion and data purge"
     phase: "Phase 10, local/emulator privacy hardening before production Firebase and App Store readiness."
@@ -15030,10 +15062,22 @@ tasks:
       - "Acceptance criteria conflict with approved PBI scope."
       - "Verification fails twice."
       - "Requires production Firebase deploy, App Store Connect write, signing, production credentials, or irreversible production data deletion."
+    receipt:
+      result: done
+      summary: "Defined the account deletion policy for user profile, household membership, babies, care events, reminders, local Growth Timeline photos/metadata, widget snapshots, notifications, analytics, and auth session. Local/emulator ownership is separated from backend/shared production purge ownership."
+      evidence:
+        - "src/features/privacy/accountDeletionPolicy.ts"
+        - "src/features/privacy/index.ts"
+        - "src/features/privacy/accountDeletionPolicy.test.ts"
+      verification:
+        - command: "bun run test:typecheck"
+          result: "passed"
+        - command: "bun run test:unit"
+          result: "passed"
   - id: T328
     type: worker
     assignee: Worker
-    status: queued
+    status: done
     pbi: "PBI-056"
     pbi_title: "Account deletion and data purge"
     phase: "Phase 10, local/emulator privacy hardening before production Firebase and App Store readiness."
@@ -15055,6 +15099,10 @@ tasks:
       - "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
       - "docs/goals/babyminimo-emulator-hardening/state.yaml"
       - "CHANGELOG.md"
+      - "app/(settings)/account.tsx"
+      - "app/_layout.tsx"
+      - "app/modals/delete-account-confirm.tsx"
+      - "src/localization/resources/en.ts"
       - "app/**"
       - "src/**"
       - "e2e/**"
@@ -15067,6 +15115,30 @@ tasks:
       - "Acceptance criteria conflict with approved PBI scope."
       - "Verification fails twice."
       - "Requires production Firebase deploy, App Store Connect write, signing, production credentials, or irreversible production data deletion."
+    receipt:
+      result: done
+      summary: "Added an Account screen delete entry and a transparent confirmation modal with password field, typed DELETE confirmation, disabled/submit/error states, emulator-safe sign out, and production-purge caveat copy."
+      changed_files:
+        - "app/(settings)/account.tsx"
+        - "app/_layout.tsx"
+        - "app/modals/delete-account-confirm.tsx"
+        - "src/localization/resources/en.ts"
+      evidence:
+        - "app/(settings)/account.tsx"
+        - "app/_layout.tsx"
+        - "app/modals/delete-account-confirm.tsx"
+        - "src/localization/resources/en.ts"
+        - "docs/localization/app-strings/*.json"
+      commands:
+        - command: "bun run test:typecheck"
+          status: pass
+        - command: "bun run test:unit"
+          status: pass
+      verification:
+        - command: "bun run test:typecheck"
+          result: "passed"
+        - command: "bun run test:unit"
+          result: "passed"
   - id: T329
     type: worker
     assignee: Worker
@@ -15092,6 +15164,8 @@ tasks:
       - "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
       - "docs/goals/babyminimo-emulator-hardening/state.yaml"
       - "CHANGELOG.md"
+      - "app/modals/delete-account-confirm.tsx"
+      - "docs/product/babyminimo-data-lifecycle-privacy-plan.md"
       - "app/**"
       - "src/**"
       - "e2e/**"
@@ -15107,7 +15181,7 @@ tasks:
   - id: T330
     type: worker
     assignee: Worker
-    status: queued
+    status: done
     pbi: "PBI-056"
     pbi_title: "Account deletion and data purge"
     phase: "Phase 10, local/emulator privacy hardening before production Firebase and App Store readiness."
@@ -15129,6 +15203,8 @@ tasks:
       - "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
       - "docs/goals/babyminimo-emulator-hardening/state.yaml"
       - "CHANGELOG.md"
+      - "app/modals/delete-account-confirm.tsx"
+      - "docs/product/babyminimo-data-lifecycle-privacy-plan.md"
       - "app/**"
       - "src/**"
       - "e2e/**"
@@ -15141,10 +15217,29 @@ tasks:
       - "Acceptance criteria conflict with approved PBI scope."
       - "Verification fails twice."
       - "Requires production Firebase deploy, App Store Connect write, signing, production credentials, or irreversible production data deletion."
+    receipt:
+      result: done
+      summary: "Connected account deletion to the existing local lifecycle cleanup path for local Growth Timeline state, care cache, widget snapshots/settings, notification schedules, analytics identity, and auth/session stores. Production backend purge stays gated in T329."
+      changed_files:
+        - "app/modals/delete-account-confirm.tsx"
+        - "docs/product/babyminimo-data-lifecycle-privacy-plan.md"
+      evidence:
+        - "app/modals/delete-account-confirm.tsx"
+        - "docs/product/babyminimo-data-lifecycle-privacy-plan.md"
+      commands:
+        - command: "bun run test:typecheck"
+          status: pass
+        - command: "bun run test:unit"
+          status: pass
+      verification:
+        - command: "bun run test:typecheck"
+          result: "passed"
+        - command: "bun run test:unit"
+          result: "passed"
   - id: T331
     type: worker
     assignee: Worker
-    status: queued
+    status: done
     pbi: "PBI-056"
     pbi_title: "Account deletion and data purge"
     phase: "Phase 10, local/emulator privacy hardening before production Firebase and App Store readiness."
@@ -15166,6 +15261,9 @@ tasks:
       - "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
       - "docs/goals/babyminimo-emulator-hardening/state.yaml"
       - "CHANGELOG.md"
+      - "src/features/privacy/accountDeletionPolicy.test.ts"
+      - "e2e/maestro/smoke.yaml"
+      - "docs/product/babyminimo-data-lifecycle-privacy-plan.md"
       - "app/**"
       - "src/**"
       - "e2e/**"
@@ -15178,10 +15276,33 @@ tasks:
       - "Acceptance criteria conflict with approved PBI scope."
       - "Verification fails twice."
       - "Requires production Firebase deploy, App Store Connect write, signing, production credentials, or irreversible production data deletion."
+    receipt:
+      result: done
+      summary: "Added unit coverage for deletion policy, extended Maestro smoke coverage to assert the delete-account route without executing destructive deletion, and updated lifecycle/privacy docs plus changelog."
+      changed_files:
+        - "src/features/privacy/accountDeletionPolicy.test.ts"
+        - "e2e/maestro/smoke.yaml"
+        - "docs/product/babyminimo-data-lifecycle-privacy-plan.md"
+        - "CHANGELOG.md"
+      evidence:
+        - "src/features/privacy/accountDeletionPolicy.test.ts"
+        - "e2e/maestro/smoke.yaml"
+        - "docs/product/babyminimo-data-lifecycle-privacy-plan.md"
+        - "CHANGELOG.md"
+      commands:
+        - command: "bun run test:typecheck"
+          status: pass
+        - command: "bun run test:unit"
+          status: pass
+      verification:
+        - command: "bun run test:typecheck"
+          result: "passed"
+        - command: "bun run test:unit"
+          result: "passed"
   - id: T332
     type: scout
     assignee: Scout
-    status: queued
+    status: done
     pbi: "PBI-067"
     pbi_title: "Multi-baby household support"
     phase: "Phase 9, before production Firebase and App Store readiness."
@@ -15214,10 +15335,21 @@ tasks:
       - "Acceptance criteria conflict with approved PBI scope."
       - "Verification fails twice."
       - "Requires production Firebase deploy, App Store Connect write, signing, or production credentials."
+    receipt:
+      result: done
+      summary: "Audited selectedBabyId paths and defined the multi-baby policy: one household owns multiple babies; Home, Timeline, Handoff, Quick Log, Reminders, Growth Timeline, widgets, and local cleanup scope to selectedBabyId; all-babies aggregation is deferred."
+      evidence:
+        - "docs/product/babyminimo-multi-baby-activity-plan.md"
+        - "src/stores/authStore.ts"
+        - "app/(tabs)/home.tsx"
+        - "app/(tabs)/timeline.tsx"
+      verification:
+        - command: "bun run test:typecheck"
+          result: "passed"
   - id: T343
     type: worker
     assignee: Worker
-    status: queued
+    status: done
     pbi: "PBI-067"
     pbi_title: "Multi-baby household support"
     phase: "Phase 9, before production Firebase and App Store readiness."
@@ -15240,6 +15372,13 @@ tasks:
       - "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
       - "docs/goals/babyminimo-emulator-hardening/state.yaml"
       - "CHANGELOG.md"
+      - "src/features/demo/household.ts"
+      - "src/stores/authStore.ts"
+      - "app/modals/baby-switcher.tsx"
+      - "app/_layout.tsx"
+      - "app/(onboarding)/add-baby.tsx"
+      - "src/components/home/HomeHeader.tsx"
+      - "src/localization/resources/en.ts"
       - "app/**"
       - "src/**"
       - "e2e/**"
@@ -15253,10 +15392,26 @@ tasks:
       - "Acceptance criteria conflict with approved PBI scope."
       - "Verification fails twice."
       - "Requires production Firebase deploy, App Store Connect write, signing, or production credentials."
+    receipt:
+      result: done
+      summary: "Added local/emulator household baby inventory, Home header baby selector affordance, baby-switcher modal, add-another-baby form, and onboarding store hydration for initial baby state."
+      changed_files:
+        - "src/features/demo/household.ts"
+        - "src/stores/authStore.ts"
+        - "app/modals/baby-switcher.tsx"
+        - "app/_layout.tsx"
+        - "app/(onboarding)/add-baby.tsx"
+        - "src/components/home/HomeHeader.tsx"
+        - "src/localization/resources/en.ts"
+      commands:
+        - command: "bun run test:typecheck"
+          status: pass
+        - command: "bun run test:unit"
+          status: pass
   - id: T344
     type: worker
     assignee: Worker
-    status: queued
+    status: done
     pbi: "PBI-067"
     pbi_title: "Multi-baby household support"
     phase: "Phase 9, before production Firebase and App Store readiness."
@@ -15279,6 +15434,12 @@ tasks:
       - "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
       - "docs/goals/babyminimo-emulator-hardening/state.yaml"
       - "CHANGELOG.md"
+      - "app/(tabs)/home.tsx"
+      - "app/(tabs)/handoff.tsx"
+      - "app/(settings)/reminders.tsx"
+      - "src/features/demo/reminders.ts"
+      - "src/features/widgets/currentStateWidgetUpdater.ts"
+      - "src/features/widgets/widgetPayload.test.ts"
       - "app/**"
       - "src/**"
       - "e2e/**"
@@ -15292,10 +15453,25 @@ tasks:
       - "Acceptance criteria conflict with approved PBI scope."
       - "Verification fails twice."
       - "Requires production Firebase deploy, App Store Connect write, signing, or production credentials."
+    receipt:
+      result: done
+      summary: "Scoped Home display, Handoff view/analytics, Reminders list/create flow, widget snapshot updates, and widget tests to selectedBabyId. Quick Log, Timeline, and Growth Timeline already used selectedBabyId and were verified during audit."
+      changed_files:
+        - "app/(tabs)/home.tsx"
+        - "app/(tabs)/handoff.tsx"
+        - "app/(settings)/reminders.tsx"
+        - "src/features/demo/reminders.ts"
+        - "src/features/widgets/currentStateWidgetUpdater.ts"
+        - "src/features/widgets/widgetPayload.test.ts"
+      commands:
+        - command: "bun run test:typecheck"
+          status: pass
+        - command: "bun run test:unit"
+          status: pass
   - id: T345
     type: judge
     assignee: Judge
-    status: queued
+    status: done
     pbi: "PBI-067"
     pbi_title: "Multi-baby household support"
     phase: "Phase 9, before production Firebase and App Store readiness."
@@ -15331,10 +15507,23 @@ tasks:
       - "Acceptance criteria conflict with approved PBI scope."
       - "Verification fails twice."
       - "Requires production Firebase deploy, App Store Connect write, signing, or production credentials."
+    receipt:
+      result: done
+      decision: accept
+      summary: "Added auth store multi-baby unit tests, verified typecheck/unit tests, and smoked Home plus baby-switcher modal in the browser simulator. App Store screenshots remain deferred until production tickets are resolved."
+      evidence:
+        - "src/stores/authStore.test.ts"
+        - "Simulator route babyminimo:///(tabs)/home loaded"
+        - "Simulator route babyminimo:///modals/baby-switcher loaded"
+      verification:
+        - command: "bun run test:typecheck"
+          result: "passed"
+        - command: "bun run test:unit"
+          result: "passed"
   - id: T346
     type: pm
     assignee: PM
-    status: queued
+    status: done
     pbi: "PBI-067"
     pbi_title: "Multi-baby household support"
     phase: "Phase 9, before production Firebase and App Store readiness."
@@ -15364,10 +15553,20 @@ tasks:
       - "Need files outside allowed_files."
       - "Acceptance criteria conflict with approved PBI scope."
       - "Verification fails twice."
+    receipt:
+      result: done
+      summary: "Updated the multi-baby/activity planning doc and changelog. Final App Store screenshot generation is explicitly deferred until production Firebase/App Store tickets are resolved."
+      evidence:
+        - "docs/product/babyminimo-multi-baby-activity-plan.md"
+        - "CHANGELOG.md"
+        - "docs/goals/babyminimo-emulator-hardening/state.yaml"
+      verification:
+        - command: "bun run test:typecheck"
+          result: "passed"
   - id: T347
     type: scout
     assignee: Scout
-    status: queued
+    status: done
     pbi: "PBI-068"
     pbi_title: "Baby Activity and Habit Tracker"
     phase: "Phase 9.5, before production Firebase and App Store readiness."
@@ -15403,10 +15602,25 @@ tasks:
       - "Acceptance criteria conflict with approved PBI scope."
       - "Verification fails twice."
       - "Requires production Firebase deploy, App Store Connect write, signing, or production credentials."
+    receipt:
+      result: done
+      summary: "Defined the BabyMinimo activity model and policy from the flashcard-generator activity reference: selected-baby scoped local activity, 120-item bounded retention, supportive care-rhythm language, and no punitive streak mechanics."
+      files_inspected:
+        - "/Users/frank/flashcard-generator/stores/activityStore.ts"
+        - "/Users/frank/flashcard-generator/lib/analytics/events.ts"
+        - "/Users/frank/flashcard-generator/docs/delivery/PBI-020/prd.md"
+        - "/Users/frank/flashcard-generator/docs/delivery/PBI-020/tasks.md"
+      evidence:
+        - "src/features/activity/activityModel.ts"
+        - "src/features/activity/activityModel.test.ts"
+        - "docs/product/babyminimo-multi-baby-activity-plan.md"
+      verification:
+        - command: "bun run test:typecheck"
+          result: "passed"
   - id: T348
     type: worker
     assignee: Worker
-    status: queued
+    status: done
     pbi: "PBI-068"
     pbi_title: "Baby Activity and Habit Tracker"
     phase: "Phase 9.5, before production Firebase and App Store readiness."
@@ -15430,6 +15644,16 @@ tasks:
       - "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
       - "docs/goals/babyminimo-emulator-hardening/state.yaml"
       - "CHANGELOG.md"
+      - "src/stores/activityStore.ts"
+      - "src/stores/index.ts"
+      - "src/stores/careEventStore.ts"
+      - "app/(settings)/reminders.tsx"
+      - "app/(tabs)/handoff.tsx"
+      - "app/modals/add-moment.tsx"
+      - "app/modals/baby-switcher.tsx"
+      - "src/features/privacy/localLifecycle.ts"
+      - "src/features/privacy/localLifecycleCore.ts"
+      - "src/features/privacy/localLifecycle.test.ts"
       - "app/**"
       - "src/**"
       - "e2e/**"
@@ -15442,10 +15666,34 @@ tasks:
       - "Acceptance criteria conflict with approved PBI scope."
       - "Verification fails twice."
       - "Requires production Firebase deploy, App Store Connect write, signing, or production credentials."
+    receipt:
+      result: done
+      summary: "Implemented the local BabyMinimo activity recorder and hooked it into care-event saves, reminder creation, Growth Timeline Add Moment, Handoff views, baby selection, baby creation, and local account cleanup."
+      changed_files:
+        - "src/stores/activityStore.ts"
+        - "src/stores/index.ts"
+        - "src/stores/careEventStore.ts"
+        - "app/(settings)/reminders.tsx"
+        - "app/(tabs)/handoff.tsx"
+        - "app/modals/add-moment.tsx"
+        - "app/modals/baby-switcher.tsx"
+        - "src/features/privacy/localLifecycle.ts"
+        - "src/features/privacy/localLifecycleCore.ts"
+        - "src/features/privacy/localLifecycle.test.ts"
+      commands:
+        - command: "bun run test:typecheck"
+          status: pass
+        - command: "bun run test:unit"
+          status: pass
+      verification:
+        - command: "bun run test:typecheck"
+          result: "passed"
+        - command: "bun run test:unit"
+          result: "passed"
   - id: T349
     type: worker
     assignee: Worker
-    status: queued
+    status: done
     pbi: "PBI-068"
     pbi_title: "Baby Activity and Habit Tracker"
     phase: "Phase 9.5, before production Firebase and App Store readiness."
@@ -15468,6 +15716,10 @@ tasks:
       - "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
       - "docs/goals/babyminimo-emulator-hardening/state.yaml"
       - "CHANGELOG.md"
+      - "app/(settings)/activity.tsx"
+      - "app/(tabs)/settings.tsx"
+      - "src/localization/resources/en.ts"
+      - "docs/localization/app-strings/*.json"
       - "app/**"
       - "src/**"
       - "e2e/**"
@@ -15481,10 +15733,28 @@ tasks:
       - "Acceptance criteria conflict with approved PBI scope."
       - "Verification fails twice."
       - "Requires production Firebase deploy, App Store Connect write, signing, or production credentials."
+    receipt:
+      result: done
+      summary: "Added an Activity Rhythm screen under Settings, not as a new primary tab. The screen summarizes selected-baby activity counts and recent local touchpoints while preserving supportive BabyMinimo copy."
+      changed_files:
+        - "app/(settings)/activity.tsx"
+        - "app/(tabs)/settings.tsx"
+        - "src/localization/resources/en.ts"
+        - "docs/localization/app-strings/*.json"
+      commands:
+        - command: "bun run test:typecheck"
+          status: pass
+        - command: "bun run test:unit"
+          status: pass
+      verification:
+        - command: "bun run test:typecheck"
+          result: "passed"
+        - command: "bun run test:unit"
+          result: "passed"
   - id: T350
     type: judge
     assignee: Judge
-    status: queued
+    status: done
     pbi: "PBI-068"
     pbi_title: "Baby Activity and Habit Tracker"
     phase: "Phase 9.5, before production Firebase and App Store readiness."
@@ -15520,10 +15790,24 @@ tasks:
       - "Acceptance criteria conflict with approved PBI scope."
       - "Verification fails twice."
       - "Requires production Firebase deploy, App Store Connect write, signing, or production credentials."
+    receipt:
+      result: done
+      decision: accept
+      summary: "Added activity unit coverage, reran typecheck/unit tests, opened baby switcher and Activity Rhythm routes in the simulator, and corrected the baby switcher vertical layout so it no longer collides with the Dynamic Island/status area."
+      evidence:
+        - "src/features/activity/activityModel.test.ts"
+        - "xcrun simctl openurl booted babyminimo:///modals/baby-switcher"
+        - "xcrun simctl openurl booted 'babyminimo:///(settings)/activity'"
+        - "Browser simulator URL returned HTTP 200"
+      verification:
+        - command: "bun run test:typecheck"
+          result: "passed"
+        - command: "bun run test:unit"
+          result: "passed"
   - id: T351
     type: pm
     assignee: PM
-    status: queued
+    status: done
     pbi: "PBI-068"
     pbi_title: "Baby Activity and Habit Tracker"
     phase: "Phase 9.5, before production Firebase and App Store readiness."
@@ -15554,6 +15838,290 @@ tasks:
       - "Need files outside allowed_files."
       - "Acceptance criteria conflict with approved PBI scope."
       - "Verification fails twice."
+    receipt:
+      result: done
+      summary: "Updated the multi-baby/activity planning doc, localization source files, changelog, and GoalBuddy receipts. Final App Store screenshots remain deferred until production Firebase/App Store tasks are resolved."
+      evidence:
+        - "docs/product/babyminimo-multi-baby-activity-plan.md"
+        - "docs/localization/app-strings/*.json"
+        - "src/localization/resources/en.ts"
+        - "CHANGELOG.md"
+        - "docs/goals/babyminimo-emulator-hardening/state.yaml"
+      verification:
+        - command: "bun run test:typecheck"
+          result: "passed"
+        - command: "bun run test:unit"
+          result: "passed"
+  - id: T353
+    type: worker
+    assignee: Worker
+    status: done
+    pbi: "PBI-051A"
+    pbi_title: "UI hardening follow-up for misleading controls"
+    phase: "Phase 10."
+    production_last_phase: false
+    objective: "PBI-051A T1-T3: Resolve CTRL-101 through CTRL-106 misleading UI controls from the control integration audit."
+    inputs:
+      - "PBI source: docs/product/babyminimo-pbi-codex-goalbuddy-pack.md#PBI-051A"
+      - "Audit source: docs/product/babyminimo-control-integration-audit.md#ui-hardening-bugs"
+      - "Dependency: PBI-051"
+      - "Dependency: PBI-052"
+    constraints:
+      - "Follow rules.md and AGENTS.md before starting implementation."
+      - "Keep one active task at a time and update GoalBuddy receipts after verification."
+      - "Keep this as a local UI hardening task; do not start production Firebase, StoreKit, App Store Connect, auth-provider, or production notification work."
+      - "Preserve approved BabyMinimo visual direction while making misleading controls honest."
+    requirements:
+      - "Home weekly summary chevron is either wired to a useful detail route or removed/restyled as read-only."
+      - "Shared SettingsHeader right settings icon is hidden unless an actual right-side action is provided."
+      - "Family caregiver row ellipsis is either wired to a role-aware member menu or removed until member actions exist."
+      - "Breastfeed modal Bottle option either routes to the Bottle modal or no longer appears selectable."
+      - "Log form event time/date pills are either editable or restyled as read-only metadata."
+      - "Text links that navigate, including Home/Growth View all, expose accessibilityRole button and stable test IDs."
+      - "Update docs/product/babyminimo-control-integration-audit.md with the resolution for CTRL-101 through CTRL-106."
+    expected_output:
+      - "Files changed or inspected"
+      - "Implementation summary for CTRL-101 through CTRL-106"
+      - "Verification commands and results"
+      - "Simulator or Maestro evidence for Home, Family, and log-form interactions"
+      - "Updated changelog and GoalBuddy receipt"
+    allowed_files:
+      - "app/**"
+      - "src/**"
+      - "e2e/**"
+      - "docs/product/babyminimo-control-integration-audit.md"
+      - "docs/product/babyminimo-interaction-hardening-inventory.md"
+      - "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+      - "docs/goals/babyminimo-emulator-hardening/state.yaml"
+      - "docs/qa/**"
+      - "CHANGELOG.md"
+    verify:
+      - "bun run test:typecheck"
+      - "bun run test:unit"
+      - "simulator smoke through serve-sim for Home, Family, Breastfeed/Bottle log form, and Timeline/Growth View all"
+    stop_if:
+      - "Need production Firebase, StoreKit, App Store Connect, auth-provider, signing, or production notification credentials."
+      - "Acceptance criteria conflict with approved PBI scope."
+      - "Verification fails twice."
+    receipt:
+      result: done
+      decision: accept
+      summary: "Resolved CTRL-101 through CTRL-106 by removing misleading static affordances, hiding SettingsHeader right actions unless wired, routing Breastfeed Bottle selection to the Bottle form, restyling log time/date metadata as read-only, and adding button semantics/test IDs to the Home Growth View all action."
+      evidence:
+        - "docs/product/babyminimo-control-integration-audit.md"
+        - "docs/qa/screenshots/pbi-051a/home-summary-no-chevron.png"
+        - "docs/qa/screenshots/pbi-051a/family-no-ellipsis-no-header-action.png"
+        - "docs/qa/screenshots/pbi-051a/breastfeed-bottle-routes-to-bottle.png"
+        - "docs/qa/screenshots/pbi-051a/growth-view-all-opens-timeline.png"
+      verification:
+        - command: "bun run test:typecheck"
+          result: "passed"
+        - command: "bun run test:unit"
+          result: "passed"
+        - command: "simulator smoke through serve-sim for Home, Family, Breastfeed/Bottle log form, and Timeline/Growth View all"
+          result: "passed"
+  - id: T354
+    type: worker
+    assignee: Worker
+    status: done
+    pbi: "PBI-069"
+    pbi_title: "Growth Timeline Album Export and Frame Catalog"
+    phase: "Phase 10."
+    production_last_phase: false
+    objective: "PBI-069 T1-T5: Define and implement local-first Growth Timeline album export with 51 BabyMinimo-branded source frame templates: 43 single/detail baby frames, including feminine blush/rose floral options, 13 additional unique frame designs, Fan Fold Trio, and 10 local static 3D frame assets from new-frame-sample, plus 8 collage frames, pagination, Storybook timeline editing, 5 generated local test baby photos, and 12-month album support. User-facing v1 selection exposes 41 active non-3D templates while 3D templates remain experimental until photo positioning exists."
+    inputs:
+      - "PBI source: docs/product/babyminimo-pbi-codex-goalbuddy-pack.md#PBI-069"
+      - "Dependencies: PBI-025, PBI-026, PBI-027, PBI-028, PBI-052, PBI-057, PBI-063"
+      - "Data lifecycle source: docs/product/babyminimo-data-lifecycle-privacy-plan.md"
+    constraints:
+      - "Follow rules.md and AGENTS.md before starting implementation."
+      - "Keep one active task at a time and update GoalBuddy receipts after verification."
+      - "Keep this as a local Growth Timeline/export task; do not start production Firebase storage, cloud media sync, print-provider APIs, StoreKit, App Store Connect, billing, auth/session, or migration work."
+      - "Runtime AI frame generation is out of scope for v1; Image Gen 2/Codex image generation may be used only to design or refine approved static frame concepts/assets."
+      - "Growth Timeline remains inside Timeline; do not add a new primary tab."
+    requirements:
+      - "Add a Timeline Growth-context entry point such as Create album or Export album."
+      - "Support both printable PDF album output and individual image-page output in the model and UI."
+      - "Allow selected Growth Timeline photo moments to include captions, dates, baby name, and optional household/relationship attribution when already available."
+      - "Use the product-owner-provided frame examples as the visual reference: premium baby keepsake stationery, warm cream paper, soft sage, muted gold, soft florals, subtle BabyMinimo branding, gentle shadows, and print-ready margins."
+      - "Create a curated static frame catalog with exactly 51 source templates: 43 single/detail baby frames and 8 collage frames."
+      - "The 43 single/detail baby frames are Classic Cream single, Sage Keepsake single, Storybook single, Blush Gallery single, Rose Floral single, Milestone Card single, Print Shop Border single, Tiny Toes single/detail frame, Welcome Home single, Blush Moon Nap single, Little Star single, Heirloom Portrait single, Rose Garden single, Pink Peony single, Blush Bow single, Red Rose Keepsake single, Butterfly Blush single, Lace Princess single, Garden Party single, Curling Vine single, Rose Lace single, Daisy Chain single, Pearl Oval single, Three Month Steps single/detail, Cloud Dream single, Golden Scroll single, Meadow Wreath single, Ribbon Keepsake single, Six Month Steps single/detail, Twelve Month Steps single/detail, Little Crown single, Garden Arch single, Fan Fold Trio single/detail, 3D Teddy Fan single/detail, 3D Safari Trio single/detail, 3D Woodland Arch single, 3D Dino Cloud single, 3D Moon Cloud single, 3D Rainbow Trio single/detail, 3D Rose Bow single, 3D Ocean Sail single, 3D Balloon Duo single/detail, and 3D Castle Portrait single."
+      - "Three Month Steps, Six Month Steps, and Twelve Month Steps render real stepped milestone photo arrangements in preview, not just one-photo variants with different flowers or lines."
+      - "Fan Fold Trio renders three tall overlapping photo panels fanned from a shared bottom point, based on the product-owner sketch."
+      - "Add 10 local static 3D frame assets based on new-frame-sample: Teddy Fan, Safari Trio, Woodland Arch, Dino Cloud, Moon Cloud, Rainbow Trio, Rose Bow, Ocean Sail, Balloon Duo, and Castle Portrait."
+      - "The 10 local static 3D frame assets are additive designs with stable three-d-* IDs; do not replace, rename, or visually convert existing flat/stationery frames into 3D variants."
+      - "3D frame PNGs use transparent outside canvases and tight object bounds so raised frame objects do not render as white squares inside the album page."
+      - "3D frame templates remain experimental and disabled from the normal picker and enlarged-preview carousel until slot-level drag/pinch photo positioning exists, because automatic placement can still leave visible white edge gaps for some aspect ratios."
+      - "The 8 collage frames are Two Together 2-photo collage, Little Moments Strip 3-photo collage, First Smiles Grid 4-photo collage, Family Circle arched plus 2 circles, Scrapbook Keepsake collage, Milestone Collage 1 large plus 3 small, First Year Grid 12-photo layout, and Grandparent Keepsake 3-photo."
+      - "Every frame includes subtle BabyMinimo branding such as BabyMinimo, BabyMinimo Memories, or a small BabyMinimo imprint."
+      - "Exactly 8 templates are collage layouts; the remaining 43 templates are single/detail baby frames."
+      - "Include a feminine/girl-forward blush and rose frame family; do not make those frames minor repeats of the cream/sage/gold top-line heart treatment."
+      - "Include 13 additional unique frame designs using curl lines, lace, daisies, pearl ovals, plaid, clouds, scrolls, wreaths, ribbons, polka dots, story curls, crowns, and garden arches; do not reuse the same ornament layout with only color changes."
+      - "Generate polished empty frame assets and generated-baby sample preview assets with Image Gen 2, then save approved outputs as frontend static assets or static frame style definitions."
+      - "Create 5 generated baby test-photo assets and seed them as local/demo Growth Timeline photo moments so the export preview behaves like a user selected uploaded photos."
+      - "Frame catalog entries have stable IDs, display names, layout metadata, preview metadata, and static approved assets or static style definitions."
+      - "Implement a paginated active frame selector with 8 frames per page and stable test IDs for page controls."
+      - "Keep the lower frame picker grid collapsed/off by default with a dedicated toggle, so users can hide the full frame list while still browsing frames from the enlarged preview."
+      - "Decorative album frame overlays default to off and can be turned on or off from the enlarged preview pop-up."
+      - "The enlarged preview pop-up includes compact circular frame color controls for original, cream, sage, and pink palettes; selecting a color updates the frame background and main accent/decoration colors without resizing the preview."
+      - "The enlarged preview pop-up includes left/right overlay controls that select the previous or next frame directly and keep the paginated picker in sync."
+      - "Future native export editing should add per-photo drag-to-position and pinch-to-zoom controls for manual crop/reposition before experimental 3D frame templates are re-enabled."
+      - "Storybook frame supports baby timeline items by default and lets users remove selected timeline items before export."
+      - "First Year Grid supports 12 monthly photo slots in month order, with tasteful empty placeholders for missing months."
+      - "Frame preview supports generated sample baby photos for QA/design review."
+      - "Add local export payload tests for selected moment IDs, frame ID, baby name, captions, dates, output format, exact 51-frame catalog count, exact 43 single/detail plus 8 collage split, Storybook item removal, and 12-month slot ordering."
+      - "Add localization keys for every visible export/frame string across all supported app-string files."
+      - "Album title/note inputs enforce frame-safe character limits with visible counters so user text does not overflow previews or rendered exports."
+      - "Album title/note editing is collapsed/off by default with a dedicated toggle, while default title/note values remain available for preview and export."
+      - "Update data lifecycle documentation so generated export archives/pages are treated as user-created local artifacts and future cloud/export archive retention follows heavy-data purge policy."
+    expected_output:
+      - "Files changed or inspected"
+      - "Frame catalog decisions, Image Gen 2 static asset paths, and any static asset/design-generation caveats"
+      - "Implementation summary for album export entry point, selection, frame selector, and preview/export payload"
+      - "Verification commands and results"
+      - "Simulator or visual QA evidence for Timeline Growth export access, frame pagination, Storybook editing, 12-month layout, and at least one preview state"
+      - "Updated changelog, lifecycle docs, and GoalBuddy receipt"
+    allowed_files:
+      - "app/**"
+      - "src/**"
+      - "e2e/**"
+      - "docs/product/**"
+      - "docs/goals/babyminimo-emulator-hardening/state.yaml"
+      - "docs/localization/**"
+      - "docs/qa/**"
+      - "CHANGELOG.md"
+    verify:
+      - "bun run test:typecheck"
+      - "bun run test:unit"
+      - "simulator smoke through serve-sim for Timeline Growth export entry point, paginated frame selector, Storybook item removal, 12-month layout, and PDF/image preview state"
+      - "visual QA screenshots for empty frame assets and generated-baby sample preview assets against the provided examples"
+    stop_if:
+      - "Need production Firebase storage, cloud media sync, print-provider APIs, StoreKit, App Store Connect, billing, auth/session changes, migrations, or production credentials."
+      - "Implementation would require runtime AI frame generation inside the app."
+      - "Implementation would require backend export history or cloud storage."
+      - "Acceptance criteria conflict with approved Growth Timeline local-only scope."
+      - "Verification fails twice."
+    receipt:
+      result: done
+      decision: accept
+      summary: "Implemented a local-first Growth Timeline album export flow with a 51-template BabyMinimo source frame catalog, 43 single/detail frames including blush/rose feminine options, 13 additional unique frame designs, Fan Fold Trio, 10 local static experimental 3D frame assets from new-frame-sample, 8 collage frames, 5 generated local test baby photos seeded as demo Growth Timeline media, default-off album text editing, default-off lower frame picker with 8-per-page active pagination, enlarged preview frame navigation across active frames, default-off preview decoration toggle, compact original/cream/sage/pink preview color controls, frame-safe album text limits, experimental 3D frame gating until slot-level photo positioning exists, Storybook timeline item removal, First Year 12-month placeholders, PDF/image output selection, typed local export payloads, localization keys, catalog documentation, and simulator evidence."
+      evidence:
+        - "app/(tabs)/timeline.tsx"
+        - "app/modals/export-album.tsx"
+        - "src/features/album/frameCatalog.ts"
+        - "src/features/album/frameCatalog.test.ts"
+        - "docs/product/babyminimo-album-export-frame-catalog.md"
+        - "docs/qa/screenshots/pbi-069/timeline-growth-export-entry.png"
+        - "docs/qa/screenshots/pbi-069/album-modal-frame-selector-page-1.png"
+        - "docs/qa/screenshots/pbi-069/album-frame-selector-page-2.png"
+        - "docs/qa/screenshots/pbi-069/storybook-removal-export-ready.png"
+        - "docs/qa/screenshots/pbi-069/first-year-placeholders-export-ready.png"
+        - "docs/qa/screenshots/pbi-069/all-frames/"
+        - "docs/qa/screenshots/pbi-069/all-frames-40/"
+        - "docs/qa/screenshots/pbi-069/album-preview-color-palette.png"
+        - "docs/qa/screenshots/pbi-069/album-frame-picker-default-off.png"
+        - "docs/qa/screenshots/pbi-069/album-text-toggle-default-off.png"
+        - "docs/qa/screenshots/pbi-069/step-frames/three-month-steps-preview.png"
+        - "docs/qa/screenshots/pbi-069/step-frames/six-month-steps-preview.png"
+        - "docs/qa/screenshots/pbi-069/step-frames/twelve-month-steps-preview.png"
+        - "docs/qa/screenshots/pbi-069/step-frames/fan-fold-trio-preview.png"
+        - "docs/qa/screenshots/pbi-069/three-d-frames/three-d-frame-contact-sheet.png"
+        - "docs/qa/screenshots/pbi-069/three-d-frames/"
+      verification:
+        - command: "bun run test:typecheck"
+          result: "passed"
+        - command: "bun run test:unit"
+          result: "passed"
+        - command: "simulator smoke through serve-sim for Timeline Growth export entry point, paginated frame selector, Storybook item removal, 12-month layout, and PDF/image preview state"
+          result: "passed"
+        - command: "visual QA screenshots for empty frame assets and generated-baby sample preview assets against the provided examples"
+          result: "passed with static style definitions and local sample photo previews"
+        - command: "simulator smoke for Three Month Steps, Six Month Steps, and Twelve Month Steps enlarged previews"
+          result: "passed"
+        - command: "simulator smoke for Fan Fold Trio enlarged preview"
+          result: "passed"
+        - command: "simulator smoke for 10 static 3D frame previews from new-frame-sample"
+          result: "superseded; 3D frames remain as experimental local assets but are disabled from the user-facing picker because visual QA found unresolved white photo-fit gaps without crop/reposition controls"
+  - id: T355
+    type: worker
+    assignee: Worker
+    status: done
+    pbi: "PBI-070"
+    pbi_title: "Growth Timeline Local Media Durability and Backup Export"
+    phase: "Phase 10."
+    production_last_phase: false
+    objective: "PBI-070 T1-T4: Define and implement local Growth Timeline media durability, backup/export manifest metadata, local-media safety UI, and user-language album text before production work."
+    inputs:
+      - "PBI source: docs/product/babyminimo-pbi-codex-goalbuddy-pack.md#PBI-070"
+      - "Data lifecycle source: docs/product/babyminimo-data-lifecycle-privacy-plan.md"
+      - "Album catalog source: docs/product/babyminimo-album-export-frame-catalog.md"
+    constraints:
+      - "Follow rules.md and AGENTS.md before starting implementation."
+      - "Keep this as local/demo Growth Timeline durability work; do not add production Firebase Storage, cloud media sync, backend export history, iCloud automation, StoreKit, App Store Connect, billing, auth/session, or database migration work."
+      - "Frame assets remain decorative/text-free except approved BabyMinimo brand marks; visible text renders through runtime i18n or user-authored export text."
+      - "Growth Timeline remains inside Timeline; do not add a new primary tab."
+    requirements:
+      - "Add a typed Growth Timeline media durability model that classifies selected media as ready, bundled-demo, or missing."
+      - "Add a local backup/export manifest with baby ID, timestamp, media count, storage mode, and per-moment media records."
+      - "Show a Timeline Growth-context media safety indicator that explains local-only storage and backup risk with backup-ready and missing-media counts."
+      - "Add album export payload support for user-authored custom text and local media backup manifest metadata."
+      - "Allow users to type album titles/notes in their own language; preserve those values exactly and do not auto-translate them."
+      - "Update PBI/docs to explicitly say no baked-in English text in shipped frame assets."
+      - "Add localization keys for every visible media safety and album custom-text string across all supported app-string files."
+      - "Add unit tests for media classification, backup manifest construction, summary counts, and custom album text payloads."
+    expected_output:
+      - "Files changed or inspected"
+      - "Implementation summary for local media durability model, safety UI, backup manifest, and album custom text"
+      - "Updated PBI/docs, lifecycle docs, localization strings, CHANGELOG.md, and GoalBuddy receipt"
+      - "Verification commands and results"
+      - "Simulator or visual QA evidence for Timeline Growth media safety and album custom text/local export manifest surfaces"
+    allowed_files:
+      - "app/**"
+      - "src/**"
+      - "docs/product/**"
+      - "docs/goals/babyminimo-emulator-hardening/state.yaml"
+      - "docs/localization/**"
+      - "docs/qa/**"
+      - "CHANGELOG.md"
+    verify:
+      - "ruby -e \"require 'yaml'; YAML.load_file('docs/goals/babyminimo-emulator-hardening/state.yaml'); puts 'yaml ok'\""
+      - "bun run test:typecheck"
+      - "bun run test:unit"
+      - "git diff --check"
+      - "simulator smoke through serve-sim for Timeline Growth media safety card and album custom text/local manifest preview"
+    stop_if:
+      - "Need production Firebase Storage, cloud media sync, backend export history, iCloud automation, StoreKit, App Store Connect, billing, auth/session changes, migrations, or production credentials."
+      - "Implementation would require runtime AI frame generation inside the app."
+      - "Verification fails twice."
+    receipt:
+      result: done
+      decision: accept
+      summary: "Implemented local Growth Timeline media durability modeling, a local backup/export manifest, Timeline Growth media-safety UI, album custom text fields that preserve user-entered language, album export manifest metadata, documentation updates, localization strings, tests, and simulator evidence."
+      evidence:
+        - "app/(tabs)/timeline.tsx"
+        - "app/modals/export-album.tsx"
+        - "src/components/timeline/GrowthMediaSafetyCard.tsx"
+        - "src/features/growth/mediaDurability.ts"
+        - "src/features/growth/mediaDurability.test.ts"
+        - "src/features/album/frameCatalog.ts"
+        - "src/features/album/frameCatalog.test.ts"
+        - "docs/product/babyminimo-pbi-codex-goalbuddy-pack.md"
+        - "docs/product/babyminimo-data-lifecycle-privacy-plan.md"
+        - "docs/product/babyminimo-album-export-frame-catalog.md"
+        - "docs/qa/screenshots/pbi-070/timeline-growth-media-safety.png"
+        - "docs/qa/screenshots/pbi-070/album-custom-text-local-manifest.png"
+        - "docs/qa/screenshots/pbi-070/album-local-export-manifest-ready.png"
+      verification:
+        - command: "ruby -e \"require 'yaml'; YAML.load_file('docs/goals/babyminimo-emulator-hardening/state.yaml'); puts 'yaml ok'\""
+          result: "passed"
+        - command: "bun run test:typecheck"
+          result: "passed"
+        - command: "bun run test:unit"
+          result: "passed"
+        - command: "git diff --check"
+          result: "passed"
+        - command: "simulator smoke through serve-sim for Timeline Growth media safety card and album custom text/local manifest preview"
+          result: "passed"
   - id: T352
     type: scout
     assignee: Scout

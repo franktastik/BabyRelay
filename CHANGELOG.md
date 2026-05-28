@@ -6,6 +6,32 @@ All notable changes to this project are documented here.
 
 ### Added
 
+- Added a tappable enlarged album frame preview from the Growth Timeline album export modal so users can inspect the selected frame before building a local export.
+- Added a default-off toggle for the lower album frame picker so the full frame grid stays hidden until users choose to browse it.
+- Added a default-off toggle for album title/note editing so the Growth album modal stays compact until users choose to customize printed text.
+- Added compact color swatches to the enlarged album frame preview so users can switch between original, cream, sage, and pink frame palettes without changing the preview size.
+- Added Three Month Steps, Six Month Steps, and Twelve Month Steps album frames so milestone previews can use stepped 3-, 6-, and 12-photo arrangements instead of repeating single-photo layouts.
+- Added a Fan Fold Trio album frame with three tall overlapping photo panels based on the product-owner sketch.
+- Added 10 local static 3D album frame designs from `new-frame-sample/`, including teddy fan, safari trio, woodland arch, dino cloud, moon cloud, rainbow trio, rose bow, ocean sail, balloon duo, and castle portrait frames with transparent photo openings for inserted baby photos.
+- Marked the 10 local static 3D album frame designs as experimental and disabled them from the user-facing picker/preview carousel until slot-level drag/pinch photo positioning can prevent visible white edge gaps.
+- Removed opaque white canvases and excess transparent margins from the 3D frame assets so the raised frame objects sit directly on the selected album background.
+- Added enlarged album preview controls for previous/next frame selection and a default-off decoration switch inside the preview pop-up.
+- Added frame-safe character limits and visible counters for Growth album title and note text to prevent user-entered copy from overflowing album frames.
+- Added 13 more unique BabyMinimo album frame designs with curl, lace, daisy, pearl, plaid, cloud, scroll, wreath, ribbon, polka-dot, story-curl, crown, and garden-arch treatments.
+- Added five generated local baby test-photo assets and seeded them as demo Growth Timeline media so album previews exercise multiple user-selected photo types instead of repeating one sample.
+- Added optional decorative edge details for album frame previews with a toggle to turn floral/keepsake frame designs on or off.
+- Added distinct per-frame decoration treatments for the album catalog so previews no longer reuse the same flower, heart, and corner design across every frame.
+- Added distinct high-resolution baby feet and smiling baby sample images for album frame previews so enlarged frame QA is clearer and no longer repeats the same feet photo in every selected slot.
+- Expanded the Growth album frame catalog with seven feminine blush/rose frames and converted Minimal White, Soft Floral, and Moonlight Nap into more distinct girl-forward treatments.
+- Implemented PBI-069/T354 with a local Growth Timeline album export flow, a 51-template BabyMinimo source frame catalog, 41 active user-facing frame templates, paginated frame picker, Storybook timeline item removal, First Year placeholders, PDF/image output selection, local export payload tests, and simulator evidence.
+- Added PBI-070 and GoalBuddy task T355 for Growth Timeline local media durability, backup/export manifest planning, local-media safety UI, and user-language album text.
+- Tightened the album export plan so shipped frame art stays free of baked-in English UI text, frame text renders through runtime i18n, and future PDF/image export supports common print-size presets.
+- Expanded PBI-069 and GoalBuddy task T354 with the approved BabyMinimo frame examples, static asset requirements, pagination, Storybook timeline editing, and 12-month album support.
+- Added PBI-069 and GoalBuddy task T354 for local-first Growth Timeline album export, printable PDF/image-page output, and a curated static album frame catalog.
+- Added Husband to the household relationship label choices for Family and onboarding invites.
+- Added display-only household relationship labels for Family and onboarding invites so invited members can be identified as Parent, Partner, Grandparent, Family, Nanny, Nurse, Babysitter, Friend, or Other without changing authorization roles.
+- Added PBI-051A and GoalBuddy task T353 to track the six remaining real UI hardening bugs from the control integration audit before production release work.
+- Added a BabyMinimo control and integration audit documenting remaining non-production controls, UI hardening bugs, and Firebase/App Store Connect/native integration ticket candidates.
 - Added PBI-067 for multi-baby household support, covering twins/triplets in one household, baby switching, add-another-baby flows, selected-baby scoping, widgets/handoff behavior, and simulator evidence.
 - Added PBI-068 for a gentle Baby Activity and Habit Tracker, adapting the flashcard app's local activity-store pattern to per-baby care rhythm summaries and optional screenshot-ready Activity/Rhythm surfaces.
 - Added the BabyMinimo PBI, Codex command, GoalBuddy, code plan, and design source-of-truth pack.
@@ -136,9 +162,14 @@ All notable changes to this project are documented here.
 - Added Google Translate-backed BabyMinimo draft localization files for all supported non-English locales across app strings, store metadata, pricing copy, and screenshot headlines, with validation receipts and protected-token checks.
 - Changed the PBI-065 localization release gate so native-speaker review is recommended for high-risk locales and revenue/legal copy but not a hard blocker when AI linguistic QA, automated validation, and simulator visual QA pass.
 - Added the first BabyMinimo runtime localization batch for login, onboarding questionnaire screens, and Settings language QA, with English active by default and German draft access gated for simulator/testing only.
+- Added local/emulator account deletion hardening with a documented deletion policy, Account screen entry point, typed `DELETE` confirmation modal, local lifecycle cleanup, Maestro coverage, and privacy notes while keeping irreversible production backend purge gated.
+- Added local/emulator multi-baby household support with a Home baby switcher, add-another-baby flow, selected-baby state, selected-baby-scoped reminders/handoff display, unit coverage, and a multi-baby policy document for twins/triplets.
+- Added local/emulator Activity Rhythm support with a per-baby activity model, bounded local activity recorder, care/reminder/growth/handoff/baby-switch activity hooks, Settings entry point, Activity Rhythm screen, localization keys, and unit coverage.
 
 ### Changed
 
+- Surfaced Baby Activity on Home with a care-rhythm tracker card and clearer Settings copy so the habit tracker is visible outside the Settings list.
+- Reordered the bottom navigation so Home appears before Handoff.
 - Tightened the login screen toward the approved Superdesign visual reference using the BabyMinimo logo asset, correct avatar composition, and wider sign-in card proportions.
 - Updated the login, onboarding goal/pain-point, and Settings screens to read copy from the BabyMinimo i18n runtime while preserving the approved visual layout.
 - Rebuilt signup and onboarding screens against the approved `screenshots1` references, including the embedded solution preview, add-baby photo target, care-circle selection, invite caregiver form, and preview handoff card.
@@ -150,6 +181,7 @@ All notable changes to this project are documented here.
 - Reworked the quick-log chooser and care logging forms to route every core action through Firebase Emulator-backed care events.
 - Updated widget state wiring so disabled widgets publish a blank safe state from Home and sign-out clears the current widget snapshot before returning to auth.
 - Updated sign-out to run the local lifecycle cleanup path after Firebase Emulator sign-out and log only retryable cleanup step names in development.
+- Centered the baby switcher modal content away from the Dynamic Island/status area and added a Home fallback for direct-link close/cancel paths so it no longer triggers an unhandled `GO_BACK` warning.
 - Reworked Timeline and Growth Timeline visual treatment against the approved integrated Timeline screenshot, including explicit filter pills, image-forward Growth cards, Timeline tab labeling, and local Add Moment save flow.
 - Reworked the Family tab to match the approved Family & Household mockup hierarchy instead of a generic caregivers-only page.
 - Updated Handoff loading presentation and Reminders empty-state behavior to use the shared BabyMinimo state components.
@@ -167,6 +199,17 @@ All notable changes to this project are documented here.
 
 ### Fixed
 
+- Fixed PR review issues in Growth album export and Add Moment modals: direct-open Add Moment close now falls back to Timeline, album exports no longer use unselected Storybook items, empty captions use runtime-localized fallback copy, and previews do not show fake selected photos.
+- Fixed the Growth album close button so directly opened album modals fall back to Timeline instead of triggering an unhandled `GO_BACK` development warning.
+- Fixed enlarged Growth album frame previews so First Year Grid, Little Moments Strip, and Heirloom Portrait decorations no longer repeat text-like ornaments or overlap the photo count, brand line, or divider.
+- Fixed album preview photo counts so collage frames report the number of selected photos actually displayed in that frame instead of the larger total selected for export.
+- Fixed Growth album frame selection so localized frame names never leak raw `album.frame.*` keys and selected collage/First Year frames show a real multi-slot preview before export.
+- Completed PBI-051A/T353 UI hardening by removing misleading static affordances, routing Breastfeed Bottle selection to the Bottle form, restyling log time/date metadata as read-only, and adding button semantics/test IDs to the Home Growth "View all" action.
+- Fixed enlarged album collage previews so selected photos use full-image containment instead of cropping important baby photo details.
+- Hid Family invite controls from non-owner/non-admin household members and added local household-role permission checks so invited caregivers cannot invite other caregivers.
+- Fixed the Timeline settings/sliders control so it opens a functional display panel with newest/oldest ordering.
+- Fixed the Timeline header search control so it opens a working inline search field and filters care events and growth memories.
+- Fixed Timeline search layout so the filter row cannot stretch into a large blank gap when search returns no results.
 - Fixed emulator auth routing so login no longer marks every signed-in user as onboarded; onboarding completion now restores from Firestore Emulator profile data after household and baby setup.
 - Removed the Timeline rail warning overlay by replacing unsupported dotted borders with a supported subtle rail style.
 - Fixed the Settings shortcut on Home so it opens the Settings hub instead of rendering as an inert icon.

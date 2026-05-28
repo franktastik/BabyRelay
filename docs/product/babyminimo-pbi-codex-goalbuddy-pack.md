@@ -59,14 +59,18 @@ OpenCode is code-only for BabyMinimo unless a real multimodal OpenCode model is 
 
 Preferred bounded implementation model order:
 
-1. `opencode-go/glm-5.1` if the smoke test passes.
-2. `opencode-go/qwen3.6-plus` as the safe fallback.
-3. `opencode-go/deepseek-v4-flash`.
-4. `opencode-go/deepseek-v4-pro`.
-5. `opencode-go/kimi-k2.6` only if its JSON Schema smoke gate passes in the current session.
+1. `opencode-go/qwen3.7-max` for bounded text-only/code implementation tasks if the smoke test passes.
+2. `opencode-go/glm-5.1` as the safe fallback when Qwen3.7 Max is unavailable or fails smoke.
+3. `opencode-go/qwen3.6-plus`.
+4. `opencode-go/deepseek-v4-flash`.
+5. `opencode-go/deepseek-v4-pro`.
+6. `opencode-go/kimi-k2.6` only if its JSON Schema smoke gate passes in the current session.
+
+`opencode-go/qwen3.7-max` is text-only. It may handle bounded code, test, and documentation edits, but Codex remains responsible for screenshot interpretation, simulator/browser visual QA, and final accept/tighten/reject decisions.
 
 Current local smoke status:
 
+- 2026-05-26: `opencode-go/qwen3.7-max` is available in `opencode models` and is the preferred bounded text-only implementation model, pending current-session smoke before delegation.
 - 2026-05-23: `opencode-go/glm-5.1` returned `GLM_OK`.
 - 2026-05-23: `opencode-go/qwen3.6-plus` returned `QWEN_OK`.
 - 2026-05-23: `opencode-go/kimi-k2.6` failed with `JSON Schema not supported: could not understand the instance {'default': 'latest'}`.
@@ -74,6 +78,7 @@ Current local smoke status:
 Smoke commands:
 
 ```sh
+opencode run --model opencode-go/qwen3.7-max --format json "Reply with exactly: QWEN37_OK"
 opencode run --model opencode-go/glm-5.1 --format json "Reply with exactly: GLM_OK"
 opencode run --model opencode-go/qwen3.6-plus --format json "Reply with exactly: QWEN_OK"
 opencode run --model opencode-go/kimi-k2.6 --format json "Reply with exactly: KIMI_OK"
@@ -1563,6 +1568,177 @@ Task mapping:
 - T4: Add unit tests, simulator smoke, and visual QA for single-baby plus twins/triplets scenarios.
 - T5: Update screenshot/ASO plan, localization strings, CHANGELOG.md, and GoalBuddy receipt.
 
+#### PBI-069: Growth Timeline Album Export and Frame Catalog
+
+Goal: Let families turn local Growth Timeline photo moments into printable album artifacts without adding cloud media, print-provider, or production export dependencies.
+
+User story: As a parent, I want to export selected baby photo moments into a framed album I can print or save, so BabyMinimo can become a keepsake beyond the day-to-day care log.
+
+Scope:
+- Add a local-first album export flow from Timeline's Growth tools/filter context, not a new primary tab.
+- Support both printable PDF album export and individual image-page export.
+- Support print-size presets for common photo book outputs: 8 x 8 square baby books/gifts, 8.5 x 11 family albums/storybooks, A4 for Europe/common bookshelf printing, and 12 x 12 premium keepsake/coffee-table books.
+- Let users select Growth Timeline photo moments and include captions, dates, baby name, and optional household/relationship attribution when already available.
+- Add a curated built-in album frame catalog before any runtime generation: 51 source templates total, split into 43 single/detail baby frames and 8 collage frames, including feminine blush/rose floral styles, varied curl, wreath, plaid, pearl, cloud, crown, arch, and fan-fold treatments, plus 10 local static 3D frame assets from `new-frame-sample/` so frames do not feel repeated. The 10 3D frames are new additive designs with their own stable `three-d-*` IDs; do not convert old flat/stationery frames into 3D variants. The user-facing v1 picker exposes only the 41 active non-3D templates while the 10 3D templates remain experimental/disabled until per-photo crop/reposition support exists.
+- Use Image Gen 2/Codex image generation during implementation planning to create or refine approved static frame concepts/assets; do not generate frames dynamically inside the app in v1.
+- Save approved empty frame assets and sample preview assets with generated baby photos as frontend static assets for QA/design review; include at least 5 local test baby photos that behave like user-selected Growth Timeline media in the demo flow.
+- Add a paginated frame picker that shows 8 frames per page.
+- Keep the lower frame picker collapsed/off by default; users can turn it on when they want to browse the full grid, while the enlarged preview arrows remain the primary quick-browse path.
+- Keep optional decorative frame overlays off by default, with a compact On/Off switch inside the enlarged preview pop-up.
+- Add compact circular frame color controls in the enlarged preview footer for original, cream, sage, and pink palettes; changing color must not resize the album preview.
+- Let the enlarged preview pop-up browse and select frames directly with left/back and right/next overlay controls so users do not need to scroll back to the picker after inspecting a frame.
+- Keep 3D frame templates disabled from normal picker and enlarged-preview navigation until per-photo crop/reposition controls exist, because automatic placement alone can leave white edge gaps for some photo aspect ratios. Add a follow-up native editing requirement for per-photo crop/reposition controls, such as drag-to-position and pinch-to-zoom, so users can fine tune camera-roll photos before export.
+- Support Storybook pages that include baby timeline items by default and let users remove selected timeline items before export.
+- Support a first-year/12-month layout with one photo slot per month and tasteful empty placeholders when a month is missing.
+- Keep exports local/on-device or local-demo only in the first implementation.
+- Settings may link to export history later, but Growth Timeline remains the primary entry point.
+
+Approved visual direction:
+- Use the product-owner-provided frame examples as the visual reference: premium baby keepsake stationery, warm cream paper, soft sage, muted gold, soft florals, subtle BabyMinimo branding, gentle shadows, and print-ready margins.
+- Every frame should include subtle BabyMinimo branding such as "BabyMinimo", "BabyMinimo Memories", or a small BabyMinimo imprint.
+- Shipped frame art must not contain baked-in English words. Decorative frame assets should be text-free except approved brand marks, and all user-visible frame text such as titles, dates, labels, month names, captions, and attribution must be rendered by the export layer through runtime i18n.
+- User-authored album text fields should accept the user's own language and keyboard input. Do not auto-translate user-entered titles, captions, dedications, or notes unless a later explicit translation feature is approved.
+
+Initial v1 album frame catalog, 43 single/detail baby frames:
+- Classic Cream single: warm BabyMinimo cream border with small date/caption footer.
+- Sage Keepsake single: soft sage mat with rounded photo window and quiet household attribution.
+- Storybook single: gentle illustrated page treatment for milestone moments.
+- Blush Gallery single: a converted Minimal White frame with blush gallery matting for softer feminine albums.
+- Rose Floral single: a converted Soft Floral frame with stronger pink/red botanical corner details.
+- Milestone Card single: card-like layout emphasizing age, date, and moment title.
+- Print Shop Border single: high-margin layout suitable for home printers and photo labs.
+- Tiny Toes single/detail frame: detail-forward frame for feet, hands, and small close-up moments.
+- Welcome Home single: first-day or homecoming portrait frame with calm keepsake stationery.
+- Blush Moon Nap single: a converted Moonlight Nap frame with blush bedtime/celestial accents.
+- Little Star single: celebratory single-photo frame for milestone portraits.
+- Heirloom Portrait single: classic portrait layout with restrained archival styling.
+- Rose Garden single: red-rose keepsake corners for feminine floral albums.
+- Pink Peony single: pink peony wash and bloom accents.
+- Blush Bow single: ribbon/bow stationery treatment.
+- Red Rose Keepsake single: stronger red rose keepsake styling.
+- Butterfly Blush single: soft butterfly/blush frame for portrait moments.
+- Lace Princess single: lace-dot and crown-inspired keepsake styling.
+- Garden Party single: mixed pink and sage floral corner treatment.
+- Curling Vine single: sage curling lines that wrap around the image field.
+- Rose Lace single: rose corners with lace-dot stationery.
+- Daisy Chain single: daisy-chain edge treatment.
+- Pearl Oval single: pearl/oval mat for classic portraits.
+- Three Month Steps single/detail: three photo slots arranged as rising milestone steps for a 3-month baby progress page.
+- Cloud Dream single: cloud and star bedtime frame.
+- Golden Scroll single: muted gold scrollwork corners.
+- Meadow Wreath single: meadow sprig/wreath edge treatment.
+- Ribbon Keepsake single: ribbon-tail keepsake treatment.
+- Six Month Steps single/detail: six photo slots arranged like a small staircase for half-year milestone progress.
+- Twelve Month Steps single/detail: twelve monthly photo slots arranged in stepped rows for a first-year staircase page.
+- Little Crown single: crown-and-rule keepsake treatment.
+- Garden Arch single: floral arched garden border.
+- Fan Fold Trio single/detail: three tall overlapping photo panels fanned from a shared bottom point, based on the product-owner sketch.
+- 3D Teddy Fan single/detail: three raised portrait panels with soft teddy nursery styling from the 3D sample set.
+- 3D Safari Trio single/detail: three raised portrait panels with giraffe, elephant, lion, and leaf styling from the 3D sample set.
+- 3D Woodland Arch single: raised arch portrait frame with woodland nursery styling from the 3D sample set.
+- 3D Dino Cloud single: raised dinosaur/cloud portrait frame from the 3D sample set.
+- 3D Moon Cloud single: raised moon, cloud, and star portrait frame from the 3D sample set.
+- 3D Rainbow Trio single/detail: three portrait openings with rainbow, cloud, star, and teddy styling from the 3D sample set.
+- 3D Rose Bow single: raised pink rose and bow portrait frame from the 3D sample set.
+- 3D Ocean Sail single: raised ocean, whale, starfish, and sailboat portrait frame from the 3D sample set.
+- 3D Balloon Duo single/detail: two raised portrait panels with balloons and block styling from the 3D sample set.
+- 3D Castle Portrait single: raised princess castle portrait frame from the 3D sample set.
+
+The 3D static frames must use transparent photo openings so selected baby photos appear inside the raised frame panes. They should use transparent outside canvases and tight object bounds so the raised object sits directly on the album page instead of appearing inside a white square. They should not render as flat photos floating over the frame artwork, and the standard album title/body text block should not overlap the 3D object base.
+These 3D frames are additive designs, not edits to the existing flat/stationery frames.
+These 3D frames are experimental in v1 and must remain hidden from the normal picker and preview carousel until BabyMinimo supports slot-level drag/pinch photo positioning.
+
+Initial v1 album frame catalog, 8 collage frames:
+- Two Together 2-photo collage: side-by-side partner/family memory layout.
+- Little Moments Strip 3-photo collage: horizontal story strip for small sequences.
+- First Smiles Grid 4-photo collage: balanced 2x2 memory grid.
+- Family Circle arched + 2 circles: arched hero photo plus two circular detail photos.
+- Scrapbook Keepsake collage: overlapping paper-photo treatment with tape/sticker details.
+- Milestone Collage 1 large + 3 small: one hero image and three detail photos.
+- First Year Grid 12-photo layout: one photo slot per month, ordered month 1 through month 12.
+- Grandparent Keepsake 3-photo: family/generational keepsake layout.
+
+Acceptance criteria:
+- Album export entry point is reachable from Timeline when Growth moments are in context.
+- Export supports both PDF album output and individual image-page output.
+- Export supports selectable print-size/page presets, records the selected size in the export payload, and preserves 300 DPI print-readiness guidance for future native PDF/image rendering.
+- Frame catalog has exactly 51 source templates: 43 single/detail baby frames and 8 collage frames, each with stable IDs, display names, layout metadata, preview metadata, and static approved assets or static style definitions.
+- User-facing v1 frame picker and preview navigation expose only 41 active templates, excluding the 10 experimental `three-d-*` frames until slot-level crop/reposition support is implemented.
+- Exactly 8 v1 templates are collage layouts; the remaining 43 are single/detail baby frames.
+- Frame picker paginates the active catalog with 8 frames per page and stable test IDs for page controls.
+- Frame picker grid defaults to hidden/off and can be toggled on without affecting the selected frame preview.
+- Optional decorative frame overlays default to off and can be enabled from a compact switch below the frame artwork inside the enlarged preview pop-up, without covering the album preview.
+- Enlarged preview exposes compact circular color options for original, cream, sage, and pink palettes; selecting a palette changes the frame background and main accent/decoration colors without changing preview dimensions.
+- Enlarged frame preview has left/right overlay controls that update the selected frame and keep the paginated picker in sync.
+- Approved empty frame assets and generated-baby sample preview assets are saved as frontend static assets; runtime AI frame generation is not used in the app.
+- Storybook export lets users remove timeline items before export.
+- First Year Grid preserves month ordering and renders empty month placeholders where photos are missing.
+- Export payload includes selected moment IDs, frame ID, baby name, captions, dates, and output format.
+- Unit tests cover frame catalog IDs/count, collage metadata, pagination, Storybook item removal, 12-month slot ordering, export selection model, and local export payload construction.
+- UI smoke verifies Timeline Growth access exposes the export entry point and frame selection.
+- Visual QA verifies the album frame selector, pagination, and at least one PDF/image-page preview state against the provided frame examples.
+- Localization keys are added for every visible export/frame string across all supported app-string files.
+- Frame text zones support localization, long-string wrapping/shrinking, and RTL-safe alignment; no approved shipped frame asset contains baked-in English UI text.
+- Custom album title/note fields are editable before export and stored in the local export payload in the language the user typed.
+- Custom album title/note editing defaults to hidden/off and can be turned on without changing stored default title/note values.
+- Custom album title/note fields enforce frame-safe character limits with visible counters so user-entered text cannot overflow album previews or future rendered exports.
+- Data lifecycle documentation states generated export archives/pages are user-created local artifacts and future cloud/export archive retention follows the heavy-data purge policy.
+
+Dependencies: PBI-025, PBI-026, PBI-027, PBI-028, PBI-052, PBI-057, PBI-063.
+
+Suggested phase: Phase 10, before production Firebase and App Store readiness.
+
+Task mapping:
+- T1: Define local album export model, output formats, privacy rules, and data lifecycle behavior.
+- T2: Generate or curate static frame concepts/assets using Image Gen 2/Codex image generation as a design aid, then record the approved 51-template frame catalog with 43 single/detail baby frames and 8 collage frames.
+- T3: Build the Timeline Growth export entry point, selection flow, paginated frame selector, enlarged preview frame navigation, Storybook timeline editor, 12-month layout support, and preview state without adding a new primary tab.
+- T4: Implement local PDF/image-page payload generation or a local-demo export stub with clear deferred native/export boundaries.
+- T5: Add unit tests, simulator/visual evidence, localization updates, lifecycle docs, CHANGELOG.md, and GoalBuddy receipt.
+
+Implementation receipt:
+- T354 implemented a local-first album export flow from the Timeline Growth filter context.
+- Added a typed 51-frame catalog with exactly 43 single/detail baby frames and 8 collage frames, stable IDs, layout metadata, static style-definition/static 3D frame assets, generated-sample preview metadata, and five local test baby-photo assets for QA.
+- Added local export payload construction for selected moment IDs, frame ID, baby name, captions, dates, output format, Storybook item removal, and First Year month slots.
+- Added a modal with Growth moment selection, default-off album text editing, default-off frame picker grid with 8-per-page frame pagination, default-off optional frame decorations, enlarged preview frame navigation, Storybook timeline item removal, First Year 12-slot placeholder preview, PDF/image output selection, and local export preview state.
+- Visual evidence is recorded under `docs/qa/screenshots/pbi-069/`.
+- Verification passed: `bun run test:typecheck`, `bun run test:unit`, and simulator smoke through serve-sim.
+
+#### PBI-070: Growth Timeline Local Media Durability and Backup Export
+
+Goal: Reduce the risk of families losing local-only Growth Timeline photos when an app is deleted, device data is cleared, or a phone is replaced.
+
+User story: As a parent, I want BabyMinimo to clearly protect and export my local baby photo memories, so I understand what is stored on my device and can back it up before deleting the app or changing phones.
+
+Scope:
+- Define a local media durability model for Growth Timeline moments that separates the timeline metadata from the local photo file pointer.
+- Treat user photos as app-local media records that must have durable local file URIs, optional thumbnails, captions, dates, baby ID, and backup/export manifest entries.
+- Keep demo bundled image assets separate from user-owned media so QA previews do not imply real backup coverage.
+- Add a Growth Timeline UI safety indicator that explains local-only storage and backup risk without alarming users.
+- Add a local backup/export manifest model that can later package metadata JSON plus media files into a user-created archive.
+- Ensure album export payloads can carry media backup manifest metadata so selected photos and captions can be backed up together.
+- Keep v1 local/on-device or local-demo only; do not add production Firebase Storage, cloud sync, backend export history, iCloud Drive automation, App Store Connect, billing, auth/session changes, or database migrations.
+- Document how Timeline images display: the UI reads metadata records that point to app-local file URIs or demo bundled assets, and renders a tasteful missing-media state when a pointer is absent or invalid.
+
+Acceptance criteria:
+- A typed Growth Timeline media durability model classifies media as ready, bundled-demo, or missing.
+- A local backup manifest includes baby ID, created timestamp, media count, storage mode, and per-moment media records.
+- Timeline Growth context shows a local media safety indicator with backup-ready and missing-media counts.
+- Album export payload includes user-authored custom text and local media backup manifest metadata for selected moments.
+- User-authored album text can be typed in any language supported by the device keyboard; shipped frame assets still contain no baked-in English UI text.
+- Unit tests cover media classification, backup manifest construction, summary counts, and album custom text payload behavior.
+- UI smoke verifies the Growth Timeline media safety indicator and album custom text/local media manifest surfaces.
+- Lifecycle/privacy docs state that local-only photos can be lost if the app is deleted or device data is cleared unless users export/back up their local artifacts.
+
+Dependencies: PBI-027, PBI-028, PBI-057, PBI-069.
+
+Suggested phase: Phase 10, before production Firebase and App Store readiness.
+
+Task mapping:
+- T1: Define local Growth Timeline media record, display-source, missing-media, and backup-manifest contracts.
+- T2: Add Timeline Growth safety UI and album export manifest/custom-text integration.
+- T3: Document local media durability, backup/export behavior, user-language album text, and no-baked-English frame asset policy.
+- T4: Add unit tests, localization strings, visual QA evidence, CHANGELOG.md, and GoalBuddy receipt.
+
 ### Epic 14: Widgets
 
 Widgets extend BabyMinimo's handoff promise outside the app. They should be glanceable, calm, and read-only in the first release unless interaction support is explicitly scoped later.
@@ -1912,6 +2088,37 @@ Implementation receipt:
 - Removed the Home lazy-loading `InteractionManager` warning path so the simulator no longer shows the deprecation warning banner during smoke tests.
 - Verification passed: `bun run test:typecheck`, `bun run test:unit`, `npx expo-doctor`, and `maestro test e2e/maestro/smoke.yaml`.
 - Evidence is recorded under `docs/qa/screenshots/pbi-051/` and in `docs/product/babyminimo-interaction-hardening-inventory.md`.
+
+#### PBI-051A: UI hardening follow-up for misleading controls
+
+Goal: Resolve the remaining real UI hardening bugs from the 2026-05-26 control audit before production/release work.
+
+User story: As a caregiver, I want every visible affordance to either do the thing it appears to do or look clearly read-only.
+
+Scope:
+- Fix the Home weekly summary chevron, which currently implies navigation while the card is static.
+- Fix the shared SettingsHeader right settings icon, which is styled like a button but is static on screens that do not provide an action.
+- Fix the Family caregiver row ellipsis, which implies a member action menu but has no menu.
+- Fix the Breastfeed modal "Bottle" option, which is currently a no-op selector.
+- Fix Log form event time/date pills, which look editable but are read-only.
+- Improve text-link controls such as Home/Growth "View all" so they expose button semantics and stable test IDs.
+
+Acceptance criteria:
+- No listed control remains visually action-oriented without either a real handler or explicit read-only/deferred treatment.
+- Breastfeed modal either routes to the Bottle modal when Bottle is selected or no longer renders Bottle as a selectable option.
+- Time/date presentation in log forms is either genuinely editable or visually read-only.
+- Text links that navigate use accessible button semantics and stable test IDs.
+- Maestro or simulator smoke covers the changed Home, Family, and log-form interactions.
+- `docs/product/babyminimo-control-integration-audit.md` is updated with the final resolution for CTRL-101 through CTRL-106.
+
+Dependencies: PBI-051, PBI-052.
+
+Suggested phase: Phase 10, before production Firebase/App Store release work.
+
+Task mapping:
+- T1: Implement the six CTRL-101 through CTRL-106 UI hardening fixes.
+- T2: Add focused test IDs/accessibility labels and update Maestro/smoke coverage where useful.
+- T3: Update control audit, changelog, and GoalBuddy receipt with verification evidence.
 
 #### PBI-052: E2E and visual release QA
 

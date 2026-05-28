@@ -58,3 +58,8 @@ name: BabyMinimo critical path smoke
 - openLink: babyminimo:///(settings)/account
 - assertVisible: Profile & Account
 - assertVisible: Sign out
+- assertVisible: Delete account
+- openLink: babyminimo:///modals/delete-account-confirm
+- assertVisible: Delete account?
+- assertVisible: Type DELETE
+- assertVisible: Keep my account

@@ -2,9 +2,10 @@ import { useCallback, useEffect, useState } from 'react'
 import { ScrollView, StyleSheet } from 'react-native'
 import { useFocusEffect, useRouter } from 'expo-router'
 import { Screen } from '@/src/components/ui'
-import { HomeHeader, SnapshotCard, QuickActionBar, GrowthPreview } from '@/src/components/home'
+import { ActivityRhythmPreview, HomeHeader, SnapshotCard, QuickActionBar, GrowthPreview } from '@/src/components/home'
 import type { DemoGrowthMoment } from '@/src/features/demo/growth'
 import { useAuthStore } from '@/src/stores/authStore'
+import { useBabyMinimoActivityStore } from '@/src/stores/activityStore'
 import { useCareEventStore } from '@/src/stores/careEventStore'
 import { useWidgetSettingsStore } from '@/src/stores/widgetSettingsStore'
 import { spacing } from '@/src/theme'
@@ -13,14 +14,19 @@ export default function HomeScreen() {
   const router = useRouter()
   const user = useAuthStore((state) => state.user)
   const selectedBabyId = useAuthStore((state) => state.selectedBabyId) || 'baby-1'
+  const babies = useAuthStore((state) => state.babies)
   const localEvents = useCareEventStore((state) => state.events)
   const subscribeToEvents = useCareEventStore((state) => state.subscribeToEvents)
+  const getActivitySummary = useBabyMinimoActivityStore((state) => state.getSummaryForBaby)
   const widgetSnapshotsEnabled = useWidgetSettingsStore((state) => state.widgetSnapshotsEnabled)
   const [moments, setMoments] = useState<DemoGrowthMoment[]>([])
   const latestLocalEvent = localEvents
     .filter((event) => event.babyId === selectedBabyId)
     .sort((a, b) => b.occurredAt.getTime() - a.occurredAt.getTime())[0]
   const latestEvent = latestLocalEvent
+  const selectedBaby = babies.find((baby) => baby.id === selectedBabyId)
+  const babyName = selectedBaby?.name || 'Luna'
+  const activitySummary = getActivitySummary(selectedBabyId)
 
   useFocusEffect(
     useCallback(() => {
@@ -101,14 +107,21 @@ export default function HomeScreen() {
         showsVerticalScrollIndicator={false}
       >
         <HomeHeader
-          babyName="Luna"
+          babyName={babyName}
           caregiverName="Mama"
+          babyCount={Math.max(1, babies.length)}
+          onBabyPress={() => router.push('/modals/baby-switcher')}
           onSettingsPress={() => router.push('/settings')}
         />
 
         <SnapshotCard
           latestEvent={latestEvent || undefined}
           lastActionBy={latestEvent?.createdBy}
+        />
+
+        <ActivityRhythmPreview
+          summary={activitySummary}
+          onPress={() => router.push('/activity')}
         />
 
         <QuickActionBar />

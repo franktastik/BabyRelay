@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { Pressable, StyleSheet, Text, View } from 'react-native'
 import { useTranslation } from 'react-i18next'
 import { colors, radius, shadows, spacing, typography } from '@/src/theme'
 import type { DemoGrowthMoment } from '@/src/features/demo/growth'
@@ -19,9 +19,15 @@ export function GrowthPreview({ onViewAll }: GrowthPreviewProps) {
           <Text style={styles.ribbon}>♙</Text>
           <Text style={styles.title}>{t('home.wins.title')}</Text>
         </View>
-        <Text style={styles.viewAll} onPress={onViewAll}>
-          {t('home.wins.viewAll')}
-        </Text>
+        <Pressable
+          onPress={onViewAll}
+          accessibilityRole="button"
+          accessibilityLabel={t('home.wins.viewAll')}
+          testID="home-growth-view-all-button"
+          hitSlop={10}
+        >
+          <Text style={styles.viewAll}>{t('home.wins.viewAll')}</Text>
+        </Pressable>
       </View>
       <View style={styles.winRow}>
         <Win icon="♨" label={t('home.wins.weekStrong')} color={colors.gold} />

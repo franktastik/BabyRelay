@@ -1,7 +1,7 @@
 import React from 'react'
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { useRouter } from 'expo-router'
-import { Bell, Camera, Crown, Globe2, LogOut, Shield, Smartphone, UsersRound } from 'lucide-react-native'
+import { Activity, Bell, Camera, Crown, Globe2, LogOut, Shield, Smartphone, UsersRound } from 'lucide-react-native'
 import { useTranslation } from 'react-i18next'
 import { Screen } from '@/src/components/ui'
 import { SettingsCard, SettingsHeader, SettingsRow } from '@/src/components/settings'
@@ -68,6 +68,12 @@ export default function SettingsScreen() {
             title={t('settings.widgets')}
             subtitle={t('settings.widgets.subtitle')}
             onPress={() => router.push('/widgets')}
+          />
+          <SettingsRow
+            icon={Activity}
+            title={t('settings.activity')}
+            subtitle={t('settings.activity.subtitle')}
+            onPress={() => router.push('/activity')}
           />
           <SettingsRow
             icon={Globe2}

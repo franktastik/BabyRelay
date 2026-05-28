@@ -53,18 +53,21 @@ After implementation:
 
 Codex remains the planner, PM, reviewer, and final verifier.
 
-Use OpenCode/GLM/Qwen only for bounded implementation tasks when:
+Use OpenCode/Qwen/GLM only for bounded implementation tasks when:
 - The GoalBuddy card defines allowed paths.
 - Forbidden areas are explicit.
 - Verification commands are listed.
 - The task is not security, auth, billing, migration, production deployment, recovery, or broad shared-invariant work.
 
 Preferred implementation model order:
-1. `opencode-go/glm-5.1`
-2. `opencode-go/qwen3.6-plus`
-3. `opencode-go/deepseek-v4-flash`
-4. `opencode-go/deepseek-v4-pro`
-5. `opencode-go/kimi-k2.6` only after a passing current-session smoke test
+1. `opencode-go/qwen3.7-max` for bounded text-only/code implementation after a passing current-session smoke test
+2. `opencode-go/glm-5.1`
+3. `opencode-go/qwen3.6-plus`
+4. `opencode-go/deepseek-v4-flash`
+5. `opencode-go/deepseek-v4-pro`
+6. `opencode-go/kimi-k2.6` only after a passing current-session smoke test
+
+Qwen3.7 Max is text-only. It may write code, tests, and docs, but it must not be used for screenshot interpretation, visual judging, or final UI acceptance. Codex owns simulator/browser visual QA and the final accept/tighten/reject decision.
 
 Critical paths stay under Codex supervision:
 - authentication, authorization, session management
@@ -117,4 +120,3 @@ Keep these files aligned:
 - `docs/product/babyminimo-pbi-codex-goalbuddy-pack.md`
 - `docs/goals/babyminimo-emulator-hardening/state.yaml`
 - `docs/product/babyminimo-visual-qa-contract.md`
-
