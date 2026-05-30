@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import {
   View,
   Text,
@@ -30,6 +30,13 @@ export default function LoginScreen() {
   const [rememberMe, setRememberMe] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const scrollRef = useRef<ScrollView>(null)
+
+  const scrollInputAboveKeyboard = (y: number) => {
+    requestAnimationFrame(() => {
+      scrollRef.current?.scrollTo({ y, animated: true })
+    })
+  }
 
   const handleLogin = async () => {
     if (!email || !password) {
@@ -58,8 +65,10 @@ export default function LoginScreen() {
         style={styles.container}
       >
         <ScrollView
+          ref={scrollRef}
           contentInsetAdjustmentBehavior="never"
           automaticallyAdjustContentInsets={false}
+          automaticallyAdjustKeyboardInsets
           showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="handled"
           contentContainerStyle={styles.scrollContent}
@@ -127,6 +136,7 @@ export default function LoginScreen() {
               label={t('auth.login.emailLabel')}
               value={email}
               onChangeText={setEmail}
+              onFocus={() => scrollInputAboveKeyboard(250)}
               placeholder={t('auth.login.emailPlaceholder')}
               keyboardType="email-address"
               inputStyle={styles.mockInput}
@@ -137,6 +147,7 @@ export default function LoginScreen() {
               label={t('auth.login.passwordLabel')}
               value={password}
               onChangeText={setPassword}
+              onFocus={() => scrollInputAboveKeyboard(330)}
               placeholder={t('auth.login.passwordPlaceholder')}
               secureTextEntry
               inputStyle={styles.mockInput}
@@ -187,7 +198,7 @@ const styles = StyleSheet.create({
   scrollContent: {
     alignItems: 'center',
     paddingTop: 0,
-    paddingBottom: 64,
+    paddingBottom: 260,
   },
   header: {
     alignItems: 'center',

@@ -8,6 +8,11 @@ import { relativeTime } from '@/src/relative-time'
 const fallbackGrowthImage = require('../../../app/growth-feet-reference.png')
 const growthImages: Record<string, ImageSourcePropType> = {
   'growth-feet-reference': require('../../../app/growth-feet-reference.png'),
+  'album-test-baby-1': require('../../../app/album-test-baby-1.png'),
+  'album-test-baby-2': require('../../../app/album-test-baby-2.png'),
+  'album-test-baby-3': require('../../../app/album-test-baby-3.png'),
+  'album-test-baby-4': require('../../../app/album-test-baby-4.png'),
+  'album-test-baby-5': require('../../../app/album-test-baby-5.png'),
 }
 
 interface GrowthMomentCardProps {

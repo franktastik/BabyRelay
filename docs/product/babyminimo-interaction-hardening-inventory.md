@@ -71,3 +71,13 @@ Evidence:
 - Disabled/deferred controls should have calm copy and accessible labels.
 - Do not wire fake production behavior.
 - Keep visual treatment aligned with approved `screenshots1/` references.
+
+## Follow-Up Audit
+
+The broader production integration audit now lives in:
+
+```text
+docs/product/babyminimo-control-integration-audit.md
+```
+
+That document maps remaining non-production controls to concrete Firebase, database, StoreKit/App Store Connect, native permission, and UI hardening tickets.

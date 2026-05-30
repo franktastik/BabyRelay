@@ -1,7 +1,7 @@
 import React from 'react'
 import { Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { useRouter } from 'expo-router'
-import { Lock, LogOut, Mail, UserRound } from 'lucide-react-native'
+import { Lock, LogOut, Mail, Trash2, UserRound } from 'lucide-react-native'
 import { useTranslation } from 'react-i18next'
 import { Screen } from '@/src/components/ui'
 import { SettingsHeader, SettingsCard, SettingsRow } from '@/src/components/settings'
@@ -39,6 +39,19 @@ export default function AccountScreen() {
           <LogOut color={colors.danger} size={18} strokeWidth={2.2} />
           <Text style={styles.signOutText}>{t('account.signOut')}</Text>
         </Pressable>
+
+        <Text style={styles.sectionLabel}>{t('account.delete.section')}</Text>
+        <SettingsCard>
+          <SettingsRow
+            icon={Trash2}
+            title={t('account.delete.title')}
+            subtitle={t('account.delete.subtitle')}
+            danger
+            onPress={() => router.push('/modals/delete-account-confirm')}
+          />
+        </SettingsCard>
+
+        <Text style={styles.policyNote}>{t('account.delete.warning')}</Text>
       </ScrollView>
     </Screen>
   )
@@ -92,5 +105,11 @@ const styles = StyleSheet.create({
   signOutText: {
     ...typography.action,
     color: colors.danger,
+  },
+  policyNote: {
+    ...typography.bodySmall,
+    color: colors.inkLight,
+    marginTop: spacing.base,
+    lineHeight: 18,
   },
 })

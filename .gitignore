@@ -13,3 +13,16 @@ ios/build/
 .env
 .env.*
 !.env.example
+
+# Local release/tooling state. Do not commit generated signing artifacts,
+# App Store Connect exports, or Codex/Blitz machine-local config.
+.asc/
+.blitz/
+.codex/
+.mcp.json
+
+# Large local QA evidence is retained on the machine unless a task explicitly
+# approves committing selected screenshots.
+docs/qa/screenshots/pbi-069/
+docs/qa/screenshots/pbi-073/
+docs/qa/screenshots/runtime/

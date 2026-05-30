@@ -1,190 +1,27 @@
 let currentBoard = null;
 let eventSource = null;
-let currentSettings = null;
 
 const boardEl = document.getElementById("board");
 const liveStateEl = document.getElementById("live-state");
-const liveDotEl = document.getElementById("live-dot");
-const boardSwitcherEl = document.getElementById("board-switcher");
-const settingsButtonEl = document.getElementById("settings-button");
-const settingsPopoverEl = document.getElementById("settings-popover");
-const githubStarsEl = document.getElementById("github-stars");
 const modalEl = document.getElementById("task-modal");
 const modalTitleEl = document.getElementById("modal-title");
 const modalKickerEl = document.getElementById("modal-kicker");
 const modalBodyEl = document.getElementById("modal-body");
-const settingsStorageKey = "goalbuddy.localBoardSettings.v1";
-const settingsDefaults = {
-  theme: "system",
-  density: "comfortable",
-  completedVisibility: "show",
-  boardOpenBehavior: "last",
-  motion: "system",
-  lastBoardPath: "",
-};
-const settingsOptions = {
-  theme: new Set(["system", "light", "dark"]),
-  density: new Set(["comfortable", "compact"]),
-  completedVisibility: new Set(["show", "collapse"]),
-  boardOpenBehavior: new Set(["last", "newest"]),
-  motion: new Set(["system", "reduce", "allow"]),
-};
 
 document.addEventListener("click", (event) => {
   const card = event.target.closest("[data-task-id]");
   if (card) openTask(card.dataset.taskId);
   if (event.target.matches("[data-close-modal]")) closeModal();
-  if (settingsPopoverEl.hidden) return;
-  if (!event.target.closest(".settings-wrap")) closeSettings();
 });
 
 document.addEventListener("keydown", (event) => {
-  if (event.key === "Escape") {
-    closeModal();
-    closeSettings();
-  }
-});
-
-boardSwitcherEl.addEventListener("change", () => {
-  if (boardSwitcherEl.value && boardSwitcherEl.value !== window.location.href) {
-    window.location.href = boardSwitcherEl.value;
-  }
-});
-
-settingsButtonEl.addEventListener("click", () => {
-  if (settingsPopoverEl.hidden) {
-    openSettings();
-  } else {
-    closeSettings();
-  }
-});
-
-settingsPopoverEl.addEventListener("change", (event) => {
-  const control = event.target.closest("[data-setting]");
-  if (!control) return;
-  saveSettings({ ...currentSettings, [control.dataset.setting]: control.value });
+  if (event.key === "Escape") closeModal();
 });
 
 async function loadBoard() {
   const response = await fetch("./api/board", { cache: "no-store" });
   if (!response.ok) throw new Error("Board request failed");
   renderBoard(await response.json());
-}
-
-async function loadBoardSwitcher() {
-  const response = await fetch("../api/boards", { cache: "no-store" });
-  if (!response.ok) return;
-  const payload = await response.json();
-  renderBoardSwitcher(payload.boards || []);
-}
-
-async function loadSettings() {
-  try {
-    const response = await fetch("../api/settings", { cache: "no-store" });
-    if (!response.ok) throw new Error("Settings request failed");
-    const payload = await response.json();
-    currentSettings = normalizeSettings(payload.settings);
-    window.localStorage?.setItem(settingsStorageKey, JSON.stringify(currentSettings));
-  } catch {
-    currentSettings = readStoredSettings();
-  }
-  applySettings(currentSettings);
-}
-
-async function saveSettings(nextSettings) {
-  currentSettings = normalizeSettings(nextSettings);
-  window.localStorage?.setItem(settingsStorageKey, JSON.stringify(currentSettings));
-  applySettings(currentSettings);
-  try {
-    const response = await fetch("../api/settings", {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ settings: currentSettings }),
-    });
-    if (!response.ok) throw new Error("Settings save failed");
-    const payload = await response.json();
-    currentSettings = normalizeSettings(payload.settings);
-    window.localStorage?.setItem(settingsStorageKey, JSON.stringify(currentSettings));
-    applySettings(currentSettings);
-  } catch {
-    // Keep the localStorage fallback active when the local settings API is unavailable.
-  }
-  return currentSettings;
-}
-
-function readStoredSettings() {
-  try {
-    return normalizeSettings(JSON.parse(window.localStorage?.getItem(settingsStorageKey) || "{}"));
-  } catch {
-    return { ...settingsDefaults };
-  }
-}
-
-function normalizeSettings(settings) {
-  const normalized = { ...settingsDefaults };
-  if (!settings || typeof settings !== "object" || Array.isArray(settings)) return normalized;
-  for (const [key, allowed] of Object.entries(settingsOptions)) {
-    if (allowed.has(settings[key])) normalized[key] = settings[key];
-  }
-  if (typeof settings.lastBoardPath === "string" && /^\/[a-z0-9][a-z0-9-]*\/$/.test(settings.lastBoardPath)) {
-    normalized.lastBoardPath = settings.lastBoardPath;
-  }
-  return normalized;
-}
-
-function applySettings(settings) {
-  const normalized = normalizeSettings(settings);
-  document.documentElement.dataset.theme = normalized.theme;
-  document.documentElement.dataset.density = normalized.density;
-  document.documentElement.dataset.completedVisibility = normalized.completedVisibility;
-  document.documentElement.dataset.boardOpenBehavior = normalized.boardOpenBehavior;
-  document.documentElement.dataset.motion = normalized.motion;
-  for (const control of settingsPopoverEl.querySelectorAll("[data-setting]")) {
-    control.value = normalized[control.dataset.setting] || settingsDefaults[control.dataset.setting];
-  }
-}
-
-function rememberCurrentBoard() {
-  const boardPath = normalizePath(window.location.pathname);
-  if (!/^\/[a-z0-9][a-z0-9-]*\/$/.test(boardPath)) return;
-  const nextSettings = normalizeSettings({ ...currentSettings, lastBoardPath: boardPath });
-  currentSettings = nextSettings;
-  window.localStorage?.setItem(settingsStorageKey, JSON.stringify(nextSettings));
-  fetch("../api/settings", {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ settings: nextSettings }),
-  }).catch(() => {});
-}
-
-function openSettings() {
-  settingsPopoverEl.hidden = false;
-  settingsButtonEl.setAttribute("aria-expanded", "true");
-  settingsPopoverEl.querySelector("[data-setting]")?.focus();
-}
-
-function closeSettings() {
-  settingsPopoverEl.hidden = true;
-  settingsButtonEl.setAttribute("aria-expanded", "false");
-}
-
-function formatStars(count) {
-  if (count >= 1000) return `${(count / 1000).toFixed(count >= 10000 ? 0 : 1)}k`;
-  return String(count);
-}
-
-async function loadGithubStars() {
-  if (!githubStarsEl) return;
-  try {
-    const response = await fetch("https://api.github.com/repos/tolibear/goalbuddy", {
-      headers: { Accept: "application/vnd.github+json" },
-    });
-    if (!response.ok) throw new Error("GitHub API unavailable");
-    const repo = await response.json();
-    githubStarsEl.textContent = `${formatStars(repo.stargazers_count)} stars`;
-  } catch {
-    githubStarsEl.textContent = "GitHub";
-  }
 }
 
 function connectEvents() {
@@ -214,39 +51,11 @@ function renderBoard(board) {
   document.getElementById("goal-active").textContent = board.goal.activeTask || "None";
   document.getElementById("goal-updated").textContent = new Date(board.generatedAt).toLocaleTimeString();
 
-  if (board.error) {
-    boardEl.replaceChildren(renderBoardError(board.error));
-    return;
-  }
-
   const delay = movingTaskIds.size ? 260 : 0;
   window.setTimeout(() => {
     boardEl.replaceChildren(...board.columns.map(renderColumn));
     animateCardMoves(previousPositions, movingTaskIds);
   }, delay);
-}
-
-function renderBoardError(message) {
-  const node = el("section", "board-error");
-  node.append(
-    el("h2", "", "GoalBuddy could not parse this board"),
-    el("p", "", message),
-  );
-  return node;
-}
-
-function renderBoardSwitcher(boards) {
-  boardSwitcherEl.closest(".board-switcher").classList.toggle("is-empty", boards.length <= 1);
-  const currentPath = normalizePath(window.location.pathname);
-  const options = boards.map((board) => {
-    const option = document.createElement("option");
-    option.value = board.url;
-    option.textContent = boardOptionLabel(board);
-    const boardPath = normalizePath(new URL(board.url, window.location.href).pathname);
-    if (boardPath === currentPath) option.selected = true;
-    return option;
-  });
-  boardSwitcherEl.replaceChildren(...options);
 }
 
 function renderColumn(column) {
@@ -279,7 +88,6 @@ function renderCard(task) {
 
   const footer = el("div", "card-footer");
   footer.append(el("span", "badge role", task.assignee || task.type || "PM"));
-  if (task.subgoal) footer.append(subgoalBadge(task.subgoal));
   if (task.receipt?.present) footer.append(el("span", "badge status-done", "Receipt"));
 
   button.append(topline, el("h3", "task-title", task.title), footer);
@@ -399,7 +207,6 @@ function renderTaskDetail(task) {
     grid.append(item);
   }
   root.append(grid);
-  if (task.subgoal) root.append(renderSubgoal(task.subgoal));
   root.append(detailText("Objective", task.objective));
   root.append(detailList("Inputs", task.inputs));
   root.append(detailList("Constraints", task.constraints));
@@ -418,61 +225,6 @@ function renderTaskDetail(task) {
     root.append(section);
   }
   return root;
-}
-
-function renderSubgoal(subgoal) {
-  const section = el("section", "detail-section subgoal-section");
-  const header = el("div", "subgoal-header");
-  const titleWrap = el("div");
-  const board = subgoal.board;
-  titleWrap.append(
-    el("h3", "subgoal-title", board?.goal?.title || "Sub-goal"),
-    el("p", "subgoal-meta", [
-      subgoal.path,
-      subgoal.owner ? `owner: ${subgoal.owner}` : "",
-      subgoal.depth ? `depth: ${subgoal.depth}` : "",
-    ].filter(Boolean).join(" · ")),
-  );
-  header.append(titleWrap, subgoalBadge(subgoal));
-  section.append(header);
-
-  if (!board?.columns?.length) {
-    section.append(el("p", "", "No child board payload."));
-    return section;
-  }
-
-  const boardEl = el("div", "subgoal-board");
-  for (const column of board.columns) {
-    const columnEl = el("section", "subgoal-column");
-    const columnHeader = el("header", "subgoal-column-header");
-    columnHeader.append(el("h4", "", column.title), el("span", "column-count", String(column.tasks.length)));
-    const list = el("div", "subgoal-card-list");
-    if (column.tasks.length === 0) {
-      list.append(el("p", "empty", "No cards"));
-    } else {
-      for (const task of column.tasks) list.append(renderSubgoalTask(task));
-    }
-    columnEl.append(columnHeader, list);
-    boardEl.append(columnEl);
-  }
-  section.append(boardEl);
-
-  if (subgoal.rollupReceipt) {
-    section.append(detailText("Roll-up Receipt", subgoal.rollupReceipt));
-  }
-
-  return section;
-}
-
-function renderSubgoalTask(task) {
-  const card = el("article", `subgoal-task-card ${task.active ? "is-active" : ""}`);
-  const topline = el("div", "card-topline");
-  topline.append(el("span", "task-id", task.id), statusBadge(task.status));
-  const footer = el("div", "card-footer");
-  footer.append(el("span", "badge role", task.assignee || task.type || "PM"));
-  if (task.receipt?.present) footer.append(el("span", "badge status-done", "Receipt"));
-  card.append(topline, el("h4", "subgoal-task-title", task.title), footer);
-  return card;
 }
 
 function detailText(title, value) {
@@ -499,24 +251,9 @@ function statusBadge(status) {
   return el("span", `badge status-${status}`, label);
 }
 
-function subgoalBadge(subgoal) {
-  return el("span", `badge subgoal status-${subgoal.status}`, `Sub-goal ${subgoal.status || "linked"}`);
-}
-
 function setLiveState(text, live) {
   liveStateEl.textContent = text;
-  liveDotEl.classList.toggle("offline", !live);
-  settingsButtonEl.setAttribute("aria-label", `Settings. Board status: ${text}`);
-  settingsButtonEl.title = `Settings · ${text}`;
-}
-
-function normalizePath(pathname) {
-  return pathname.endsWith("/") ? pathname : pathname + "/";
-}
-
-function boardOptionLabel(board) {
-  const title = board.title || board.slug || board.goalDir || "GoalBuddy board";
-  return /[/\\]subgoals[/\\]/.test(board.goalDir || "") ? `Child: ${title}` : title;
+  liveStateEl.classList.toggle("offline", !live);
 }
 
 function el(tag, className = "", text = "") {
@@ -526,14 +263,9 @@ function el(tag, className = "", text = "") {
   return node;
 }
 
-loadSettings()
-  .then(loadBoard)
+loadBoard()
   .then(() => {
     setLiveState("Live", true);
-    rememberCurrentBoard();
-    loadGithubStars();
-    loadBoardSwitcher();
-    window.setInterval(loadBoardSwitcher, 5000);
     connectEvents();
   })
   .catch((error) => {

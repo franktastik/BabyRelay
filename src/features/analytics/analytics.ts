@@ -8,6 +8,8 @@ export type BabyMinimoAnalyticsEvent =
   | 'add_moment_used'
   | 'plan_screen_viewed'
   | 'sign_out_confirmed'
+  | 'app_store_attribution_received'
+  | 'feature_activated'
 
 export interface AnalyticsRecord {
   name: BabyMinimoAnalyticsEvent

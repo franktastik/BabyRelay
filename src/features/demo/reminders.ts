@@ -1,5 +1,6 @@
 export interface DemoReminder {
   id: string
+  babyId: string
   title: string
   detail: string
   dueLabel: string
@@ -20,6 +21,7 @@ const tomorrowAt = (hour: number, minute = 0) => {
 export const demoReminders: DemoReminder[] = [
   {
     id: 'rem-1',
+    babyId: 'baby-1',
     title: 'Vitamin D Drops',
     detail: '1 dose · Morning routine',
     dueLabel: '08:00 daily',
@@ -29,6 +31,7 @@ export const demoReminders: DemoReminder[] = [
   },
   {
     id: 'rem-2',
+    babyId: 'baby-1',
     title: 'Tummy Time',
     detail: '15 minutes · Living room',
     dueLabel: '10:30 daily',
@@ -38,6 +41,7 @@ export const demoReminders: DemoReminder[] = [
   },
   {
     id: 'rem-3',
+    babyId: 'baby-1',
     title: 'Pumping Session',
     detail: 'Recurring every 3 hours',
     dueLabel: '15:00',

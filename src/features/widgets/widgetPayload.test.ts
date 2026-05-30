@@ -50,6 +50,7 @@ const handoffSummary: DemoHandoffSummary = {
 const reminders: DemoReminder[] = [
   {
     id: 'rem-1',
+    babyId: 'baby-1',
     title: 'Vitamin D Drops',
     detail: 'Private detail should not be in widget payload.',
     dueLabel: 'in 45 min',

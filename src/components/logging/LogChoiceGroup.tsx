@@ -31,6 +31,10 @@ export function LogChoiceGroup<T extends string>({
             <Pressable
               key={option.key}
               onPress={() => onChange(option.key)}
+              accessibilityRole="button"
+              accessibilityState={{ selected }}
+              accessibilityLabel={option.label}
+              testID={`log-choice-${option.key}`}
               style={[styles.choice, selected && styles.choiceSelected]}
             >
               <Text style={[styles.choiceText, selected && styles.choiceTextSelected]}>

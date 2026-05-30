@@ -183,3 +183,9 @@ PBI-055 must not be considered complete until:
 - refunds/revokes are reflected by authoritative status
 - no production entitlement is granted from client-only state
 - screenshot/paywall copy matches actual products
+
+## T326 Release Evidence Status
+
+The local release-gate register lives in `src/features/subscriptions/releaseReadiness.ts`, with focused coverage in `src/features/subscriptions/releaseReadiness.test.ts`.
+
+Current automated gates are limited to code and documentation evidence. Real Sandbox/TestFlight execution remains manual because it requires App Store Connect products, sandbox testers, signing, and a TestFlight build. Production deployable entitlement Functions and billing Firestore rules are also still blocked until a task scope explicitly includes `functions/**` and `firestore.rules`.

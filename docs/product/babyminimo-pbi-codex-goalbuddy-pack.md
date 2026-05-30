@@ -59,14 +59,18 @@ OpenCode is code-only for BabyMinimo unless a real multimodal OpenCode model is 
 
 Preferred bounded implementation model order:
 
-1. `opencode-go/glm-5.1` if the smoke test passes.
-2. `opencode-go/qwen3.6-plus` as the safe fallback.
-3. `opencode-go/deepseek-v4-flash`.
-4. `opencode-go/deepseek-v4-pro`.
-5. `opencode-go/kimi-k2.6` only if its JSON Schema smoke gate passes in the current session.
+1. `opencode-go/qwen3.7-max` for bounded text-only/code implementation tasks if the smoke test passes.
+2. `opencode-go/glm-5.1` as the safe fallback when Qwen3.7 Max is unavailable or fails smoke.
+3. `opencode-go/qwen3.6-plus`.
+4. `opencode-go/deepseek-v4-flash`.
+5. `opencode-go/deepseek-v4-pro`.
+6. `opencode-go/kimi-k2.6` only if its JSON Schema smoke gate passes in the current session.
+
+`opencode-go/qwen3.7-max` is text-only. It may handle bounded code, test, and documentation edits, but Codex remains responsible for screenshot interpretation, simulator/browser visual QA, and final accept/tighten/reject decisions.
 
 Current local smoke status:
 
+- 2026-05-26: `opencode-go/qwen3.7-max` is available in `opencode models` and is the preferred bounded text-only implementation model, pending current-session smoke before delegation.
 - 2026-05-23: `opencode-go/glm-5.1` returned `GLM_OK`.
 - 2026-05-23: `opencode-go/qwen3.6-plus` returned `QWEN_OK`.
 - 2026-05-23: `opencode-go/kimi-k2.6` failed with `JSON Schema not supported: could not understand the instance {'default': 'latest'}`.
@@ -74,6 +78,7 @@ Current local smoke status:
 Smoke commands:
 
 ```sh
+opencode run --model opencode-go/qwen3.7-max --format json "Reply with exactly: QWEN37_OK"
 opencode run --model opencode-go/glm-5.1 --format json "Reply with exactly: GLM_OK"
 opencode run --model opencode-go/qwen3.6-plus --format json "Reply with exactly: QWEN_OK"
 opencode run --model opencode-go/kimi-k2.6 --format json "Reply with exactly: KIMI_OK"
@@ -127,19 +132,23 @@ bun run emulators
 Expected local services:
 - Auth: `127.0.0.1:9099`
 - Firestore: `127.0.0.1:8080`
+- Storage: `127.0.0.1:9199`
 - Emulator UI: `http://127.0.0.1:4000/`
+- Storage UI: `http://127.0.0.1:4000/storage`
 
 Environment defaults:
 - `EXPO_PUBLIC_USE_FIREBASE_EMULATOR=true`
 - `EXPO_PUBLIC_FIREBASE_EMULATOR_HOST=127.0.0.1`
 - `EXPO_PUBLIC_FIREBASE_AUTH_EMULATOR_PORT=9099`
 - `EXPO_PUBLIC_FIREBASE_FIRESTORE_EMULATOR_PORT=8080`
+- `EXPO_PUBLIC_FIREBASE_STORAGE_EMULATOR_PORT=9199`
 
 Rules:
-- Auth, household, baby, reminders, and shared care-event development should target the emulator first.
+- Auth, household, baby, reminders, shared care-event, and Firebase Storage readiness development should target the emulator first.
 - Callable Functions can be added to the emulator later when backend functions are introduced.
 - Growth Timeline photos remain local-only in v1.
-- Do not deploy emulator Firestore rules to production.
+- Storage emulator readiness does not authorize production Firebase Storage, cloud media sync, or moving Growth Timeline photos out of local storage.
+- Do not deploy emulator Firestore or Storage rules to production.
 
 ## 2B. Architecture And Deployment Diagrams
 
@@ -163,6 +172,8 @@ Diagram-backed PBIs:
 - `PBI-053`: Release and App Store readiness.
 - `PBI-055`: Native subscriptions and Apple IAP.
 - `PBI-061`: Hybrid local and Firebase push notification provider.
+- `PBI-072`: App Store Custom Product Pages and intent-based ASO.
+- `PBI-073`: Superdesign reference screen parity and navigation.
 
 ### Goal Execution Command
 
@@ -1563,6 +1574,177 @@ Task mapping:
 - T4: Add unit tests, simulator smoke, and visual QA for single-baby plus twins/triplets scenarios.
 - T5: Update screenshot/ASO plan, localization strings, CHANGELOG.md, and GoalBuddy receipt.
 
+#### PBI-069: Growth Timeline Album Export and Frame Catalog
+
+Goal: Let families turn local Growth Timeline photo moments into printable album artifacts without adding cloud media, print-provider, or production export dependencies.
+
+User story: As a parent, I want to export selected baby photo moments into a framed album I can print or save, so BabyMinimo can become a keepsake beyond the day-to-day care log.
+
+Scope:
+- Add a local-first album export flow from Timeline's Growth tools/filter context, not a new primary tab.
+- Support both printable PDF album export and individual image-page export.
+- Support print-size presets for common photo book outputs: 8 x 8 square baby books/gifts, 8.5 x 11 family albums/storybooks, A4 for Europe/common bookshelf printing, and 12 x 12 premium keepsake/coffee-table books.
+- Let users select Growth Timeline photo moments and include captions, dates, baby name, and optional household/relationship attribution when already available.
+- Add a curated built-in album frame catalog before any runtime generation: 51 source templates total, split into 43 single/detail baby frames and 8 collage frames, including feminine blush/rose floral styles, varied curl, wreath, plaid, pearl, cloud, crown, arch, and fan-fold treatments, plus 10 local static 3D frame assets from `new-frame-sample/` so frames do not feel repeated. The 10 3D frames are new additive designs with their own stable `three-d-*` IDs; do not convert old flat/stationery frames into 3D variants. The user-facing v1 picker exposes only the 41 active non-3D templates while the 10 3D templates remain experimental/disabled until per-photo crop/reposition support exists.
+- Use Image Gen 2/Codex image generation during implementation planning to create or refine approved static frame concepts/assets; do not generate frames dynamically inside the app in v1.
+- Save approved empty frame assets and sample preview assets with generated baby photos as frontend static assets for QA/design review; include at least 5 local test baby photos that behave like user-selected Growth Timeline media in the demo flow.
+- Add a paginated frame picker that shows 8 frames per page.
+- Keep the lower frame picker collapsed/off by default; users can turn it on when they want to browse the full grid, while the enlarged preview arrows remain the primary quick-browse path.
+- Keep optional decorative frame overlays off by default, with a compact On/Off switch inside the enlarged preview pop-up.
+- Add compact circular frame color controls in the enlarged preview footer for original, cream, sage, and pink palettes; changing color must not resize the album preview.
+- Let the enlarged preview pop-up browse and select frames directly with left/back and right/next overlay controls so users do not need to scroll back to the picker after inspecting a frame.
+- Keep 3D frame templates disabled from normal picker and enlarged-preview navigation until per-photo crop/reposition controls exist, because automatic placement alone can leave white edge gaps for some photo aspect ratios. Add a follow-up native editing requirement for per-photo crop/reposition controls, such as drag-to-position and pinch-to-zoom, so users can fine tune camera-roll photos before export.
+- Support Storybook pages that include baby timeline items by default and let users remove selected timeline items before export.
+- Support a first-year/12-month layout with one photo slot per month and tasteful empty placeholders when a month is missing.
+- Keep exports local/on-device or local-demo only in the first implementation.
+- Settings may link to export history later, but Growth Timeline remains the primary entry point.
+
+Approved visual direction:
+- Use the product-owner-provided frame examples as the visual reference: premium baby keepsake stationery, warm cream paper, soft sage, muted gold, soft florals, subtle BabyMinimo branding, gentle shadows, and print-ready margins.
+- Every frame should include subtle BabyMinimo branding such as "BabyMinimo", "BabyMinimo Memories", or a small BabyMinimo imprint.
+- Shipped frame art must not contain baked-in English words. Decorative frame assets should be text-free except approved brand marks, and all user-visible frame text such as titles, dates, labels, month names, captions, and attribution must be rendered by the export layer through runtime i18n.
+- User-authored album text fields should accept the user's own language and keyboard input. Do not auto-translate user-entered titles, captions, dedications, or notes unless a later explicit translation feature is approved.
+
+Initial v1 album frame catalog, 43 single/detail baby frames:
+- Classic Cream single: warm BabyMinimo cream border with small date/caption footer.
+- Sage Keepsake single: soft sage mat with rounded photo window and quiet household attribution.
+- Storybook single: gentle illustrated page treatment for milestone moments.
+- Blush Gallery single: a converted Minimal White frame with blush gallery matting for softer feminine albums.
+- Rose Floral single: a converted Soft Floral frame with stronger pink/red botanical corner details.
+- Milestone Card single: card-like layout emphasizing age, date, and moment title.
+- Print Shop Border single: high-margin layout suitable for home printers and photo labs.
+- Tiny Toes single/detail frame: detail-forward frame for feet, hands, and small close-up moments.
+- Welcome Home single: first-day or homecoming portrait frame with calm keepsake stationery.
+- Blush Moon Nap single: a converted Moonlight Nap frame with blush bedtime/celestial accents.
+- Little Star single: celebratory single-photo frame for milestone portraits.
+- Heirloom Portrait single: classic portrait layout with restrained archival styling.
+- Rose Garden single: red-rose keepsake corners for feminine floral albums.
+- Pink Peony single: pink peony wash and bloom accents.
+- Blush Bow single: ribbon/bow stationery treatment.
+- Red Rose Keepsake single: stronger red rose keepsake styling.
+- Butterfly Blush single: soft butterfly/blush frame for portrait moments.
+- Lace Princess single: lace-dot and crown-inspired keepsake styling.
+- Garden Party single: mixed pink and sage floral corner treatment.
+- Curling Vine single: sage curling lines that wrap around the image field.
+- Rose Lace single: rose corners with lace-dot stationery.
+- Daisy Chain single: daisy-chain edge treatment.
+- Pearl Oval single: pearl/oval mat for classic portraits.
+- Three Month Steps single/detail: three photo slots arranged as rising milestone steps for a 3-month baby progress page.
+- Cloud Dream single: cloud and star bedtime frame.
+- Golden Scroll single: muted gold scrollwork corners.
+- Meadow Wreath single: meadow sprig/wreath edge treatment.
+- Ribbon Keepsake single: ribbon-tail keepsake treatment.
+- Six Month Steps single/detail: six photo slots arranged like a small staircase for half-year milestone progress.
+- Twelve Month Steps single/detail: twelve monthly photo slots arranged in stepped rows for a first-year staircase page.
+- Little Crown single: crown-and-rule keepsake treatment.
+- Garden Arch single: floral arched garden border.
+- Fan Fold Trio single/detail: three tall overlapping photo panels fanned from a shared bottom point, based on the product-owner sketch.
+- 3D Teddy Fan single/detail: three raised portrait panels with soft teddy nursery styling from the 3D sample set.
+- 3D Safari Trio single/detail: three raised portrait panels with giraffe, elephant, lion, and leaf styling from the 3D sample set.
+- 3D Woodland Arch single: raised arch portrait frame with woodland nursery styling from the 3D sample set.
+- 3D Dino Cloud single: raised dinosaur/cloud portrait frame from the 3D sample set.
+- 3D Moon Cloud single: raised moon, cloud, and star portrait frame from the 3D sample set.
+- 3D Rainbow Trio single/detail: three portrait openings with rainbow, cloud, star, and teddy styling from the 3D sample set.
+- 3D Rose Bow single: raised pink rose and bow portrait frame from the 3D sample set.
+- 3D Ocean Sail single: raised ocean, whale, starfish, and sailboat portrait frame from the 3D sample set.
+- 3D Balloon Duo single/detail: two raised portrait panels with balloons and block styling from the 3D sample set.
+- 3D Castle Portrait single: raised princess castle portrait frame from the 3D sample set.
+
+The 3D static frames must use transparent photo openings so selected baby photos appear inside the raised frame panes. They should use transparent outside canvases and tight object bounds so the raised object sits directly on the album page instead of appearing inside a white square. They should not render as flat photos floating over the frame artwork, and the standard album title/body text block should not overlap the 3D object base.
+These 3D frames are additive designs, not edits to the existing flat/stationery frames.
+These 3D frames are experimental in v1 and must remain hidden from the normal picker and preview carousel until BabyMinimo supports slot-level drag/pinch photo positioning.
+
+Initial v1 album frame catalog, 8 collage frames:
+- Two Together 2-photo collage: side-by-side partner/family memory layout.
+- Little Moments Strip 3-photo collage: horizontal story strip for small sequences.
+- First Smiles Grid 4-photo collage: balanced 2x2 memory grid.
+- Family Circle arched + 2 circles: arched hero photo plus two circular detail photos.
+- Scrapbook Keepsake collage: overlapping paper-photo treatment with tape/sticker details.
+- Milestone Collage 1 large + 3 small: one hero image and three detail photos.
+- First Year Grid 12-photo layout: one photo slot per month, ordered month 1 through month 12.
+- Grandparent Keepsake 3-photo: family/generational keepsake layout.
+
+Acceptance criteria:
+- Album export entry point is reachable from Timeline when Growth moments are in context.
+- Export supports both PDF album output and individual image-page output.
+- Export supports selectable print-size/page presets, records the selected size in the export payload, and preserves 300 DPI print-readiness guidance for future native PDF/image rendering.
+- Frame catalog has exactly 51 source templates: 43 single/detail baby frames and 8 collage frames, each with stable IDs, display names, layout metadata, preview metadata, and static approved assets or static style definitions.
+- User-facing v1 frame picker and preview navigation expose only 41 active templates, excluding the 10 experimental `three-d-*` frames until slot-level crop/reposition support is implemented.
+- Exactly 8 v1 templates are collage layouts; the remaining 43 are single/detail baby frames.
+- Frame picker paginates the active catalog with 8 frames per page and stable test IDs for page controls.
+- Frame picker grid defaults to hidden/off and can be toggled on without affecting the selected frame preview.
+- Optional decorative frame overlays default to off and can be enabled from a compact switch below the frame artwork inside the enlarged preview pop-up, without covering the album preview.
+- Enlarged preview exposes compact circular color options for original, cream, sage, and pink palettes; selecting a palette changes the frame background and main accent/decoration colors without changing preview dimensions.
+- Enlarged frame preview has left/right overlay controls that update the selected frame and keep the paginated picker in sync.
+- Approved empty frame assets and generated-baby sample preview assets are saved as frontend static assets; runtime AI frame generation is not used in the app.
+- Storybook export lets users remove timeline items before export.
+- First Year Grid preserves month ordering and renders empty month placeholders where photos are missing.
+- Export payload includes selected moment IDs, frame ID, baby name, captions, dates, and output format.
+- Unit tests cover frame catalog IDs/count, collage metadata, pagination, Storybook item removal, 12-month slot ordering, export selection model, and local export payload construction.
+- UI smoke verifies Timeline Growth access exposes the export entry point and frame selection.
+- Visual QA verifies the album frame selector, pagination, and at least one PDF/image-page preview state against the provided frame examples.
+- Localization keys are added for every visible export/frame string across all supported app-string files.
+- Frame text zones support localization, long-string wrapping/shrinking, and RTL-safe alignment; no approved shipped frame asset contains baked-in English UI text.
+- Custom album title/note fields are editable before export and stored in the local export payload in the language the user typed.
+- Custom album title/note editing defaults to hidden/off and can be turned on without changing stored default title/note values.
+- Custom album title/note fields enforce frame-safe character limits with visible counters so user-entered text cannot overflow album previews or future rendered exports.
+- Data lifecycle documentation states generated export archives/pages are user-created local artifacts and future cloud/export archive retention follows the heavy-data purge policy.
+
+Dependencies: PBI-025, PBI-026, PBI-027, PBI-028, PBI-052, PBI-057, PBI-063.
+
+Suggested phase: Phase 10, before production Firebase and App Store readiness.
+
+Task mapping:
+- T1: Define local album export model, output formats, privacy rules, and data lifecycle behavior.
+- T2: Generate or curate static frame concepts/assets using Image Gen 2/Codex image generation as a design aid, then record the approved 51-template frame catalog with 43 single/detail baby frames and 8 collage frames.
+- T3: Build the Timeline Growth export entry point, selection flow, paginated frame selector, enlarged preview frame navigation, Storybook timeline editor, 12-month layout support, and preview state without adding a new primary tab.
+- T4: Implement local PDF/image-page payload generation or a local-demo export stub with clear deferred native/export boundaries.
+- T5: Add unit tests, simulator/visual evidence, localization updates, lifecycle docs, CHANGELOG.md, and GoalBuddy receipt.
+
+Implementation receipt:
+- T354 implemented a local-first album export flow from the Timeline Growth filter context.
+- Added a typed 51-frame catalog with exactly 43 single/detail baby frames and 8 collage frames, stable IDs, layout metadata, static style-definition/static 3D frame assets, generated-sample preview metadata, and five local test baby-photo assets for QA.
+- Added local export payload construction for selected moment IDs, frame ID, baby name, captions, dates, output format, Storybook item removal, and First Year month slots.
+- Added a modal with Growth moment selection, default-off album text editing, default-off frame picker grid with 8-per-page frame pagination, default-off optional frame decorations, enlarged preview frame navigation, Storybook timeline item removal, First Year 12-slot placeholder preview, PDF/image output selection, and local export preview state.
+- Visual evidence is recorded under `docs/qa/screenshots/pbi-069/`.
+- Verification passed: `bun run test:typecheck`, `bun run test:unit`, and simulator smoke through serve-sim.
+
+#### PBI-070: Growth Timeline Local Media Durability and Backup Export
+
+Goal: Reduce the risk of families losing local-only Growth Timeline photos when an app is deleted, device data is cleared, or a phone is replaced.
+
+User story: As a parent, I want BabyMinimo to clearly protect and export my local baby photo memories, so I understand what is stored on my device and can back it up before deleting the app or changing phones.
+
+Scope:
+- Define a local media durability model for Growth Timeline moments that separates the timeline metadata from the local photo file pointer.
+- Treat user photos as app-local media records that must have durable local file URIs, optional thumbnails, captions, dates, baby ID, and backup/export manifest entries.
+- Keep demo bundled image assets separate from user-owned media so QA previews do not imply real backup coverage.
+- Add a Growth Timeline UI safety indicator that explains local-only storage and backup risk without alarming users.
+- Add a local backup/export manifest model that can later package metadata JSON plus media files into a user-created archive.
+- Ensure album export payloads can carry media backup manifest metadata so selected photos and captions can be backed up together.
+- Keep v1 local/on-device or local-demo only; do not add production Firebase Storage, cloud sync, backend export history, iCloud Drive automation, App Store Connect, billing, auth/session changes, or database migrations.
+- Document how Timeline images display: the UI reads metadata records that point to app-local file URIs or demo bundled assets, and renders a tasteful missing-media state when a pointer is absent or invalid.
+
+Acceptance criteria:
+- A typed Growth Timeline media durability model classifies media as ready, bundled-demo, or missing.
+- A local backup manifest includes baby ID, created timestamp, media count, storage mode, and per-moment media records.
+- Timeline Growth context shows a local media safety indicator with backup-ready and missing-media counts.
+- Album export payload includes user-authored custom text and local media backup manifest metadata for selected moments.
+- User-authored album text can be typed in any language supported by the device keyboard; shipped frame assets still contain no baked-in English UI text.
+- Unit tests cover media classification, backup manifest construction, summary counts, and album custom text payload behavior.
+- UI smoke verifies the Growth Timeline media safety indicator and album custom text/local media manifest surfaces.
+- Lifecycle/privacy docs state that local-only photos can be lost if the app is deleted or device data is cleared unless users export/back up their local artifacts.
+
+Dependencies: PBI-027, PBI-028, PBI-057, PBI-069.
+
+Suggested phase: Phase 10, before production Firebase and App Store readiness.
+
+Task mapping:
+- T1: Define local Growth Timeline media record, display-source, missing-media, and backup-manifest contracts.
+- T2: Add Timeline Growth safety UI and album export manifest/custom-text integration.
+- T3: Document local media durability, backup/export behavior, user-language album text, and no-baked-English frame asset policy.
+- T4: Add unit tests, localization strings, visual QA evidence, CHANGELOG.md, and GoalBuddy receipt.
+
 ### Epic 14: Widgets
 
 Widgets extend BabyMinimo's handoff promise outside the app. They should be glanceable, calm, and read-only in the first release unless interaction support is explicitly scoped later.
@@ -1783,6 +1965,28 @@ Task mapping:
 - T4: Add unit/emulator tests and verify no production deploy is required.
 - T5: Document security, cost, and production rollout risks.
 
+Implementation receipt:
+- Completed T1 scout planning by defining the production push provider data contract, authorization assumptions, and emulator-safe behavior without adding production credentials or remote delivery code.
+- Proposed token storage uses user-owned, household-aware records such as `users/{userId}/pushDevices/{deviceId}` with device ID, platform, permission state, locale/timezone, app version, household IDs, opt-out flags, token refresh timestamps, disabled state, and a server-readable native/FCM token field. Client reads should not expose other users' raw tokens, and token records must be invalidated on sign out, account deletion, household removal, app reinstall, permission denial, or stale refresh age.
+- Proposed send requests are backend-owned and template-based: `useCase`, `urgency`, `householdId`, optional `babyId`, `actorUserId`, `targetUserIds`, `templateId`, safe route/deep-link metadata, and delivery policy fields. Requests must not include caregiver notes, baby free-text notes, symptoms, invite secrets, or arbitrary message bodies from clients.
+- Proposed delivery logs are sparse operational records with run ID, household ID, template ID, route, audience count, success/failure counts, error categories, created time, and `expiresAt` TTL. Logs should avoid per-recipient message text and should be cleaned by TTL or a scheduled cleanup job.
+- Authorization assumptions: users can create/update/delete only their own device records; household audience selection is derived from authorized membership; clients cannot send arbitrary remote pushes; backend Functions or another approved backend enforces use-case policy, membership, opt-outs, quiet hours, rate limits, and sensitive-copy exclusion; Firestore rules must deny cross-household token and log access.
+- Emulator-safe behavior: Auth, Firestore, Storage, and Functions emulators can validate token document rules, dry-run send requests, routing policy, and delivery-log writes. FCM/APNs delivery still requires later physical-device production or sandbox credentials and is outside this scout task.
+- Routing defaults remain cost-aware: routine feeding, medication, sleep, tummy time, and device-owned reminders stay local through `expo-notifications`; remote push is reserved for caregiver invites, cross-device household updates, critical due-soon escalation, account/security, lifecycle, and explicitly approved conversion/activation nudges.
+- Follow-up T2 should implement the provider boundary and dry-run backend interface first, then T3/T4 should add retry/error handling and emulator-backed policy/rules tests before any physical push delivery work.
+- Completed T2 by adding `src/lib/firebase/pushProvider.ts`, a narrow injectable Firebase push provider boundary with local scheduler, callable executor, safe remote payload builder, native FCM/APNs-via-FCM token registration, delivery-event listener subscription, and routing policy that keeps routine reminders local while allowing only sparse approved remote use cases.
+- Completed T3 by adding `src/lib/firebase/pushProviderResilience.ts`, covering denied/not-determined permissions, empty audiences, invalid registration payloads, transient retry/backoff decisions, non-retryable authorization/cross-household errors, and token cleanup reasons for disabled, denied, removed-household, sign-out, account-delete, and stale-refresh states.
+- Verification for T2/T3: focused Firebase push tests pass, typecheck passes, Firebase Auth emulator UI returned HTTP 200, and no production Firebase deploy or production push credential setup was performed. Remaining PBI-061 work is T4 emulator/rules coverage and T5 production security/cost/rollout documentation.
+- Completed T4 by adding `src/lib/firebase/pushProviderBoundary.test.ts` with deploy-free boundary coverage for local-vs-remote routing, denied permissions, unapproved conversion nudge fallback, sensitive route metadata stripping, quiet-hours/opt-out/rate-limit policy serialization, token invalidation cleanup reasons, and verification commands that avoid production Firebase deploys.
+- Completed T5 documentation: PBI-061 remains a production-readiness plan only. This documentation does not authorize a production Firebase deploy, APNs/FCM credential upload, App Store Connect change, billing change, or production push send.
+- Security boundaries: APNs keys/certificates, Firebase service-account credentials, FCM server credentials, and production project IDs must stay out of source control, screenshots, logs, delivery records, and client-readable config. Credential setup requires the later release/security workflow with named owner approval, secret storage, rotation notes, and rollback ownership.
+- Firestore least privilege assumptions: users may create, update, and delete only their own device-token records; household membership and audience selection are backend-derived; clients cannot read other users' raw tokens or delivery logs; cross-household token/log access is denied; backend send paths enforce membership, use-case policy, opt-out, quiet hours, rate limits, and sensitive-copy exclusion before any remote push leaves the system.
+- Sensitive-copy exclusions: remote-push templates must not include caregiver notes, baby free-text notes, symptoms, invite secrets, arbitrary client-supplied bodies, billing details, account recovery material, or other sensitive household content. Deep links should carry stable route metadata only, not private message text.
+- Cost boundaries: FCM is no-cost, but production use can still create Functions invocations, Firestore token reads/writes, delivery-log writes, log retention costs, egress, Apple Developer Program fees, store fees, monitoring costs, and support burden. Routine feeding, medication, sleep, tummy time, and other device-owned reminders stay local by default to avoid backend fan-out cost.
+- Production rollout and rollback: first rollout is blocked until PBI-050 security hardening, T4 emulator/rules coverage, physical-device sandbox/TestFlight push verification, App Check/abuse review, credential rotation plan, monitoring/alerting, TTL cleanup, and incident rollback steps exist. Rollback must disable remote routing server-side, stop backend sends, invalidate or ignore tokens as needed, and keep local notification scheduling functional.
+- Verification limits: Firebase Emulator tests can validate Auth/Firestore/Functions rules, routing policy, dry-run sends, rate limits, quiet-hours behavior, opt-out, payload building, token cleanup, and delivery-log shape. They cannot prove real APNs entitlement setup, iOS notification permission UX, background delivery, token rotation from Apple, Focus/notification-summary behavior, network delivery latency, or production FCM/APNs error handling; those require physical iOS devices and sandbox/TestFlight or production-equivalent credentials.
+- Pre-production gates remaining: complete T4 emulator/rules coverage, verify denied-permission and token-refresh behavior on physical devices, confirm sign-out/account-deletion/household-removal token invalidation, validate rate limits/quiet hours/opt-out for non-critical conversion and activation nudges, review notification copy for sensitive-data exclusion, document runbooks for failed sends and credential compromise, and record final go/no-go evidence before any production push enablement.
+
 #### PBI-050: Production Firebase and security hardening
 
 Goal: Replace emulator-only assumptions with production-ready Firebase configuration and rules.
@@ -1792,17 +1996,20 @@ User story: As a BabyMinimo household, I want my baby's data protected so only a
 Scope:
 - Production Firebase environment configuration.
 - Firestore security rules for households, babies, care events, reminders, invites, feature flags, and user profiles.
+- Firebase Storage emulator readiness, local `storage.rules`, and future production Storage security boundaries for any approved media/export archive work.
 - Firebase Auth production behavior and session bootstrap review.
-- Emulator-backed security rules test suite.
+- Emulator-backed security rules test suite for Auth, Firestore, and Storage readiness.
 - Separation between local emulator config and production config.
 - Secret and API key handling review.
+- Growth Timeline photos remain local-only in v1; Storage readiness must not move local baby media to Firebase Storage without a later approved media-backup PBI.
 
 Acceptance criteria:
 - App can switch between emulator and production Firebase config without code edits.
 - Firestore rules deny cross-household reads and writes.
 - Caregiver roles are enforced for household-scoped data.
 - Invite/member flows do not allow privilege escalation.
-- Security rules tests pass locally against the Firebase Emulator.
+- Storage emulator starts locally with Auth and Firestore, exposes the Storage UI, and uses deny-by-default `storage.rules` for unmodeled paths.
+- Security rules tests pass locally against the Firebase Emulator, including Storage readiness checks for anonymous denial, household path scoping, and local/dev identity boundaries.
 - No production secrets are committed.
 - Production rules deployment is documented but not run without explicit approval.
 
@@ -1811,11 +2018,48 @@ Dependencies: PBI-002, PBI-007, PBI-010, PBI-017 through PBI-021, PBI-031, PBI-0
 Suggested phase: Phase 10.
 
 Task mapping:
-- T1: Define local emulator and production configuration boundaries.
+- T1: Define local emulator and production configuration boundaries, including Auth, Firestore, Storage, Functions, and Emulator UI readiness.
 - T2: Implement Firebase client exports and environment loading.
 - T3: Wire auth, Firestore, Functions/callable wrappers, and emulator switching.
-- T4: Add emulator smoke checks and type coverage for exported clients.
-- T5: Document config, secret-handling assumptions, and production follow-ups.
+- T4: Add emulator smoke checks and type coverage for exported clients, including Storage emulator UI/rules readiness.
+- T5: Document config, secret-handling assumptions, Storage boundaries, and production follow-ups.
+
+T1 implementation note:
+- Local development remains emulator-first with `babyminimo-demo` defaults and `EXPO_PUBLIC_USE_FIREBASE_EMULATOR=true`.
+- Repo runtime pins now standardize app/tooling work on Node 24 LTS via `.nvmrc` / `.node-version`, while Firebase Functions uses the Node 22 runtime pin in `functions/package.json`.
+- Emulator readiness now covers Auth (`9099`), Firestore (`8080`), Storage (`9199`), Functions (`5001`), and Firebase Emulator UI (`4000`).
+- Production mode is selected by environment only (`EXPO_PUBLIC_USE_FIREBASE_EMULATOR=false`); no code edit should be required to switch environments.
+- Production mode must not use the demo API key, localhost auth domain, `babyminimo-demo` project ID, demo storage bucket, demo messaging sender ID, or demo app ID.
+- Storage emulator readiness does not authorize production Storage, Growth Timeline media cloud sync, backend export history, or moving local baby photos out of local storage.
+- Production Firebase deploys, production credentials, App Store Connect changes, signing, and billing remain blocked until their specific approved tasks.
+
+T2 implementation note:
+- Firebase public environment loading is now centralized in `src/lib/firebase/config.ts` with typed keys, emulator-safe defaults, and testable builders.
+- Emulator ports are parsed defensively; invalid Auth, Firestore, Storage, Functions, or UI port values fall back to safe local defaults.
+- The single Firebase module boundary now exports initialized App, Auth, Firestore, Storage, and Functions clients.
+- Storage and Functions clients connect to local emulators when emulator mode is enabled; callable function wrappers and production deployment behavior remain later PBI-050 tasks.
+- The export surface is covered by unit tests so future Firebase work can import clients from `src/lib/firebase` without duplicating environment parsing.
+
+T3 implementation note:
+- Firebase runtime switching now goes through `src/lib/firebase/runtime.ts`, which validates production mode before connecting and coordinates Auth, Firestore, Storage, and Functions emulator connections from one local runtime boundary.
+- `src/lib/firebase/callables.ts` adds typed callable names and wrapper exports for `createHousehold`, `createBaby`, `inviteMember`, `createCareEvent`, `createReminder`, `getFeatureFlags`, and `getHandoffSummary`.
+- Callable wrappers are client-side boundaries only; deployable callable implementations, production rules deployment, production credentials, App Store Connect work, signing, and billing remain later approved tasks.
+- Unit tests cover runtime summaries, production-boundary failure, emulator-disabled switching, callable name mapping, and wrapper routing through a shared executor.
+
+T4 implementation note:
+- `scripts/firebase-emulator-smoke.mjs` and `bun run test:firebase:smoke` now perform a run-scoped local smoke pass against `babyminimo-demo` covering Emulator UI, Auth UI, Storage UI, Functions root reachability, Auth signup/login/delete, Firestore write/read/delete, and Storage upload/read/delete.
+- Smoke artifacts are intentionally temporary: Auth user `smoke-{timestamp}@example.test`, Firestore document `emulatorSmokeChecks/{runId}`, and Storage object `emulator-dev/users/{uid}/{runId}.json` are cleaned up before the command exits.
+- Exported-client type coverage now asserts the shared Firebase boundary exposes typed App, Auth, Firestore, Storage, and Functions clients, plus callable input types for the planned household, baby, invite, care-event, reminder, feature-flag, and handoff-summary wrappers.
+- The smoke command is emulator-only and does not authorize production Firebase deploys, production credentials, App Store Connect work, signing, billing, or moving Growth Timeline media into Firebase Storage.
+
+T5 implementation note:
+- Firebase client config is intentionally split into public Expo Firebase values and private credentials. `EXPO_PUBLIC_FIREBASE_*` values are public client identifiers, not secrets; service account JSON, private keys, CI tokens, App Store Connect keys, billing keys, and production deploy credentials must never be committed to this repo or placed in Expo public environment variables.
+- Local development keeps `EXPO_PUBLIC_USE_FIREBASE_EMULATOR=true` and the `babyminimo-demo` project. Production builds must set `EXPO_PUBLIC_USE_FIREBASE_EMULATOR=false` and provide real Firebase public app identifiers through the approved build environment, not by editing source code.
+- Production-mode validation currently blocks the known demo API key, localhost auth domain, `babyminimo-demo` project ID, demo Storage bucket, demo messaging sender ID, and demo app ID. This is a guardrail only; the production release task must still verify the actual Firebase project, rules, indexes, App Check posture, and deployment target.
+- Storage readiness is emulator-only. The local `storage.rules` file currently allows only signed-in emulator users with owner or household custom-claim shape checks on modeled local paths, denies anonymous access, caps local artifact size, restricts content types, and denies all unmodeled paths. These rules are not production-approved until the later production Firebase security pass validates real custom claims, App Check expectations, media lifecycle, backups, retention, and incident-recovery behavior.
+- Growth Timeline baby photos, album frame assets, local export archives, and generated album pages remain local/on-device or local-demo artifacts for v1. Storage emulator testing does not authorize cloud media sync, production Storage uploads, backend export history, external print-provider integration, or moving local baby photos into Firebase Storage.
+- Callable wrappers are client-side contracts only. Deployable Cloud Functions, trigger ownership of derived read models, production secret injection, scheduled cleanup jobs, and production function deploys remain blocked until their own approved PBI tasks.
+- Production follow-ups before release: finalize Firestore and Storage rules from the real data model; add emulator rules tests for every production collection/path; confirm Auth provider setup and custom-claims issuance; confirm App Check strategy; define Firestore indexes; define Storage lifecycle and retention; define backup/export recovery; wire CI secret storage; run `firebase deploy --only firestore:rules,firestore:indexes,storage` only after explicit approval; and capture release receipts for Auth, Firestore, Storage, and Functions emulator-to-production parity.
 
 #### PBI-066: Firebase Remote Config and remote app controls
 
@@ -1875,6 +2119,27 @@ Task mapping:
 - T4: Add tests for defaults, invalid values, failed fetch, stale config, experiment exposure IDs, and pricing-source guardrails.
 - T5: Document production operating rules, rollout/rollback process, A/B testing scope, and GoalBuddy receipt.
 
+Implementation receipt:
+- Completed T1/T2 by adding a typed Remote Config registry and service boundary in `src/lib/firebase/remoteConfigRegistry.ts` and `src/lib/firebase/remoteConfig.ts`.
+- Registered only low-risk, non-sensitive controls for onboarding/questionnaire variants, paywall copy/layout variant IDs, notification nudge/rate-limit presets, support URLs, maintenance banner metadata, localization metadata version, ASO campaign labels, and the local Growth Album export rollout switch.
+- The registry records default value, allowed values, owner, rollout plan, rollback plan, release risk, and description for each key. It explicitly keeps prices, product IDs, entitlements, auth decisions, security rules, PII, baby names, caregiver notes, and household-specific data out of Remote Config.
+- The service boots with offline defaults, supports an injectable dev/static provider, exposes a lazy Firebase Remote Config provider for production wiring, validates provider values before activation, ignores unknown/invalid keys, keeps a fresh stale cache when fetch fails, and falls back to defaults when no valid cache remains.
+- Exposure metadata is available only for experiment keys so future analytics can log variant exposure without treating support/config pointers as experiments.
+- Follow-up T3/T4 should wire low-risk consumers and analytics exposure logging to product surfaces; this task does not change UI behavior yet.
+- Verification passed for the focused Remote Config tests and exported-client type coverage; full PBI verification is recorded in GoalBuddy state.
+- Completed T3/T4 by adding `src/lib/firebase/remoteConfigConsumers.ts`, which converts validated Remote Config values into a low-risk app control snapshot for onboarding/questionnaire variants, paywall copy/layout variant IDs, support URLs, notification nudge and rate-limit presets, maintenance banner metadata, localization metadata version, ASO campaign label, and the Growth Album export rollout switch.
+- Consumer controls intentionally preserve hard boundaries: paywall pricing source remains `storekit`, remote prices are never allowed, notification controls explicitly respect quiet hours and opt-out policy, and maintenance banners are non-blocking.
+- Added focused consumer tests for defaults, activated values, invalid fallback behavior, failed-fetch stale cache behavior, experiment exposure IDs, and pricing-source guardrails.
+- This wiring exposes the safe consumer boundary from `src/lib/firebase/index.ts`; visible UI screens should adopt it in a later surface-specific task because the GoalBuddy allowed paths for T314/T315 do not include `app/**` or feature UI modules.
+- Completed T5 by documenting the production operating rules for Remote Config rollout, rollback, A/B testing scope, and release readiness.
+- Production ownership rules: each key must keep a named owner, default value, allowed value set, rollout plan, rollback value, risk level, and reason for change. Growth/Product owns onboarding and questionnaire variants; Revenue owns paywall copy/layout IDs but not prices, product IDs, or entitlements; Lifecycle owns notification nudges and rate-limit presets; Support owns support/help URLs; Localization/ASO owns metadata and campaign labels; Operations owns maintenance banners and kill switches.
+- Production change requests must record key name, proposed value, owner approval, rollout percentage, start/end window, success metric, guardrail metric, rollback trigger, localization impact, and screenshot/release dependency if visible copy or App Store metadata changes.
+- Rollout process: start at defaults, validate in local tests with injectable providers, release app code with all target variants already localized and bundled, enable low-risk values at a small percentage, watch exposure, activation, crash, support, paywall, notification opt-out, and retention signals, then increase gradually only if guardrails hold.
+- Rollback process: set the key to its default or documented rollback value, publish Remote Config immediately, verify app fallback behavior after fetch/activate, leave StoreKit/App Store Connect pricing untouched, and record the rollback reason in the GoalBuddy/PBI receipt.
+- A/B testing scope is limited to non-critical presentation and messaging: onboarding order/copy IDs, questionnaire variants, paywall layout/copy IDs, notification nudge copy IDs and rate-limit presets, support URLs, maintenance banner metadata, localization metadata version, ASO labels, and non-critical rollout switches. It must not control auth, authorization, Firestore rules, account deletion, data purge, product prices, subscription status, entitlement validity, secrets, PII, baby names, caregiver notes, or household-specific data.
+- Runtime safety rules: the app must boot with defaults when offline, ignore invalid/unknown values, keep fetch/activate failures non-blocking, use stale cache only within the service policy, log only experiment key/variant metadata when analytics is enabled, and keep notification nudges subject to quiet-hours, opt-out, and rate-limit policies.
+- Release readiness checks for PBI-066 are now complete at the service/documentation boundary: typed defaults, validation, stale fallback, low-risk consumer mapping, focused tests, pricing-source guardrails, and operating rules are documented. Later surface-specific UI tasks can adopt these controls without changing the Remote Config safety contract.
+
 #### PBI-051: Full interaction hardening
 
 Goal: Ensure every visible BabyMinimo control is functional, intentionally disabled, or removed.
@@ -1912,6 +2177,37 @@ Implementation receipt:
 - Removed the Home lazy-loading `InteractionManager` warning path so the simulator no longer shows the deprecation warning banner during smoke tests.
 - Verification passed: `bun run test:typecheck`, `bun run test:unit`, `npx expo-doctor`, and `maestro test e2e/maestro/smoke.yaml`.
 - Evidence is recorded under `docs/qa/screenshots/pbi-051/` and in `docs/product/babyminimo-interaction-hardening-inventory.md`.
+
+#### PBI-051A: UI hardening follow-up for misleading controls
+
+Goal: Resolve the remaining real UI hardening bugs from the 2026-05-26 control audit before production/release work.
+
+User story: As a caregiver, I want every visible affordance to either do the thing it appears to do or look clearly read-only.
+
+Scope:
+- Fix the Home weekly summary chevron, which currently implies navigation while the card is static.
+- Fix the shared SettingsHeader right settings icon, which is styled like a button but is static on screens that do not provide an action.
+- Fix the Family caregiver row ellipsis, which implies a member action menu but has no menu.
+- Fix the Breastfeed modal "Bottle" option, which is currently a no-op selector.
+- Fix Log form event time/date pills, which look editable but are read-only.
+- Improve text-link controls such as Home/Growth "View all" so they expose button semantics and stable test IDs.
+
+Acceptance criteria:
+- No listed control remains visually action-oriented without either a real handler or explicit read-only/deferred treatment.
+- Breastfeed modal either routes to the Bottle modal when Bottle is selected or no longer renders Bottle as a selectable option.
+- Time/date presentation in log forms is either genuinely editable or visually read-only.
+- Text links that navigate use accessible button semantics and stable test IDs.
+- Maestro or simulator smoke covers the changed Home, Family, and log-form interactions.
+- `docs/product/babyminimo-control-integration-audit.md` is updated with the final resolution for CTRL-101 through CTRL-106.
+
+Dependencies: PBI-051, PBI-052.
+
+Suggested phase: Phase 10, before production Firebase/App Store release work.
+
+Task mapping:
+- T1: Implement the six CTRL-101 through CTRL-106 UI hardening fixes.
+- T2: Add focused test IDs/accessibility labels and update Maestro/smoke coverage where useful.
+- T3: Update control audit, changelog, and GoalBuddy receipt with verification evidence.
 
 #### PBI-052: E2E and visual release QA
 
@@ -2154,6 +2450,17 @@ Task mapping:
 - T4: Verify App Store/TestFlight checklist, screenshots, and rollback notes.
 - T5: Record release evidence, blockers, and explicit go/no-go status.
 
+Implementation notes:
+
+- T1 added `docs/testing/babyminimo-release-prerequisites-scout.md` to record the release prerequisite scout. Local app identity, versioning, app icon, splash, widget identifiers, and privacy manifest evidence are present, but signing, App Store Connect, final screenshots, permission purpose strings, production Firebase, StoreKit, push, and signed widget evidence remain release blockers.
+- T2 added `docs/product/babyminimo-release-readiness.md` as the release configuration, asset, metadata, privacy, and no-go gate register. Current local config records `BabyMinimo`, bundle ID `com.babyminimo.app`, widget bundle ID `com.babyminimo.app.widgets`, App Group `group.com.babyminimo.app`, version `0.1.0`, and the requirement that release smoke runs with `EXPO_PUBLIC_USE_FIREBASE_EMULATOR=false`.
+- T2 also added `scripts/release-production-smoke.mjs` as a local pre-archive smoke check. It validates app identity, version shape, widget identifiers, privacy manifest presence, and emulator-disabled production mode without touching signing, App Store Connect, production Firebase, StoreKit, or push credentials.
+- T3 added `docs/testing/babyminimo-production-build-smoke.md` to document the local production smoke command and the later manual TestFlight path. Passing the local script means emulator mode is not obviously enabled in the release smoke environment; it does not prove Apple signing, TestFlight install, production Firebase security, StoreKit purchases, APNs/FCM delivery, or real widget placement.
+- T4 added `docs/testing/babyminimo-app-store-testflight-checklist.md` to verify the App Store/TestFlight checklist, screenshot status, and rollback notes. Current result is `NO-GO`: the final localized screenshot manifest is still blocked, `Info.plist` has no photo/camera purpose strings, and signed TestFlight/App Store Connect evidence remains owner-approved manual work.
+- T5 added `docs/testing/babyminimo-release-evidence-go-no-go.md` with the final PBI-053 release evidence, blockers, explicit `NO-GO` status, and non-actions. The task completes the release-readiness documentation gate without authorizing production release work.
+- Added `docs/testing/babyminimo-asc-automation-readiness.md` and `scripts/asc-release-readiness.mjs` as a read-only App Store Connect automation preflight. It checks local identity, `asc` availability, capability coverage, app-record lookup, and optional `ASC_APP_ID`/`ASC_BUILD_ID` validation without creating records, editing metadata, uploading screenshots, changing pricing, submitting builds, or touching Firebase. Keychain-backed `asc doctor` and `asc web auth status` checks remain direct/manual commands because scripted child processes may not read cached credentials reliably.
+- Production signing, App Store Connect writes, TestFlight upload, production Firebase deploys, production StoreKit setup, production push credentials, and final localized screenshot submission remain blocked until explicitly approved in their own release tasks.
+
 #### PBI-054: Implement widget release slice
 
 Goal: Build and verify the first production-eligible BabyMinimo widget implementation.
@@ -2318,6 +2625,18 @@ Task mapping:
 - T4: Add lifecycle notification ingestion plan or endpoint.
 - T5: Add tests, sandbox/TestFlight validation, and release evidence.
 
+Implementation notes:
+- T1 contract is documented in `docs/product/babyminimo-iap-entitlement-contract.md`.
+- Launch StoreKit products are limited to `com.babyminimo.premium.annual`, `com.babyminimo.premium.monthly`, and `com.babyminimo.premium.weekly` in one `babyminimo-premium` auto-renewable subscription group.
+- Family, lifetime, and gift products are deferred candidates only until owner approval defines lifecycle, refund, fraud, transfer, cost, and App Store review rules.
+- T2 adds a pure injectable IAP boundary in `src/features/subscriptions/iap.ts`; it requests launch Premium products by default, relies on StoreKit-supplied display prices, requires a signed-in user, and returns access only after backend-authoritative entitlement refresh.
+- T2 is not a production StoreKit integration yet: it adds no native dependency, no App Store Connect writes, no production Firebase deploy, no client-owned entitlement grant, and no Firestore billing rule changes.
+- T3/T4 add the local backend entitlement and App Store Server Notification lifecycle contracts in `docs/product/babyminimo-subscription-backend-sync.md`.
+- T3 adds `src/features/subscriptions/backendEntitlements.ts` for backend-owned billing records, compact client entitlement projections, product-to-plan mapping, wrong-user transaction conflict detection, and backend-managed billing path/field policy.
+- T4 adds `src/features/subscriptions/appStoreServerNotifications.ts` for verified App Store Server Notification event mapping, idempotency by notification UUID, and renewal/cancellation/refund/revoke/billing-retry lifecycle states.
+- T3/T4 also add the typed `refreshIapEntitlement` callable wrapper in `src/lib/firebase/callables.ts`; the deployable Cloud Function and production Firestore rule edits remain blocked until GoalBuddy scope includes `functions/**` and `firestore.rules`.
+- T5 adds `src/features/subscriptions/releaseReadiness.ts` and `docs/testing/babyminimo-iap-release-evidence.md` to separate automated IAP release evidence from manual Sandbox/TestFlight gates. The release gate remains blocked until real Sandbox/TestFlight smoke, deployable Functions, and production Firestore billing rules are completed.
+
 #### PBI-056: Account deletion and data purge
 
 Goal: Add safe account deletion with reauthentication and data purge behavior.
@@ -2352,6 +2671,7 @@ Suggested phase: Phase 11.
 Sequencing note:
 - Local/emulator account deletion work is not production-gated and should run before production Firebase/App Store readiness: deletion policy, Account UI, local cleanup, local/emulator tests, Maestro coverage, and privacy docs.
 - Production-gated account deletion work remains last: backend purge callable/Function, Firestore rules deployment, production Firebase Auth deletion verification, irreversible production data deletion, and release compliance evidence.
+- T3 adds `src/features/privacy/accountDeletionBackendPurge.ts` and the typed `requestAccountDeletionPurge` callable wrapper as the local contract for backend-owned purge behavior. The deployable Cloud Function and Firestore rule implementation remain blocked until task scope explicitly includes `functions/**` and `firestore.rules`.
 
 Task mapping:
 - T1: Define deletion policy for user profile, household membership, babies, events, reminders, local photos, widgets, and analytics. Local/emulator-safe.
@@ -2441,6 +2761,142 @@ Task mapping:
 - T3: Optimize obvious high-read queries using scoped filters, ordering, limits, and indexes.
 - T4: Run baseline load test and record results.
 - T5: Document cost signals and next optimization tasks.
+
+#### PBI-071: Firebase latest-state summary and read-cost optimization
+
+Goal: Reduce recurring Firestore reads before production by maintaining one compact latest-state summary document per baby for Home, Handoff, widgets, and notification scheduling.
+
+User story: As the product owner, I want BabyMinimo's high-frequency surfaces to read one compact baby summary instead of repeatedly querying recent events, so production cost and listener pressure stay predictable as usage grows.
+
+Scope:
+- Add a `babyLatestStates/{babyId}` read model for Home, Handoff, widget refresh, and notification scheduling.
+- Keep `careEvents` as the source of truth and keep Timeline baby-scoped, ordered, limited, and paginated.
+- Maintain latest-state summaries through Firebase Functions emulator before production deployment; app-side summary writes are allowed only for local emulator measurement and fallback prototypes.
+- Add a local Firestore trigger in the Functions emulator that derives compact latest-state summaries from `careEvents/{eventId}` writes.
+- Attach realtime listeners only while the relevant screen is focused.
+- Cache feature flags and plan entitlements locally with explicit refresh points and short TTLs; do not attach long-lived realtime listeners for these rarely changing values.
+- Keep widget refresh to one summary read where possible by reading `babyLatestStates/{babyId}` instead of querying recent care events.
+- Add TTL or scheduled-cleanup design for notification delivery logs and other operational records, including a concrete local retention policy before production cleanup scheduling.
+- Memoize Home and Timeline derived collections so local render work does not repeatedly filter, sort, search, or summarize unchanged data.
+- Extend Firebase Emulator load testing to compare latest-event query reads against summary-document reads.
+
+Acceptance criteria:
+- Emulator load test can run both baseline latest-event reads and optimized summary reads.
+- Optimized summary mode reports one summary read per baby per pass, representative summary input/output, and the added summary-write cost.
+- Function-backed summary mode verifies `careEvents` writes produce `babyLatestStates` documents through the local Functions emulator before production deploy work.
+- Documentation explains that summary documents are derived read models, not the event-history authority.
+- Home, Handoff, and widget refresh read from the summary read model in emulator/local-dev mode, with Timeline still using scoped event history.
+- Notification-scheduling implementation plans point at the summary read model before production Firebase work.
+- Timeline remains paginated and baby-scoped; no broad collection reads are introduced.
+- Feature flag and plan entitlement reads have an explicit-refresh local cache with TTL-backed stale handling.
+- Notification delivery logs have a local TTL policy that can be mirrored by future Firestore TTL or scheduled cleanup.
+- Production Firebase deploy, Cloud Storage media migration, billing, and App Store Connect work remain out of scope.
+
+Dependencies: PBI-050, PBI-058, PBI-059, PBI-061, PBI-066.
+
+Suggested phase: Phase 9.5, before production Firebase readiness.
+
+Task mapping:
+- T1: Define `babyLatestStates` data contract, source-of-truth boundaries, and security assumptions.
+- T2: Add emulator load-test summary mode and package command.
+- T3: Wire Functions-emulator summary maintenance and keep the client-write mode only as a local fallback measurement path.
+- T4: Update Home, Handoff, widget, notification, and Timeline implementation guidance and code for summary reads, memoized derivations, and focused listeners.
+- T5: Run baseline-vs-summary emulator tests and record read/write/cost receipts.
+
+#### PBI-072: App Store Custom Product Pages and Intent-Based ASO
+
+Goal: Prepare multiple App Store Custom Product Pages so one BabyMinimo app can convert different parent motivations through focused App Store entry points instead of one generic page.
+
+User story: As the product owner, I want App Store pages for different parent intents, so users who click from search or ads feel the app solves the exact reason they were looking for a baby tracker.
+
+Scope:
+- Define six first-wave Custom Product Pages: Newborn Tracker, Breastfeeding & Bottle Tracker, Baby Sleep Tracker, Shared Baby Log, Baby Memories & Milestones, and Doctor Visit Baby History.
+- Keep the default App Store page broad: BabyMinimo as a simple tracker for feeding, sleep, diapers, growth, memories, and shared household care.
+- For each Custom Product Page, document target motivation, page angle, five screenshot messages, keyword cluster, traffic source, feature activation goal, and success metric.
+- Add a marketing planning artifact at `docs/marketing/app-store-custom-product-pages.md`.
+- Add a typed custom-product-page registry and local analytics attribution events, but do not require production analytics SDK migration in this PBI.
+- Add attribution fields for future onboarding/session tracking: `app_store_page`, `campaign_source`, `campaign_angle`, and `locale`.
+- Add feature activation tracking requirements so each Custom Product Page can be judged by install conversion, trial start, subscription conversion, retention, and promised-feature activation.
+- Plan screenshots as 6 pages x 5 App Store screenshots in English first, with reusable templates but page-specific copy, screen order, and feature emphasis.
+- Plan localization in phases: English first for all pages, then the top three pages into priority markets, then winning pages into all supported App Store locales.
+- Prioritize the first localization markets as English, Spanish, French, German, Portuguese, Italian, Dutch, Polish, Turkish, and Arabic.
+- Localize App Store screenshot text, promotional text, subtitle, keywords, and visible in-app screenshot surfaces where practical; do not translate word-for-word when the emotional promise needs local adaptation.
+- Keep screenshot claims truthful: Shared Baby Log cannot launch as a Custom Product Page until shared household functionality is real or release-ready, and Doctor Visit Baby History must avoid diagnosis, treatment, or medical outcome claims.
+
+Acceptance criteria:
+- The PBI and GoalBuddy task define the six Custom Product Pages with target motivation, page angle, screenshot sequence, traffic source, keyword cluster, success metric, and feature activation target.
+- The marketing doc explains the core principle: one app, multiple App Store entry doors by parent intent.
+- The code plan defines stable Custom Product Page IDs and analytics properties without requiring production App Store Connect, production ads, or production analytics SDK changes.
+- Screenshot requirements state that the first implementation needs 30 English screenshot compositions and that later localized screenshots should match the destination locale.
+- Localization rollout explicitly avoids creating 210 localized page sets before validation and instead phases translation by winning pages and priority markets.
+- Medical and shared-care compliance caveats are documented.
+- App Store Connect writes, ad launches, StoreKit changes, pricing changes, and production Firebase work remain out of scope.
+
+Implementation note:
+- T358 added `src/features/appStore/customProductPages.ts` for stable page IDs, screenshot copy, keyword clusters, readiness gates, feature activation targets, success metrics, and priority App Store locale rollout.
+- T358 added `src/features/analytics/appStoreAttribution.ts` for local `app_store_attribution_received` and `feature_activated` analytics events using stable attribution property names.
+- T358 added unit coverage for registry integrity, priority locales, compliance-sensitive gates, attribution properties, and time-to-activation calculation.
+
+Dependencies: PBI-052, PBI-053, PBI-063, PBI-065, PBI-066.
+
+Suggested phase: Phase 10.5, before production App Store readiness.
+
+Task mapping:
+- T1: Define the six Custom Product Pages, screenshot messages, keyword clusters, and traffic mapping.
+- T2: Add a typed Custom Product Page registry and local analytics attribution/feature-activation event plan.
+- T3: Define screenshot production requirements, reusable templates, source-screen retake needs, and visual QA gates.
+- T4: Define phased localization assets for App Store pages and priority language rollout.
+- T5: Record measurement strategy, compliance caveats, changelog entry, and GoalBuddy receipt.
+
+#### PBI-073: Superdesign reference screen parity and navigation
+
+Goal: Make every approved Superdesign reference screen in `docs/product/superdesign-reference-assets/screenshots1/` either reachable in the app, explicitly mapped to an existing route, or documented as intentionally deferred with owner-visible rationale.
+
+User story: As the product owner, I want the current app to clearly match or account for every approved Superdesign screen, so I can trust that reference designs are not silently lost while the app moves toward release.
+
+Scope:
+- Audit all screenshots in `docs/product/superdesign-reference-assets/screenshots1/` and maintain a route map that labels each reference as implemented, partially implemented, missing, or deferred.
+- Keep implemented/reachable mappings for Settings, reminders/nudges, account/profile, account deletion, and any other already-present surfaces.
+- Add or wire missing local/demo surfaces for Weekly Insights chart, Weekly Insights empty/progress states, Milestones dashboard, Infant Journal/questionnaire, Help & Support, and Support success confirmation.
+- Tighten partial surfaces where the current implementation exists but does not match the approved reference closely enough, including the sleep/logging-style form and milestone/upgrade celebration states if retained.
+- Add natural navigation entry points from existing Home, Settings, support, reminder, and secondary surfaces; do not add a new primary tab unless a later PBI explicitly approves it.
+- Preserve the approved visual direction from the reference screenshots, including spacing, calm card hierarchy, rounded mobile surfaces, muted green/coral palette, and screenshot-specific interaction states.
+- Route every visible text change through runtime i18n and update every supported `docs/localization/app-strings/*.json` locale file.
+- Capture simulator visual QA evidence for each implemented or tightened route, including top/middle/bottom evidence for scrollable screens.
+- Document deferred screens with a reason, dependency, and follow-up task instead of leaving them undiscoverable.
+
+Acceptance criteria:
+- Every screenshot in `docs/product/superdesign-reference-assets/screenshots1/` has a documented status, route/surface mapping, and implementation decision.
+- Missing reference screens are reachable through app navigation or explicitly deferred with owner-approved rationale.
+- Weekly Insights, Milestones, Infant Journal/questionnaire, Help & Support, and Support success states have local/demo implementations or a documented defer decision.
+- Existing Settings, reminders/nudges, account/profile, account deletion, and sleep/logging-style surfaces are reviewed against the reference set and tightened where needed.
+- No visible generic placeholder, debug-only label, or unreachable mockup state remains for implemented references.
+- Runtime i18n covers all new visible copy across supported app-string locale files.
+- Simulator screenshots are captured for each implemented/tightened reference surface and stored under `docs/qa/screenshots/`.
+- `bun run test:typecheck`, focused unit/component tests where practical, simulator smoke, and `git diff --check` pass.
+
+Non-goals:
+- Production Firebase deploys, production Auth changes, Storage media migration, or backend migrations.
+- StoreKit, App Store Connect, pricing, or release metadata changes.
+- Medical diagnosis, treatment, or medical-outcome claims.
+- Replacing approved Superdesign screenshots without product-owner approval.
+- Creating a new primary tab for these secondary surfaces.
+
+Dependencies: PBI-052, PBI-058, PBI-059, PBI-066.
+
+Suggested phase: Phase 10.5, before final visual release QA and App Store screenshot production.
+
+Task mapping:
+- T1: Build the Superdesign reference route map with implemented, partial, missing, and deferred statuses.
+- T2: Implement or wire missing local/demo routes for Weekly Insights, Milestones, Infant Journal, Help & Support, and Support success.
+- T3: Tighten partial surfaces against approved references and add natural navigation entry points.
+- T4: Add runtime i18n, tests, and simulator visual QA evidence for implemented/tightened surfaces.
+- T5: Update PBI docs, CHANGELOG.md, screenshot evidence index, and GoalBuddy receipt.
+
+Implementation note:
+- T359 added `docs/product/superdesign-reference-screen-route-map.md` plus a typed route registry/test so every checked-in Superdesign reference screenshot is mapped to an app route.
+- T359 wired Settings entry points and local/demo screens for Weekly Insights, Milestones, Infant Journal, and Help & Support, including interactive states for the insights empty/chart toggle, milestone celebration dismissal, journal prompt expansion, and support success confirmation.
+- T359 remains local/demo-only and does not change production Firebase, StoreKit, App Store Connect, auth/security, billing, or backend migration paths.
 
 #### PBI-059: Lazy loading and app performance pass
 

@@ -2,6 +2,7 @@ import { resetAnalyticsEvents } from '@/src/features/analytics'
 import { cancelAllBabyMinimoReminderNotifications } from '@/src/features/notifications/nativeNotifications'
 import { clearAndBlankBabyMinimoCurrentStateWidget } from '@/src/features/widgets/currentStateWidgetUpdater'
 import { useAuthStore } from '@/src/stores/authStore'
+import { useBabyMinimoActivityStore } from '@/src/stores/activityStore'
 import { useCareEventStore } from '@/src/stores/careEventStore'
 import { useGrowthTimelineStore } from '@/src/stores/growthTimelineStore'
 import { useWidgetSettingsStore } from '@/src/stores/widgetSettingsStore'
@@ -28,5 +29,6 @@ export const runBabyMinimoLocalLifecycleCleanup = createBabyMinimoLifecycleClean
   resetAuthSession: () => useAuthStore.getState().reset(),
   resetCareEvents: () => useCareEventStore.getState().resetEvents(),
   resetGrowthTimeline: () => useGrowthTimelineStore.getState().resetGrowthTimeline(),
+  resetActivity: () => useBabyMinimoActivityStore.getState().resetActivities(),
   resetWidgetSettings: () => useWidgetSettingsStore.getState().resetWidgetSettings(),
 })

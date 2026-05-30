@@ -2,19 +2,21 @@
   "expo": {
     "name": "BabyMinimo",
     "slug": "babyminimo",
-    "version": "0.1.0",
+    "version": "1.0",
     "orientation": "portrait",
     "userInterfaceStyle": "light",
     "scheme": "babyminimo",
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.babyminimo.app"
+      "bundleIdentifier": "com.babyminimo.app",
+      "googleServicesFile": "./GoogleService-Info.plist"
     },
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#FAF9F6"
       },
-      "package": "com.babyminimo.app"
+      "package": "com.babyminimo.app",
+      "googleServicesFile": "./google-services.json"
     },
     "plugins": [
       "expo-router",
