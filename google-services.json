@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "688097659501",
+    "project_id": "babyminimo-c6f7e",
+    "storage_bucket": "babyminimo-c6f7e.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:688097659501:android:e658b4533403f284288d64",
+        "android_client_info": {
+          "package_name": "com.babyminimo.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAeMb4MPIhf9DjauZaFWQvaw1eSUUTXpSE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
