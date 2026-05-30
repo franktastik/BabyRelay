@@ -1,4 +1,62 @@
 export {
+  IAP_DEFERRED_PRODUCT_ID_CANDIDATES,
+  IAP_PRODUCT_IDS,
+  IAP_PRODUCT_ID_LIST,
+  createIapBoundary,
+  type BackendEntitlementSnapshot,
+  type CreateIapBoundaryOptions,
+  type DeferredIapProductIdCandidate,
+  type EntitlementRefreshState,
+  type IapBoundary,
+  type IapEntitlementRefreshRequest,
+  type IapEntitlementRefresher,
+  type IapPlanAudience,
+  type IapProductId,
+  type IapProductKind,
+  type IapPurchaseFlowResult,
+  type IapPurchaseResult,
+  type IapRefreshReason,
+  type IapRestoreFlowResult,
+  type IapRestoreResult,
+  type IapStoreAdapter,
+  type IapStoreProduct,
+  type IapStoreTransaction,
+} from './iap'
+
+export {
+  BACKEND_MANAGED_BILLING_COLLECTIONS,
+  BACKEND_MANAGED_BILLING_FIELDS,
+  BillingEntitlementConflictError,
+  BillingEntitlementValidationError,
+  IAP_PRODUCT_TO_BACKEND_PLAN,
+  assertTransactionCanSync,
+  buildBackendBillingEntitlementRecord,
+  canClientWriteBillingPath,
+  isBackendManagedBillingCollection,
+  isBackendManagedBillingPath,
+  isPremiumActiveForStatus,
+  toBackendEntitlementSnapshot,
+  type AppStoreEnvironment,
+  type AppStoreTransactionSyncInput,
+  type BackendBillingEntitlementRecord,
+  type BackendManagedBillingCollection,
+  type BackendPlanKey,
+  type BillingEntitlementStatus,
+  type ExistingBillingEntitlementRecord,
+} from './backendEntitlements'
+
+export {
+  AppStoreServerNotificationValidationError,
+  buildAppStoreServerNotificationEventRecord,
+  mapAppStoreNotificationToEntitlementPatch,
+  type AppStoreNotificationAction,
+  type AppStoreNotificationEntitlementPatch,
+  type AppStoreServerNotificationEventRecord,
+  type AppStoreServerNotificationType,
+  type VerifiedAppStoreServerNotificationInput,
+} from './appStoreServerNotifications'
+
+export {
   DEFAULT_CANCELED_SUBSCRIPTION_HEAVY_DATA_RETENTION_DAYS,
   getCanceledSubscriptionPurgeCandidate,
   getCanceledSubscriptionPurgeCandidates,
@@ -8,3 +66,13 @@ export {
   type PurgeCandidate,
   type SubscriptionState,
 } from './purgePolicy'
+
+export {
+  PBI055_RELEASE_GATES,
+  assertIapCheckoutBoundary,
+  summarizeIapReleaseReadiness,
+  type IapCheckoutBoundaryInput,
+  type IapReleaseGate,
+  type IapReleaseGateStatus,
+  type IapReleaseReadinessSummary,
+} from './releaseReadiness'

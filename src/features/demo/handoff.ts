@@ -1,3 +1,6 @@
+import { doc, getDoc, onSnapshot, type DocumentData } from 'firebase/firestore'
+import { firestore } from '@/src/lib/firebase'
+
 export interface DemoHandoffSummary {
   babyName: string
   lastFeed: { label: string; time: Date; by: string } | null
@@ -48,15 +51,155 @@ const demoSummary: DemoHandoffSummary = {
   lastActionBy: 'Mama',
 }
 
-export const createDemoHandoffAdapter = (): DemoHandoffAdapter => ({
-  getSummary: async (_babyId: string) => {
+type LatestStateSlot = {
+  occurredAt?: unknown
+  createdBy?: string
+  metadataPreview?: Record<string, unknown>
+}
+
+const latestStateDocRef = (babyId: string) => doc(firestore, 'babyLatestStates', babyId)
+
+const toDate = (value: unknown): Date | null => {
+  if (value instanceof Date) {
+    return value
+  }
+
+  if (
+    value &&
+    typeof value === 'object' &&
+    'toDate' in value &&
+    typeof (value as { toDate: () => Date }).toDate === 'function'
+  ) {
+    return (value as { toDate: () => Date }).toDate()
+  }
+
+  if (typeof value === 'string' || typeof value === 'number') {
+    const parsed = new Date(value)
+    return Number.isNaN(parsed.getTime()) ? null : parsed
+  }
+
+  return null
+}
+
+const toNumber = (value: unknown): number | null =>
+  typeof value === 'number' && Number.isFinite(value) ? value : null
+
+const formatMinutes = (minutes: number) => {
+  if (minutes < 60) {
+    return `${minutes} min`
+  }
+
+  const hours = Math.floor(minutes / 60)
+  const remainingMinutes = minutes % 60
+  return remainingMinutes > 0 ? `${hours}h ${remainingMinutes}m` : `${hours}h`
+}
+
+const slotTime = (slot: LatestStateSlot | undefined) => toDate(slot?.occurredAt) ?? new Date()
+
+const slotBy = (slot: LatestStateSlot | undefined, fallback: string | null) =>
+  slot?.createdBy || fallback || demoSummary.lastActionBy || ''
+
+const buildFeedSummary = (
+  slot: LatestStateSlot | undefined,
+  fallbackBy: string | null
+): DemoHandoffSummary['lastFeed'] => {
+  if (!slot) return null
+
+  const metadata = slot.metadataPreview ?? {}
+  const amountMl = toNumber(metadata.amountMl)
+  const durationMin = toNumber(metadata.durationMin)
+  const label = amountMl
+    ? `${amountMl} ml`
+    : durationMin
+      ? formatMinutes(durationMin)
+      : (demoSummary.lastFeed?.label ?? '')
+
+  return {
+    label,
+    time: slotTime(slot),
+    by: slotBy(slot, fallbackBy),
+  }
+}
+
+const buildDiaperSummary = (
+  slot: LatestStateSlot | undefined,
+  fallbackBy: string | null
+): DemoHandoffSummary['lastDiaper'] => {
+  if (!slot) return null
+
+  const kind = slot.metadataPreview?.kind
+  const label = typeof kind === 'string' && kind.length > 0
+    ? kind.charAt(0).toUpperCase() + kind.slice(1)
+    : (demoSummary.lastDiaper?.label ?? '')
+
+  return {
+    label,
+    time: slotTime(slot),
+    by: slotBy(slot, fallbackBy),
+  }
+}
+
+const buildSleepSummary = (
+  slot: LatestStateSlot | undefined
+): DemoHandoffSummary['lastSleep'] => {
+  if (!slot) return null
+
+  const durationMin = toNumber(slot.metadataPreview?.durationMin)
+  const statusValue = slot.metadataPreview?.status
+  const time = slotTime(slot)
+
+  return {
+    label: durationMin ? formatMinutes(durationMin) : (demoSummary.lastSleep?.label ?? ''),
+    time,
+    status: statusValue === 'awake' ? 'awake' : 'sleeping',
+    startedAt: time,
+  }
+}
+
+const mapLatestStateToHandoffSummary = (
+  data: DocumentData | undefined
+): DemoHandoffSummary => {
+  if (!data) {
     return demoSummary
+  }
+
+  const lastActionBy = typeof data.lastActionBy === 'string' ? data.lastActionBy : demoSummary.lastActionBy
+  const babyName = typeof data.babyName === 'string' && data.babyName.length > 0
+    ? data.babyName
+    : demoSummary.babyName
+
+  return {
+    babyName,
+    lastFeed: buildFeedSummary(data.lastFeed, lastActionBy) ?? demoSummary.lastFeed,
+    lastDiaper: buildDiaperSummary(data.lastDiaper, lastActionBy) ?? demoSummary.lastDiaper,
+    lastSleep: buildSleepSummary(data.lastSleep) ?? demoSummary.lastSleep,
+    nextMedication: demoSummary.nextMedication,
+    latestNote: demoSummary.latestNote,
+    lastActionBy,
+  }
+}
+
+export const createDemoHandoffAdapter = (): DemoHandoffAdapter => ({
+  getSummary: async (babyId: string) => {
+    try {
+      const snapshot = await getDoc(latestStateDocRef(babyId))
+      return mapLatestStateToHandoffSummary(snapshot.exists() ? snapshot.data() : undefined)
+    } catch {
+      return demoSummary
+    }
   },
   subscribeToSummary: (
-    _babyId: string,
+    babyId: string,
     callback: (summary: DemoHandoffSummary) => void
   ) => {
-    callback(demoSummary)
-    return () => {}
+    const unsubscribe = onSnapshot(
+      latestStateDocRef(babyId),
+      (snapshot) => {
+        callback(mapLatestStateToHandoffSummary(snapshot.exists() ? snapshot.data() : undefined))
+      },
+      () => callback(demoSummary)
+    )
+
+    return unsubscribe
   },
 })

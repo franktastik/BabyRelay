@@ -38,6 +38,14 @@ GoalBuddy handoffs must preserve:
 - changelog expectations
 - unresolved decisions or owner inputs
 
+## Node Runtime Policy
+
+Use the repo-pinned Node runtime instead of whatever host Node happens to be installed:
+- App and tooling commands target Node 24 LTS via `.nvmrc` and `.node-version`.
+- Firebase Functions targets Node 22 via `functions/.nvmrc`, `functions/.node-version`, and `functions/package.json`.
+- Bun remains the default package/test runner for this repo, but scripts that invoke `node` must be run under the pinned runtime before production Firebase verification.
+- Do not move Functions to a newer Node runtime until Firebase explicitly supports it and a PBI updates the runtime pins.
+
 ## BabyMinimo Visual Source Of Truth
 
 Approved mockup screenshots live in:
@@ -251,8 +259,20 @@ Run local emulators:
 Local emulator endpoints:
 - Auth: `127.0.0.1:9099`
 - Firestore: `127.0.0.1:8080`
+- Storage: `127.0.0.1:9199`
+- Functions: `127.0.0.1:5001`
 - Emulator UI: `http://127.0.0.1:4000/`
 - Auth UI shortcut: `http://127.0.0.1:4000/auth`
+- Storage UI shortcut: `http://127.0.0.1:4000/storage`
+
+Storage emulator rules:
+- `storage.rules` is for local readiness and future PBI-050 security testing only.
+- Growth Timeline photos remain local-only in v1; do not move them to Firebase Storage or cloud media sync without an explicit product decision and a separate approved PBI.
+
+Functions emulator rules:
+- Use Functions emulator triggers for trusted local read-model work before production Firebase deployment.
+- `babyLatestStates/{babyId}` must be treated as a derived read model from `careEvents`, not the source of truth.
+- Do not deploy Functions or wire production callables without an explicit production Firebase PBI and approval.
 
 ## BabyMinimo Simulator Visual QA
 

@@ -1,0 +1,57 @@
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+    // Emulator-readiness rules only. These model the intended deny-by-default
+    // Storage shape for local tests, but they are not production-approved.
+    // Do not deploy them until the production Firebase security pass validates
+    // real custom claims, App Check, media lifecycle, retention, and recovery.
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isHouseholdMember(householdId) {
+      return isSignedIn()
+        && request.auth.token.householdIds is list
+        && householdId in request.auth.token.householdIds;
+    }
+
+    function isOwnerUid(uid) {
+      return isSignedIn() && request.auth.uid == uid;
+    }
+
+    function isAllowedLocalArtifact() {
+      return request.resource.size < 20 * 1024 * 1024
+        && (
+          request.resource.contentType.matches('image/.*')
+          || request.resource.contentType in [
+            'application/json',
+            'application/pdf',
+            'application/zip'
+          ]
+        );
+    }
+
+    match /households/{householdId}/babies/{babyId}/growthTimeline/{fileName} {
+      allow read: if isHouseholdMember(householdId);
+      allow create, update: if isHouseholdMember(householdId) && isAllowedLocalArtifact();
+      allow delete: if isHouseholdMember(householdId);
+    }
+
+    match /households/{householdId}/exports/{fileName} {
+      allow read: if isHouseholdMember(householdId);
+      allow create, update: if isHouseholdMember(householdId) && isAllowedLocalArtifact();
+      allow delete: if isHouseholdMember(householdId);
+    }
+
+    match /emulator-dev/users/{uid}/{fileName} {
+      allow read: if isOwnerUid(uid);
+      allow create, update: if isOwnerUid(uid) && isAllowedLocalArtifact();
+      allow delete: if isOwnerUid(uid);
+    }
+
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

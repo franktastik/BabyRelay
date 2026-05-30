@@ -11,6 +11,13 @@ Required local surfaces:
 - Browser-hosted iOS simulator: `http://127.0.0.1:3200/?device=B2C19543-60E2-489E-8E08-4E3F775AD6A0`
 - Firebase Emulator UI: `http://127.0.0.1:4000/`
 - Firebase Auth UI: `http://127.0.0.1:4000/auth`
+- Firebase Storage UI: `http://127.0.0.1:4000/storage`
+- Firebase Functions emulator: `http://127.0.0.1:5001/`
+
+Node runtime policy:
+- App/tooling work must use the repo-pinned Node 24 LTS line from `.nvmrc` / `.node-version`; do not standardize new work on host Node 25+ current releases.
+- Firebase Functions work must use the `functions/` Node 22 runtime pin unless Firebase production runtime support is explicitly updated in a future PBI.
+- If `node --version` does not match the relevant pin, record it in the task receipt and switch runtimes before production Firebase verification.
 
 Default startup commands:
 - GoalBuddy board: `node /Users/frank/.codex/skills/goalbuddy/extend/local-goal-board/scripts/local-goal-board.mjs --goal docs/goals/babyminimo-emulator-hardening`
@@ -20,12 +27,13 @@ Default startup commands:
 Runtime checks:
 - Use `curl -I http://127.0.0.1:41737/` for GoalBuddy.
 - Use `curl -I "http://127.0.0.1:3200/?device=B2C19543-60E2-489E-8E08-4E3F775AD6A0"` for serve-sim.
-- Use `curl -I http://127.0.0.1:4000/` or `curl -I http://127.0.0.1:4000/auth` for Firebase Emulator UI.
+- Use `curl -I http://127.0.0.1:4000/`, `curl -I http://127.0.0.1:4000/auth`, or `curl -I http://127.0.0.1:4000/storage` for Firebase Emulator UI.
+- For Firebase Functions work, confirm `bun run emulators` starts Functions on `127.0.0.1:5001` and record whether the task touches callable functions or Firestore triggers.
 
 Firebase exception:
-- Firebase Emulator is required for local demo, auth, Firestore, reminder, and cost/performance tasks.
+- Firebase Emulator is required for local demo, auth, Firestore, Storage readiness, Functions-trigger readiness, reminder, and cost/performance tasks.
 - Firebase Emulator may be skipped only when the active PBI explicitly wires production Firebase or the task is purely documentation/design planning.
-- Do not deploy emulator Firestore rules or emulator-only config to production.
+- Do not deploy emulator Firestore or Storage rules, or emulator-only config, to production.
 
 ## 2. PBI And GoalBuddy Workflow
 
@@ -99,7 +107,7 @@ Use the smallest verification set that proves the PBI, but default to:
 
 For Firebase Emulator work:
 - Run the relevant emulator-backed script or manual flow.
-- Record Firestore/Auth emulator assumptions and any cost/read-write implications.
+- Record Firestore/Auth/Storage/Functions emulator assumptions and any cost/read-write implications.
 
 For release, subscriptions, widgets, notifications, or production Firebase:
 - Add explicit sandbox/TestFlight/native verification steps to the GoalBuddy receipt.

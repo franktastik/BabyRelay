@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { ScrollView, StyleSheet } from 'react-native'
 import { useFocusEffect, useRouter } from 'expo-router'
 import { Screen } from '@/src/components/ui'
@@ -20,13 +20,23 @@ export default function HomeScreen() {
   const getActivitySummary = useBabyMinimoActivityStore((state) => state.getSummaryForBaby)
   const widgetSnapshotsEnabled = useWidgetSettingsStore((state) => state.widgetSnapshotsEnabled)
   const [moments, setMoments] = useState<DemoGrowthMoment[]>([])
-  const latestLocalEvent = localEvents
-    .filter((event) => event.babyId === selectedBabyId)
-    .sort((a, b) => b.occurredAt.getTime() - a.occurredAt.getTime())[0]
+  const latestLocalEvent = useMemo(
+    () =>
+      localEvents
+        .filter((event) => event.babyId === selectedBabyId)
+        .sort((a, b) => b.occurredAt.getTime() - a.occurredAt.getTime())[0],
+    [localEvents, selectedBabyId]
+  )
   const latestEvent = latestLocalEvent
-  const selectedBaby = babies.find((baby) => baby.id === selectedBabyId)
+  const selectedBaby = useMemo(
+    () => babies.find((baby) => baby.id === selectedBabyId),
+    [babies, selectedBabyId]
+  )
   const babyName = selectedBaby?.name || 'Luna'
-  const activitySummary = getActivitySummary(selectedBabyId)
+  const activitySummary = useMemo(
+    () => getActivitySummary(selectedBabyId),
+    [getActivitySummary, selectedBabyId]
+  )
 
   useFocusEffect(
     useCallback(() => {
@@ -81,10 +91,10 @@ export default function HomeScreen() {
           await widgetUpdater.writeAndUpdateBabyMinimoCurrentStateWidget({
             signedIn: Boolean(user),
             selectedBabyId,
-            babyName: summary.babyName,
+            babyName,
             handoffSummary: summary,
             reminders: demoReminders,
-            source: 'localDemo',
+            source: 'emulator',
             surface: 'homeScreen',
           })
         })
@@ -97,7 +107,7 @@ export default function HomeScreen() {
       cancelled = true
       cancelDeferredWork()
     }
-  }, [selectedBabyId, user, widgetSnapshotsEnabled])
+  }, [babyName, selectedBabyId, user, widgetSnapshotsEnabled])
 
   return (
     <Screen style={styles.screen}>

@@ -18,3 +18,21 @@ export {
   type BabyMinimoAccountDeletionPolicyItem,
   type BabyMinimoDeletionOwner,
 } from './accountDeletionPolicy'
+export {
+  ACCOUNT_DELETION_FIRESTORE_RULES_CONTRACT,
+  ACCOUNT_DELETION_REAUTH_MAX_AGE_MS,
+  ACCOUNT_DELETION_SERVER_OWNED_PATHS,
+  buildAccountDeletionBackendPurgePlan,
+  buildAccountDeletionRetryState,
+  canClientWriteAccountDeletionAuthorityPath,
+  type AccountDeletionBackendPurgePlan,
+  type AccountDeletionHouseholdMembershipSnapshot,
+  type AccountDeletionHouseholdRole,
+  type AccountDeletionPurgeAction,
+  type AccountDeletionPurgeActionType,
+  type AccountDeletionPurgeBlockReason,
+  type AccountDeletionPurgePlanStatus,
+  type AccountDeletionRetryState,
+  type AccountDeletionRetryStateInput,
+  type BuildAccountDeletionBackendPurgePlanInput,
+} from './accountDeletionBackendPurge'

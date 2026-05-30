@@ -1,7 +1,21 @@
 import React from 'react'
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { useRouter } from 'expo-router'
-import { Activity, Bell, Camera, Crown, Globe2, LogOut, Shield, Smartphone, UsersRound } from 'lucide-react-native'
+import {
+  Activity,
+  BarChart3,
+  Bell,
+  BookOpen,
+  Camera,
+  Crown,
+  HelpCircle,
+  Globe2,
+  LogOut,
+  Shield,
+  Smartphone,
+  Trophy,
+  UsersRound,
+} from 'lucide-react-native'
 import { useTranslation } from 'react-i18next'
 import { Screen } from '@/src/components/ui'
 import { SettingsCard, SettingsHeader, SettingsRow } from '@/src/components/settings'
@@ -76,6 +90,24 @@ export default function SettingsScreen() {
             onPress={() => router.push('/activity')}
           />
           <SettingsRow
+            icon={BarChart3}
+            title={t('settings.insights')}
+            subtitle={t('settings.insights.subtitle')}
+            onPress={() => router.push('/insights')}
+          />
+          <SettingsRow
+            icon={Trophy}
+            title={t('settings.milestones')}
+            subtitle={t('settings.milestones.subtitle')}
+            onPress={() => router.push('/milestones')}
+          />
+          <SettingsRow
+            icon={BookOpen}
+            title={t('settings.journal')}
+            subtitle={t('settings.journal.subtitle')}
+            onPress={() => router.push('/journal')}
+          />
+          <SettingsRow
             icon={Globe2}
             title={t('settings.language')}
             subtitle={t(
@@ -92,6 +124,7 @@ export default function SettingsScreen() {
         <SettingsCard>
           <SettingsRow icon={Crown} title={t('settings.plans')} subtitle={t('settings.plans.subtitle')} onPress={() => router.push('/plans')} />
           <SettingsRow icon={Shield} title={t('settings.account')} subtitle={t('settings.account.subtitle')} onPress={() => router.push('/account')} />
+          <SettingsRow icon={HelpCircle} title={t('settings.support')} subtitle={t('settings.support.subtitle')} onPress={() => router.push('/support')} />
           <SettingsRow icon={LogOut} title={t('account.signOut')} danger onPress={() => router.push('/modals/sign-out-confirm')} />
         </SettingsCard>
       </ScrollView>
