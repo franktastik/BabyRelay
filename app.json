@@ -8,13 +8,15 @@
     "scheme": "babyminimo",
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.babyminimo.app"
+      "bundleIdentifier": "com.babyminimo.app",
+      "googleServicesFile": "./GoogleService-Info.plist"
     },
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#FAF9F6"
       },
-      "package": "com.babyminimo.app"
+      "package": "com.babyminimo.app",
+      "googleServicesFile": "./google-services.json"
     },
     "plugins": [
       "expo-router",
