@@ -4,8 +4,44 @@ All notable changes to this project are documented here.
 
 ## Unreleased
 
+### Fixed
+
+- Attached App Store Connect build `1` (`1.0`) for app `6774989762` and marked the uploaded build as export-compliance exempt so the Build submission-readiness field is complete.
+
 ### Added
 
+- Added a read-only App Store Connect automation readiness preflight and runbook guidance so `asc` can inventory authentication, capability coverage, app-record lookup, and optional validation without performing App Store Connect writes.
+- Added Superdesign reference parity screens for Weekly Insights, Milestones, Infant Journal, and Help & Support, including Settings navigation, route-map coverage, runtime i18n keys, and focused tests for the reference screenshot mapping.
+- Added PBI-073 and GoalBuddy task T359 for Superdesign reference screen parity, route/status mapping, missing secondary surfaces, i18n, and simulator visual QA evidence.
+- Added a BabyMinimo TestFlight and production release runbook with App Store Connect, Apple Developer, Firebase production, build/upload, TestFlight, live submission, rollback, and live production checklists.
+- Added PBI-053/T352 release prerequisite scout documentation covering app identity, bundle/version fields, icon/splash/widget/privacy evidence, and the remaining signing, App Store Connect, screenshot, permission, production Firebase, StoreKit, push, and widget release blockers.
+- Added PBI-053/T335-T336 App Store/TestFlight checklist, rollback notes, and explicit release evidence showing the current production release status is `NO-GO` until final screenshots, permission strings, signing, App Store Connect, production Firebase, StoreKit, push, and widget signed-build gates are cleared.
+- Added PBI-053/T333-T334 release readiness documentation and a local production-smoke script that verifies app identity, widget identifiers, privacy manifest presence, and emulator-disabled release configuration without performing signing, App Store Connect writes, TestFlight upload, production Firebase deploys, or production credential setup.
+- Added PBI-055/T326 IAP release readiness evidence with automated no-Apple-Pay checkout guards and explicit Sandbox/TestFlight/manual production gates.
+- Added PBI-056/T329 account deletion backend purge contract and typed callable wrapper, including recent-reauth, last-owner/admin blocking, server-owned purge actions, and retry-safe deletion state coverage.
+- Added PBI-055/T324-T325 subscription backend sync and App Store Server Notification local contracts with backend-owned entitlement mapping, compact client projections, wrong-user transaction conflict checks, billing path policy, lifecycle event mapping, and a typed `refreshIapEntitlement` Firebase callable wrapper.
+- Added PBI-055/T322-T323 native IAP launch contract and injectable subscription purchase/restore boundary with backend-authoritative entitlement refresh, StoreKit display-price handling, wrong-user protection, and deferred Family/lifetime/gift product candidates.
+- Added PBI-061/T320-T321 deploy-free Firebase push boundary tests and production-readiness documentation for notification security, cost, rollout, rollback, and emulator-versus-device verification limits.
+- Added PBI-061/T318-T319 Firebase push provider boundary and resilience policy for local-vs-remote routing, native token registration, safe remote payloads, delivery listeners, permission/no-audience guards, retry decisions, and stale-token cleanup.
+- Added PBI-066/T316 Remote Config production operating rules for owner approvals, rollout/rollback, A/B testing scope, runtime safety boundaries, and final GoalBuddy receipt.
+- Added PBI-061/T317 hybrid local/Firebase push notification provider scout contract covering token records, backend send requests, delivery logs, authorization assumptions, routing defaults, and emulator-safe dry-run behavior.
+- Added PBI-066/T312-T313 Firebase Remote Config registry and service boundaries with typed defaults, validation, stale-cache fallback, lazy Firebase provider wiring, and tests for invalid values, failed fetches, exposure metadata, and pricing-source guardrails.
+- Added PBI-066/T314-T315 Remote Config consumer controls for onboarding, paywall, support URLs, notification nudges, maintenance banners, localization metadata, ASO labels, and rollout switches, with tests preserving StoreKit pricing and notification policy boundaries.
+- Added PBI-050/T311 Firebase production-boundary documentation for public client config, secret-handling assumptions, Storage emulator limits, and production follow-ups before any Firebase deploy.
+- Added Node runtime pins so local app tooling targets Node 24 LTS while Firebase Functions targets the Node 22 runtime instead of Node 20.
+- Added Firebase Emulator smoke coverage for PBI-050/T310 with Auth signup/login/delete, Firestore write/read/delete, Storage upload/read/delete cleanup, endpoint checks for Emulator UI/Auth/Storage/Functions, and exported-client type coverage.
+- Added Firebase runtime switching and typed callable wrapper boundaries for PBI-050/T309, including Auth/Firestore/Storage/Functions emulator coordination and `createHousehold`, `createBaby`, `inviteMember`, `createCareEvent`, `createReminder`, `getFeatureFlags`, and `getHandoffSummary` callable exports.
+- Added centralized Firebase public environment loading and client exports for PBI-050/T308, including typed env keys, emulator-safe defaults, defensive emulator port parsing, and App/Auth/Firestore/Storage/Functions exports.
+- Added Firebase production-boundary validation for PBI-050/T307 so emulator defaults remain local-only, production mode rejects demo Firebase placeholders, and Auth, Firestore, Storage, Functions, and Emulator UI endpoints are documented in code.
+- Added PBI-072 and GoalBuddy task T358 for intent-based App Store Custom Product Pages, including six first-wave parent-motivation pages, screenshot planning, phased localization, typed local CPP registry, attribution fields, and feature activation measurement before App Store Connect work.
+- Added PBI-071 and a Firebase Emulator summary-read load-test mode for `babyLatestStates/{babyId}` so Home, Handoff, widgets, and notification-style reads can be compared against latest-event queries before production Firebase work.
+- Added a Functions-emulator Firestore trigger that derives `babyLatestStates/{babyId}` from `careEvents/{eventId}` writes, plus Function-backed load-test coverage for the trusted latest-state summary path.
+- Added app-side latest-state consumption for Handoff and widget refresh, Home/Timeline memoized derivations, local explicit-refresh feature flag and entitlement caches, and a notification delivery-log TTL policy.
+- Added a blog-style Firebase Emulator optimization write-up that explains the latest-state summary read model, app-side memoization, and measured before/after emulator results.
+- Added an anonymized Firebase Emulator optimization blog draft without the mobile app name for external reuse.
+- Added Firebase Storage Emulator readiness with local `storage.rules`, Storage UI documentation, and a Storage rules readiness test while keeping Growth Timeline photos local-only for v1.
+- Added a concurrent Firebase Emulator load-test scenario for Auth signup/login/delete, Firestore read/write/delete, and Storage upload/read/delete with run-scoped cleanup verification; the 1k-user local run passes, while the 5k-user stress command documents the current local emulator ceiling.
+- Added representative Firestore input/output reporting to the Firebase Emulator load-test script and documented the latest Auth, Firestore, and Storage emulator performance run.
 - Added a tappable enlarged album frame preview from the Growth Timeline album export modal so users can inspect the selected frame before building a local export.
 - Added a default-off toggle for the lower album frame picker so the full frame grid stays hidden until users choose to browse it.
 - Added a default-off toggle for album title/note editing so the Growth album modal stays compact until users choose to customize printed text.

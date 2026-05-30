@@ -57,6 +57,36 @@ Production-gated behavior:
 - Firestore security rule coverage for membership, ownership, last-admin, and retry-safe deletion states.
 - Production push token invalidation and App Store entitlement cleanup where applicable.
 
+## Backend Purge Callable Contract
+
+`PBI-056 T3` now has a local typed contract in `src/features/privacy/accountDeletionBackendPurge.ts` and a callable wrapper named `requestAccountDeletionPurge` in `src/lib/firebase/callables.ts`.
+
+The contract requires:
+- a signed-in, non-anonymous Firebase UID
+- recent reauthentication before purge planning
+- server-only purge actions before Firebase Auth deletion
+- last-household-owner blocking when other household members remain
+- last-admin-without-owner blocking when deleting that admin would orphan household authority
+- retry-safe deletion state if backend cleanup fails
+- local cleanup after backend purge succeeds
+
+Server-owned purge actions:
+- create a deletion request record
+- anonymize user profile data
+- remove the user's household memberships without deleting other caregivers' data
+- invalidate push devices
+- detach billing identity from the account deletion surface
+- delete the Firebase Auth user only after backend cleanup completes
+
+Firestore rule contract:
+- clients must not create authoritative deletion request records
+- clients must not bulk-delete household memberships through account deletion
+- clients must not delete billing or entitlement records
+- clients must not delete another caregiver's data
+
+Current limitation:
+- The deployable Cloud Function and `firestore.rules` implementation remain blocked until a GoalBuddy task explicitly allows `functions/**` and `firestore.rules`. This task added the local callable contract, tests, and documentation only; it did not perform a production deploy.
+
 ## Local Growth Timeline Cleanup
 
 Cleanup must:

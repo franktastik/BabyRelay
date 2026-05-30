@@ -133,7 +133,7 @@ function allowedFiles(id, title) {
     'CHANGELOG.md',
   ]
   if (id === 'PBI-050' || lower.includes('firebase')) {
-    return [...common, 'src/lib/firebase/**', 'firebase.json', 'firestore.rules', 'firestore.indexes.json', '.firebaserc', '.env.example', 'scripts/**']
+    return [...common, 'src/lib/firebase/**', 'firebase.json', 'firestore.rules', 'storage.rules', 'firestore.indexes.json', '.firebaserc', '.env.example', 'scripts/**']
   }
   if (id === 'PBI-055' || lower.includes('subscriptions') || lower.includes('iap') || lower.includes('paywall') || lower.includes('pricing')) {
     return [...common, 'app/**', 'src/**', 'ios/**', 'docs/product/**', 'docs/testing/**']
@@ -159,6 +159,7 @@ function verifyCommands(id, title) {
   }
   if (lower.includes('firebase') || lower.includes('cost') || lower.includes('emulator')) {
     commands.push('Firebase Emulator smoke at http://127.0.0.1:4000/auth')
+    commands.push('Firebase Storage Emulator smoke at http://127.0.0.1:4000/storage')
   }
   if (lower.includes('qa') || lower.includes('visual')) {
     commands.push('maestro test e2e/maestro/smoke.yaml')

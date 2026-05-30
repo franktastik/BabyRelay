@@ -102,37 +102,68 @@ export default function ExportAlbumModal() {
     }
   }, [defaultMomentIds, selectedMomentIds.length])
 
-  const pageData = getActiveAlbumFramePage(page)
-  const selectedFrame = getActiveAlbumFrameById(selectedFrameId) || activeAlbumFrameCatalog[0]
-  const selectedFrameName = getFrameDisplayName(t, selectedFrame)
-  const selectedFrameIndex = Math.max(
-    0,
-    activeAlbumFrameCatalog.findIndex((frame) => frame.id === selectedFrame.id)
+  const pageData = useMemo(() => getActiveAlbumFramePage(page), [page])
+  const selectedFrame = useMemo(
+    () => getActiveAlbumFrameById(selectedFrameId) || activeAlbumFrameCatalog[0],
+    [selectedFrameId]
   )
-  const selectedMoments = moments.filter((moment) => selectedMomentIds.includes(moment.id))
-  const selectedMomentIdSet = useMemo(() => new Set(selectedMoments.map((moment) => moment.id)), [selectedMoments])
-  const selectedMomentPhotos = selectedMoments.map(getMomentImageSource)
-  const storybookMoments = selectedMoments.slice(0, 4)
-  const selectedStorybookItemIds = storybookItemIds.filter((momentId) => selectedMomentIdSet.has(momentId))
+  const selectedFrameName = useMemo(() => getFrameDisplayName(t, selectedFrame), [selectedFrame, t])
+  const selectedFrameIndex = useMemo(
+    () =>
+      Math.max(
+        0,
+        activeAlbumFrameCatalog.findIndex((frame) => frame.id === selectedFrame.id)
+      ),
+    [selectedFrame.id]
+  )
+  const selectedMomentIdSet = useMemo(() => new Set(selectedMomentIds), [selectedMomentIds])
+  const selectedMoments = useMemo(
+    () => moments.filter((moment) => selectedMomentIdSet.has(moment.id)),
+    [moments, selectedMomentIdSet]
+  )
+  const selectedMomentPhotos = useMemo(() => selectedMoments.map(getMomentImageSource), [selectedMoments])
+  const storybookMoments = useMemo(() => selectedMoments.slice(0, 4), [selectedMoments])
+  const selectedStorybookItemIds = useMemo(
+    () => storybookItemIds.filter((momentId) => selectedMomentIdSet.has(momentId)),
+    [selectedMomentIdSet, storybookItemIds]
+  )
   const canBuildAlbum = selectedMoments.length > 0
-  const mediaBackupManifest = buildGrowthTimelineBackupManifest({
-    babyId: selectedBabyId,
-    moments: selectedMoments,
-  })
-  const payload = buildAlbumExportPayload({
-    babyName,
-    frameId: selectedFrame.id,
-    outputFormat,
-    selectedMoments,
-    storybookTimelineItemIds: selectedStorybookItemIds,
-    householdAttribution: t('album.householdAttribution'),
-    customText: {
-      title: clampAlbumText(customTitle, ALBUM_TITLE_MAX_LENGTH).trim(),
-      note: clampAlbumText(customNote, ALBUM_NOTE_MAX_LENGTH).trim(),
-    },
-    mediaBackupManifest,
-    fallbackCaption: t('timeline.growth.defaultTitle'),
-  })
+  const mediaBackupManifest = useMemo(
+    () =>
+      buildGrowthTimelineBackupManifest({
+        babyId: selectedBabyId,
+        moments: selectedMoments,
+      }),
+    [selectedBabyId, selectedMoments]
+  )
+  const payload = useMemo(
+    () =>
+      buildAlbumExportPayload({
+        babyName,
+        frameId: selectedFrame.id,
+        outputFormat,
+        selectedMoments,
+        storybookTimelineItemIds: selectedStorybookItemIds,
+        householdAttribution: t('album.householdAttribution'),
+        customText: {
+          title: clampAlbumText(customTitle, ALBUM_TITLE_MAX_LENGTH).trim(),
+          note: clampAlbumText(customNote, ALBUM_NOTE_MAX_LENGTH).trim(),
+        },
+        mediaBackupManifest,
+        fallbackCaption: t('timeline.growth.defaultTitle'),
+      }),
+    [
+      babyName,
+      customNote,
+      customTitle,
+      mediaBackupManifest,
+      outputFormat,
+      selectedFrame.id,
+      selectedMoments,
+      selectedStorybookItemIds,
+      t,
+    ]
+  )
 
   const toggleMoment = (momentId: string) => {
     setExportReady(false)

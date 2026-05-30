@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react'
+import { useCallback, useMemo, useRef, useState } from 'react'
 import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
 import { useFocusEffect, useRouter } from 'expo-router'
 import { Camera, Images, Search, Settings2, X } from 'lucide-react-native'
@@ -44,14 +44,28 @@ export default function TimelineScreen() {
     }, [selectedBabyId, subscribeToEvents])
   )
 
-  const careEvents = localEvents.filter((event) => event.babyId === selectedBabyId)
-  const timelineItems = buildTimelineItems(careEvents, growthMoments)
-  const filteredItems = sortTimelineItems(
-    searchTimelineItems(filterTimelineItems(timelineItems, filter), searchQuery),
-    sortOrder
+  const careEvents = useMemo(
+    () => localEvents.filter((event) => event.babyId === selectedBabyId),
+    [localEvents, selectedBabyId]
   )
-  const mediaSummary = summarizeGrowthTimelineMediaDurability(
-    growthMoments.map(buildGrowthTimelineMediaRecord)
+  const timelineItems = useMemo(
+    () => buildTimelineItems(careEvents, growthMoments),
+    [careEvents, growthMoments]
+  )
+  const filteredItems = useMemo(
+    () =>
+      sortTimelineItems(
+        searchTimelineItems(filterTimelineItems(timelineItems, filter), searchQuery),
+        sortOrder
+      ),
+    [filter, searchQuery, sortOrder, timelineItems]
+  )
+  const mediaSummary = useMemo(
+    () =>
+      summarizeGrowthTimelineMediaDurability(
+        growthMoments.map(buildGrowthTimelineMediaRecord)
+      ),
+    [growthMoments]
   )
   const openSearch = () => {
     setSettingsOpen(false)
